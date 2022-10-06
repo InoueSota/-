@@ -30,7 +30,7 @@ public:
 	virtual void SetDegree() {};
 	void Process(char prekeys, char keys);
 	void Draw(Screen& screen);
-	void Drain(float x, float y,float rad, );
+	
 private:
 
 };

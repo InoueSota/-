@@ -26,7 +26,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		players.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]);
+		for (int i = 0; i < 50; i++) {
 
+			Drain_Circle(cirA.pos.x, cirA.pos.y, cirA.radius, ellipse[i].position.x, ellipse[i].position.y, ellipse[i].radian.x);
+		}
 		///
 		/// ↑更新処理ここまで
 		///
