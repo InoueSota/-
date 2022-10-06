@@ -20,8 +20,8 @@ public:
 
 	//ä÷êî
 	void Init();
-	virtual void CircleProcess() {}
-	virtual void SetDegree() {}
+	virtual void CircleProcess() = 0;
+	virtual void SetDegree() = 0;
 	void Move() {
 		add.x = cosf(Degree(deg)) * 300;
 		add.y = sinf(Degree(deg)) * 300;
