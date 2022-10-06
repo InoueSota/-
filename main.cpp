@@ -7,6 +7,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ライブラリの初期化
 	Novice::Initialize(kWindowTitle, SCREEN_WIDTH, SCREEN_HEIGHT);
+	SRAND();
+	for (int i = 0; i < Figure::FigureMax; i++) {
+		ellipse[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area),RAND(5,20));
+		triangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(5, 20));
+		quadrangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(5, 20));
+	}
 
 	// キー入力結果を受け取る箱
 	char keys[256] = {0};
@@ -31,7 +37,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		for (int i = 0; i < 50; i++) {
 
-			Drain_Circle(cirA.pos.x, cirA.pos.y, cirA.radius, ellipse[i].position.x, ellipse[i].position.y, ellipse[i].radian.x);
+			Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i].position.x, ellipse[i].position.y, ellipse[i].radian);
 		}
 		///
 		/// ↑更新処理ここまで
@@ -44,12 +50,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//背景描画
 		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
 
-		players.Draw(screen);
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < Figure::FigureMax; i++) {
 			ellipse[i].draw(screen);
 			triangle[i].draw(screen);
 			quadrangle[i].draw(screen);
 		}
+		players.Draw(screen);
 		///
 		/// ↑描画処理ここまで
 		///

@@ -10,6 +10,7 @@ public:
 
 
 	static const int FigureMax = 50;
+	static const int Area = 500;
 
 	Vec2 position;
 	float radian;
