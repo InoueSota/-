@@ -9,14 +9,15 @@ public:
 	virtual void set() {};
 
 
-	static const int FigureMax = 1;
-	static const int Area = 500;
+	static const int FigureMax = 2000;
+	static const int Area = 5000;
 	static const int RadianMin = 5;
 	static const int RadianMax = 20;
 
 	Vec2 position;
 	float radian;
 	unsigned int color;
+	bool flag;
 private:
 	
 };

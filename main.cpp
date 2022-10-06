@@ -18,8 +18,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ellipse[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
 		triangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
 		quadrangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
+		
 	}
-
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -34,24 +34,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-		players.Process(preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
-
 		players.SetPosition(players);
+
+		players.Process(preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
 
 		for (int i = 0; i < Figure::FigureMax; i++) {
 
-			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]) == true){
-				players.radius += 1;
+			//Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i].position.x, ellipse[i].position.y, ellipse[i].radian);
+			//Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]);
+
+			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]) && ellipse[i].flag == true) {
+
+				players.radius += (ellipse[i].radian / 10);
+				ellipse[i].flag = false;
+				
 			}
-
-			/*Drain(players.radius, ellipse[i].radian.x);*/
+			
 		}
-
-		Novice::ScreenPrintf(0, 20, "%f", players.pos.x);
-		Novice::ScreenPrintf(0, 40, "%f", players.pos.y);
-		Novice::ScreenPrintf(0, 60, "%f", players.radius);
-
-
+		
+		
 		///
 		/// ↑更新処理ここまで
 		///
@@ -61,14 +62,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		//背景描画
-		//Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
-
-		players.Draw(screen);
-		for (int i = 0; i < 50; i++) {
-			ellipse[i].draw(screen);
-			triangle[i].draw(screen);
-			quadrangle[i].draw(screen);
+		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
+		for (int i = 0; i < Figure::FigureMax; i++) {
+			if (0 + SCREEN_WIDTH / 2 + 100 > ellipse[i].position.x && 0 - SCREEN_WIDTH / 2 - 100 < ellipse[i].position.x && 0 + SCREEN_HEIGHT / 2 + 100 > ellipse[i].position.y && 0 - SCREEN_HEIGHT / 2 - 100 < ellipse[i].position.y && ellipse[i].flag == true) {
+				ellipse[i].draw(screen);
+			}
+			if (0 + SCREEN_WIDTH / 2 + 100 > triangle[i].position.x && 0 - SCREEN_WIDTH / 2 - 100 < triangle[i].position.x && 0 + SCREEN_HEIGHT / 2 + 100 > triangle[i].position.y && 0 - SCREEN_HEIGHT / 2 - 100 < triangle[i].position.y && triangle[i].flag == true) {
+				triangle[i].draw(screen);
+			}
+			if (0 + SCREEN_WIDTH / 2 + 100 > quadrangle[i].position.x && 0 - SCREEN_WIDTH / 2 - 100 < quadrangle[i].position.x && 0 + SCREEN_HEIGHT / 2 + 100 > quadrangle[i].position.y && 0 - SCREEN_HEIGHT / 2 - 100 < quadrangle[i].position.y && quadrangle[i].flag == true) {
+				quadrangle[i].draw(screen);
+			}
 		}
+		players.Draw(screen);
 		///
 		/// ↑描画処理ここまで
 		///
