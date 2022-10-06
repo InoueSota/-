@@ -20,6 +20,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		quadrangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
 	}
 
+
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
 		// フレームの開始
@@ -33,18 +34,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-		players.SetPosition(players);
-
 		players.Process(preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
+
+		players.SetPosition(players);
 
 		for (int i = 0; i < Figure::FigureMax; i++) {
 
-			Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i].position.x, ellipse[i].position.y, ellipse[i].radian);
-			
+			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]) == true){
+				players.radius += 1;
+			}
+
 			/*Drain(players.radius, ellipse[i].radian.x);*/
 		}
+
 		Novice::ScreenPrintf(0, 20, "%f", players.pos.x);
 		Novice::ScreenPrintf(0, 40, "%f", players.pos.y);
+		Novice::ScreenPrintf(0, 60, "%f", players.radius);
 
 
 		///
@@ -56,7 +61,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		//背景描画
-		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
+		//Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
 
 		players.Draw(screen);
 		for (int i = 0; i < 50; i++) {
