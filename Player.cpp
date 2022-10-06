@@ -29,7 +29,7 @@ void Player::Init() {
 	tmpCenpos = { 0,0 };
 	tmpMovepos = { 0,0 };
 	easingt = 0.0f;
-	incT = 0.025;
+	incT = 0.04;
 }
 
 /*@main.cpp‚ÅÀ•W‚ğ‚µ‚æ‚¤‚·‚é‚½‚ß‚Éæ“¾‚·‚éŠÖ”@*/

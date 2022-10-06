@@ -26,6 +26,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// フレームの開始
 		Novice::BeginFrame();
 
+		while (!((oldTime + 16) - clock() <= 0));
+
 		// キー入力を受け取る
 		memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
@@ -42,31 +44,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		for (int i = 0; i < Figure::FigureMax; i++) {		
 
-			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==true && ellipse[i].flag == true) {
+			//if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==true && ellipse[i].flag == true) {
 
-				players.radius += (ellipse[i].radian / 25);
-				players.Length += (ellipse[i].radian / 5);
-				ellipse[i].flag = false;
-				
-			}
-			/*else
-			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==false && ellipse[i].flag == true) {
+			//	players.radius += (ellipse[i].radian / 25);
+			//	players.Length += (ellipse[i].radian / 5);
+			//	ellipse[i].flag = false;
+			//	
+			//}
+			///*else
+			//if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==false && ellipse[i].flag == true) {
 
-				players.radius -= (ellipse[i].radian / 100);
-				
-			}*/
-						
-			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
-				players.radius += (triangle[i].radian / 25);
-				players.Length += (triangle[i].radian / 5);
-				triangle[i].flag = false;
-			}
-			
-			if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
-				players.radius += (quadrangle[i].radian / 25);
-				players.Length += (quadrangle[i].radian / 5);
-				quadrangle[i].flag = false;
-			}
+			//	players.radius -= (ellipse[i].radian / 100);
+			//	
+			//}*/
+			//			
+			//if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
+			//	players.radius += (triangle[i].radian / 25);
+			//	players.Length += (triangle[i].radian / 5);
+			//	triangle[i].flag = false;
+			//}
+			//
+			//if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
+			//	players.radius += (quadrangle[i].radian / 25);
+			//	players.Length += (quadrangle[i].radian / 5);
+			//	quadrangle[i].flag = false;
+			//}
 			
 		}
 		if (players.radius < 10) {
@@ -101,6 +103,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// フレームの終了
 		Novice::EndFrame();
+
+		//oldTime = clock();
 
 		// ESCキーが押されたらループを抜ける
 		if (preKeys[DIK_ESCAPE] == 0 && keys[DIK_ESCAPE] != 0) {
