@@ -25,7 +25,7 @@ public:
 	void Move() {
 		add.x = cosf(Degree(deg));
 		add.y = sinf(Degree(deg));
-		pos = center + add * 300;
+		pos = center + add * 500;
 	}
 	void Process(char prekeys, char keys);
 	void Draw(Screen& screen);
