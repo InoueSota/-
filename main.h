@@ -7,6 +7,6 @@
 //インスタンス化
 Screen screen;
 Player players;
-llipse ellipse[50];
-Triangle triangle[50];
-Quadrangle quadrangle[50];
+llipse ellipse[Figure::FigureMax];
+Triangle triangle[Figure::FigureMax];
+Quadrangle quadrangle[Figure::FigureMax];
