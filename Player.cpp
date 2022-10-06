@@ -14,6 +14,24 @@ Player::~Player()
 {
 }
 
+void Player::Init() {
+	pos = { 0,0 };
+	center = { pos.x,pos.y };
+	add = { 0,0 };
+	tmppos = { 0,0 };
+	deg = 0;
+	radius = 50;
+	Reverse = 1;
+	incDeg = 2;
+	Length = 300;
+}
+
+void Player::SetPosition(Player& players) {
+	players.pos = player->pos;
+}
+
+
+
 void CircleA::CircleProcess() {
 	circleA.deg += (incDeg * Reverse);
 	if (circleA.deg > 360) {
@@ -66,18 +84,6 @@ void CircleB::SetDegree() {
 }
 
 
-
-void Player::Init() {
-	pos = { 0,0 };
-	center = { pos.x,pos.y };
-	add = { 0,0 };
-	tmppos = { 0,0 };
-	deg = 0;
-	radius = 50;
-	Reverse = 1;
-	incDeg = 2;
-	Length = 300;
-}
 
 void Player::Process(char prekeys, char keys, char predik_d, char dik_d) {
 	if (predik_d == 0 && dik_d){
