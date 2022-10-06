@@ -25,10 +25,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-		players.SetPosition(players);
+		players.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]);
+		for (int i = 0; i < 50; i++) {
 
-		players.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]/*, preKeys[DIK_D], keys[DIK_D]*/);
-
+			Drain_Circle(cirA.pos.x, cirA.pos.y, cirA.radius, ellipse[i].position.x, ellipse[i].position.y, ellipse[i].radian.x);
+		}
 		///
 		/// ↑更新処理ここまで
 		///
@@ -38,7 +39,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		//背景描画
-		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, GREEN, kFillModeSolid);
+		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
 
 		players.Draw(screen);
 		for (int i = 0; i < 50; i++) {
