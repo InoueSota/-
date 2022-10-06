@@ -25,7 +25,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-		players.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]);
+		players.SetPosition(players);
+
+		players.Process(preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
 
 		for (int i = 0; i < 50; i++) {
 

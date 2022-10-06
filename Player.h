@@ -29,7 +29,7 @@ public:
 	void SetPosition(Player& players);
 	virtual void CircleProcess() {};
 	virtual void SetDegree() {};
-	void Process(char prekeys, char keys/*, char predik_d, char dik_d*/);
+	void Process(char prekeys, char keys, char predik_d, char dik_d);
 	void Draw(Screen& screen);
 private:
 

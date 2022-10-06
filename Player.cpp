@@ -85,10 +85,10 @@ void CircleB::SetDegree() {
 
 
 
-void Player::Process(char prekeys, char keys/*, char predik_d, char dik_d*/) {
-	//if (predik_d == 0 && dik_d){
-	//	Reverse *= -1;
-	//}
+void Player::Process(char prekeys, char keys, char predik_d, char dik_d) {
+	if (predik_d == 0 && dik_d){
+		Reverse *= -1;
+	}
 	if (prekeys == 0 && keys) {
 		player->SetDegree();
 		if (player == &circleA){
