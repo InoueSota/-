@@ -8,6 +8,7 @@ public:
 	virtual void draw(){};
 	virtual void set() {};
 
+
 	static const int FigureMax = 50;
 
 	Vec2 position;
