@@ -28,9 +28,8 @@ public:
 	void Init();
 	virtual void CircleProcess() {};
 	virtual void SetDegree() {};
-	void Process(char prekeys, char keys);
+	void Process(char prekeys, char keys, char predik_d, char dik_d);
 	void Draw(Screen& screen);
-	void Drain(float x, float y,float rad, );
 private:
 
 };

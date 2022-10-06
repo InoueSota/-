@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-		players.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]);
+		players.Process(preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
 
 		///
 		/// ↑更新処理ここまで
@@ -36,7 +36,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		//背景描画
-		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
+		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, GREEN, kFillModeSolid);
 
 		players.Draw(screen);
 		for (int i = 0; i < 50; i++) {
