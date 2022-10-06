@@ -4,6 +4,8 @@
 #include "Figure.h"
 #include "drain.h"
 
+
+
 //インスタンス化
 Screen screen;
 Player players;
