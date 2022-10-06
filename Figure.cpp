@@ -2,6 +2,17 @@
 #include "Function.h"
 #include <Novice.h>
 
+
+bool Figure::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
+	if (screen.Scroll.x + width / 2 + 100 > Position.x && screen.Scroll.x - width / 2 - 100 < Position.x && screen.Scroll.y + height / 2 + 100 > Position.y && screen.Scroll.y - height / 2 - 100 < Position.y && Flag == true) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
 llipse::llipse() {
 
 }
@@ -14,6 +25,16 @@ void llipse::set(int x,int y,int Radian) {
 	color = RED;
 	flag = true;
 }
+
+//bool llipse::cheakdraw(Screen screen, Vec2 Position, int width, int height,bool Flag) {
+//	if (screen.Scroll.x + width / 2 + 100 > Position.x && screen.Scroll.x - width / 2 - 100 < Position.x && screen.Scroll.y + height / 2 + 100 > Position.y && screen.Scroll.y - height / 2 - 100 < Position.y && Flag == true) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
+
 void llipse::draw(Screen& screen) {
 	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
 }
@@ -42,6 +63,15 @@ void Triangle::set(int x,int y,int Radian) {
 	flag = true;
 
 }
+
+//bool Triangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
+//	if (screen.Scroll.x + width / 2 + 100 > Position.x && screen.Scroll.x - width / 2 - 100 < Position.x && screen.Scroll.y + height / 2 + 100 > Position.y && screen.Scroll.y - height / 2 - 100 < Position.y && Flag == true) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
 
 void Triangle::draw(Screen& screen) {
 	screen.DrawTriangle(top_position.x, top_position.y, left_position.x, left_position.y, right_position.x, right_position.y, color, kFillModeSolid);
@@ -74,6 +104,16 @@ void Quadrangle::set(int x, int y,int Radian) {
 	flag = true;
 
 }
+
+//bool Quadrangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
+//	if (screen.Scroll.x + width / 2 + 100 > Position.x && screen.Scroll.x - width / 2 - 100 < Position.x && screen.Scroll.y + height / 2 + 100 > Position.y && screen.Scroll.y - height / 2 - 100 < Position.y && Flag == true) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
+
 void Quadrangle::draw(Screen& screen) {
 	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, color);
 }

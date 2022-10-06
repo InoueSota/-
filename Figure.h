@@ -5,15 +5,17 @@
 class Figure
 {
 public:
-	virtual void draw(){};
-	virtual void set() {};
 
 	//Т▓Ро/////////////////////////////////////////
-	static const int FigureMax = 100;
-	static const int Area = 1000;
+	static const int FigureMax = 2000;
+	static const int Area = 5000;
 	static const int RadianMin = 5;
 	static const int RadianMax = 50;
 	///////////////////////////////////////////////
+
+	virtual void draw(){};
+	virtual void set() {};
+	bool cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag);
 
 	Vec2 position;
 	float radian;
@@ -29,6 +31,7 @@ public:
 	llipse();
 	void draw(Screen& screen);
 	void set(int x,int y,int Radian);
+	/*bool cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag);*/
 private:
 
 };
@@ -39,6 +42,7 @@ public:
 	Triangle();
 	void draw(Screen& screen);
 	void set(int x, int y, int Radian);
+	/*bool cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag);*/
 
 	Vec2 top_position;
 	Vec2 right_position;
@@ -53,6 +57,7 @@ public:
 	Quadrangle();
 	void draw(Screen& screen);
 	void set(int x, int y,int Radian);
+	/*bool cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag);*/
 
 	Vec2 top_left_position;
 	Vec2 top_right_position;

@@ -138,10 +138,8 @@
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Function.h" />
-    <ClInclude Include="Figure.h">
-      <Filter>KamataEngine</Filter>
-    </ClInclude>
     <ClInclude Include="drain.h" />
     <ClInclude Include="easing.h" />
+    <ClInclude Include="Figure.h" />
   </ItemGroup>
 </Project>
