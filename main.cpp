@@ -43,18 +43,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i].position.x, ellipse[i].position.y, ellipse[i].radian);
 			//Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]);
 
-			if (sqrtf((players.pos.x - ellipse[i].position.x) * (players.pos.x - ellipse[i].position.x) + (players.pos.y - ellipse[i].position.y) * (players.pos.y - ellipse[i].position.y)) <= (players.radius + ellipse[i].radian)&&ellipse[i].flag==true) {
-				if (players.radius >= ellipse[i].radian) {
-					players.radius += (ellipse[i].radian / 10);
+			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]) && ellipse[i].flag == true) {
 
-					ellipse[i].flag = false;
-				}
+				players.radius += (ellipse[i].radian / 10);
+				ellipse[i].flag = false;
 				
 			}
 			
 		}
 		
-		//players.radius += 1;
+		
 		///
 		/// ↑更新処理ここまで
 		///
@@ -77,11 +75,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 		players.Draw(screen);
-		/*for (int i = 0; i < 50; i++) {
-			ellipse[i].draw(screen);
-			triangle[i].draw(screen);
-			quadrangle[i].draw(screen);
-		}*/
 		///
 		/// ↑描画処理ここまで
 		///

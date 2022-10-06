@@ -10,12 +10,17 @@ void DrainMiss(float rad, float erad) {
 	rad -= (erad / 10);
 }
 
-void Drain_Circle(float px, float py, float prad, const int i, float ex[], float ey[], float erad[]) {
+bool Drain_Circle(float px, float py, float prad, llipse& ellipse) {
 
-	if (sqrtf((px - ex[i]) * (px - ex[i]) + (py - ey[i]) * (py - ey[i])) <= (prad + erad[i])) {
+	float a = px - ellipse.position.x;
+	float b = py - ellipse.position.y;
+	float c = sqrtf(a * a + b * b);
+
+	if (c <= (prad + ellipse.radian)) {
 		//Drain(prad, erad);
-		prad += 200;
+		return true;
 	}
+	return false;
 	
 	
 }
