@@ -36,7 +36,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		players.Draw(screen);
-
+		for (int i = 0; i < 50; i++) {
+			ellipse[i].draw(screen);
+			triangle[i].draw(screen);
+			quadrangle[i].draw(screen);
+		}
 		///
 		/// ↑描画処理ここまで
 		///
