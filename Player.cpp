@@ -15,24 +15,24 @@ Player::~Player()
 }
 
 void CircleA::CircleProcess() {
-	circleA.deg += 1;
+	circleA.deg += incDeg;
 	if (circleA.deg > 360) {
 		circleA.deg = 0;
 	}
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
 	circleB.center = circleA.pos;
-	circleA.pos = circleA.center + circleA.add * 300;
+	circleA.pos = circleA.center + circleA.add * Length;
 }
 void CircleB::CircleProcess() {
-	circleB.deg -= 1;
+	circleB.deg -= incDeg;
 	if (circleB.deg < -360){
 		circleB.deg = 0;
 	}
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
 	circleA.center = circleB.pos;
-	circleB.pos = circleB.center + circleB.add * 300;
+	circleB.pos = circleB.center + circleB.add * Length;
 }
 
 
@@ -72,6 +72,8 @@ void Player::Init() {
 	tmppos = { 0,0 };
 	deg = 0;
 	radius = 50;
+	incDeg = 2;
+	Length = 300;
 }
 
 void Player::Process(char prekeys, char keys) {
