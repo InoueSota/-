@@ -50,6 +50,9 @@
     <ClCompile Include="drain.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
+    <ClCompile Include="easing.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -139,5 +142,6 @@
       <Filter>KamataEngine</Filter>
     </ClInclude>
     <ClInclude Include="drain.h" />
+    <ClInclude Include="easing.h" />
   </ItemGroup>
 </Project>

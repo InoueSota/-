@@ -38,6 +38,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
 
+		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
+
 		for (int i = 0; i < Figure::FigureMax; i++) {		
 
 			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==true && ellipse[i].flag == true) {

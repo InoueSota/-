@@ -36,19 +36,19 @@ void Screen::Shake(int minX, int maxX, int minY, int maxY, bool is) {
 
 
 void Screen::DrawBox(int x, int y, int w, int h, float angle, unsigned int color, FillMode fillMode) {
-	Novice::DrawBox(x + Worldcenter.x - Scroll.x + ScreenShake.x, y * -1 + Worldcenter.y+ Scroll.y - ScreenShake.y, w, h, angle, color, fillMode);
+	Novice::DrawBox(x + Worldcenter.x - Scroll.x + ScreenShake.x, y * -1 + Worldcenter.y + Scroll.y - ScreenShake.y, w, h, angle, color, fillMode);
 }
 
 void Screen::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, unsigned int color, FillMode fillMode) {
-	Novice::DrawTriangle(x1 + Worldcenter.x - Scroll.x + ScreenShake.x, y1 * -1 + Worldcenter.y+ Scroll.y - ScreenShake.y, x2 + Worldcenter.x - Scroll.x, y2 * -1 + Worldcenter.y, x3 + Worldcenter.x - Scroll.x, y3 * -1 + Worldcenter.y+ Scroll.y, color, fillMode);
+	Novice::DrawTriangle(x1 + Worldcenter.x - Scroll.x + ScreenShake.x, y1 * -1 + Worldcenter.y + Scroll.y - ScreenShake.y, x2 + Worldcenter.x - Scroll.x, y2 * -1 + Worldcenter.y + Scroll.y, x3 + Worldcenter.x - Scroll.x, y3 * -1 + Worldcenter.y+ Scroll.y, color, fillMode);
 }
 
 void Screen::DrawLine(int x1, int y1, int x2, int y2, unsigned int color) {
-	Novice::DrawLine(x1 + Worldcenter.x - Scroll.x + ScreenShake.x, y1 * -1 + Worldcenter.y+ Scroll.y - ScreenShake.y, x2 + Worldcenter.x - Scroll.x + ScreenShake.x, y2 * -1 + Worldcenter.y+ Scroll.y - ScreenShake.y, color);
+	Novice::DrawLine(x1 + Worldcenter.x - Scroll.x + ScreenShake.x, y1 * -1 + Worldcenter.y + Scroll.y - ScreenShake.y, x2 + Worldcenter.x - Scroll.x + ScreenShake.x, y2 * -1 + Worldcenter.y+ Scroll.y - ScreenShake.y, color);
 }
 
 void Screen::DrawEllipse(int x, int y, int radiusX, int radiusY, float angle, unsigned int color, FillMode fillMode) {
-	Novice::DrawEllipse(x + Worldcenter.x - Scroll.x + ScreenShake.x, y * -1 + Worldcenter.y+ Scroll.y - ScreenShake.y,  radiusX,  radiusY,  angle,  color, fillMode);
+	Novice::DrawEllipse(x + Worldcenter.x - Scroll.x + ScreenShake.x, y * -1 + Worldcenter.y + Scroll.y - ScreenShake.y,  radiusX,  radiusY,  angle,  color, fillMode);
 }
 
 void Screen::DrawSprite(int x, int y, int textureHandle, float scaleX, float scaleY, float angle, unsigned int color) {

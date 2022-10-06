@@ -2,6 +2,7 @@
 #include <Novice.h>
 #include "Vec2.h"
 #include "Screen.h"
+#include "easing.h"
 
 class Player
 {
@@ -24,11 +25,19 @@ public:
 
 	bool isHit;
 
+
+	bool isScroll;
+	Vec2 tmpCenpos;
+	Vec2 tmpMovepos;
+	float easingt;
+	float incT;
+
 	//ä÷êî
 	void Init();
 	void SetPlayers(Player& players);
 	virtual void CircleProcess(Player& players) {};
 	virtual void SetDegree() {};
+	void SetScrollPos(Screen& screen, Player& players, char prekeys, char keys);
 	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d);
 	void Draw(Screen& screen);
 private:

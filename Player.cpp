@@ -24,6 +24,11 @@ void Player::Init() {
 	Reverse = 1;
 	incDeg = 2;
 	Length = 300;
+	isScroll = false;
+	tmpCenpos = { 0,0 };
+	tmpMovepos = { 0,0 };
+	easingt = 0.0f;
+	incT = 0.025;
 }
 
 void Player::SetPlayers(Player& players) {
@@ -85,17 +90,39 @@ void CircleB::SetDegree() {
 
 
 
+void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char keys) {
+	if (prekeys == 0 && keys && isScroll == false){
+		isScroll = true;
+	}
+	if (isScroll == true){
+		easingt += incT;
+		Clamp(easingt, 0.0f, 1.0f);
+		screen.Scroll.x = Lerp(Easing::easeOutQuint(easingt), players.tmpMovepos.x) + players.tmpCenpos.x;
+		screen.Scroll.y = Lerp(Easing::easeOutQuint(easingt), players.tmpMovepos.y) + players.tmpCenpos.y;
+		if (easingt >= 1.0f){
+			isScroll = false;
+			easingt = 0.0f;
+		}
+	}
+}
+
+
+
 void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d) {
 	if (predik_d == 0 && dik_d){
 		Reverse *= -1;
 	}
-	if (prekeys == 0 && keys) {
+	if (prekeys == 0 && keys && isScroll == false) {
 		player->SetDegree();
 		if (player == &circleA){
+			players.tmpCenpos = circleB.pos;
+			players.tmpMovepos = circleA.pos - players.tmpCenpos;
 			player = nullptr;
 			player = &circleB;
 		}
 		else if (player == &circleB) {
+			players.tmpCenpos = circleA.pos;
+			players.tmpMovepos = circleB.pos - players.tmpCenpos;
 			player = nullptr;
 			player = &circleA;
 		}
