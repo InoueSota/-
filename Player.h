@@ -18,15 +18,16 @@ public:
 	float deg;
 	float radius;
 
+	int Reverse;
+	int incDeg;
+	int Length;
+
+	bool isHit;
+
 	//ä÷êî
 	void Init();
 	virtual void CircleProcess() {};
 	virtual void SetDegree() {};
-	void Move() {
-		add.x = cosf(Degree(deg));
-		add.y = sinf(Degree(deg));
-		pos = center + add * 300;
-	}
 	void Process(char prekeys, char keys);
 	void Draw(Screen& screen);
 

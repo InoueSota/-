@@ -15,18 +15,24 @@ Player::~Player()
 }
 
 void CircleA::CircleProcess() {
-	circleA.deg += 1;
+	circleA.deg += incDeg * Reverse;
+	if (circleA.deg > 360) {
+		circleA.deg = 0;
+	}
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
 	circleB.center = circleA.pos;
-	circleA.pos = circleA.center + circleA.add * 300;
+	circleA.pos = circleA.center + circleA.add * Length;
 }
 void CircleB::CircleProcess() {
-	circleB.deg -= 1;
+	circleB.deg -= incDeg * Reverse;
+	if (circleB.deg < -360){
+		circleB.deg = 0;
+	}
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
 	circleA.center = circleB.pos;
-	circleB.pos = circleB.center + circleB.add * 300;
+	circleB.pos = circleB.center + circleB.add * Length;
 }
 
 
@@ -66,6 +72,9 @@ void Player::Init() {
 	tmppos = { 0,0 };
 	deg = 0;
 	radius = 50;
+	Reverse = 1;
+	incDeg = 2;
+	Length = 300;
 }
 
 void Player::Process(char prekeys, char keys) {
@@ -84,6 +93,7 @@ void Player::Process(char prekeys, char keys) {
 }
 
 void Player::Draw(Screen& screen) {
-	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, radius, radius, 0.0f, RED, kFillModeSolid);
-	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, radius, radius, 0.0f, WHITE, kFillModeSolid);
+	screen.DrawLine(circleA.pos.x, circleA.pos.y, circleB.pos.x, circleB.pos.y, BLACK);
+	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, radius, radius, 0.0f, BLACK, kFillModeSolid);
+	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, radius, radius, 0.0f, BLACK, kFillModeSolid);
 }
