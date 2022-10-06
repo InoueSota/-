@@ -23,9 +23,9 @@ public:
 	virtual void CircleProcess() = 0;
 	virtual void SetDegree() = 0;
 	void Move() {
-		add.x = cosf(Degree(deg)) * 300;
-		add.y = sinf(Degree(deg)) * 300;
-		pos = center + add;
+		add.x = cosf(Degree(deg));
+		add.y = sinf(Degree(deg));
+		pos = center + add * 300;
 	}
 	void Process(char prekeys, char keys);
 	void Draw(Screen& screen);
