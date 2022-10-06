@@ -15,7 +15,7 @@ Player::~Player()
 }
 
 void CircleA::CircleProcess() {
-	circleA.deg += incDeg;
+	circleA.deg += incDeg * Reverse;
 	if (circleA.deg > 360) {
 		circleA.deg = 0;
 	}
@@ -25,7 +25,7 @@ void CircleA::CircleProcess() {
 	circleA.pos = circleA.center + circleA.add * Length;
 }
 void CircleB::CircleProcess() {
-	circleB.deg -= incDeg;
+	circleB.deg -= incDeg * Reverse;
 	if (circleB.deg < -360){
 		circleB.deg = 0;
 	}
@@ -72,6 +72,7 @@ void Player::Init() {
 	tmppos = { 0,0 };
 	deg = 0;
 	radius = 50;
+	Reverse = 1;
 	incDeg = 2;
 	Length = 300;
 }

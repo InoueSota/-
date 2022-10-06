@@ -18,6 +18,7 @@ public:
 	float deg;
 	float radius;
 
+	int Reverse;
 	int incDeg;
 	int Length;
 
