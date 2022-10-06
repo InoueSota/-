@@ -31,8 +31,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		for (int i = 0; i < 50; i++) {
 
-			Drain_Circle(cirA.pos.x, cirA.pos.y, cirA.radius, ellipse[i].position.x, ellipse[i].position.y, ellipse[i].radian.x);
+			Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i].position.x, ellipse[i].position.y, ellipse[i].radian);
+			
+			/*Drain(players.radius, ellipse[i].radian.x);*/
 		}
+		Novice::ScreenPrintf(0, 20, "%f", players.pos.x);
+		Novice::ScreenPrintf(0, 40, "%f", players.pos.y);
+
+
 		///
 		/// ↑更新処理ここまで
 		///
@@ -42,7 +48,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		//背景描画
-		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
+		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, GREEN, kFillModeSolid);
 
 		players.Draw(screen);
 		for (int i = 0; i < 50; i++) {

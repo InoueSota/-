@@ -2,6 +2,8 @@
 #include <Novice.h>
 #include "Player.h"
 #include "Figure.h"
+#include "drain.h"
+
 
 
 //インスタンス化
