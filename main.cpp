@@ -86,13 +86,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//背景描画
 		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
 		for (int i = 0; i < Figure::FigureMax; i++) {
-			if (ellipse[i].cheakdraw(screen,ellipse[i].position,SCREEN_WIDTH,SCREEN_HEIGHT,ellipse[i].flag)) {
+			if (ellipse[i].cheakdraw(screen,ellipse[i].position,ellipse[i].flag)) {
 				ellipse[i].draw(screen);
 			}
-			if (triangle[i].cheakdraw(screen, triangle[i].position, SCREEN_WIDTH, SCREEN_HEIGHT, triangle[i].flag)) {
+			if (triangle[i].cheakdraw(screen, triangle[i].position,triangle[i].flag)) {
 				triangle[i].draw(screen);
 			}
-			if (quadrangle[i].cheakdraw(screen, quadrangle[i].position, SCREEN_WIDTH, SCREEN_HEIGHT, quadrangle[i].flag)) {
+			if (quadrangle[i].cheakdraw(screen, quadrangle[i].position, quadrangle[i].flag)) {
 				quadrangle[i].draw(screen);
 			}
 		}

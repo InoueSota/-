@@ -3,8 +3,8 @@
 #include <Novice.h>
 
 
-bool Figure::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
-	if (screen.Scroll.x + width / 2 + 100 > Position.x && screen.Scroll.x - width / 2 - 100 < Position.x && screen.Scroll.y + height / 2 + 100 > Position.y && screen.Scroll.y - height / 2 - 100 < Position.y && Flag == true) {
+bool Figure::cheakdraw(Screen screen, Vec2 Position,bool Flag) {
+	if (screen.Scroll.x + SCREEN_WIDTH / 2 + 100 > Position.x && screen.Scroll.x - SCREEN_WIDTH / 2 - 100 < Position.x && screen.Scroll.y + SCREEN_HEIGHT / 2 + 100 > Position.y && screen.Scroll.y - SCREEN_HEIGHT / 2 - 100 < Position.y && Flag == true) {
 		return true;
 	}
 	else {
@@ -12,6 +12,14 @@ bool Figure::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool
 	}
 }
 
+bool Figure::InScreen(Screen screen, Vec2 Position) {
+	if (screen.Scroll.x + SCREEN_WIDTH / 2 + 100 > Position.x && screen.Scroll.x - SCREEN_WIDTH / 2 - 100 < Position.x && screen.Scroll.y + SCREEN_HEIGHT / 2 + 100 > Position.y && screen.Scroll.y - SCREEN_HEIGHT / 2 - 100 < Position.y) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
 
 llipse::llipse() {
 
