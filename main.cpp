@@ -34,15 +34,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-		players.SetPosition(players);
+		players.SetPlayers(players);
 
-		players.Process(preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
+		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
 
 		for (int i = 0; i < Figure::FigureMax; i++) {		
 
 			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==true && ellipse[i].flag == true) {
 
 				players.radius += (ellipse[i].radian / 25);
+				players.Length += (ellipse[i].radian / 5);
 				ellipse[i].flag = false;
 				
 			}
@@ -54,12 +55,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}*/
 						
 			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
-				players.radius += (triangle[i].radian/25);
+				players.radius += (triangle[i].radian / 25);
+				players.Length += (triangle[i].radian / 5);
 				triangle[i].flag = false;
 			}
 			
 			if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
-				players.radius += (quadrangle->radian/25);
+				players.radius += (quadrangle[i].radian / 25);
+				players.Length += (quadrangle[i].radian / 5);
 				quadrangle[i].flag = false;
 			}
 			

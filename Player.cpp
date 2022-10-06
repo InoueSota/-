@@ -26,13 +26,13 @@ void Player::Init() {
 	Length = 300;
 }
 
-void Player::SetPosition(Player& players) {
+void Player::SetPlayers(Player& players) {
 	players.pos = player->pos;
 }
 
 
 
-void CircleA::CircleProcess() {
+void CircleA::CircleProcess(Player& players) {
 	circleA.deg += (incDeg * Reverse);
 	if (circleA.deg > 360) {
 		circleA.deg = 0;
@@ -40,10 +40,10 @@ void CircleA::CircleProcess() {
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
 	circleB.center = circleA.pos;
-	circleA.pos = circleA.center + circleA.add * Length;
+	circleA.pos = circleA.center + circleA.add * players.Length;
 	player->pos = circleA.pos;
 }
-void CircleB::CircleProcess() {
+void CircleB::CircleProcess(Player& players) {
 	circleB.deg -= (incDeg * Reverse);
 	if (circleB.deg < -360){
 		circleB.deg = 0;
@@ -51,7 +51,7 @@ void CircleB::CircleProcess() {
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
 	circleA.center = circleB.pos;
-	circleB.pos = circleB.center + circleB.add * Length;
+	circleB.pos = circleB.center + circleB.add * players.Length;
 	player->pos = circleB.pos;
 }
 
@@ -85,7 +85,7 @@ void CircleB::SetDegree() {
 
 
 
-void Player::Process(char prekeys, char keys, char predik_d, char dik_d) {
+void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d) {
 	if (predik_d == 0 && dik_d){
 		Reverse *= -1;
 	}
@@ -100,7 +100,7 @@ void Player::Process(char prekeys, char keys, char predik_d, char dik_d) {
 			player = &circleA;
 		}
 	}
-	player->CircleProcess();
+	player->CircleProcess(players);
 }
 
 void Player::Draw(Screen& screen) {

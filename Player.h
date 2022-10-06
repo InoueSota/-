@@ -26,10 +26,10 @@ public:
 
 	//ä÷êî
 	void Init();
-	void SetPosition(Player& players);
-	virtual void CircleProcess() {};
+	void SetPlayers(Player& players);
+	virtual void CircleProcess(Player& players) {};
 	virtual void SetDegree() {};
-	void Process(char prekeys, char keys, char predik_d, char dik_d);
+	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d);
 	void Draw(Screen& screen);
 private:
 
@@ -37,12 +37,12 @@ private:
 
 class CircleA : public Player {
 public:
-	void CircleProcess();
+	void CircleProcess(Player& players);
 	void SetDegree();
 };
 
 class CircleB : public Player {
 public:
-	void CircleProcess();
+	void CircleProcess(Player& players);
 	void SetDegree();
 };
