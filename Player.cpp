@@ -16,6 +16,9 @@ Player::~Player()
 
 void CircleA::CircleProcess() {
 	circleA.deg += 1;
+	if (circleA.deg > 360) {
+		circleA.deg = 0;
+	}
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
 	circleB.center = circleA.pos;
@@ -23,6 +26,9 @@ void CircleA::CircleProcess() {
 }
 void CircleB::CircleProcess() {
 	circleB.deg -= 1;
+	if (circleB.deg < -360){
+		circleB.deg = 0;
+	}
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
 	circleA.center = circleB.pos;
@@ -84,6 +90,7 @@ void Player::Process(char prekeys, char keys) {
 }
 
 void Player::Draw(Screen& screen) {
-	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, radius, radius, 0.0f, RED, kFillModeSolid);
-	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, radius, radius, 0.0f, WHITE, kFillModeSolid);
+	screen.DrawLine(circleA.pos.x, circleA.pos.y, circleB.pos.x, circleB.pos.y, BLACK);
+	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, radius, radius, 0.0f, BLACK, kFillModeSolid);
+	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, radius, radius, 0.0f, BLACK, kFillModeSolid);
 }
