@@ -8,11 +8,12 @@ public:
 	virtual void draw(){};
 	virtual void set() {};
 
-
-	static const int FigureMax = 2000;
-	static const int Area = 5000;
+	//Т▓Ро/////////////////////////////////////////
+	static const int FigureMax = 100;
+	static const int Area = 1000;
 	static const int RadianMin = 5;
-	static const int RadianMax = 20;
+	static const int RadianMax = 50;
+	///////////////////////////////////////////////
 
 	Vec2 position;
 	float radian;
