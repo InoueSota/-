@@ -14,6 +14,7 @@ Player::~Player()
 {
 }
 
+/*　初期化する関数　*/
 void Player::Init() {
 	pos = { 0,0 };
 	center = { pos.x,pos.y };
@@ -31,12 +32,14 @@ void Player::Init() {
 	incT = 0.025;
 }
 
+/*　main.cppで座標をしようするために取得する関数　*/
 void Player::SetPlayers(Player& players) {
 	players.pos = player->pos;
 }
 
 
 
+/*　円運動の関数　*/
 void CircleA::CircleProcess(Player& players) {
 	circleA.deg += (incDeg * Reverse);
 	if (circleA.deg > 360) {
@@ -61,7 +64,7 @@ void CircleB::CircleProcess(Player& players) {
 }
 
 
-
+/*　円運動する円を変更する際の度数の設定する関数　*/
 //CircleBのDegreeを求める関数
 void CircleA::SetDegree() {
 
@@ -90,6 +93,7 @@ void CircleB::SetDegree() {
 
 
 
+/*　スクロール座標を設定する関数　*/
 void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char keys) {
 	if (prekeys == 0 && keys && isScroll == false){
 		isScroll = true;
@@ -108,6 +112,7 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 
 
 
+/*　関数をまとめる関数　*/
 void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d) {
 	if (predik_d == 0 && dik_d){
 		Reverse *= -1;
@@ -130,6 +135,7 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 	player->CircleProcess(players);
 }
 
+/*　描画関数　*/
 void Player::Draw(Screen& screen) {
 	screen.DrawLine(circleA.pos.x, circleA.pos.y, circleB.pos.x, circleB.pos.y, BLACK);
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, radius, radius, 0.0f, BLACK, kFillModeSolid);
