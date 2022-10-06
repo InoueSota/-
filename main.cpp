@@ -18,6 +18,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ellipse[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
 		triangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
 		quadrangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
+		
 	}
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -39,14 +40,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		for (int i = 0; i < Figure::FigureMax; i++) {
 
-			Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i].position.x, ellipse[i].position.y, ellipse[i].radian);
+			//Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i].position.x, ellipse[i].position.y, ellipse[i].radian);
+			//Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]);
+
+			if (sqrtf((players.pos.x - ellipse[i].position.x) * (players.pos.x - ellipse[i].position.x) + (players.pos.y - ellipse[i].position.y) * (players.pos.y - ellipse[i].position.y)) <= (players.radius + ellipse[i].radian)&&ellipse[i].flag==true) {
+				if (players.radius >= ellipse[i].radian) {
+					players.radius += (ellipse[i].radian / 10);
+
+					ellipse[i].flag = false;
+				}
+				
+			}
 			
-			/*Drain(players.radius, ellipse[i].radian.x);*/
 		}
-		Novice::ScreenPrintf(0, 20, "%f", players.pos.x);
-		Novice::ScreenPrintf(0, 40, "%f", players.pos.y);
-
-
+		
+		//players.radius += 1;
 		///
 		/// ↑更新処理ここまで
 		///
@@ -57,13 +65,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//背景描画
 		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
-
+		for (int i = 0; i < Figure::FigureMax; i++) {
+			if (0 + SCREEN_WIDTH / 2 + 100 > ellipse[i].position.x && 0 - SCREEN_WIDTH / 2 - 100 < ellipse[i].position.x && 0 + SCREEN_HEIGHT / 2 + 100 > ellipse[i].position.y && 0 - SCREEN_HEIGHT / 2 - 100 < ellipse[i].position.y && ellipse[i].flag == true) {
+				ellipse[i].draw(screen);
+			}
+			if (0 + SCREEN_WIDTH / 2 + 100 > triangle[i].position.x && 0 - SCREEN_WIDTH / 2 - 100 < triangle[i].position.x && 0 + SCREEN_HEIGHT / 2 + 100 > triangle[i].position.y && 0 - SCREEN_HEIGHT / 2 - 100 < triangle[i].position.y && triangle[i].flag == true) {
+				triangle[i].draw(screen);
+			}
+			if (0 + SCREEN_WIDTH / 2 + 100 > quadrangle[i].position.x && 0 - SCREEN_WIDTH / 2 - 100 < quadrangle[i].position.x && 0 + SCREEN_HEIGHT / 2 + 100 > quadrangle[i].position.y && 0 - SCREEN_HEIGHT / 2 - 100 < quadrangle[i].position.y && quadrangle[i].flag == true) {
+				quadrangle[i].draw(screen);
+			}
+		}
 		players.Draw(screen);
-		for (int i = 0; i < 50; i++) {
+		/*for (int i = 0; i < 50; i++) {
 			ellipse[i].draw(screen);
 			triangle[i].draw(screen);
 			quadrangle[i].draw(screen);
-		}
+		}*/
 		///
 		/// ↑描画処理ここまで
 		///

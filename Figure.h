@@ -12,11 +12,12 @@ public:
 	static const int FigureMax = 50;
 	static const int Area = 500;
 	static const int RadianMin = 5;
-	static const int RadianMax = 20;
+	static const int RadianMax = 100;
 
 	Vec2 position;
 	float radian;
 	unsigned int color;
+	bool flag;
 private:
 	
 };

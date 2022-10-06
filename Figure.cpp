@@ -12,6 +12,7 @@ void llipse::set(int x,int y,int Radian) {
 	radian = Radian;
 	//êF
 	color = RED;
+	flag = true;
 }
 void llipse::draw(Screen& screen) {
 	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
@@ -38,6 +39,8 @@ void Triangle::set(int x,int y,int Radian) {
 	right_position.y = position.y - radian;
 	//êF
 	color = GREEN;
+	flag = true;
+
 }
 
 void Triangle::draw(Screen& screen) {
@@ -68,6 +71,8 @@ void Quadrangle::set(int x, int y,int Radian) {
 	bottom_right_position.y = position.y - radian;
 	//êF
 	color = BLUE;
+	flag = true;
+
 }
 void Quadrangle::draw(Screen& screen) {
 	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, color);
