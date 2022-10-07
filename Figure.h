@@ -7,10 +7,10 @@ class Figure
 public:
 
 	//Т▓Ро/////////////////////////////////////////
-	static const int FigureMax = 200;
+	static const int FigureMax = 2000;
 	static const int Area = 5000;
 	static const int RadianMin = 5;
-	static const int RadianMax = 50;
+	static const int RadianMax = 20;
 	///////////////////////////////////////////////
 
 	virtual void draw(){};
@@ -43,7 +43,7 @@ class Triangle:public Figure
 public:
 	Triangle();
 	void draw(Screen& screen);
-	void set(int x, int y, int Radian);
+	void set(int x, int y, int Radian,float theta);
 	
 
 	Vec2 top_position;

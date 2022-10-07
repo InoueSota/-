@@ -51,21 +51,38 @@ Triangle::Triangle() {
 	
 }
 
-void Triangle::set(int x,int y,int Radian) {
+void Triangle::set(int x,int y,int Radian,float theta) {
 	//座標代入
 	position.x = x;
 	position.y = y;
 	//半径
 	radian = Radian;
 	//頂点
-	top_position.x = position.x;
-	top_position.y = position.y + radian;
+	float left = 0;
+	float right = 0;
+	if (theta - M_PI/6 >= 0) {
+		left = theta + M_PI * 2 / 3 - M_PI * 2;
+	}
+	else {
+		left = theta + M_PI * 2 / 3;
+	}
+
+	if (left - M_PI * 2 / 3 >= 0) {
+		right = left + M_PI * 2 / 3 - M_PI * 2;
+	}
+	else {
+		right = left + M_PI * 2 / 3;
+	}
+	
+	//頂点
+	top_position.x = position.x + cosf(theta) * radian;
+	top_position.y = position.y + sinf(theta) * radian;
 	//左
-	left_position.x = position.x - radian;
-	left_position.y = position.y - radian;
+	left_position.x = position.x + cosf(left) * radian;
+	left_position.y = position.y + sinf(left) * radian;
 	//右
-	right_position.x = position.x + radian;
-	right_position.y = position.y - radian;
+	right_position.x = position.x + cosf(right) * radian;
+	right_position.y = position.y + sinf(right) * radian;
 	//色
 	color = GREEN;
 	flag = true;
