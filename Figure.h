@@ -58,7 +58,7 @@ class Quadrangle:public Figure
 public:
 	Quadrangle();
 	void draw(Screen& screen);
-	void set(int x, int y,int Radian);
+	void set(int x, int y,int Radian, float theta);
 	
 
 	Vec2 top_left_position;
@@ -66,6 +66,9 @@ public:
 	Vec2 bottom_left_position;
 	Vec2 bottom_right_position;
 private:
-
+	float checkroll(float Theta);
+	float top_right = 0.0f;
+	float bottom_left = 0.0f;
+	float bottom_right = 0.0f;
 };
 

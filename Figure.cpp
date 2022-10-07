@@ -60,18 +60,18 @@ void Triangle::set(int x,int y,int Radian,float theta) {
 	//頂点
 	float left = 0;
 	float right = 0;
-	if (theta - M_PI/6 >= 0) {
-		left = theta + M_PI * 2 / 3 - M_PI * 2;
+	if (theta - Degree(120) <= 0.0f) {
+		left = theta + Degree(120) - Degree(360);
 	}
 	else {
-		left = theta + M_PI * 2 / 3;
+		left = theta + Degree(120);
 	}
 
-	if (left - M_PI * 2 / 3 >= 0) {
-		right = left + M_PI * 2 / 3 - M_PI * 2;
+	if (left - Degree(120) <= 0.0f) {
+		right = left + Degree(120) - Degree(360);
 	}
 	else {
-		right = left + M_PI * 2 / 3;
+		right = left + Degree(120);
 	}
 	
 	//頂点
@@ -103,27 +103,39 @@ void Triangle::draw(Screen& screen) {
 }
 
 Quadrangle::Quadrangle() {
-	
 }
 
-void Quadrangle::set(int x, int y,int Radian) {
+float Quadrangle::checkroll(float Theta) {
+	float a = 0.0f;
+	if (Theta - Degree(90) <= 0.0f) {
+		return a = Theta - Degree(90) - Degree(360);
+	}
+	else {
+		return a = Theta - Degree(90);
+	}
+}
+void Quadrangle::set(int x, int y,int Radian,float theta) {
 	//座標代入
 	position.x = x;
 	position.y = y;
 	//半径
 	radian = Radian;
+	//角度調整
+	top_right = checkroll(theta);
+	bottom_left = checkroll(top_right);
+	bottom_right = checkroll(bottom_left);
 	//左上
-	top_left_position.x = position.x - radian;
-	top_left_position.y = position.y + radian;
+	top_left_position.x = position.x + cosf(theta) * radian;
+	top_left_position.y = position.y + sinf(theta) * radian;
 	//右上
-	top_right_position.x = position.x + radian;
-	top_right_position.y = position.y + radian;
+	top_right_position.x = position.x + cosf(top_right) * radian;
+	top_right_position.y = position.y + sinf(top_right) * radian;
 	//左下
-	bottom_left_position.x = position.x - radian;
-	bottom_left_position.y = position.y - radian;
+	bottom_left_position.x = position.x + cosf(bottom_left) * radian;
+	bottom_left_position.y = position.y + sinf(bottom_left) * radian;
 	//右下
-	bottom_right_position.x = position.x + radian;
-	bottom_right_position.y = position.y - radian;
+	bottom_right_position.x = position.x + cosf(bottom_right) * radian;
+	bottom_right_position.y = position.y + sinf(bottom_right) * radian;
 	//色
 	color = BLUE;
 	flag = true;
