@@ -38,7 +38,6 @@ void Player::SetPlayers(Player& players) {
 }
 
 
-
 /*@‰~‰^“®‚ÌŠÖ”@*/
 void CircleA::CircleProcess(Player& players) {
 	circleA.deg += (incDeg * Reverse);
