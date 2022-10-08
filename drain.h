@@ -1,7 +1,9 @@
 #pragma once
 #include <math.h>
+#include<Novice.h>
 #include "Figure.h"
 #include "main.h"
+#include "Screen.h"
 
 void Drain(float rad,float erad) {
 	rad +=200;
@@ -275,6 +277,71 @@ bool Drain_Line_topL_bottomL(float px, float py, float prad, Quadrangle& quad) {
 		}
 		else
 			if (start_to_center.Length() < prad || end_to_center.Length() < prad) {
+				return true;
+			}
+
+	}
+	else {
+		//“–‚½‚Á‚Ä‚È‚¢
+		return false;
+	}
+
+
+}
+
+///^‚ñ’†‚Ìü‚Ì“–‚½‚è”»’è/////////
+
+
+bool Drain_Line_Center_Triangle(float px, float py,float px2,float py2, Triangle& triangle) {
+	Vec2 start_to_center = Vec2(triangle.position.x- px,  triangle.position.y- py );
+	Vec2 end_to_center = Vec2(triangle.position.x-px2 , triangle.position.y - py2);
+	Vec2 start_to_end = Vec2(px2 - px, py2 - py);
+
+	Vec2 Nomalize_STE = start_to_end.Normalized();
+
+	float distance_projection = start_to_center.x * Nomalize_STE.y - Nomalize_STE.x * start_to_center.y;
+
+	if (fabs(distance_projection) < triangle.radian) {
+		//“–‚½‚Á‚Ä‚é
+		float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;
+		float dot02 = end_to_center.x * start_to_end.x + end_to_center.y * start_to_end.y;
+
+		if (dot01 * dot02 <= 0.0f) {
+			return true;
+		}
+		else
+			if (start_to_center.Length() < triangle.radian || end_to_center.Length() < triangle.radian) {
+				return true;
+			}
+
+	}
+	else {
+		//“–‚½‚Á‚Ä‚È‚¢
+		return false;
+	}
+
+
+}
+
+bool Drain_Line_Center_Circle(float px, float py, float px2, float py2, llipse& ellipse) {
+	Vec2 start_to_center = Vec2(ellipse.position.x - px, ellipse.position.y - py);
+	Vec2 end_to_center = Vec2(ellipse.position.x - px2, ellipse.position.y - py2);
+	Vec2 start_to_end = Vec2(px2 - px, py2 - py);
+
+	Vec2 Nomalize_STE = start_to_end.Normalized();
+
+	float distance_projection = start_to_center.x * Nomalize_STE.y - Nomalize_STE.x * start_to_center.y;
+
+	if (fabs(distance_projection) < ellipse.radian) {
+		//“–‚½‚Á‚Ä‚é
+		float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;
+		float dot02 = end_to_center.x * start_to_end.x + end_to_center.y * start_to_end.y;
+
+		if (dot01 * dot02 <= 0.0f) {
+			return true;
+		}
+		else
+			if (start_to_center.Length() < ellipse.radian || end_to_center.Length() < ellipse.radian) {
 				return true;
 			}
 
