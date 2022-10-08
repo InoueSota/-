@@ -77,8 +77,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//}
 
 			if (Drain_Line_Center_Circle(players.pos.x, players.pos.y, players.center.x, players.center.y, ellipse[i]) == true && ellipse[i].flag == true) {
-				players.radius += (ellipse[i].radian / 25);
-				players.Length += (ellipse[i].radian / 5);
+				players.radius += (ellipse[i].radian / 100);
+				players.Length += (ellipse[i].radian / 100);
 				//ellipse[i].flag = false;
 			}
 			
@@ -98,8 +98,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
-		Novice::ScreenPrintf(players.pos.x, players.pos.y, "player1");
-		Novice::ScreenPrintf(players.center.x, players.center.y, "player2");
+
 
 		//背景描画
 		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, BLUE, kFillModeSolid);
@@ -116,6 +115,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		players.Draw(screen);
 
+		Novice::ScreenPrintf(players.pos.x + screen.Worldcenter.x - screen.Scroll.x, players.pos.y * -1 + screen.Worldcenter.y + screen.Scroll.y, "player1");
+		Novice::ScreenPrintf(players.center.x + screen.Worldcenter.x - screen.Scroll.x, players.center.y * -1 + screen.Worldcenter.y + screen.Scroll.y, "player2");
+
 		///
 		/// ↑描画処理ここまで
 		///
@@ -123,7 +125,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// フレームの終了
 		Novice::EndFrame();
 
-		//oldTime = clock();
+		oldTime = clock();
 
 		// ESCキーが押されたらループを抜ける
 		if (preKeys[DIK_ESCAPE] == 0 && keys[DIK_ESCAPE] != 0) {
