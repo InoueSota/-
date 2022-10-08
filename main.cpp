@@ -84,7 +84,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		//背景描画
-		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
+		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x888888FF, kFillModeSolid);
 		for (int i = 0; i < Figure::FigureMax; i++) {
 			if (ellipse[i].cheakdraw(screen,ellipse[i].position,ellipse[i].flag)) {
 				ellipse[i].draw(screen);
@@ -96,7 +96,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				quadrangle[i].draw(screen);
 			}
 		}
-		players.Draw(screen);
+		players.Draw(screen, players);
 		///
 		/// ↑描画処理ここまで
 		///

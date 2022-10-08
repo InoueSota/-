@@ -35,6 +35,7 @@ void Player::Init() {
 /*　main.cppで座標をしようするために取得する関数　*/
 void Player::SetPlayers(Player& players) {
 	players.pos = player->pos;
+	players.center = player->center;
 }
 
 
@@ -49,6 +50,7 @@ void CircleA::CircleProcess(Player& players) {
 	circleB.center = circleA.pos;
 	circleA.pos = circleA.center + circleA.add * players.Length;
 	player->pos = circleA.pos;
+	player->center = circleA.center;
 }
 void CircleB::CircleProcess(Player& players) {
 	circleB.deg -= (incDeg * Reverse);
@@ -60,6 +62,7 @@ void CircleB::CircleProcess(Player& players) {
 	circleA.center = circleB.pos;
 	circleB.pos = circleB.center + circleB.add * players.Length;
 	player->pos = circleB.pos;
+	player->center = circleB.center;
 }
 
 
@@ -135,9 +138,10 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 }
 
 /*　描画関数　*/
-void Player::Draw(Screen& screen) {
+void Player::Draw(Screen& screen, Player& players) {
 	screen.DrawLine(circleA.pos.x, circleA.pos.y, circleB.pos.x, circleB.pos.y, BLACK);
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, radius, radius, 0.0f, BLACK, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, radius, radius, 0.0f, BLACK, kFillModeSolid);
-	Novice::ScreenPrintf(0, 0, "Reverse : %d", Reverse);
+	Novice::ScreenPrintf(0, 0, "players.center.x : %f", players.center.x);
+	Novice::ScreenPrintf(0, 20, "players.center.y : %f", players.center.y);
 }
