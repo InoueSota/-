@@ -39,7 +39,7 @@ public:
 	virtual void SetDegree() {};														//‰~‰^“®‚·‚é‰~‚ğ•ÏX‚·‚éÛ‚Ì“x”‚Ìİ’è‚·‚éŠÖ”
 	void SetScrollPos(Screen& screen, Player& players, char prekeys, char keys);		//ƒXƒNƒ[ƒ‹À•W‚ğİ’è‚·‚éŠÖ”
 	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d);	//ŠÖ”‚ğ‚Ü‚Æ‚ß‚éŠÖ”
-	void Draw(Screen& screen, Player& players);											//•`‰æŠÖ”
+	void Draw(Screen& screen);															//•`‰æŠÖ”
 private:
 
 };

@@ -138,10 +138,8 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 }
 
 /*Å@ï`âÊä÷êîÅ@*/
-void Player::Draw(Screen& screen, Player& players) {
+void Player::Draw(Screen& screen) {
 	screen.DrawLine(circleA.pos.x, circleA.pos.y, circleB.pos.x, circleB.pos.y, BLACK);
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, radius, radius, 0.0f, BLACK, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, radius, radius, 0.0f, BLACK, kFillModeSolid);
-	Novice::ScreenPrintf(0, 0, "players.center.x : %f", players.center.x);
-	Novice::ScreenPrintf(0, 20, "players.center.y : %f", players.center.y);
 }
