@@ -16,8 +16,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	for (int i = 0; i < Figure::FigureMax; i++) {
 		ellipse[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
-		//triangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax),Degree(RAND(0,360)));
-		//quadrangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
+		triangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax),Degree(RAND(0,360)));
+		quadrangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
 		
 	}
 
@@ -44,45 +44,54 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		for (int i = 0; i < Figure::FigureMax; i++) {		
 
-			/*if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==true && ellipse[i].flag == true) {
+			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==true && ellipse[i].flag == true) {
 
 				players.radius += (ellipse[i].radian / 25);
 				players.Length += (ellipse[i].radian / 5);
 				ellipse[i].flag = false;
 				
-			}*/
-			/*else
+			}
+			else
 			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==false && ellipse[i].flag == true) {
 
 				players.radius -= (ellipse[i].radian / 100);
 				
-			}*/
+			}
 						
-			/*if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
+			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
 				players.radius += (triangle[i].radian / 25);
 				players.Length += (triangle[i].radian / 5);
 				triangle[i].flag = false;
-			}*/
+			}
 			
-			/*if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
+			if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
 				players.radius += (quadrangle[i].radian / 25);
 				players.Length += (quadrangle[i].radian / 5);
 				quadrangle[i].flag = false;
-			}*/
-
-			//if (Drain_Line_Center_Triangle(players.pos.x, players.pos.y, players.center.x, players.center.y, triangle[i]) == true && triangle[i].flag == true) {
-			//	players.radius += (triangle[i].radian / 25);
-			//	players.Length += (triangle[i].radian / 5);
-			//	//triangle[i].flag = false;
-			//}
-
-			if (Drain_Line_Center_Circle(players.pos.x, players.pos.y, players.center.x, players.center.y, ellipse[i]) == true && ellipse[i].flag == true) {
-				players.radius += (ellipse[i].radian / 25);
-				players.Length += (ellipse[i].radian / 5);
-				//ellipse[i].flag = false;
 			}
-			
 
+			
+			
+			if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
+
+				players.radius += (ellipse[i].radian / 100);
+				players.Length += (ellipse[i].radian / 25);
+				ellipse[i].flag = false;
+			}
+
+			if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
+
+				players.radius += (triangle[i].radian / 100);
+				players.Length += (triangle[i].radian / 25);
+				triangle[i].flag = false;
+			}
+
+			if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
+
+				players.radius += (quadrangle[i].radian / 100);
+				players.Length += (quadrangle[i].radian / 25);
+				quadrangle[i].flag = false;
+			}
 
 		}
 		if (players.radius < 10) {
@@ -102,7 +111,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::ScreenPrintf(players.center.x, players.center.y, "player2");
 
 		//背景描画
-		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, BLUE, kFillModeSolid);
+		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
 		for (int i = 0; i < Figure::FigureMax; i++) {
 			if (ellipse[i].cheakdraw(screen,ellipse[i].position,ellipse[i].flag)) {
 				ellipse[i].draw(screen);
@@ -113,8 +122,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (quadrangle[i].cheakdraw(screen, quadrangle[i].position, quadrangle[i].flag)) {
 				quadrangle[i].draw(screen);
 			}
+
+		
 		}
 		players.Draw(screen);
+
 
 		///
 		/// ↑描画処理ここまで

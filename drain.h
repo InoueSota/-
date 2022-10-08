@@ -292,62 +292,86 @@ bool Drain_Line_topL_bottomL(float px, float py, float prad, Quadrangle& quad) {
 ///^‚ñ’†‚Ìü‚Ì“–‚½‚è”»’è/////////
 
 
-bool Drain_Line_Center_Triangle(float px, float py,float px2,float py2, Triangle& triangle) {
-	Vec2 start_to_center = Vec2(triangle.position.x- px,  triangle.position.y- py );
-	Vec2 end_to_center = Vec2(triangle.position.x-px2 , triangle.position.y - py2);
-	Vec2 start_to_end = Vec2(px2 - px, py2 - py);
 
-	Vec2 Nomalize_STE = start_to_end.Normalized();
 
-	float distance_projection = start_to_center.x * Nomalize_STE.y - Nomalize_STE.x * start_to_center.y;
+bool Drain_Center_Circle(Player& player, llipse& ellipse) {
 
-	if (fabs(distance_projection) < triangle.radian) {
-		//“–‚½‚Á‚Ä‚é
-		float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;
-		float dot02 = end_to_center.x * start_to_end.x + end_to_center.y * start_to_end.y;
+	//center::‰ñ‚Á‚Ä‚¢‚È‚¢
+	//pos::‰ñ‚Á‚Ä‚¢‚é
 
-		if (dot01 * dot02 <= 0.0f) {
-			return true;
-		}
-		else
-			if (start_to_center.Length() < triangle.radian || end_to_center.Length() < triangle.radian) {
-				return true;
-			}
+	Vec2 start_to_center = Vec2(ellipse.position - player.center);
+	Vec2 start_to_end = Vec2(player.pos - player.center);
+	Vec2 nomalize_stc = start_to_center.Normalized();
 
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * player.center + t * player.pos;
+
+	float distance =(ellipse.position - f).Length();
+
+	if (distance < player.radius/100 + ellipse.radian) {
+		return true;
 	}
 	else {
-		//“–‚½‚Á‚Ä‚È‚¢
 		return false;
 	}
 
 
 }
 
-bool Drain_Line_Center_Circle(float px, float py, float px2, float py2, llipse& ellipse) {
-	Vec2 start_to_center = Vec2(ellipse.position.x - px, ellipse.position.y - py);
-	Vec2 end_to_center = Vec2(ellipse.position.x - px2, ellipse.position.y - py2);
-	Vec2 start_to_end = Vec2(px2 - px, py2 - py);
+bool Drain_Center_Triangle(Player& player,Triangle&triangle) {
 
-	Vec2 Nomalize_STE = start_to_end.Normalized();
+	//center::‰ñ‚Á‚Ä‚¢‚È‚¢
+	//pos::‰ñ‚Á‚Ä‚¢‚é
 
-	float distance_projection = start_to_center.x * Nomalize_STE.y - Nomalize_STE.x * start_to_center.y;
+	Vec2 start_to_center = Vec2(triangle.position - player.center);
+	Vec2 start_to_end = Vec2(player.pos - player.center);
+	Vec2 nomalize_stc = start_to_center.Normalized();
 
-	if (fabs(distance_projection) < ellipse.radian) {
-		//“–‚½‚Á‚Ä‚é
-		float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;
-		float dot02 = end_to_center.x * start_to_end.x + end_to_center.y * start_to_end.y;
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
 
-		if (dot01 * dot02 <= 0.0f) {
-			return true;
-		}
-		else
-			if (start_to_center.Length() < ellipse.radian || end_to_center.Length() < ellipse.radian) {
-				return true;
-			}
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
 
+	Vec2 f = (1.0f - t) * player.center + t * player.pos;
+
+	float distance = (triangle.position - f).Length();
+
+	if (distance < player.radius / 100 + triangle.radian) {
+		return true;
 	}
 	else {
-		//“–‚½‚Á‚Ä‚È‚¢
+		return false;
+	}
+
+
+}
+
+bool Drain_Center_Quad(Player& player, Quadrangle& quad) {
+
+	//center::‰ñ‚Á‚Ä‚¢‚È‚¢
+	//pos::‰ñ‚Á‚Ä‚¢‚é
+
+	Vec2 start_to_center = Vec2(quad.position - player.center);
+	Vec2 start_to_end = Vec2(player.pos - player.center);
+	Vec2 nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * player.center + t * player.pos;
+
+	float distance = (quad.position - f).Length();
+
+	if (distance < player.radius / 100 + quad.radian) {
+		return true;
+	}
+	else {
 		return false;
 	}
 

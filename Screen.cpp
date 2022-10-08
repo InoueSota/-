@@ -8,7 +8,7 @@ Screen::Screen(){
 	Scroll.setZero();
 	ScreenShake.setZero();
 	Scroll_Fixed_Value_X = 250;
-
+	
 };
 
 void Screen::Scroll_update(float playerX, int map_sheets_number) {
