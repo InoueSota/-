@@ -1,13 +1,14 @@
 #pragma once
 #include "Vec2.h"
 #include "Screen.h"
+#include "Player.h"
 
 class Figure
 {
 public:
 
 	//調整/////////////////////////////////////////
-	static const int FigureMax = 2000;
+	static const int FigureMax = 500;
 	static const int Area = 5000;
 	static const int RadianMin = 5;
 	static const int RadianMax = 50;
@@ -15,9 +16,10 @@ public:
 
 	virtual void draw(){};
 	virtual void set() {};
-	bool cheakdraw(Screen screen, Vec2 Position, bool Flag);
+	virtual void respon() {};
+	bool cheakdraw(Player player, Vec2 Position, bool Flag);
 	//画面内かチェック
-	bool InScreen(Screen screen, Vec2 Position);
+	bool InScreen(Player player, Vec2 Position);
 
 	Vec2 position;
 	float radian;
@@ -33,7 +35,7 @@ public:
 	llipse();
 	void draw(Screen& screen);
 	void set(int x,int y,int Radian);
-	
+	void respon(Player player);
 private:
 
 };
@@ -44,7 +46,7 @@ public:
 	Triangle();
 	void draw(Screen& screen);
 	void set(int x, int y, int Radian,float theta);
-	
+	void respon(Player player);
 
 	Vec2 top_position;
 	Vec2 right_position;
@@ -59,7 +61,7 @@ public:
 	Quadrangle();
 	void draw(Screen& screen);
 	void set(int x, int y,int Radian, float theta);
-	
+	void respon(Player player);
 
 	Vec2 top_left_position;
 	Vec2 top_right_position;

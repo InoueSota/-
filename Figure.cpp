@@ -3,8 +3,8 @@
 #include <Novice.h>
 
 
-bool Figure::cheakdraw(Screen screen, Vec2 Position,bool Flag) {
-	if (screen.Scroll.x + SCREEN_WIDTH / 2 + 100 > Position.x && screen.Scroll.x - SCREEN_WIDTH / 2 - 100 < Position.x && screen.Scroll.y + SCREEN_HEIGHT / 2 + 100 > Position.y && screen.Scroll.y - SCREEN_HEIGHT / 2 - 100 < Position.y && Flag == true) {
+bool Figure::cheakdraw(Player player, Vec2 Position,bool Flag) {
+	if (player.center.x + SCREEN_WIDTH / 2 + 100 > Position.x && player.center.x - SCREEN_WIDTH / 2 - 100 < Position.x && player.center.y + SCREEN_HEIGHT / 2 + 100 > Position.y && player.center.y - SCREEN_HEIGHT / 2 - 100 < Position.y && Flag == true) {
 		return true;
 	}
 	else {
@@ -12,8 +12,8 @@ bool Figure::cheakdraw(Screen screen, Vec2 Position,bool Flag) {
 	}
 }
 
-bool Figure::InScreen(Screen screen, Vec2 Position) {
-	if (screen.Scroll.x + SCREEN_WIDTH / 2 + 100 > Position.x && screen.Scroll.x - SCREEN_WIDTH / 2 - 100 < Position.x && screen.Scroll.y + SCREEN_HEIGHT / 2 + 100 > Position.y && screen.Scroll.y - SCREEN_HEIGHT / 2 - 100 < Position.y) {
+bool Figure::InScreen(Player player, Vec2 Position) {
+	if (player.center.x + SCREEN_WIDTH / 2 + 100 > Position.x && player.center.x - SCREEN_WIDTH / 2 - 100 < Position.x && player.center.y + SCREEN_HEIGHT / 2 + 100 > Position.y && player.center.y - SCREEN_HEIGHT / 2 - 100 < Position.y) {
 		return true;
 	}
 	else {
@@ -42,6 +42,13 @@ void llipse::set(int x,int y,int Radian) {
 //		return false;
 //	}
 //}
+
+void llipse::respon(Player player) {
+	flag = false;
+	do {
+		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
+	} while (InScreen(player, position));
+}
 
 void llipse::draw(Screen& screen) {
 	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
@@ -87,6 +94,13 @@ void Triangle::set(int x,int y,int Radian,float theta) {
 	color = GREEN;
 	flag = true;
 
+}
+
+void Triangle::respon(Player player) {
+	flag = false;
+	do {
+		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
+	} while (InScreen(player, position));
 }
 
 //bool Triangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
@@ -140,6 +154,13 @@ void Quadrangle::set(int x, int y,int Radian,float theta) {
 	color = BLUE;
 	flag = true;
 
+}
+
+void Quadrangle::respon(Player player) {
+	flag = false;
+	do {
+		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
+	} while (InScreen(player, position));
 }
 
 //bool Quadrangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
