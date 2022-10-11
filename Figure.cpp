@@ -43,7 +43,7 @@ void llipse::set(int x,int y,int Radian) {
 //	}
 //}
 
-void llipse::draw(Screen& screen) {
+void llipse::draw(Screen& screen, Player& players) {
 	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
 }
 
@@ -98,7 +98,7 @@ void Triangle::set(int x,int y,int Radian,float theta) {
 //	}
 //}
 
-void Triangle::draw(Screen& screen) {
+void Triangle::draw(Screen& screen, Player& players) {
 	screen.DrawTriangle(top_position.x, top_position.y, left_position.x, left_position.y, right_position.x, right_position.y, color, kFillModeSolid);
 }
 
@@ -151,6 +151,6 @@ void Quadrangle::set(int x, int y,int Radian,float theta) {
 //	}
 //}
 
-void Quadrangle::draw(Screen& screen) {
+void Quadrangle::draw(Screen& screen, Player& players) {
 	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, color);
 }

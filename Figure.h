@@ -1,6 +1,7 @@
 #pragma once
 #include "Vec2.h"
 #include "Screen.h"
+#include "Player.h"
 
 class Figure
 {
@@ -31,7 +32,7 @@ class llipse:public Figure
 {
 public:
 	llipse();
-	void draw(Screen& screen);
+	void draw(Screen& screen, Player& players);
 	void set(int x,int y,int Radian);
 	
 private:
@@ -42,7 +43,7 @@ class Triangle:public Figure
 {
 public:
 	Triangle();
-	void draw(Screen& screen);
+	void draw(Screen& screen, Player& players);
 	void set(int x, int y, int Radian,float theta);
 	
 
@@ -57,7 +58,7 @@ class Quadrangle:public Figure
 {
 public:
 	Quadrangle();
-	void draw(Screen& screen);
+	void draw(Screen& screen, Player& players);
 	void set(int x, int y,int Radian, float theta);
 	
 
