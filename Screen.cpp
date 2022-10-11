@@ -40,11 +40,11 @@ void Screen::DrawBox(int x, int y, int w, int h, float angle, unsigned int color
 }
 
 void Screen::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, unsigned int color, FillMode fillMode) {
-	Novice::DrawTriangle(x1, y1, x2, y2, x3, y3, color, fillMode);
+	Novice::DrawTriangle(x1 + Worldcenter.x - Scroll.x + ScreenShake.x, y1 * -1 + Worldcenter.y + Scroll.y - ScreenShake.y, x2 + Worldcenter.x - Scroll.x + ScreenShake.x, y2 * -1 + Worldcenter.y + Scroll.y - ScreenShake.y, x3 + Worldcenter.x - Scroll.x + ScreenShake.x, y3 * -1 + Worldcenter.y + Scroll.y - ScreenShake.y, color, fillMode);
 }
 
 void Screen::DrawLine(int x1, int y1, int x2, int y2, unsigned int color) {
-	Novice::DrawLine(x1, y1, x2, y2, color);
+	Novice::DrawLine(x1 + Worldcenter.x - Scroll.x + ScreenShake.x, y1 * -1 + Worldcenter.y + Scroll.y - ScreenShake.y, x2 + Worldcenter.x - Scroll.x + ScreenShake.x, y2 * -1 + Worldcenter.y + Scroll.y - ScreenShake.y, color);
 }
 
 void Screen::DrawEllipse(int x, int y, int radiusX, int radiusY, float angle, unsigned int color, FillMode fillMode) {
