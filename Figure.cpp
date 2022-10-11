@@ -3,8 +3,8 @@
 #include <Novice.h>
 
 
-bool Figure::cheakdraw(Screen screen, Vec2 Position,bool Flag) {
-	if (screen.Scroll.x + SCREEN_WIDTH / 2 + 100 > Position.x && screen.Scroll.x - SCREEN_WIDTH / 2 - 100 < Position.x && screen.Scroll.y + SCREEN_HEIGHT / 2 + 100 > Position.y && screen.Scroll.y - SCREEN_HEIGHT / 2 - 100 < Position.y && Flag == true) {
+bool Figure::cheakdraw(Player player, Vec2 Position,bool Flag) {
+	if (player.center.x + SCREEN_WIDTH / 2 + 100 > Position.x && player.center.x - SCREEN_WIDTH / 2 - 100 < Position.x && player.center.y + SCREEN_HEIGHT / 2 + 100 > Position.y && player.center.y - SCREEN_HEIGHT / 2 - 100 < Position.y && Flag == true) {
 		return true;
 	}
 	else {
@@ -12,8 +12,8 @@ bool Figure::cheakdraw(Screen screen, Vec2 Position,bool Flag) {
 	}
 }
 
-bool Figure::InScreen(Screen screen, Vec2 Position) {
-	if (screen.Scroll.x + SCREEN_WIDTH / 2 + 100 > Position.x && screen.Scroll.x - SCREEN_WIDTH / 2 - 100 < Position.x && screen.Scroll.y + SCREEN_HEIGHT / 2 + 100 > Position.y && screen.Scroll.y - SCREEN_HEIGHT / 2 - 100 < Position.y) {
+bool Figure::InScreen(Player player, Vec2 Position) {
+	if (player.center.x + SCREEN_WIDTH / 2 + 100 > Position.x && player.center.x - SCREEN_WIDTH / 2 - 100 < Position.x && player.center.y + SCREEN_HEIGHT / 2 + 100 > Position.y && player.center.y - SCREEN_HEIGHT / 2 - 100 < Position.y) {
 		return true;
 	}
 	else {
@@ -43,7 +43,14 @@ void llipse::set(int x,int y,int Radian) {
 //	}
 //}
 
-void llipse::draw(Screen& screen, Player& players) {
+void llipse::respon(Player player) {
+	flag = false;
+	do {
+		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
+	} while (InScreen(player, position));
+}
+
+void llipse::draw(Screen& screen) {
 	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
 }
 
@@ -89,6 +96,13 @@ void Triangle::set(int x,int y,int Radian,float theta) {
 
 }
 
+void Triangle::respon(Player player) {
+	flag = false;
+	do {
+		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
+	} while (InScreen(player, position));
+}
+
 //bool Triangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
 //	if (screen.Scroll.x + width / 2 + 100 > Position.x && screen.Scroll.x - width / 2 - 100 < Position.x && screen.Scroll.y + height / 2 + 100 > Position.y && screen.Scroll.y - height / 2 - 100 < Position.y && Flag == true) {
 //		return true;
@@ -98,7 +112,7 @@ void Triangle::set(int x,int y,int Radian,float theta) {
 //	}
 //}
 
-void Triangle::draw(Screen& screen, Player& players) {
+void Triangle::draw(Screen& screen) {
 	screen.DrawTriangle(top_position.x, top_position.y, left_position.x, left_position.y, right_position.x, right_position.y, color, kFillModeSolid);
 }
 
@@ -142,6 +156,13 @@ void Quadrangle::set(int x, int y,int Radian,float theta) {
 
 }
 
+void Quadrangle::respon(Player player) {
+	flag = false;
+	do {
+		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
+	} while (InScreen(player, position));
+}
+
 //bool Quadrangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
 //	if (screen.Scroll.x + width / 2 + 100 > Position.x && screen.Scroll.x - width / 2 - 100 < Position.x && screen.Scroll.y + height / 2 + 100 > Position.y && screen.Scroll.y - height / 2 - 100 < Position.y && Flag == true) {
 //		return true;
@@ -151,6 +172,6 @@ void Quadrangle::set(int x, int y,int Radian,float theta) {
 //	}
 //}
 
-void Quadrangle::draw(Screen& screen, Player& players) {
-	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, color);
+void Quadrangle::draw(Screen& screen) {
+	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_right_position.x, bottom_right_position.y, bottom_left_position.x, bottom_left_position.y, 0.0f, 0.0f, radian, radian, 0, color);
 }
