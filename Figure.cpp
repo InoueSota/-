@@ -2,6 +2,10 @@
 #include "Function.h"
 #include <Novice.h>
 
+Figure::Figure() {
+	SRAND();
+}
+
 
 bool Figure::cheakdraw(Player player, Vec2 Position,bool Flag) {
 	if (player.center.x + SCREEN_WIDTH / 2 + 100 > Position.x && player.center.x - SCREEN_WIDTH / 2 - 100 < Position.x && player.center.y + SCREEN_HEIGHT / 2 + 100 > Position.y && player.center.y - SCREEN_HEIGHT / 2 - 100 < Position.y && Flag == true) {
@@ -24,11 +28,11 @@ bool Figure::InScreen(Player player, Vec2 Position) {
 llipse::llipse() {
 
 }
-void llipse::set(int x,int y,int Radian) {
-	position.x = x;
-	position.y = y;
+void llipse::set() {
+	position.x = RAND(-Figure::Area, Figure::Area);
+	position.y = RAND(-Figure::Area, Figure::Area);
 	//”¼Œa
-	radian = Radian;
+	radian = RAND(Figure::RadianMin, Figure::RadianMax);
 	//F
 	color = RED;
 	flag = true;
@@ -46,7 +50,7 @@ void llipse::set(int x,int y,int Radian) {
 void llipse::respon(Player player) {
 	flag = false;
 	do {
-		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
+		set();
 	} while (InScreen(player, position));
 }
 
@@ -58,13 +62,13 @@ Triangle::Triangle() {
 	
 }
 
-void Triangle::set(int x,int y,int Radian,float theta) {
-	//À•W‘ã“ü
-	position.x = x;
-	position.y = y;
+void Triangle::set() {
+	position.x = RAND(-Figure::Area, Figure::Area);
+	position.y = RAND(-Figure::Area, Figure::Area);
 	//”¼Œa
-	radian = Radian;
+	radian = RAND(Figure::RadianMin, Figure::RadianMax);
 	//’¸“_
+	float theta = (float)Degree(RAND(0, 360));
 	float left = 0;
 	float right = 0;
 	if (theta - Degree(120) <= 0.0f) {
@@ -99,7 +103,7 @@ void Triangle::set(int x,int y,int Radian,float theta) {
 void Triangle::respon(Player player) {
 	flag = false;
 	do {
-		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
+		set();
 	} while (InScreen(player, position));
 }
 
@@ -128,13 +132,13 @@ float Quadrangle::checkroll(float Theta) {
 		return a = Theta - Degree(90);
 	}
 }
-void Quadrangle::set(int x, int y,int Radian,float theta) {
-	//À•W‘ã“ü
-	position.x = x;
-	position.y = y;
+void Quadrangle::set() {
+	position.x = RAND(-Figure::Area, Figure::Area);
+	position.y = RAND(-Figure::Area, Figure::Area);
 	//”¼Œa
-	radian = Radian;
-	//Šp“x’²®
+	radian = RAND(Figure::RadianMin, Figure::RadianMax);
+	//’¸“_
+	float theta = (float)Degree(RAND(0, 360));
 	top_right = checkroll(theta);
 	bottom_left = checkroll(top_right);
 	bottom_right = checkroll(bottom_left);
@@ -159,7 +163,7 @@ void Quadrangle::set(int x, int y,int Radian,float theta) {
 void Quadrangle::respon(Player player) {
 	flag = false;
 	do {
-		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
+		set();
 	} while (InScreen(player, position));
 }
 

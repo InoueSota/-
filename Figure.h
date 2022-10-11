@@ -3,15 +3,17 @@
 #include "Screen.h"
 #include "Player.h"
 
+
 class Figure
 {
 public:
-
+	Figure();
+	float setter(Player player);
 	//Т▓Ро/////////////////////////////////////////
 	static const int FigureMax = 500;
 	static const int Area = 5000;
-	static const int RadianMin = 5;
-	static const int RadianMax = 50;
+	int RadianMin = 5;
+	int RadianMax = 50;
 	///////////////////////////////////////////////
 
 	virtual void draw(){};
@@ -33,8 +35,8 @@ class llipse:public Figure
 {
 public:
 	llipse();
-	void draw(Screen& screen, Player& players);
-	void set(int x,int y,int Radian);
+	void draw(Screen& screen);
+	void set();
 	void respon(Player player);
 private:
 
@@ -44,8 +46,8 @@ class Triangle:public Figure
 {
 public:
 	Triangle();
-	void draw(Screen& screen, Player& players);
-	void set(int x, int y, int Radian,float theta);
+	void draw(Screen& screen);
+	void set();
 	void respon(Player player);
 
 	Vec2 top_position;
@@ -59,8 +61,8 @@ class Quadrangle:public Figure
 {
 public:
 	Quadrangle();
-	void draw(Screen& screen, Player& players);
-	void set(int x, int y,int Radian, float theta);
+	void draw(Screen& screen);
+	void set();
 	void respon(Player player);
 
 	Vec2 top_left_position;
