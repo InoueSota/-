@@ -173,5 +173,5 @@ void Quadrangle::respon(Player player) {
 //}
 
 void Quadrangle::draw(Screen& screen) {
-	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, color);
+	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_right_position.x, bottom_right_position.y, bottom_left_position.x, bottom_left_position.y, 0.0f, 0.0f, radian, radian, 0, color);
 }
