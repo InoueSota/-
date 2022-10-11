@@ -124,7 +124,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		
 		}
-		players.Draw(screen);
+		players.Draw(screen, players);
 
 
 		///
