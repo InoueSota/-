@@ -12,12 +12,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	SRAND();
+	//SRAND();
 
 	for (int i = 0; i < Figure::FigureMax; i++) {
-		ellipse[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
-		triangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax),Degree(RAND(0,360)));
-		quadrangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
+		ellipse[i].set();
+		triangle[i].set();
+		quadrangle[i].set();
 		
 	}
 
@@ -98,7 +98,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			players.radius = 10;
 		}
 		
-
 		
 		///
 		/// ↑更新処理ここまで
@@ -111,7 +110,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::ScreenPrintf(players.center.x, players.center.y, "player2");
 
 		//背景描画
-		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
+		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, BLUE, kFillModeSolid);
 		for (int i = 0; i < Figure::FigureMax; i++) {
 			if (ellipse[i].cheakdraw(players,ellipse[i].position,ellipse[i].flag)) {
 				ellipse[i].draw(screen);
