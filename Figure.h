@@ -8,12 +8,11 @@ class Figure
 {
 public:
 	Figure();
-	float setter(Player player);
 	//Т▓Ро/////////////////////////////////////////
 	static const int FigureMax = 500;
 	static const int Area = 5000;
-	int RadianMin = 5;
-	int RadianMax = 50;
+	float RadianMin(Player& player);
+	float RadianMax(Player& player);
 	///////////////////////////////////////////////
 
 	virtual void draw(){};
@@ -36,7 +35,7 @@ class llipse:public Figure
 public:
 	llipse();
 	void draw(Screen& screen);
-	void set();
+	void set(Player& player);
 	void respon(Player player);
 private:
 
@@ -47,7 +46,7 @@ class Triangle:public Figure
 public:
 	Triangle();
 	void draw(Screen& screen);
-	void set();
+	void set(Player& player);
 	void respon(Player player);
 
 	Vec2 top_position;
@@ -62,7 +61,7 @@ class Quadrangle:public Figure
 public:
 	Quadrangle();
 	void draw(Screen& screen);
-	void set();
+	void set(Player& player);
 	void respon(Player player);
 
 	Vec2 top_left_position;

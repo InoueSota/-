@@ -15,9 +15,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//SRAND();
 
 	for (int i = 0; i < Figure::FigureMax; i++) {
-		ellipse[i].set();
-		triangle[i].set();
-		quadrangle[i].set();
+		ellipse[i].set(players);
+		triangle[i].set(players);
+		quadrangle[i].set(players);
 		
 	}
 
@@ -52,7 +52,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				
 			}
 			else
-			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==false && ellipse[i].flag == true) {
+			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]) == false && ellipse[i].flag == true) {
 
 				players.radius -= (ellipse[i].radian / 100);
 				

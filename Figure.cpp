@@ -6,6 +6,13 @@ Figure::Figure() {
 	SRAND();
 }
 
+float Figure::RadianMin(Player& player) {
+	return player.radius * 0.4;
+}
+
+float Figure::RadianMax(Player& player) {
+	return player.radius * 1.5;
+}
 
 bool Figure::cheakdraw(Player player, Vec2 Position,bool Flag) {
 	if (player.center.x + SCREEN_WIDTH / 2 + 100 > Position.x && player.center.x - SCREEN_WIDTH / 2 - 100 < Position.x && player.center.y + SCREEN_HEIGHT / 2 + 100 > Position.y && player.center.y - SCREEN_HEIGHT / 2 - 100 < Position.y && Flag == true) {
@@ -28,11 +35,11 @@ bool Figure::InScreen(Player player, Vec2 Position) {
 llipse::llipse() {
 
 }
-void llipse::set() {
+void llipse::set(Player& player) {
 	position.x = RAND(-Figure::Area, Figure::Area);
 	position.y = RAND(-Figure::Area, Figure::Area);
 	//”¼Œa
-	radian = RAND(Figure::RadianMin, Figure::RadianMax);
+	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	//F
 	color = RED;
 	flag = true;
@@ -50,7 +57,7 @@ void llipse::set() {
 void llipse::respon(Player player) {
 	flag = false;
 	do {
-		set();
+		set(player);
 	} while (InScreen(player, position));
 }
 
@@ -62,11 +69,11 @@ Triangle::Triangle() {
 	
 }
 
-void Triangle::set() {
+void Triangle::set(Player& player) {
 	position.x = RAND(-Figure::Area, Figure::Area);
 	position.y = RAND(-Figure::Area, Figure::Area);
 	//”¼Œa
-	radian = RAND(Figure::RadianMin, Figure::RadianMax);
+	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	//’¸“_
 	float theta = (float)Degree(RAND(0, 360));
 	float left = 0;
@@ -103,7 +110,7 @@ void Triangle::set() {
 void Triangle::respon(Player player) {
 	flag = false;
 	do {
-		set();
+		set(player);
 	} while (InScreen(player, position));
 }
 
@@ -132,11 +139,11 @@ float Quadrangle::checkroll(float Theta) {
 		return a = Theta - Degree(90);
 	}
 }
-void Quadrangle::set() {
+void Quadrangle::set(Player& player) {
 	position.x = RAND(-Figure::Area, Figure::Area);
 	position.y = RAND(-Figure::Area, Figure::Area);
 	//”¼Œa
-	radian = RAND(Figure::RadianMin, Figure::RadianMax);
+	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	//’¸“_
 	float theta = (float)Degree(RAND(0, 360));
 	top_right = checkroll(theta);
@@ -163,7 +170,7 @@ void Quadrangle::set() {
 void Quadrangle::respon(Player player) {
 	flag = false;
 	do {
-		set();
+		set(player);
 	} while (InScreen(player, position));
 }
 
