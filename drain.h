@@ -5,12 +5,7 @@
 #include "main.h"
 #include "Screen.h"
 
-void Drain(float rad,float erad) {
-	rad +=200;
-}
-void DrainMiss(float rad, float erad) {
-	rad -= (erad / 10);
-}
+
 ///プロトタイプ宣言//////////////////
 bool Drain_Line_top_left(float px, float py, float prad, Triangle& triangle);
 bool Drain_Line_right_left(float px, float py, float prad, Triangle& triangle);
@@ -88,7 +83,7 @@ bool Drain_Line_top_left(float px, float py, float prad, Triangle& triangle) {
 		if (dot01 * dot02 <= 0.0f) {
 			return true;
 		}else 
-			if (start_to_center.Length() < prad || end_to_center.Length() < prad) {
+			if (start_to_center.Length() < prad/2 || end_to_center.Length() < prad/2) {
 				return true;
 		}
 
@@ -119,7 +114,7 @@ bool Drain_Line_right_left(float px, float py, float prad, Triangle& triangle) {
 			return true;
 		}
 		else
-			if (start_to_center.Length() < prad || end_to_center.Length() < prad) {
+			if (start_to_center.Length() < prad/2 || end_to_center.Length() < prad/2) {
 				return true;
 			}
 
@@ -150,7 +145,7 @@ bool Drain_Line_top_right(float px, float py, float prad, Triangle& triangle) {
 			return true;
 		}
 		else
-			if (start_to_center.Length() < prad || end_to_center.Length() < prad) {
+			if (start_to_center.Length() < prad/2 || end_to_center.Length() < prad/2) {
 				return true;
 			}
 

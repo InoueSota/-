@@ -5,11 +5,14 @@
 #include "Figure.h"
 #include "drain.h"
 #include "Screen.h"
+#include "Map.h"
+
 
 
 
 //インスタンス化
 Screen screen;
+Map stage_1;
 Player players;
 llipse ellipse[Figure::FigureMax];
 Triangle triangle[Figure::FigureMax];
