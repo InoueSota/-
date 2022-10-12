@@ -110,6 +110,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
+		
+
+		if (preKeys[DIK_Z] == 0 && keys[DIK_Z] != 0) {
+			screen.Zoom.x = 0.7f;
+			screen.Zoom.y = 0.7f;
+		}
 
 		//背景描画
 		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0xABFFBAFF, kFillModeSolid);
