@@ -134,7 +134,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		
 		}
-		players.Draw(screen);
+		players.Draw(screen,players);
 		Novice::ScreenPrintf(0, 0,"reversal= %d", players.Reverse);
 
 		///
