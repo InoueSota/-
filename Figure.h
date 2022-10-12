@@ -10,7 +10,7 @@ public:
 	Figure();
 	//Т▓Ро/////////////////////////////////////////
 	static const int FigureMax = 500;
-	static const int Area = 5000;
+	float Area(Player& player);
 	float RadianMin(Player& player);
 	float RadianMax(Player& player);
 	///////////////////////////////////////////////

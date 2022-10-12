@@ -6,6 +6,10 @@ Figure::Figure() {
 	SRAND();
 }
 
+float Figure::Area(Player& player) {
+	return player.center.x + 5000;
+}
+
 float Figure::RadianMin(Player& player) {
 	return player.radius * 0.4;
 }
@@ -36,8 +40,10 @@ llipse::llipse() {
 
 }
 void llipse::set(Player& player) {
-	position.x = RAND(-Figure::Area, Figure::Area);
-	position.y = RAND(-Figure::Area, Figure::Area);
+	position.x = RAND(-Area(player), Area(player));
+	position.y = RAND(-Area(player), Area(player));
+	
+
 	//îºåa
 	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	//êF
@@ -70,8 +76,8 @@ Triangle::Triangle() {
 }
 
 void Triangle::set(Player& player) {
-	position.x = RAND(-Figure::Area, Figure::Area);
-	position.y = RAND(-Figure::Area, Figure::Area);
+	position.x = RAND(-Area(player), Area(player));
+	position.y = RAND(-Area(player), Area(player));
 	//îºåa
 	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	//í∏ì_
@@ -140,8 +146,8 @@ float Quadrangle::checkroll(float Theta) {
 	}
 }
 void Quadrangle::set(Player& player) {
-	position.x = RAND(-Figure::Area, Figure::Area);
-	position.y = RAND(-Figure::Area, Figure::Area);
+	position.x = RAND(-Area(player), Area(player));
+	position.y = RAND(-Area(player), Area(player));
 	//îºåa
 	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	//í∏ì_
