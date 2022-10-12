@@ -50,7 +50,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				players.radius += (ellipse[i].radian / 25);
 				players.Length += (ellipse[i].radian / 5);
-				ellipse[i].respon(players);
+				ellipse[i].respon(players, screen);
 				
 			}
 			//else
@@ -63,13 +63,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
 				players.radius += (triangle[i].radian / 25);
 				players.Length += (triangle[i].radian / 5);
-				triangle[i].respon(players);
+				triangle[i].respon(players, screen);
 			}
 			
 			if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
 				players.radius += (quadrangle[i].radian / 25);
 				players.Length += (quadrangle[i].radian / 5);
-				quadrangle[i].respon(players);
+				quadrangle[i].respon(players, screen);
 			}
 
 			
@@ -78,21 +78,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				players.radius += (ellipse[i].radian / 100);
 				players.Length += (ellipse[i].radian / 25);
-				ellipse[i].respon(players);
+				ellipse[i].respon(players, screen);
 			}
 
 			if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
 
 				players.radius += (triangle[i].radian / 100);
 				players.Length += (triangle[i].radian / 25);
-				triangle[i].respon(players);
+				triangle[i].respon(players, screen);
 			}
 
 			if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
 
 				players.radius += (quadrangle[i].radian / 100);
 				players.Length += (quadrangle[i].radian / 25);
-				quadrangle[i].respon(players);
+				quadrangle[i].respon(players,screen);
 			}
 
 		}
@@ -119,13 +119,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//背景描画
 		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
 		for (int i = 0; i < Figure::FigureMax; i++) {
-			if (ellipse[i].cheakdraw(players,ellipse[i].position,ellipse[i].flag)) {
+			if (ellipse[i].cheakdraw(players,ellipse[i].position,screen,ellipse[i].flag)) {
 				ellipse[i].draw(screen, players);
 			}
-			if (triangle[i].cheakdraw(players, triangle[i].position,triangle[i].flag)) {
+			if (triangle[i].cheakdraw(players, triangle[i].position, screen, triangle[i].flag)) {
 				triangle[i].draw(screen);
 			}
-			if (quadrangle[i].cheakdraw(players, quadrangle[i].position, quadrangle[i].flag)) {
+			if (quadrangle[i].cheakdraw(players, quadrangle[i].position, screen, quadrangle[i].flag)) {
 				quadrangle[i].draw(screen);
 			}
 

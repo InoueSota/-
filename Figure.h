@@ -9,7 +9,7 @@ class Figure
 public:
 	Figure();
 	//調整/////////////////////////////////////////
-	static const int FigureMax = 500;
+	static const int FigureMax = 250;
 	float Area(Player& player);
 	float RadianMin(Player& player);
 	float RadianMax(Player& player);
@@ -19,9 +19,9 @@ public:
 	virtual void set() {};
 	virtual void respon() {};
 	virtual bool IsInStage() { return 0; };
-	bool cheakdraw(Player player, Vec2 Position, bool Flag);
+	bool cheakdraw(Player player, Vec2 Position,Screen screen, bool Flag);
 	//画面内かチェック
-	bool InScreen(Player player, Vec2 Position);
+	bool InScreen(Player player, Vec2 Position, Screen screen);
 
 	Vec2 position;
 	float radian;
@@ -39,7 +39,7 @@ public:
 	llipse();
 	void draw(Screen& screen, Player& players);
 	void set(Player& player);
-	void respon(Player player);
+	void respon(Player player, Screen screen);
 	bool IsInStage(float stage);
 private:
 
@@ -51,7 +51,7 @@ public:
 	Triangle();
 	void draw(Screen& screen);
 	void set(Player& player);
-	void respon(Player player);
+	void respon(Player player, Screen screen);
 	bool IsInStage(float stage);
 
 	Vec2 top_position;
@@ -67,7 +67,7 @@ public:
 	Quadrangle();
 	void draw(Screen& screen);
 	void set(Player& player);
-	void respon(Player player);
+	void respon(Player player, Screen screen);
 	bool IsInStage(float stage);
 
 	Vec2 top_left_position;
