@@ -42,6 +42,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 
+		players.SetZoom(screen, players);
+
 		for (int i = 0; i < Figure::FigureMax; i++) {		
 
 			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==true && ellipse[i].flag == true) {
@@ -51,12 +53,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				ellipse[i].respon(players);
 				
 			}
-			else
-			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]) == false && ellipse[i].flag == true) {
+			//else
+			//if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]) == false && ellipse[i].flag == true) {
 
-				players.radius -= (ellipse[i].radian / 100);
-				
-			}
+			//	players.radius -= (ellipse[i].radian / 100);
+			//	
+			//}
 						
 			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
 				players.radius += (triangle[i].radian / 25);
@@ -109,11 +111,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::ScreenPrintf(players.pos.x, players.pos.y, "player1");
 		Novice::ScreenPrintf(players.center.x, players.center.y, "player2");
 
+		if (preKeys[DIK_Z] == 0 && keys[DIK_Z] != 0) {
+			screen.Zoom.x = 0.7f;
+			screen.Zoom.y = 0.7f;
+		}
+
 		//背景描画
 		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
 		for (int i = 0; i < Figure::FigureMax; i++) {
 			if (ellipse[i].cheakdraw(players,ellipse[i].position,ellipse[i].flag)) {
-				ellipse[i].draw(screen);
+				ellipse[i].draw(screen, players);
 			}
 			if (triangle[i].cheakdraw(players, triangle[i].position,triangle[i].flag)) {
 				triangle[i].draw(screen);

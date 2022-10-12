@@ -30,7 +30,6 @@ void Player::Init() {
 	tmpMovepos = { 0,0 };
 	easingt = 0.0f;
 	incT = 0.04;
-	zoom = 1.0f;
 }
 
 /*　main.cppで座標をしようするために取得する関数　*/
@@ -39,6 +38,13 @@ void Player::SetPlayers(Player& players) {
 	players.center = player->center;
 }
 
+/*　ズームの値を設定する関数　*/
+void Player::SetZoom(Screen& screen, Player& players) {
+	Vec2 tmp(1.0f, 1.0f);
+	tmp.x /= players.radius / 50;
+	tmp.y /= players.radius / 50;
+	screen.Zoom = tmp;
+}
 
 /*　円運動の関数　*/
 void CircleA::CircleProcess(Player& players) {
@@ -117,7 +123,6 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 
 /*　関数をまとめる関数　*/
 void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d) {
-	zoom -= 0.001f;
 	if (predik_d == 0 && dik_d){
 		Reverse *= -1;
 	}
@@ -139,26 +144,8 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 	player->CircleProcess(players);
 }
 
-Vec2 Player::SetZoom1(int x, int y) {
-	Vec2 tmp(x, y);
-	tmp.Normalized();
-	Vec2 tmpvec;
-	tmpvec = tmp * zoom;
-	return tmpvec;
-}
-void Player::SetZoom2(int x1, int y1, int x2, int y2, Player& players, Screen& screen) {
-
-}
-void Player::SetZoom3(int x1, int y1, int x2, int y2, int x3, int y3, Player& players, Screen& screen) {
-
-}
-void Player::SetZoom4(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, Player& players, Screen& screen) {
-
-}
-
 /*　描画関数　*/
 void Player::Draw(Screen& screen, Player& players) {
-	SetZoom2(circleA.pos.x, circleA.pos.y, circleB.pos.x, circleB.pos.y, players, screen);
 	screen.DrawLine(circleA.pos.x, circleA.pos.y, circleB.pos.x, circleB.pos.y, BLACK);
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, BLACK, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, BLACK, kFillModeSolid);

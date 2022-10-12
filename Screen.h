@@ -19,7 +19,7 @@ public:
 	Vec2 ScreenShake;
 	float Scroll_Fixed_Value_X;
 
-	
+	Vec2 Zoom;
 	
 	void Scroll_update(float playerX, int map_sheets_number);
 	

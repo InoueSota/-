@@ -61,7 +61,7 @@ void llipse::respon(Player player) {
 	} while (InScreen(player, position));
 }
 
-void llipse::draw(Screen& screen) {
+void llipse::draw(Screen& screen, Player& players) {
 	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
 }
 

@@ -34,7 +34,7 @@ class llipse:public Figure
 {
 public:
 	llipse();
-	void draw(Screen& screen);
+	void draw(Screen& screen, Player& players);
 	void set(Player& player);
 	void respon(Player player);
 private:
