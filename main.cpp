@@ -12,7 +12,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	//SRAND();
+	
 
 	for (int i = 0; i < Figure::FigureMax; i++) {
 		ellipse[i].set(players);
@@ -132,8 +132,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		
 		}
 		players.Draw(screen,players);
-
-
 		///
 		/// ↑描画処理ここまで
 		///

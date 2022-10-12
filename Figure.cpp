@@ -6,6 +6,10 @@ Figure::Figure() {
 	SRAND();
 }
 
+float Figure::Area(Player& player) {
+	return player.center.x + 5000;
+}
+
 float Figure::RadianMin(Player& player) {
 	return player.radius * 0.4;
 }
@@ -35,9 +39,22 @@ bool Figure::InScreen(Player player, Vec2 Position) {
 llipse::llipse() {
 
 }
+
+bool llipse::IsInStage(float stage) {
+	stage;//ÉXÉeÅ[ÉWÇÃîºåa
+	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + radian ) < stage) {
+		return false;
+	}
+	return true;
+}
+
 void llipse::set(Player& player) {
-	position.x = RAND(-Figure::Area, Figure::Area);
-	position.y = RAND(-Figure::Area, Figure::Area);
+	do {
+		position.x = RAND(-Area(player), Area(player));
+		position.y = RAND(-Area(player), Area(player));
+	} while (llipse::IsInStage(stage));
+	
+
 	//îºåa
 	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	//êF
@@ -69,11 +86,21 @@ Triangle::Triangle() {
 	
 }
 
+bool Triangle::IsInStage(float stage) {
+	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + sqrt(powf(radian, 2))) < stage) {
+		return false;
+	}
+	return true;
+}
+
 void Triangle::set(Player& player) {
-	position.x = RAND(-Figure::Area, Figure::Area);
-	position.y = RAND(-Figure::Area, Figure::Area);
-	//îºåa
-	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
+	do {
+		position.x = RAND(-Area(player), Area(player));
+		position.y = RAND(-Area(player), Area(player));
+		//îºåa
+		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
+	} while (Triangle::IsInStage(stage));
+
 	//í∏ì_
 	float theta = (float)Degree(RAND(0, 360));
 	float left = 0;
@@ -139,11 +166,22 @@ float Quadrangle::checkroll(float Theta) {
 		return a = Theta - Degree(90);
 	}
 }
+
+bool Quadrangle::IsInStage(float stage) {
+	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + sqrt(powf(radian,2))) < stage) {
+		return false;
+	}
+	return true;
+}
+
 void Quadrangle::set(Player& player) {
-	position.x = RAND(-Figure::Area, Figure::Area);
-	position.y = RAND(-Figure::Area, Figure::Area);
-	//îºåa
-	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
+	do {
+		position.x = RAND(-Area(player), Area(player));
+		position.y = RAND(-Area(player), Area(player));
+		//îºåa
+		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
+	} while (Quadrangle::IsInStage(stage));
+	
 	//í∏ì_
 	float theta = (float)Degree(RAND(0, 360));
 	top_right = checkroll(theta);
