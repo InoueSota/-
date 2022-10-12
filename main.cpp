@@ -12,12 +12,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	SRAND();
+	
 
 	for (int i = 0; i < Figure::FigureMax; i++) {
-		//ellipse[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
-		triangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax),Degree(RAND(0,360)));
-		//quadrangle[i].set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
+		ellipse[i].set(players);
+		triangle[i].set(players);
+		quadrangle[i].set(players);
 		
 	}
 
@@ -43,32 +43,34 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 
+		players.SetZoom(screen, players);
+
 		for (int i = 0; i < Figure::FigureMax; i++) {		
 
 			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==true && ellipse[i].flag == true) {
 
 				players.radius += (ellipse[i].radian / 25);
 				players.Length += (ellipse[i].radian / 5);
-				ellipse[i].respon(players);
+				ellipse[i].respon(players, screen);
 				
 			}
-			else
-			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==false && ellipse[i].flag == true) {
+			//else
+			//if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]) == false && ellipse[i].flag == true) {
 
-				players.radius -= (ellipse[i].radian / 100);
-				
-			}
+			//	players.radius -= (ellipse[i].radian / 100);
+			//	
+			//}
 						
 			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
 				players.radius += (triangle[i].radian / 25);
 				players.Length += (triangle[i].radian / 5);
-				triangle[i].respon(players);
+				triangle[i].respon(players, screen);
 			}
 			
 			if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
 				players.radius += (quadrangle[i].radian / 25);
 				players.Length += (quadrangle[i].radian / 5);
-				quadrangle[i].respon(players);
+				quadrangle[i].respon(players, screen);
 			}
 
 			
@@ -77,21 +79,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				players.radius += (ellipse[i].radian / 100);
 				players.Length += (ellipse[i].radian / 25);
-				ellipse[i].respon(players);
+				ellipse[i].respon(players, screen);
 			}
 
 			if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
 
 				players.radius += (triangle[i].radian / 100);
 				players.Length += (triangle[i].radian / 25);
-				triangle[i].respon(players);
+				triangle[i].respon(players, screen);
 			}
 
 			if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
 
 				players.radius += (quadrangle[i].radian / 100);
 				players.Length += (quadrangle[i].radian / 25);
-				quadrangle[i].respon(players);
+				quadrangle[i].respon(players,screen);
 			}
 
 		}
@@ -111,17 +113,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::ScreenPrintf(players.pos.x, players.pos.y, "player1");
 		Novice::ScreenPrintf(players.center.x, players.center.y, "player2");
 
+		if (preKeys[DIK_Z] == 0 && keys[DIK_Z] != 0) {
+			screen.Zoom.x = 0.7f;
+			screen.Zoom.y = 0.7f;
+		}
+
 		//背景描画
 		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, BLUE, kFillModeSolid);
 		stage_1.DrawMap(screen);
 		for (int i = 0; i < Figure::FigureMax; i++) {
-			if (ellipse[i].cheakdraw(players,ellipse[i].position,ellipse[i].flag)) {
-				ellipse[i].draw(screen);
+			if (ellipse[i].cheakdraw(players,ellipse[i].position,screen,ellipse[i].flag)) {
+				ellipse[i].draw(screen, players);
 			}
-			if (triangle[i].cheakdraw(players, triangle[i].position,triangle[i].flag)) {
+			if (triangle[i].cheakdraw(players, triangle[i].position, screen, triangle[i].flag)) {
 				triangle[i].draw(screen);
 			}
-			if (quadrangle[i].cheakdraw(players, quadrangle[i].position, quadrangle[i].flag)) {
+			if (quadrangle[i].cheakdraw(players, quadrangle[i].position, screen, quadrangle[i].flag)) {
 				quadrangle[i].draw(screen);
 			}
 

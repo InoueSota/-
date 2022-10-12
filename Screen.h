@@ -18,7 +18,8 @@ public:
 	Vec2 Scroll;
 	Vec2 ScreenShake;
 	float Scroll_Fixed_Value_X;
-	
+
+	Vec2 Zoom;
 	
 	void Scroll_update(float playerX, int map_sheets_number);
 	
@@ -201,6 +202,8 @@ public:
 	/// <param name="color">描画するスプライトの色</param>
 	/// <param name="hanten">反転をするか</param>
 	void DrawQuad2P(int x1, int y1, int quadw, int quadh, int& srcX, int srcY, int srcW, int srcH,int renban,int frame,int& framehensuu, int textureHandle, unsigned int color, bool hanten);
+
+
 };
 
 

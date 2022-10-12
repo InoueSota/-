@@ -3,6 +3,7 @@
 #include "Vec2.h"
 #include "Screen.h"
 #include "easing.h"
+#include "MATRIX.h"
 
 class Player
 {
@@ -38,8 +39,10 @@ public:
 	virtual void CircleProcess(Player& players) {};										//‰~‰^“®‚ÌŠÖ”
 	virtual void SetDegree() {};														//‰~‰^“®‚·‚é‰~‚ğ•ÏX‚·‚éÛ‚Ì“x”‚Ìİ’è‚·‚éŠÖ”
 	void SetScrollPos(Screen& screen, Player& players, char prekeys, char keys);		//ƒXƒNƒ[ƒ‹À•W‚ğİ’è‚·‚éŠÖ”
+	void SetZoom(Screen& screen, Player& players);										//ƒY[ƒ€‚Ì’l‚ğİ’è‚·‚éŠÖ”
 	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d);	//ŠÖ”‚ğ‚Ü‚Æ‚ß‚éŠÖ”
-	void Draw(Screen& screen);															//•`‰æŠÖ”
+	void Draw(Screen& screen, Player& players);											//•`‰æŠÖ”
+
 private:
 
 };

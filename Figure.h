@@ -3,28 +3,32 @@
 #include "Screen.h"
 #include "Player.h"
 
+
 class Figure
 {
 public:
-
+	Figure();
 	//調整/////////////////////////////////////////
-	static const int FigureMax = 500;
-	static const int Area = 5000;
-	static const int RadianMin = 5;
-	static const int RadianMax = 50;
+	static const int FigureMax = 250;
+	float Area(Player& player);
+	float RadianMin(Player& player);
+	float RadianMax(Player& player);
 	///////////////////////////////////////////////
 
 	virtual void draw(){};
 	virtual void set() {};
 	virtual void respon() {};
-	bool cheakdraw(Player player, Vec2 Position, bool Flag);
+	virtual bool IsInStage() { return 0; };
+	bool cheakdraw(Player player, Vec2 Position,Screen screen, bool Flag);
 	//画面内かチェック
-	bool InScreen(Player player, Vec2 Position);
+	bool InScreen(Player player, Vec2 Position, Screen screen);
 
 	Vec2 position;
 	float radian;
 	unsigned int color;
 	bool flag;
+	//消
+	float stage = 10000;
 private:
 	
 };
@@ -33,9 +37,10 @@ class llipse:public Figure
 {
 public:
 	llipse();
-	void draw(Screen& screen);
-	void set(int x,int y,int Radian);
-	void respon(Player player);
+	void draw(Screen& screen, Player& players);
+	void set(Player& player);
+	void respon(Player player, Screen screen);
+	bool IsInStage(float stage);
 private:
 
 };
@@ -45,8 +50,9 @@ class Triangle:public Figure
 public:
 	Triangle();
 	void draw(Screen& screen);
-	void set(int x, int y, int Radian,float theta);
-	void respon(Player player);
+	void set(Player& player);
+	void respon(Player player, Screen screen);
+	bool IsInStage(float stage);
 
 	Vec2 top_position;
 	Vec2 right_position;
@@ -60,8 +66,9 @@ class Quadrangle:public Figure
 public:
 	Quadrangle();
 	void draw(Screen& screen);
-	void set(int x, int y,int Radian, float theta);
-	void respon(Player player);
+	void set(Player& player);
+	void respon(Player player, Screen screen);
+	bool IsInStage(float stage);
 
 	Vec2 top_left_position;
 	Vec2 top_right_position;

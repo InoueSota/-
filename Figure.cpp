@@ -2,9 +2,24 @@
 #include "Function.h"
 #include <Novice.h>
 
+Figure::Figure() {
+	SRAND();
+}
 
-bool Figure::cheakdraw(Player player, Vec2 Position,bool Flag) {
-	if (player.center.x + SCREEN_WIDTH / 2 + 100 > Position.x && player.center.x - SCREEN_WIDTH / 2 - 100 < Position.x && player.center.y + SCREEN_HEIGHT / 2 + 100 > Position.y && player.center.y - SCREEN_HEIGHT / 2 - 100 < Position.y && Flag == true) {
+float Figure::Area(Player& player) {
+	return player.center.x + 5000;
+}
+
+float Figure::RadianMin(Player& player) {
+	return player.radius * 0.4;
+}
+
+float Figure::RadianMax(Player& player) {
+	return player.radius * 1.5;
+}
+
+bool Figure::cheakdraw(Player player, Vec2 Position, Screen screen ,bool Flag) {
+	if (player.center.x + (SCREEN_WIDTH / 2 + 100) > Position.x * screen.Zoom.x && player.center.x - (SCREEN_WIDTH / 2)  - 100 < Position.x * screen.Zoom.x && player.center.y + (SCREEN_HEIGHT / 2) + 100 > Position.y * screen.Zoom.y && player.center.y - (SCREEN_HEIGHT / 2) - 100 < Position.y * screen.Zoom.y && Flag == true) {
 		return true;
 	}
 	else {
@@ -12,8 +27,8 @@ bool Figure::cheakdraw(Player player, Vec2 Position,bool Flag) {
 	}
 }
 
-bool Figure::InScreen(Player player, Vec2 Position) {
-	if (player.center.x + SCREEN_WIDTH / 2 + 100 > Position.x && player.center.x - SCREEN_WIDTH / 2 - 100 < Position.x && player.center.y + SCREEN_HEIGHT / 2 + 100 > Position.y && player.center.y - SCREEN_HEIGHT / 2 - 100 < Position.y) {
+bool Figure::InScreen(Player player, Vec2 Position, Screen screen) {
+	if (player.center.x + SCREEN_WIDTH / 2 + 100 > Position.x * screen.Zoom.x && player.center.x - SCREEN_WIDTH / 2 - 100 < Position.x * screen.Zoom.x && player.center.y + SCREEN_HEIGHT / 2 + 100 > Position.y * screen.Zoom.y && player.center.y - SCREEN_HEIGHT / 2 - 100 < Position.y * screen.Zoom.y) {
 		return true;
 	}
 	else {
@@ -24,11 +39,24 @@ bool Figure::InScreen(Player player, Vec2 Position) {
 llipse::llipse() {
 
 }
-void llipse::set(int x,int y,int Radian) {
-	position.x = x;
-	position.y = y;
+
+bool llipse::IsInStage(float stage) {
+	stage;//ƒXƒe[ƒW‚Ì”¼Œa
+	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + radian ) < stage) {
+		return false;
+	}
+	return true;
+}
+
+void llipse::set(Player& player) {
+	do {
+		position.x = RAND(-Area(player), Area(player));
+		position.y = RAND(-Area(player), Area(player));
+	} while (llipse::IsInStage(stage));
+	
+
 	//”¼Œa
-	radian = Radian;
+	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	//F
 	color = RED;
 	flag = true;
@@ -43,14 +71,14 @@ void llipse::set(int x,int y,int Radian) {
 //	}
 //}
 
-void llipse::respon(Player player) {
+void llipse::respon(Player player, Screen screen) {
 	flag = false;
 	do {
-		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax));
-	} while (InScreen(player, position));
+		set(player);
+	} while (InScreen(player, position,screen));
 }
 
-void llipse::draw(Screen& screen) {
+void llipse::draw(Screen& screen, Player& players) {
 	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
 }
 
@@ -58,13 +86,23 @@ Triangle::Triangle() {
 	
 }
 
-void Triangle::set(int x,int y,int Radian,float theta) {
-	//À•W‘ã“ü
-	position.x = x;
-	position.y = y;
-	//”¼Œa
-	radian = Radian;
+bool Triangle::IsInStage(float stage) {
+	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + sqrt(powf(radian, 2))) < stage) {
+		return false;
+	}
+	return true;
+}
+
+void Triangle::set(Player& player) {
+	do {
+		position.x = RAND(-Area(player), Area(player));
+		position.y = RAND(-Area(player), Area(player));
+		//”¼Œa
+		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
+	} while (Triangle::IsInStage(stage));
+
 	//’¸“_
+	float theta = (float)Degree(RAND(0, 360));
 	float left = 0;
 	float right = 0;
 	if (theta - Degree(120) <= 0.0f) {
@@ -96,11 +134,11 @@ void Triangle::set(int x,int y,int Radian,float theta) {
 
 }
 
-void Triangle::respon(Player player) {
+void Triangle::respon(Player player, Screen screen) {
 	flag = false;
 	do {
-		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
-	} while (InScreen(player, position));
+		set(player);
+	} while (InScreen(player, position, screen));
 }
 
 //bool Triangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
@@ -128,13 +166,24 @@ float Quadrangle::checkroll(float Theta) {
 		return a = Theta - Degree(90);
 	}
 }
-void Quadrangle::set(int x, int y,int Radian,float theta) {
-	//À•W‘ã“ü
-	position.x = x;
-	position.y = y;
-	//”¼Œa
-	radian = Radian;
-	//Šp“x’²®
+
+bool Quadrangle::IsInStage(float stage) {
+	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + sqrt(powf(radian,2))) < stage) {
+		return false;
+	}
+	return true;
+}
+
+void Quadrangle::set(Player& player) {
+	do {
+		position.x = RAND(-Area(player), Area(player));
+		position.y = RAND(-Area(player), Area(player));
+		//”¼Œa
+		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
+	} while (Quadrangle::IsInStage(stage));
+	
+	//’¸“_
+	float theta = (float)Degree(RAND(0, 360));
 	top_right = checkroll(theta);
 	bottom_left = checkroll(top_right);
 	bottom_right = checkroll(bottom_left);
@@ -156,11 +205,11 @@ void Quadrangle::set(int x, int y,int Radian,float theta) {
 
 }
 
-void Quadrangle::respon(Player player) {
+void Quadrangle::respon(Player player,Screen screen) {
 	flag = false;
 	do {
-		set(RAND(-Figure::Area, Figure::Area), RAND(-Figure::Area, Figure::Area), RAND(Figure::RadianMin, Figure::RadianMax), Degree(RAND(0, 360)));
-	} while (InScreen(player, position));
+		set(player);
+	} while (InScreen(player, position, screen));
 }
 
 //bool Quadrangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
@@ -173,5 +222,5 @@ void Quadrangle::respon(Player player) {
 //}
 
 void Quadrangle::draw(Screen& screen) {
-	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, color);
+	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_right_position.x, bottom_right_position.y, bottom_left_position.x, bottom_left_position.y, 0.0f, 0.0f, radian, radian, 0, color);
 }

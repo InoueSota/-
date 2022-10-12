@@ -103,9 +103,11 @@
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Vec2.cpp" />
+    <ClCompile Include="Vec3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\DirectXGame\math\MathUtility.h" />
@@ -140,9 +142,11 @@
     <ClInclude Include="Function.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Vec2.h" />
+    <ClInclude Include="Vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

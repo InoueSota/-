@@ -38,6 +38,13 @@ void Player::SetPlayers(Player& players) {
 	players.center = player->center;
 }
 
+/*　ズームの値を設定する関数　*/
+void Player::SetZoom(Screen& screen, Player& players) {
+	Vec2 tmp(1.0f, 1.0f);
+	tmp.x /= players.radius / 50;
+	tmp.y /= players.radius / 50;
+	screen.Zoom = tmp;
+}
 
 /*　円運動の関数　*/
 void CircleA::CircleProcess(Player& players) {
@@ -138,8 +145,8 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 }
 
 /*　描画関数　*/
-void Player::Draw(Screen& screen) {
+void Player::Draw(Screen& screen, Player& players) {
 	screen.DrawLine(circleA.pos.x, circleA.pos.y, circleB.pos.x, circleB.pos.y, BLACK);
-	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, radius, radius, 0.0f, BLACK, kFillModeSolid);
-	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, radius, radius, 0.0f, BLACK, kFillModeSolid);
+	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, BLACK, kFillModeSolid);
+	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, BLACK, kFillModeSolid);
 }
