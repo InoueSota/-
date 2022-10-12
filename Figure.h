@@ -18,6 +18,7 @@ public:
 	virtual void draw(){};
 	virtual void set() {};
 	virtual void respon() {};
+	virtual bool IsInStage() { return 0; };
 	bool cheakdraw(Player player, Vec2 Position, bool Flag);
 	//画面内かチェック
 	bool InScreen(Player player, Vec2 Position);
@@ -26,6 +27,8 @@ public:
 	float radian;
 	unsigned int color;
 	bool flag;
+	//消
+	float stage = 10000;
 private:
 	
 };
@@ -37,6 +40,7 @@ public:
 	void draw(Screen& screen);
 	void set(Player& player);
 	void respon(Player player);
+	bool IsInStage(float stage);
 private:
 
 };
@@ -48,6 +52,7 @@ public:
 	void draw(Screen& screen);
 	void set(Player& player);
 	void respon(Player player);
+	bool IsInStage(float stage);
 
 	Vec2 top_position;
 	Vec2 right_position;
@@ -63,6 +68,7 @@ public:
 	void draw(Screen& screen);
 	void set(Player& player);
 	void respon(Player player);
+	bool IsInStage(float stage);
 
 	Vec2 top_left_position;
 	Vec2 top_right_position;
