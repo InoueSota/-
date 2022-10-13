@@ -6,7 +6,7 @@ Figure::Figure() {
 	SRAND();
 }
 
-
+///
 float Figure::Area(Player& player,Screen screen) {
 	return player.center.x + 10000 / screen.Zoom.x;
 }
@@ -16,14 +16,14 @@ float Figure::RadianMin(Player& player) {
 }
 
 float Figure::RadianMax(Player& player) {
-	return player.radius * 0.9;
+	return player.radius * 1.5;
 }
 
 bool Figure::cheakdraw(Player player, Vec2 Position, Screen screen ,bool Flag) {
 	Vec2 tmp(Position.x - screen.Scroll.x, Position.y - screen.Scroll.y);
 	Position.x = tmp.x * screen.Zoom.x + player.center.x + screen.ScreenShake.x;
 	Position.y = tmp.y * screen.Zoom.y * -1 + player.center.y - screen.ScreenShake.y;
-	if (player.center.x + (SCREEN_WIDTH / 2 ) + 100 > Position.x /** screen.Zoom.x*/ && player.center.x - (SCREEN_WIDTH / 2)  - 100 < Position.x /** screen.Zoom.x */&& player.center.y + (SCREEN_HEIGHT / 2) + 100 > Position.y /** screen.Zoom.y*/ && player.center.y - (SCREEN_HEIGHT / 2) - 100 < Position.y /** screen.Zoom.y*/ && Flag == true && player.radius / 5 < radian) {
+	if (player.center.x + (SCREEN_WIDTH / 2 ) + 100 > Position.x /** screen.Zoom.x*/ && player.center.x - (SCREEN_WIDTH / 2)  - 100 < Position.x /** screen.Zoom.x */&& player.center.y + (SCREEN_HEIGHT / 2) + 100 > Position.y /** screen.Zoom.y*/ && player.center.y - (SCREEN_HEIGHT / 2) - 100 < Position.y /** screen.Zoom.y*/ && Flag == true && player.radius / 7 < radian) {
 		return true;
 	}
 	else {
