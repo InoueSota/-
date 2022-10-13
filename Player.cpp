@@ -28,7 +28,7 @@ void Player::Init() {
 	tmpCenpos = { 0,0 };
 	tmpMovepos = { 0,0 };
 	easingt = 0.0f;
-	incT = 0.04;
+	incT = 0.1;
 }
 
 /*　main.cppで座標をしようするために取得する関数　*/
@@ -141,6 +141,9 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 
 /*　描画関数　*/
 void Player::Draw(Screen& screen, Player& players) {
+	//Vec2 tmp(circleA.pos.x - circleB.pos.x, circleA.pos.y - circleB.pos.y);
+	//Vec2 
+
 	screen.DrawLine(circleA.pos.x, circleA.pos.y, circleB.pos.x, circleB.pos.y, BLACK);
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, BLACK, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, BLACK, kFillModeSolid);

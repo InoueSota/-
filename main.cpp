@@ -89,11 +89,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				players.Length += (quadrangle[i].radian / 25);
 				quadrangle[i].flag = false;
 			}
-			if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
+			//if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
 
-				players.radius -= (ellipse[i].radian / 100);
-				players.Length -= (ellipse[i].radian / 100);
-			}*/
+			//	players.radius -= (ellipse[i].radian / 100);
+			//	players.Length -= (ellipse[i].radian / 100);
+			//}
 
 		}
 		if (players.radius < 10) {
