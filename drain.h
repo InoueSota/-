@@ -28,13 +28,8 @@ bool Drain_Circle(float px, float py, float prad, llipse& ellipse) {
 		if (prad >= ellipse.radian) {
 			return true;
 		}
-		if (prad <= ellipse.radian) {
-			return false;
-
-		}
 	}
-	
-	
+	return false;
 }
 ///‰~‚ÆOŠpŒ`‚Ì“–‚½‚è”»’è/////////////////
 
@@ -43,11 +38,8 @@ bool Drain_Triangle(float px, float py, float prad, Triangle& triangle) {
 		if (prad >= triangle.radian) {
 			return true;
 		}
-		else
-			if (prad < triangle.radian) {
-				return false;
-			}
 	}
+	return false;
 }
 
 bool Drain_Quadrangl(float px, float py, float prad, Quadrangle& quad) {
@@ -55,11 +47,9 @@ bool Drain_Quadrangl(float px, float py, float prad, Quadrangle& quad) {
 
 		if (prad >= quad.radian) {
 			return true;
-		}else
-			if (prad < quad.radian) {
-				return false;
-			}
+		}
 	}
+	return false;
 }
 
 
@@ -88,11 +78,8 @@ bool Drain_Line_top_left(float px, float py, float prad, Triangle& triangle) {
 		}
 
 	}
-	else {
-		//“–‚½‚Á‚Ä‚È‚¢
-		return false;
-	}
-
+	//“–‚½‚Á‚Ä‚È‚¢
+	return false;
 
 }
 bool Drain_Line_right_left(float px, float py, float prad, Triangle& triangle) {
@@ -119,11 +106,8 @@ bool Drain_Line_right_left(float px, float py, float prad, Triangle& triangle) {
 			}
 
 	}
-	else {
-		//“–‚½‚Á‚Ä‚È‚¢
-		return false;
-	}
-
+	//“–‚½‚Á‚Ä‚È‚¢
+	return false;
 
 }
 
@@ -150,11 +134,8 @@ bool Drain_Line_top_right(float px, float py, float prad, Triangle& triangle) {
 			}
 
 	}
-	else {
-		//“–‚½‚Á‚Ä‚È‚¢
-		return false;
-	}
-
+	//“–‚½‚Á‚Ä‚È‚¢
+	return false;
 
 }
 ///‚±‚±‚©‚çlŠpŒ`ˆ—///////////////
@@ -183,11 +164,8 @@ bool Drain_Line_topR_topL(float px, float py, float prad,Quadrangle& quad) {
 			}
 
 	}
-	else {
-		//“–‚½‚Á‚Ä‚È‚¢
-		return false;
-	}
-
+	//“–‚½‚Á‚Ä‚È‚¢
+	return false;
 
 }
 bool Drain_Line_bottomR_bottomL(float px, float py, float prad, Quadrangle& quad) {
@@ -214,10 +192,8 @@ bool Drain_Line_bottomR_bottomL(float px, float py, float prad, Quadrangle& quad
 			}
 
 	}
-	else {
-		//“–‚½‚Á‚Ä‚È‚¢
-		return false;
-	}
+	//“–‚½‚Á‚Ä‚È‚¢
+	return false;
 
 
 }
@@ -245,10 +221,8 @@ bool Drain_Line_topR_bottomR(float px, float py, float prad, Quadrangle& quad) {
 			}
 
 	}
-	else {
-		//“–‚½‚Á‚Ä‚È‚¢
-		return false;
-	}
+	//“–‚½‚Á‚Ä‚È‚¢
+	return false;
 
 
 }
@@ -276,11 +250,8 @@ bool Drain_Line_topL_bottomL(float px, float py, float prad, Quadrangle& quad) {
 			}
 
 	}
-	else {
-		//“–‚½‚Á‚Ä‚È‚¢
-		return false;
-	}
-
+	//“–‚½‚Á‚Ä‚È‚¢
+	return false;
 
 }
 
@@ -310,10 +281,7 @@ bool Drain_Center_Circle(Player& player, llipse& ellipse) {
 	if (distance < player.radius/100 + ellipse.radian) {
 		return true;
 	}
-	else {
-		return false;
-	}
-
+	return false;
 
 }
 
@@ -338,10 +306,7 @@ bool Drain_Center_Triangle(Player& player,Triangle&triangle) {
 	if (distance < player.radius / 100 + triangle.radian) {
 		return true;
 	}
-	else {
-		return false;
-	}
-
+	return false;
 
 }
 
@@ -366,9 +331,6 @@ bool Drain_Center_Quad(Player& player, Quadrangle& quad) {
 	if (distance < player.radius / 100 + quad.radian) {
 		return true;
 	}
-	else {
-		return false;
-	}
-
+	return false;
 
 }
