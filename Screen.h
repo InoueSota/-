@@ -2,6 +2,7 @@
 #include <Novice.h>
 #include <Vec2.h>
 #include "Function.h"
+#include "Quad.h"
 
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1080;
@@ -127,7 +128,7 @@ public:
 	/// <param name="srcH">画像上の描画したい範囲縦幅</param>
 	/// <param name="textureHandle">テクスチャのハンドル</param>
 	/// <param name="color">描画するスプライトの色</param>
-	void DrawQuad2(int x1, int y1, int quadw, int quadh, int srcX, int srcY, int srcW, int srcH, int textureHandle, unsigned int color);
+	void DrawQuad2(Quad& quad, int srcX, int srcY, int srcW, int srcH, int textureHandle, unsigned int color);
 	/// <summary>
 	/// 
 	/// </summary>
