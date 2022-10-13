@@ -6,6 +6,7 @@ Figure::Figure() {
 	SRAND();
 }
 
+
 float Figure::Area(Player& player) {
 	return player.center.x + 5000;
 }
