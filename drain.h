@@ -16,18 +16,18 @@ bool Drain_Line_bottomR_bottomL(float px, float py, float prad, Quadrangle& quad
 bool Drain_Line_topR_bottomR(float px, float py, float prad, Quadrangle& quad);
 bool Drain_Line_topL_bottomL(float px, float py, float prad, Quadrangle& quad);
 
-bool IsHit_Drain(float px, float py, float prad, llipse& ellipse, Triangle& triangle, Quadrangle& quad);
+bool IsHit_Drain(float px, float py, float prad, llipse& ellipse, Triangle& triangle, Quadrangle& quad, float zoom);
 ///プロトタイプ宣言ここまで//////////////////
 ///円と円の当たり判定/////////////////
 
-bool Drain_Circle(float px, float py, float prad, llipse& ellipse) {
+bool Drain_Circle(float px, float py, float prad, llipse& ellipse, float zoom) {
 
 	float a = px - ellipse.position.x;
 	float b = py - ellipse.position.y;
 	float c = sqrtf(a * a + b * b);
 
-	if (c <= (prad + ellipse.radian)) {
-		if (prad >= ellipse.radian) {
+	if (c <= (prad * zoom + ellipse.radian * zoom)) {
+		if (prad * zoom >= ellipse.radian * zoom) {
 			return true;
 		}
 	}
@@ -338,18 +338,18 @@ bool Drain_Center_Quad(Player& player, Quadrangle& quad) {
 }
 
 ///そもそも当たっているのか/////////////////
-bool IsHit_Drain(float px, float py, float prad, llipse& ellipse, Triangle& triangle, Quadrangle& quad) {
+bool IsHit_Drain(float px, float py, float prad, llipse& ellipse, Triangle& triangle, Quadrangle& quad, float zoom) {
 	float a = px - ellipse.position.x;
 	float b = py - ellipse.position.y;
 	float c = sqrtf(a * a + b * b);
 
-	if (c <= (prad + ellipse.radian)) {
+	if (c <= (prad * zoom + ellipse.radian * zoom)) {
 		return true;
 	}
-	else if (Drain_Line_top_left(px, py, prad, triangle) == true || Drain_Line_top_right(px, py, prad, triangle) == true || Drain_Line_right_left(px, py, prad, triangle) == true) {
+	if (Drain_Line_top_left(px, py, prad, triangle) == true || Drain_Line_top_right(px, py, prad, triangle) == true || Drain_Line_right_left(px, py, prad, triangle) == true) {
 		return true;
 	}
-	else if (Drain_Line_topR_topL(px, py, prad, quad) == true || Drain_Line_bottomR_bottomL(px, py, prad, quad) == true || Drain_Line_topR_bottomR(px, py, prad, quad) == true || Drain_Line_topL_bottomL(px, py, prad, quad) == true) {
+	if (Drain_Line_topR_topL(px, py, prad, quad) == true || Drain_Line_bottomR_bottomL(px, py, prad, quad) == true || Drain_Line_topR_bottomR(px, py, prad, quad) == true || Drain_Line_topL_bottomL(px, py, prad, quad) == true) {
 		return true;
 	}
 	return false;
