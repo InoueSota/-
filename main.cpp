@@ -91,8 +91,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
 
-					players.radius -= (ellipse[i].radian / 100);
-
+				players.radius -= (ellipse[i].radian / 100);
+				players.Length -= (ellipse[i].radian / 100);
 			}
 
 		}
