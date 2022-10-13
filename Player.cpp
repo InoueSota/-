@@ -28,13 +28,14 @@ void Player::Init() {
 	tmpCenpos = { 0,0 };
 	tmpMovepos = { 0,0 };
 	easingt = 0.0f;
-	incT = 0.1;
+	incT = 0.05;
 }
 
 /*　main.cppで座標をしようするために取得する関数　*/
 void Player::SetPlayers(Player& players) {
 	players.pos = player->pos;
 	players.center = player->center;
+	players.deg = player->deg;
 }
 
 /*　ズームの値を設定する関数　*/
@@ -47,7 +48,7 @@ void Player::SetZoom(Screen& screen, Player& players) {
 
 /*　円運動の関数　*/
 void CircleA::CircleProcess(Player& players) {
-	incDeg = 5 * players.Reverse;
+	incDeg = 1 * players.Reverse;
 	circleA.deg += incDeg;
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
@@ -55,9 +56,10 @@ void CircleA::CircleProcess(Player& players) {
 	circleB.center = circleA.pos;
 	player->pos = circleA.pos;
 	player->center = circleA.center;
+	player->deg = circleA.deg;
 }
 void CircleB::CircleProcess(Player& players) {
-	incDeg = 5 * players.Reverse;
+	incDeg = 1 * players.Reverse;
 	circleB.deg -= incDeg;
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
@@ -65,6 +67,7 @@ void CircleB::CircleProcess(Player& players) {
 	circleA.center = circleB.pos;
 	player->pos = circleB.pos;
 	player->center = circleB.center;
+	player->deg = circleB.deg;
 }
 
 
@@ -141,10 +144,25 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 
 /*　描画関数　*/
 void Player::Draw(Screen& screen, Player& players) {
-	//Vec2 tmp(circleA.pos.x - circleB.pos.x, circleA.pos.y - circleB.pos.y);
-	//Vec2 
+	Quad op{
+		{ 0, -players.radius},
+		{ static_cast<float>(players.Length), -players.radius},
+		{ 0,  players.radius},
+		{ static_cast<float>(players.Length), players.radius}
+	};	
+	Quad tmp;
+	Matrix33 mat;
+	mat = Matrix33::Identity();
+	mat = Matrix33::MakeScaling(screen.Zoom);
+	mat = Matrix33::MakeRotation(Degree(players.deg));
+	mat *= Matrix33::MakeTranslation(players.center);
+	tmp.LeftTop = op.LeftTop * mat;
+	tmp.RightTop = op.RightTop * mat;
+	tmp.LeftBottom = op.LeftBottom * mat;
+	tmp.RightBottom = op.RightBottom * mat;
 
 	screen.DrawLine(circleA.pos.x, circleA.pos.y, circleB.pos.x, circleB.pos.y, BLACK);
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, BLACK, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, BLACK, kFillModeSolid);
+	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, BLACK);
 }

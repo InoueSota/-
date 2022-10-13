@@ -36,10 +36,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 		////セット
+		
 		stage_1.Set_Map(0, 0, 10000,RED);
-		players.SetPlayers(players);
 
 		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
+
+		players.SetPlayers(players);
 
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 
