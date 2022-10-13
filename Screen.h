@@ -37,7 +37,7 @@ public:
 	/// <param name="angle">描画する四角形の回転角</param>
 	/// <param name="color">描画する四角形の色</param>
 	/// <param name="fillMode">塗りつぶしモード</param>
-	void DrawBox(int x, int y, int w, int h, float angle, unsigned int color, FillMode fillMode);
+	void DrawBox(float x, float y, float w, float h, float angle, unsigned int color, FillMode fillMode);
 	/// <summary>
 	/// 三角形を描画する
 	/// </summary>
@@ -49,7 +49,7 @@ public:
 	/// <param name="y3">描画する三角形の頂点3 Y</param>
 	/// <param name="color">描画する三角形の色</param>
 	/// <param name="fillMode">塗りつぶしモード</param>
-	void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, unsigned int color, FillMode fillMode);
+	void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, unsigned int color, FillMode fillMode);
 	/// <summary>
 	/// 線を描画する
 	/// </summary>
@@ -58,7 +58,7 @@ public:
 	/// <param name="x2">描画する線の終点座標 X</param>
 	/// <param name="y2">描画する線の終点座標 Y</param>
 	/// <param name="color">描画する三角形の色</param>
-	void DrawLine(int x1, int y1, int x2, int y2, unsigned int color);
+	void DrawLine(float x1, float y1, float x2, float y2, unsigned int color);
 	/// <summary>
 	/// 楕円を描画する
 	/// </summary>
@@ -68,7 +68,7 @@ public:
 	/// <param name="radiusY">楕円の半径 Y</param>
 	/// <param name="angle">楕円の回転角(rad)</param>
 	/// <param name="color">楕円の色</param>
-	void DrawEllipse(int x, int y, int radiusX, int radiusY, float angle, unsigned int color, FillMode fillMode);
+	void DrawEllipse(float x, float y, float radiusX, float radiusY, float angle, unsigned int color, FillMode fillMode);
 	/// <summary>
 	/// スプライトを描画する
 	/// </summary>
@@ -79,7 +79,7 @@ public:
 	/// <param name="scale">描画するスプライトの倍率 Y</param>
 	/// <param name="angle">描画するスプライトの回転角</param>
 	/// <param name="color">描画するスプライトの色</param>
-	void DrawSprite(int x, int y, int textureHandle, float scaleX, float scaleY, float angle, unsigned int color);
+	void DrawSprite(int x, int y, int textureHandle, int scaleX, int scaleY, int angle, unsigned int color);
 	/// <summary>
 	/// スプライトの指定矩形部分のみを描画を描画する
 	/// </summary>
@@ -94,7 +94,7 @@ public:
 	/// <param name="scale">描画するスプライトの倍率 Y</param>
 	/// <param name="angle">描画するスプライトの回転角</param>
 	/// <param name="color">描画するスプライトの色</param>
-	void DrawSpriteRect(int destX, int destY, int srcX, int srcY, int srcW, int srcH, int textureHandle, float scaleX,float scaleY, float angle, unsigned int color);
+	void DrawSpriteRect(int destX, int destY, int srcX, int srcY, int srcW, int srcH, int textureHandle, int scaleX,int scaleY, int angle, unsigned int color);
 	/// <summary>
 	/// 四角形描画
 	/// </summary>
@@ -112,7 +112,7 @@ public:
 	/// <param name="srcH">画像上の描画したい範囲縦幅</param>
 	/// <param name="textureHandle">テクスチャのハンドル</param>
 	/// <param name="color">描画するスプライトの色</param>
-	void DrawQuad(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int srcX, int srcY, int srcW,int srcH, int textureHandle, unsigned int color);
+	void DrawQuad(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float srcX, float srcY, float srcW,float srcH, float textureHandle, unsigned int color);
 	/// <summary>
 	/// 
 	/// </summary>
