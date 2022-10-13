@@ -18,6 +18,7 @@ public:
 	Vec2 Scroll;
 	Vec2 ScreenShake;
 	float Scroll_Fixed_Value_X;
+	bool Ishit;
 
 	Vec2 Zoom;
 	

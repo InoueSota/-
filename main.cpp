@@ -36,72 +36,87 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 		////セット
-		stage_1.Set_Map(0, 0, 10000,RED);
-		players.SetPlayers(players);
-
-		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
-
-		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-
-		players.SetZoom(screen, players);
-
-		for (int i = 0; i < Figure::FigureMax; i++) {		
-
-			if (Drain_Circle(players.pos.x, players.pos.y, players.radius*screen.Zoom.x, ellipse[i])==true && ellipse[i].flag == true) {
-
-				players.radius += (ellipse[i].radian / 25);
-				players.Length += (ellipse[i].radian / 5);
-				ellipse[i].respon(players, screen);
-				
+		if (screen.Ishit == true) {
+			if (keys[DIK_O]) {
+				screen.Ishit = false;
 			}
-						
-			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
-				players.radius += (triangle[i].radian / 25);
-				players.Length += (triangle[i].radian / 5);
-				triangle[i].respon(players, screen);
-			}
-			
-			if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
-				players.radius += (quadrangle[i].radian / 25);
-				players.Length += (quadrangle[i].radian / 5);
-				quadrangle[i].respon(players, screen);
-			}
-
-			
-			
-			if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
-
-				players.radius += (ellipse[i].radian / 100);
-				players.Length += (ellipse[i].radian / 25);
-				ellipse[i].respon(players, screen);
-			}
-
-			if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
-
-				players.radius += (triangle[i].radian / 100);
-				players.Length += (triangle[i].radian / 25);
-				triangle[i].respon(players, screen);
-			}
-
-			if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
-
-				players.radius += (quadrangle[i].radian / 100);
-				players.Length += (quadrangle[i].radian / 25);
-				quadrangle[i].respon(players,screen);
-			}
-			if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
-
-				players.radius -= (ellipse[i].radian / 100);
-				players.Length -= (ellipse[i].radian / 100);
-			}
-
 		}
-		if (players.radius < 10) {
-			players.radius = 10;
+
+
+		if (screen.Ishit == false) {
+			if (keys[DIK_P]) {
+				screen.Ishit = true;
+			}
+
+			stage_1.Set_Map(0, 0, 10000, RED);
+			players.SetPlayers(players);
+
+			players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
+
+			players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
+
+			players.SetZoom(screen, players);
+			if (keys[DIK_T]) {
+				players.radius+=1;
+			}
+
+			/*for (int i = 0; i < Figure::FigureMax; i++) {
+
+				if (Drain_Circle(players.pos.x, players.pos.y, players.radius * screen.Zoom.x, ellipse[i]) == true && ellipse[i].flag == true) {
+
+					players.radius += (ellipse[i].radian / 25);
+					players.Length += (ellipse[i].radian / 5);
+					ellipse[i].respon(players, screen);
+
+				}
+
+				if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
+					players.radius += (triangle[i].radian / 25);
+					players.Length += (triangle[i].radian / 5);
+					triangle[i].respon(players, screen);
+				}
+
+				if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
+					players.radius += (quadrangle[i].radian / 25);
+					players.Length += (quadrangle[i].radian / 5);
+					quadrangle[i].respon(players, screen);
+				}
+
+
+
+				if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
+
+					players.radius += (ellipse[i].radian / 100);
+					players.Length += (ellipse[i].radian / 25);
+					ellipse[i].respon(players, screen);
+				}
+
+				if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
+
+					players.radius += (triangle[i].radian / 100);
+					players.Length += (triangle[i].radian / 25);
+					triangle[i].respon(players, screen);
+				}
+
+				if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
+
+					players.radius += (quadrangle[i].radian / 100);
+					players.Length += (quadrangle[i].radian / 25);
+					quadrangle[i].respon(players, screen);
+				}
+				if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
+
+					players.radius -= (ellipse[i].radian / 100);
+					players.Length -= (ellipse[i].radian / 100);
+				}
+
+			}*/
+			if (players.radius < 10) {
+				players.radius = 10;
+			}
+
+			stage_1.Map_Collision(players);
 		}
-		
-		stage_1.Map_Collision(players);
-		
 		///
 		/// ↑更新処理ここまで
 		///
