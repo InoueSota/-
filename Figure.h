@@ -27,6 +27,7 @@ public:
 	float radian;
 	unsigned int color;
 	bool flag;
+	int cooltime;
 	//Á
 	float stage = 10000;
 private:

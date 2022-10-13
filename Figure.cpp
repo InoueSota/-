@@ -16,7 +16,7 @@ float Figure::RadianMin(Player& player) {
 }
 
 float Figure::RadianMax(Player& player) {
-	return player.radius * 1.5;
+	return player.radius * 0.9;
 }
 
 bool Figure::cheakdraw(Player player, Vec2 Position, Screen screen ,bool Flag) {
@@ -80,6 +80,7 @@ void llipse::set(Player& player) {
 
 void llipse::respon(Player player, Screen screen) {
 	flag = false;
+	cooltime = 0;
 	do {
 		set(player);
 	} while (InScreen(player, position,screen));

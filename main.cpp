@@ -51,20 +51,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				players.radius += (ellipse[i].radian / 25);
 				players.Length += (ellipse[i].radian / 5);
-				ellipse[i].respon(players, screen);
+				ellipse[i].flag = false;
 				
 			}
 						
 			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
 				players.radius += (triangle[i].radian / 25);
 				players.Length += (triangle[i].radian / 5);
-				triangle[i].respon(players, screen);
+				triangle[i].flag = false;
 			}
 			
 			if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
 				players.radius += (quadrangle[i].radian / 25);
 				players.Length += (quadrangle[i].radian / 5);
-				quadrangle[i].respon(players, screen);
+				quadrangle[i].flag = false;
 			}
 
 			
@@ -73,21 +73,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				players.radius += (ellipse[i].radian / 100);
 				players.Length += (ellipse[i].radian / 25);
-				ellipse[i].respon(players, screen);
+				ellipse[i].flag = false;
 			}
 
 			if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
 
 				players.radius += (triangle[i].radian / 100);
 				players.Length += (triangle[i].radian / 25);
-				triangle[i].respon(players, screen);
+				triangle[i].flag = false;
 			}
 
 			if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
 
 				players.radius += (quadrangle[i].radian / 100);
 				players.Length += (quadrangle[i].radian / 25);
-				quadrangle[i].respon(players,screen);
+				quadrangle[i].flag = false;
 			}
 			if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
 
@@ -101,6 +101,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		
 		stage_1.Map_Collision(players);
+		for (int i = 0; i < Figure::FigureMax; i++) {
+			ellipse[i].cooltime++;
+			triangle[i].cooltime++;
+			quadrangle[i].cooltime++;
+
+			if (ellipse[i].cooltime % 20 == 0 && ellipse[i].flag==false) {
+					ellipse[i].respon(players, screen);
+			}
+			if (triangle[i].cooltime % 20 == 0 && triangle[i].flag == false) {
+				triangle[i].respon(players, screen);
+			}
+			if (quadrangle[i].cooltime % 20 == 0 && quadrangle[i].flag == false) {
+				quadrangle[i].respon(players, screen);
+			}
+		}
 		
 		///
 		/// ↑更新処理ここまで
