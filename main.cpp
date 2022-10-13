@@ -60,9 +60,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				players.radius+=1;
 			}
 
-			/*for (int i = 0; i < Figure::FigureMax; i++) {
+			for (int i = 0; i < Figure::FigureMax; i++) {
 
-				if (Drain_Circle(players.pos.x, players.pos.y, players.radius * screen.Zoom.x, ellipse[i]) == true && ellipse[i].flag == true) {
+				/*if (Drain_Circle(players.pos.x, players.pos.y, players.radius * screen.Zoom.x, ellipse[i]) == true && ellipse[i].flag == true) {
 
 					players.radius += (ellipse[i].radian / 25);
 					players.Length += (ellipse[i].radian / 5);
@@ -80,53 +80,53 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					players.radius += (quadrangle[i].radian / 25);
 					players.Length += (quadrangle[i].radian / 5);
 					quadrangle[i].respon(players, screen);
-				}
-				players.radius += (ellipse[i].radian / 25);
+				}*/
+				/*players.radius += (ellipse[i].radian / 25);
 				players.Length += (ellipse[i].radian / 5);
-				ellipse[i].flag = false;
-				
-			}
-						
-			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
-				players.radius += (triangle[i].radian / 25);
-				players.Length += (triangle[i].radian / 5);
-				triangle[i].flag = false;
-			}
-			
-			if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
-				players.radius += (quadrangle[i].radian / 25);
-				players.Length += (quadrangle[i].radian / 5);
-				quadrangle[i].flag = false;
-			}
+				ellipse[i].flag = false;*/
+
+
+
+				/*if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
+					players.radius += (triangle[i].radian / 25);
+					players.Length += (triangle[i].radian / 5);
+					triangle[i].flag = false;
+				}
+
+				if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
+					players.radius += (quadrangle[i].radian / 25);
+					players.Length += (quadrangle[i].radian / 5);
+					quadrangle[i].flag = false;
+				}*/
 
 
 
 				if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
 
-				players.radius += (ellipse[i].radian / 100);
-				players.Length += (ellipse[i].radian / 25);
-				ellipse[i].flag = false;
-			}
+					players.radius += (ellipse[i].radian / 100);
+					players.Length += (ellipse[i].radian / 25);
+					ellipse[i].flag = false;
+				}
 
 				if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
 
-				players.radius += (triangle[i].radian / 100);
-				players.Length += (triangle[i].radian / 25);
-				triangle[i].flag = false;
-			}
+					players.radius += (triangle[i].radian / 100);
+					players.Length += (triangle[i].radian / 25);
+					triangle[i].flag = false;
+				}
 
 				if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
 
-				players.radius += (quadrangle[i].radian / 100);
-				players.Length += (quadrangle[i].radian / 25);
-				quadrangle[i].flag = false;
+					players.radius += (quadrangle[i].radian / 100);
+					players.Length += (quadrangle[i].radian / 25);
+					quadrangle[i].flag = false;
+				}
+				/*if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
+
+					players.radius -= (ellipse[i].radian / 100);
+					players.Length -= (ellipse[i].radian / 100);
+				}*/
 			}
-			/*if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
-
-				players.radius -= (ellipse[i].radian / 100);
-				players.Length -= (ellipse[i].radian / 100);
-			}*/
-
 		}
 		if (players.radius < 10) {
 			players.radius = 10;
