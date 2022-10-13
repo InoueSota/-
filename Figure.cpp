@@ -1,6 +1,5 @@
 #include "Figure.h"
-#include "Function.h"
-#include <Novice.h>
+
 
 Figure::Figure() {
 	SRAND();
@@ -23,7 +22,7 @@ bool Figure::cheakdraw(Player player, Vec2 Position, Screen screen ,bool Flag) {
 	Vec2 tmp(Position.x - screen.Scroll.x, Position.y - screen.Scroll.y);
 	Position.x = tmp.x * screen.Zoom.x + player.center.x + screen.ScreenShake.x;
 	Position.y = tmp.y * screen.Zoom.y * -1 + player.center.y - screen.ScreenShake.y;
-	if (player.center.x + (SCREEN_WIDTH / 2 ) + 100 > Position.x /** screen.Zoom.x*/ && player.center.x - (SCREEN_WIDTH / 2)  - 100 < Position.x /** screen.Zoom.x */&& player.center.y + (SCREEN_HEIGHT / 2) + 100 > Position.y /** screen.Zoom.y*/ && player.center.y - (SCREEN_HEIGHT / 2) - 100 < Position.y /** screen.Zoom.y*/ && Flag == true && player.radius / 7 < radian) {
+	if (player.center.x + (SCREEN_WIDTH / 2 ) + 100 > Position.x /** screen.Zoom.x*/ && player.center.x - (SCREEN_WIDTH / 2)  - 100 < Position.x /** screen.Zoom.x */&& player.center.y + (SCREEN_HEIGHT / 2) + 100 > Position.y /** screen.Zoom.y*/ && player.center.y - (SCREEN_HEIGHT / 2) - 100 < Position.y /** screen.Zoom.y*/ && Flag == true && player.radius / 11 < radian) {
 		return true;
 	}
 	else {
@@ -79,11 +78,15 @@ void llipse::set(Player& player,Screen screen) {
 //}
 
 void llipse::respon(Player player, Screen screen) {
-	/*flag = false;*/
-	cooltime = 0;
-	do {
-		set(player,screen);
-	} while (InScreen(player, position,screen));
+	if (player.radius < 700) {
+		cooltime = 0;
+		do {
+			set(player, screen);
+		} while (InScreen(player, position, screen));
+	}
+	else {
+		flag = false;
+	}
 }
 
 void llipse::draw(Screen& screen, Player& players) {
@@ -143,10 +146,15 @@ void Triangle::set(Player& player, Screen screen) {
 }
 
 void Triangle::respon(Player player, Screen screen) {
-	flag = false;
-	do {
-		set(player,screen);
-	} while (InScreen(player, position, screen));
+	if (player.radius < 700) {
+		cooltime = 0;
+		do {
+			set(player, screen);
+		} while (InScreen(player, position, screen));
+	}
+	else {
+		flag = false;
+	}
 }
 
 //bool Triangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
@@ -214,10 +222,15 @@ void Quadrangle::set(Player& player, Screen screen) {
 }
 
 void Quadrangle::respon(Player player,Screen screen) {
-	flag = false;
-	do {
-		set(player,screen);
-	} while (InScreen(player, position, screen));
+	if (player.radius < 700) {
+		cooltime = 0;
+		do {
+			set(player, screen);
+		} while (InScreen(player, position, screen));
+	}
+	else {
+		flag = false;
+	}
 }
 
 //bool Quadrangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {

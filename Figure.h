@@ -1,5 +1,6 @@
 #pragma once
-#include "Vec2.h"
+#include "Function.h"
+#include <Novice.h>
 #include "Screen.h"
 #include "Player.h"
 
