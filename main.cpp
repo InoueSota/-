@@ -16,8 +16,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	for (int i = 0; i < Figure::FigureMax; i++) {
 		ellipse[i].set(players);
-		//triangle[i].set(players);
-		//quadrangle[i].set(players);
+		triangle[i].set(players);
+		quadrangle[i].set(players);
 		
 	}
 
@@ -36,7 +36,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 		////セット
-		stage_1.Set_Map(0, 0, 1000,RED);
+		stage_1.Set_Map(0, 0, 10000,RED);
 		players.SetPlayers(players);
 
 		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
@@ -52,12 +52,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				players.radius += (ellipse[i].radian / 25);
 				players.Length += (ellipse[i].radian / 5);
 				ellipse[i].respon(players, screen);
-				
-			}
-			else
-			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]) == false && ellipse[i].flag == true) {
-
-				players.radius -= (ellipse[i].radian / 100);
 				
 			}
 						
@@ -94,6 +88,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				players.radius += (quadrangle[i].radian / 100);
 				players.Length += (quadrangle[i].radian / 25);
 				quadrangle[i].respon(players,screen);
+			}
+			if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
+
+					players.radius -= (ellipse[i].radian / 100);
+
 			}
 
 		}

@@ -15,6 +15,8 @@ bool Drain_Line_topR_topL(float px, float py, float prad, Quadrangle& quad);
 bool Drain_Line_bottomR_bottomL(float px, float py, float prad, Quadrangle& quad);
 bool Drain_Line_topR_bottomR(float px, float py, float prad, Quadrangle& quad);
 bool Drain_Line_topL_bottomL(float px, float py, float prad, Quadrangle& quad);
+
+bool IsHit_Drain(float px, float py, float prad, llipse& ellipse, Triangle& triangle, Quadrangle& quad);
 ///プロトタイプ宣言ここまで//////////////////
 ///円と円の当たり判定/////////////////
 
@@ -333,4 +335,26 @@ bool Drain_Center_Quad(Player& player, Quadrangle& quad) {
 	}
 	return false;
 
+}
+
+///そもそも当たっているのか/////////////////
+bool IsHit_Drain(float px, float py, float prad, llipse& ellipse, Triangle& triangle, Quadrangle& quad) {
+	float a = px - ellipse.position.x;
+	float b = py - ellipse.position.y;
+	float c = sqrtf(a * a + b * b);
+
+	if (c <= (prad + ellipse.radian)) {
+		return true;
+	}
+	else if (Drain_Line_top_left(px, py, prad, triangle) == true || Drain_Line_top_right(px, py, prad, triangle) == true || Drain_Line_right_left(px, py, prad, triangle) == true) {
+		if (prad >= triangle.radian) {
+			return true;
+		}
+	}
+	else if (Drain_Line_topR_topL(px, py, prad, quad) == true || Drain_Line_bottomR_bottomL(px, py, prad, quad) == true || Drain_Line_topR_bottomR(px, py, prad, quad) == true || Drain_Line_topL_bottomL(px, py, prad, quad) == true) {
+		if (prad >= quad.radian) {
+			return true;
+		}
+	}
+	return false;
 }
