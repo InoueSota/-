@@ -55,13 +55,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				
 			}
 						
-			else if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
+			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
 				players.radius += (triangle[i].radian / 25);
 				players.Length += (triangle[i].radian / 5);
 				triangle[i].flag = false;
 			}
 			
-			else if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
+			if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
 				players.radius += (quadrangle[i].radian / 25);
 				players.Length += (quadrangle[i].radian / 5);
 				quadrangle[i].flag = false;
@@ -69,27 +69,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			
 			
-			else if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
+			if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
 
 				players.radius += (ellipse[i].radian / 100);
 				players.Length += (ellipse[i].radian / 25);
 				ellipse[i].flag = false;
 			}
 
-			else if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
+			if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
 
 				players.radius += (triangle[i].radian / 100);
 				players.Length += (triangle[i].radian / 25);
 				triangle[i].flag = false;
 			}
 
-			else if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
+			if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
 
 				players.radius += (quadrangle[i].radian / 100);
 				players.Length += (quadrangle[i].radian / 25);
 				quadrangle[i].flag = false;
 			}
-			else if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
+			if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
 
 				players.radius -= (ellipse[i].radian / 100);
 				players.Length -= (ellipse[i].radian / 100);
