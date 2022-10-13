@@ -23,7 +23,6 @@ void Player::Init() {
 	deg = 0;
 	radius = 50;
 	Reverse = 1;
-	incDeg = 2;
 	Length = 300;
 	isScroll = false;
 	tmpCenpos = { 0,0 };
@@ -48,26 +47,22 @@ void Player::SetZoom(Screen& screen, Player& players) {
 
 /*@‰~‰^“®‚ÌŠÖ”@*/
 void CircleA::CircleProcess(Player& players) {
-	circleA.deg += (incDeg * Reverse);
-	if (circleA.deg > 360) {
-		circleA.deg = 0;
-	}
+	incDeg = 2 * players.Reverse;
+	circleA.deg += incDeg;
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
-	circleB.center = circleA.pos;
 	circleA.pos = circleA.center + circleA.add * players.Length;
+	circleB.center = circleA.pos;
 	player->pos = circleA.pos;
 	player->center = circleA.center;
 }
 void CircleB::CircleProcess(Player& players) {
-	circleB.deg -= (incDeg * Reverse);
-	if (circleB.deg < -360){
-		circleB.deg = 0;
-	}
+	incDeg = 2 * players.Reverse;
+	circleB.deg -= incDeg;
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
-	circleA.center = circleB.pos;
 	circleB.pos = circleB.center + circleB.add * players.Length;
+	circleA.center = circleB.pos;
 	player->pos = circleB.pos;
 	player->center = circleB.center;
 }
@@ -124,7 +119,7 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 /*@ŠÖ”‚ð‚Ü‚Æ‚ß‚éŠÖ”@*/
 void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d) {
 	if (predik_d == 0 && dik_d){
-		Reverse *= -1;
+		players.Reverse *= -1;
 	}
 	if (prekeys == 0 && keys && isScroll == false) {
 		player->SetDegree();

@@ -53,10 +53,16 @@
     <ClCompile Include="easing.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
     <ClCompile Include="Matrix.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
     <ClCompile Include="Vec3.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -147,7 +153,9 @@
     <ClInclude Include="drain.h" />
     <ClInclude Include="easing.h" />
     <ClInclude Include="Figure.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Vec3.h" />
+    <ClInclude Include="Item.h" />
   </ItemGroup>
 </Project>

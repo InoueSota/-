@@ -101,7 +101,9 @@
     <ClCompile Include="easing.cpp" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="Function.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Screen.cpp" />
@@ -139,7 +141,9 @@
     <ClInclude Include="easing.h" />
     <ClInclude Include="Figure.h" />
     <ClInclude Include="Function.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Screen.h" />

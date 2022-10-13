@@ -16,8 +16,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	for (int i = 0; i < Figure::FigureMax; i++) {
 		ellipse[i].set(players);
-		triangle[i].set(players);
-		quadrangle[i].set(players);
+		//triangle[i].set(players);
+		//quadrangle[i].set(players);
 		
 	}
 
@@ -35,7 +35,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓更新処理ここから
 		///
-
+		////セット
+		stage_1.Set_Map(0, 0, 1000,RED);
 		players.SetPlayers(players);
 
 		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
@@ -46,19 +47,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		for (int i = 0; i < Figure::FigureMax; i++) {		
 
-			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i])==true && ellipse[i].flag == true) {
+			if (Drain_Circle(players.pos.x, players.pos.y, players.radius*screen.Zoom.x, ellipse[i])==true && ellipse[i].flag == true) {
 
 				players.radius += (ellipse[i].radian / 25);
 				players.Length += (ellipse[i].radian / 5);
 				ellipse[i].respon(players, screen);
 				
 			}
-			//else
-			//if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]) == false && ellipse[i].flag == true) {
+			else
+			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i]) == false && ellipse[i].flag == true) {
 
-			//	players.radius -= (ellipse[i].radian / 100);
-			//	
-			//}
+				players.radius -= (ellipse[i].radian / 100);
+				
+			}
 						
 			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
 				players.radius += (triangle[i].radian / 25);
@@ -100,6 +101,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			players.radius = 10;
 		}
 		
+		stage_1.Map_Collision(players);
 		
 		///
 		/// ↑更新処理ここまで
@@ -108,8 +110,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
-		Novice::ScreenPrintf(players.pos.x, players.pos.y, "player1");
-		Novice::ScreenPrintf(players.center.x, players.center.y, "player2");
+		
 
 		if (preKeys[DIK_Z] == 0 && keys[DIK_Z] != 0) {
 			screen.Zoom.x = 0.7f;
@@ -117,8 +118,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		//背景描画
-
-		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, WHITE, kFillModeSolid);
+		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0xABFFBAFF, kFillModeSolid);
+		stage_1.DrawMap(screen);
 		for (int i = 0; i < Figure::FigureMax; i++) {
 			if (ellipse[i].cheakdraw(players,ellipse[i].position,screen,ellipse[i].flag)) {
 				ellipse[i].draw(screen, players);
@@ -133,6 +134,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		
 		}
 		players.Draw(screen,players);
+		Novice::ScreenPrintf(0, 20,"zoomed_prad= %f", players.radius*screen.Zoom.x);
+		Novice::ScreenPrintf(0, 0, "prad= %f", players.radius);
+
+
 		///
 		/// ↑描画処理ここまで
 		///
