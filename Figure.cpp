@@ -7,8 +7,8 @@ Figure::Figure() {
 }
 
 
-float Figure::Area(Player& player) {
-	return player.center.x + 5000;
+float Figure::Area(Player& player,Screen screen) {
+	return player.center.x + 10000 / screen.Zoom.x;
 }
 
 float Figure::RadianMin(Player& player) {
@@ -16,14 +16,14 @@ float Figure::RadianMin(Player& player) {
 }
 
 float Figure::RadianMax(Player& player) {
-	return player.radius * 1.5;
+	return player.radius * 0.9;
 }
 
 bool Figure::cheakdraw(Player player, Vec2 Position, Screen screen ,bool Flag) {
 	Vec2 tmp(Position.x - screen.Scroll.x, Position.y - screen.Scroll.y);
 	Position.x = tmp.x * screen.Zoom.x + player.center.x + screen.ScreenShake.x;
 	Position.y = tmp.y * screen.Zoom.y * -1 + player.center.y - screen.ScreenShake.y;
-	if (player.center.x + (SCREEN_WIDTH / 2 ) + 100 > Position.x /** screen.Zoom.x*/ && player.center.x - (SCREEN_WIDTH / 2)  - 100 < Position.x /** screen.Zoom.x */&& player.center.y + (SCREEN_HEIGHT / 2) + 100 > Position.y /** screen.Zoom.y*/ && player.center.y - (SCREEN_HEIGHT / 2) - 100 < Position.y /** screen.Zoom.y*/ && Flag == true) {
+	if (player.center.x + (SCREEN_WIDTH / 2 ) + 100 > Position.x /** screen.Zoom.x*/ && player.center.x - (SCREEN_WIDTH / 2)  - 100 < Position.x /** screen.Zoom.x */&& player.center.y + (SCREEN_HEIGHT / 2) + 100 > Position.y /** screen.Zoom.y*/ && player.center.y - (SCREEN_HEIGHT / 2) - 100 < Position.y /** screen.Zoom.y*/ && Flag == true && player.radius / 5 < radian) {
 		return true;
 	}
 	else {
@@ -49,16 +49,16 @@ llipse::llipse() {
 
 bool llipse::IsInStage(float stage) {
 	stage;//ƒXƒe[ƒW‚Ì”¼Œa
-	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + radian ) < stage) {
+	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + radian ) < stage - 200) {
 		return false;
 	}
 	return true;
 }
 
-void llipse::set(Player& player) {
+void llipse::set(Player& player,Screen screen) {
 	do {
-		position.x = RAND(-Area(player), Area(player));
-		position.y = RAND(-Area(player), Area(player));
+		position.x = RAND(-Area(player,screen), Area(player,screen));
+		position.y = RAND(-Area(player,screen), Area(player,screen));
 	} while (llipse::IsInStage(stage));
 	
 
@@ -79,9 +79,10 @@ void llipse::set(Player& player) {
 //}
 
 void llipse::respon(Player player, Screen screen) {
-	flag = false;
+	/*flag = false;*/
+	cooltime = 0;
 	do {
-		set(player);
+		set(player,screen);
 	} while (InScreen(player, position,screen));
 }
 
@@ -94,16 +95,16 @@ Triangle::Triangle() {
 }
 
 bool Triangle::IsInStage(float stage) {
-	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + sqrt(powf(radian, 2))) < stage) {
+	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + sqrt(powf(radian, 2))) < stage - 200) {
 		return false;
 	}
 	return true;
 }
 
-void Triangle::set(Player& player) {
+void Triangle::set(Player& player, Screen screen) {
 	do {
-		position.x = RAND(-Area(player), Area(player));
-		position.y = RAND(-Area(player), Area(player));
+		position.x = RAND(-Area(player,screen), Area(player,screen));
+		position.y = RAND(-Area(player,screen), Area(player,screen));
 		//”¼Œa
 		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	} while (Triangle::IsInStage(stage));
@@ -144,7 +145,7 @@ void Triangle::set(Player& player) {
 void Triangle::respon(Player player, Screen screen) {
 	flag = false;
 	do {
-		set(player);
+		set(player,screen);
 	} while (InScreen(player, position, screen));
 }
 
@@ -175,16 +176,16 @@ float Quadrangle::checkroll(float Theta) {
 }
 
 bool Quadrangle::IsInStage(float stage) {
-	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + sqrt(powf(radian,2))) < stage) {
+	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + sqrt(powf(radian,2))) < stage - 200) {
 		return false;
 	}
 	return true;
 }
 
-void Quadrangle::set(Player& player) {
+void Quadrangle::set(Player& player, Screen screen) {
 	do {
-		position.x = RAND(-Area(player), Area(player));
-		position.y = RAND(-Area(player), Area(player));
+		position.x = RAND(-Area(player,screen), Area(player,screen));
+		position.y = RAND(-Area(player,screen), Area(player,screen));
 		//”¼Œa
 		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	} while (Quadrangle::IsInStage(stage));
@@ -215,7 +216,7 @@ void Quadrangle::set(Player& player) {
 void Quadrangle::respon(Player player,Screen screen) {
 	flag = false;
 	do {
-		set(player);
+		set(player,screen);
 	} while (InScreen(player, position, screen));
 }
 
