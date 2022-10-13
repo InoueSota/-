@@ -347,14 +347,10 @@ bool IsHit_Drain(float px, float py, float prad, llipse& ellipse, Triangle& tria
 		return true;
 	}
 	else if (Drain_Line_top_left(px, py, prad, triangle) == true || Drain_Line_top_right(px, py, prad, triangle) == true || Drain_Line_right_left(px, py, prad, triangle) == true) {
-		if (prad >= triangle.radian) {
-			return true;
-		}
+		return true;
 	}
 	else if (Drain_Line_topR_topL(px, py, prad, quad) == true || Drain_Line_bottomR_bottomL(px, py, prad, quad) == true || Drain_Line_topR_bottomR(px, py, prad, quad) == true || Drain_Line_topL_bottomL(px, py, prad, quad) == true) {
-		if (prad >= quad.radian) {
-			return true;
-		}
+		return true;
 	}
 	return false;
 }
