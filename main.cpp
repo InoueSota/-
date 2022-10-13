@@ -15,9 +15,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	
 
 	for (int i = 0; i < Figure::FigureMax; i++) {
-		ellipse[i].set(players);
-		triangle[i].set(players);
-		quadrangle[i].set(players);
+		ellipse[i].set(players,screen);
+		triangle[i].set(players, screen);
+		quadrangle[i].set(players, screen);
 		
 	}
 
@@ -89,11 +89,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				players.Length += (quadrangle[i].radian / 25);
 				quadrangle[i].flag = false;
 			}
-			if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
+			/*if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i]) == true && ellipse[i].flag == true) {
 
 				players.radius -= (ellipse[i].radian / 100);
 				players.Length -= (ellipse[i].radian / 100);
-			}
+			}*/
 
 		}
 		if (players.radius < 10) {
@@ -102,19 +102,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		
 		stage_1.Map_Collision(players);
 		for (int i = 0; i < Figure::FigureMax; i++) {
-			ellipse[i].cooltime++;
-			triangle[i].cooltime++;
-			quadrangle[i].cooltime++;
-
-			if (ellipse[i].cooltime % 20 == 0 && ellipse[i].flag==false) {
+			
+			if (ellipse[i].flag == false) {
+				ellipse[i].cooltime++;
+				if (ellipse[i].cooltime % 240 == 0) {
 					ellipse[i].respon(players, screen);
+				}
 			}
-			if (triangle[i].cooltime % 20 == 0 && triangle[i].flag == false) {
-				triangle[i].respon(players, screen);
+			if (triangle[i].flag == false) {
+				triangle[i].cooltime++;
+				if (triangle[i].cooltime % 240 == 0) {
+					triangle[i].respon(players, screen);
+				}
 			}
-			if (quadrangle[i].cooltime % 20 == 0 && quadrangle[i].flag == false) {
-				quadrangle[i].respon(players, screen);
+			if (quadrangle[i].flag == false) {
+				quadrangle[i].cooltime++;
+				if (quadrangle[i].cooltime % 240 == 0) {
+					quadrangle[i].respon(players, screen);
+				}
 			}
+			
 		}
 		
 		///

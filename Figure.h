@@ -10,7 +10,7 @@ public:
 	Figure();
 	//Т▓Ро/////////////////////////////////////////
 	static const int FigureMax = 500;
-	float Area(Player& player);
+	float Area(Player& player ,Screen screen);
 	float RadianMin(Player& player);
 	float RadianMax(Player& player);
 	///////////////////////////////////////////////
@@ -39,7 +39,7 @@ class llipse:public Figure
 public:
 	llipse();
 	void draw(Screen& screen, Player& players);
-	void set(Player& player);
+	void set(Player& player,Screen screen);
 	void respon(Player player, Screen screen);
 	bool IsInStage(float stage);
 private:
@@ -51,7 +51,7 @@ class Triangle:public Figure
 public:
 	Triangle();
 	void draw(Screen& screen);
-	void set(Player& player);
+	void set(Player& player,Screen screen);
 	void respon(Player player, Screen screen);
 	bool IsInStage(float stage);
 
@@ -67,7 +67,7 @@ class Quadrangle:public Figure
 public:
 	Quadrangle();
 	void draw(Screen& screen);
-	void set(Player& player);
+	void set(Player& player, Screen screen);
 	void respon(Player player, Screen screen);
 	bool IsInStage(float stage);
 
