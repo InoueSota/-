@@ -21,7 +21,7 @@ void Player::Init() {
 	add = { 0,0 };
 	tmppos = { 0,0 };
 	deg = 0;
-	radius = 50;
+	radius = 30;
 	Reverse = 1;
 	Length = 300;
 	isScroll = false;
@@ -41,8 +41,8 @@ void Player::SetPlayers(Player& players) {
 /*　ズームの値を設定する関数　*/
 void Player::SetZoom(Screen& screen, Player& players) {
 	Vec2 tmp(1.0f, 1.0f);
-	tmp.x /= players.radius / 50;
-	tmp.y /= players.radius / 50;
+	tmp.x /= players.radius / 30;
+	tmp.y /= players.radius / 30;
 	screen.Zoom = tmp;
 }
 
@@ -144,13 +144,17 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 
 /*　描画関数　*/
 void Player::Draw(Screen& screen, Player& players) {
-	Quad op{
+	Quad tmp, outtmp, op{
 		{ 0, -players.radius},
 		{ static_cast<float>(players.Length), -players.radius},
 		{ 0,  players.radius},
 		{ static_cast<float>(players.Length), players.radius}
-	};	
-	Quad tmp;
+	}, outop{
+		{ 0, -players.radius - 5 / screen.Zoom.x},
+		{ static_cast<float>(players.Length), -players.radius - 5 / screen.Zoom.x},
+		{ 0,  players.radius + 5 / screen.Zoom.x},
+		{ static_cast<float>(players.Length), players.radius + 5 / screen.Zoom.x}
+	};
 	Matrix33 mat;
 	mat = Matrix33::Identity();
 	mat = Matrix33::MakeScaling(screen.Zoom);
@@ -160,9 +164,17 @@ void Player::Draw(Screen& screen, Player& players) {
 	tmp.RightTop = op.RightTop * mat;
 	tmp.LeftBottom = op.LeftBottom * mat;
 	tmp.RightBottom = op.RightBottom * mat;
+	outtmp.LeftTop = outop.LeftTop * mat;
+	outtmp.RightTop = outop.RightTop * mat;
+	outtmp.LeftBottom = outop.LeftBottom * mat;
+	outtmp.RightBottom = outop.RightBottom * mat;
 
-	screen.DrawLine(circleA.pos.x, circleA.pos.y, circleB.pos.x, circleB.pos.y, BLACK);
-	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, BLACK, kFillModeSolid);
-	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, BLACK, kFillModeSolid);
-	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, BLACK);
+	//アウトライン
+	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius + 5 / screen.Zoom.x, players.radius + 5 / screen.Zoom.x, 0.0f, BLACK, kFillModeSolid);
+	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius + 5 / screen.Zoom.x, players.radius + 5 / screen.Zoom.x, 0.0f, BLACK, kFillModeSolid);
+	screen.DrawQuad2(outtmp, 0, 0, 0, 0, 0, BLACK);
+	//本体（オレンジ色）
+	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
+	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
+	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0xFF6E00FF);
 }
