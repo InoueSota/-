@@ -173,8 +173,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		
 		}
-		//players.Draw(screen,players);
-		players.Draw_Rand_Skin(screen);
+		players.Draw(screen,players);
+		//players.Draw_Rand_Skin(screen);
 
 		Novice::ScreenPrintf(0, 20,"zoomed_prad= %f", players.radius*screen.Zoom.x);
 		Novice::ScreenPrintf(0, 0, "prad= %d", players.Length);
