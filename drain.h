@@ -356,8 +356,8 @@ bool IsHit_Drain(float px, float py, float prad, llipse& ellipse, Triangle& tria
 }
 
 //‹ß‚¢‚©‚Ç‚¤‚©
-bool Drain_Check_Ellipse(Vec2 Figure_Position,Vec2 Center_Pos,float Figure_Radius,float Center_Radius) {
-	if (sqrt(powf(Center_Pos.x, 2) + powf(Center_Pos.y, 2))+ Center_Radius >= Figure_Position.x - Figure_Radius && sqrt(powf(Center_Pos.x, 2) + powf(Center_Pos.y, 2)) + Center_Radius >= Figure_Position.y - Figure_Radius) {
+bool Drain_Check_Ellipse(Player player, llipse ellipse) {
+	if (sqrt(powf(player.center.x - player.pos.x, 2) + powf(player.center.y - player.pos.y, 2)) + player.radius >= sqrt(powf(player.center.x - ellipse.position.x, 2) + powf(player.center.y - ellipse.position.y, 2)) - ellipse.radian) {
 		return true;
 	}
 	return false;
