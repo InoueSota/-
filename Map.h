@@ -1,7 +1,9 @@
 #pragma once
 #include <math.h>
 #include<Novice.h>
-#include "Figure.h"
+#include "Player.h"
+#include "Screen.h"
+//#include "Figure.h"
 //#include "main.h"
 
 

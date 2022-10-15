@@ -12,12 +12,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	
+	//
+	int drain = Novice::LoadAudio("./resource./ponyo.wav");
+	//
+	stage_1.Set_Map(0, 0, 2000, RED);
 
 	for (int i = 0; i < Figure::FigureMax; i++) {
-		ellipse[i].set(players,screen);
-		triangle[i].set(players, screen);
-		quadrangle[i].set(players, screen);
+		ellipse[i].set(players,screen,stage_1);
+		triangle[i].set(players, screen, stage_1);
+		quadrangle[i].set(players, screen, stage_1);
 		
 	}
 
@@ -37,7 +40,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		////セット
 		
-		stage_1.Set_Map(0, 0, 10000,RED);
+		/*stage_1.Set_Map(0, 0, 2000,RED);*/
 
 		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
 
@@ -47,9 +50,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		players.SetZoom(screen, players);
 
-		for (int i = 0; i < Figure::FigureMax; i++) {		
+		for (int i = 0; i < Figure::FigureMax; i++) {	
+			//
+			if (ellipse[i].InScreen(players, ellipse[i].position, screen)) {
+				ellipse[i].count++;
+				if (ellipse[i].count >= 240 ) {
+					ellipse[i].Update(players);
+				}
+			}
+			if (triangle[i].InScreen(players, triangle[i].position,screen)) {
+				triangle[i].Update(players);
+			}
 
-			if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i], screen.Zoom.x)==true && ellipse[i].flag == true) {
+			/*if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i], screen.Zoom.x)==true && ellipse[i].flag == true) {
 
 				players.radius += (ellipse[i].radian / 25);
 				players.Length += (ellipse[i].radian / 5);
@@ -67,29 +80,32 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				players.radius += (quadrangle[i].radian / 25);
 				players.Length += (quadrangle[i].radian / 5);
 				quadrangle[i].flag = false;
-			}
-
+			}*/
 			
 			
-			if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
-
-				players.radius += (ellipse[i].radian / 100);
-				players.Length += (ellipse[i].radian / 25);
-				ellipse[i].flag = false;
+			if (Drain_Check_Ellipse(ellipse[i].position, players.center, ellipse[i].radian, players.radius)) {
+				if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
+					Novice::PlayAudio(drain, 0, 0.5);
+					players.radius += (ellipse[i].radian / 100);
+					players.Length += (ellipse[i].radian / 25);
+					ellipse[i].flag = false;
+				}
 			}
-
-			if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
-
-				players.radius += (triangle[i].radian / 100);
-				players.Length += (triangle[i].radian / 25);
-				triangle[i].flag = false;
+			if (Drain_Check_Triangle(players,triangle[i])) {
+				if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
+					Novice::PlayAudio(drain, 0, 0.5);
+					players.radius += (triangle[i].radian / 100);
+					players.Length += (triangle[i].radian / 25);
+					triangle[i].flag = false;
+				}
 			}
-
-			if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
-
-				players.radius += (quadrangle[i].radian / 100);
-				players.Length += (quadrangle[i].radian / 25);
-				quadrangle[i].flag = false;
+			if (Drain_Check_Quadrangle(players, quadrangle[i])) {
+				if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
+					Novice::PlayAudio(drain, 0, 0.5);
+					players.radius += (quadrangle[i].radian / 100);
+					players.Length += (quadrangle[i].radian / 25);
+					quadrangle[i].flag = false;
+				}
 			}
 			//if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
 
@@ -107,20 +123,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			
 			if (ellipse[i].flag == false) {
 				ellipse[i].cooltime++;
-				if (ellipse[i].cooltime % 240 == 0) {
-					ellipse[i].respon(players, screen);
+				if (ellipse[i].cooltime % 30 == 0) {
+					ellipse[i].respon(players, screen, stage_1);
 				}
 			}
 			if (triangle[i].flag == false) {
 				triangle[i].cooltime++;
-				if (triangle[i].cooltime % 240 == 0) {
-					triangle[i].respon(players, screen);
+				if (triangle[i].cooltime % 30 == 0) {
+					triangle[i].respon(players, screen, stage_1);
 				}
 			}
 			if (quadrangle[i].flag == false) {
 				quadrangle[i].cooltime++;
-				if (quadrangle[i].cooltime % 240 == 0) {
-					quadrangle[i].respon(players, screen);
+				if (quadrangle[i].cooltime % 30 == 0) {
+					quadrangle[i].respon(players, screen, stage_1);
 				}
 			}
 			
@@ -135,9 +151,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		
 
-		if (preKeys[DIK_Z] == 0 && keys[DIK_Z] != 0) {
-			screen.Zoom.x = 0.7f;
-			screen.Zoom.y = 0.7f;
+		if (keys[DIK_Z] != 0) {
+			players.radius += 10;
 		}
 
 		//背景描画

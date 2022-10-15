@@ -354,3 +354,25 @@ bool IsHit_Drain(float px, float py, float prad, llipse& ellipse, Triangle& tria
 	}
 	return false;
 }
+
+//‹ß‚¢‚©‚Ç‚¤‚©
+bool Drain_Check_Ellipse(Vec2 Figure_Position,Vec2 Center_Pos,float Figure_Radius,float Center_Radius) {
+	if (sqrt(powf(Center_Pos.x, 2) + powf(Center_Pos.y, 2))+ Center_Radius >= Figure_Position.x - Figure_Radius && sqrt(powf(Center_Pos.x, 2) + powf(Center_Pos.y, 2)) + Center_Radius >= Figure_Position.y - Figure_Radius) {
+		return true;
+	}
+	return false;
+}
+
+bool Drain_Check_Triangle(Player player, Triangle triangle) {
+	if (sqrt(powf(player.center.x - player.pos.x, 2) + powf(player.center.y - player.pos.y, 2)) + player.radius >= sqrt(powf(player.center.x - triangle.position.x, 2) + powf(player.center.y - triangle.position.y, 2)) - powf(triangle.radian, 2)) {
+		return true;
+	}
+	return false;
+}
+
+bool Drain_Check_Quadrangle(Player player, Quadrangle quadrangle) {
+	if (sqrt(powf(player.center.x-player.pos.x,2)+powf(player.center.y - player.pos.y, 2))+player.radius >= sqrt(powf(player.center.x - quadrangle.position.x, 2) + powf(player.center.y - quadrangle.position.y, 2)) - powf(quadrangle.radian,2)) {
+		return true;
+	}
+	return false;
+}

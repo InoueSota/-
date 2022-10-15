@@ -1,14 +1,20 @@
 #include "Figure.h"
-#include "Function.h"
-#include <Novice.h>
+
 
 Figure::Figure() {
 	SRAND();
 }
 
-///
-float Figure::Area(Player& player,Screen screen) {
-	return player.center.x + 10000 / screen.Zoom.x;
+float Figure::IsRespon(Map map) {
+	return map.radius * 0.02;
+}
+
+float Figure::stage(Map map) {
+	return map.radius;
+}
+
+float Figure::Area(Player& player,Screen screen,Map map) {
+	return player.center.x + stage(map) / screen.Zoom.x;
 }
 
 float Figure::RadianMin(Player& player) {
@@ -23,7 +29,7 @@ bool Figure::cheakdraw(Player player, Vec2 Position, Screen screen ,bool Flag) {
 	Vec2 tmp(Position.x - screen.Scroll.x, Position.y - screen.Scroll.y);
 	Position.x = tmp.x * screen.Zoom.x + player.center.x + screen.ScreenShake.x;
 	Position.y = tmp.y * screen.Zoom.y * -1 + player.center.y - screen.ScreenShake.y;
-	if (player.center.x + (SCREEN_WIDTH / 2 ) + 100 > Position.x /** screen.Zoom.x*/ && player.center.x - (SCREEN_WIDTH / 2)  - 100 < Position.x /** screen.Zoom.x */&& player.center.y + (SCREEN_HEIGHT / 2) + 100 > Position.y /** screen.Zoom.y*/ && player.center.y - (SCREEN_HEIGHT / 2) - 100 < Position.y /** screen.Zoom.y*/ && Flag == true && player.radius / 7 < radian) {
+	if (player.center.x + (SCREEN_WIDTH / 2 ) + 100 > Position.x /** screen.Zoom.x*/ && player.center.x - (SCREEN_WIDTH / 2)  - 100 < Position.x /** screen.Zoom.x */&& player.center.y + (SCREEN_HEIGHT / 2) + 100 > Position.y /** screen.Zoom.y*/ && player.center.y - (SCREEN_HEIGHT / 2) - 100 < Position.y /** screen.Zoom.y*/ && Flag == true && player.radius / 11 < radian) {
 		return true;
 	}
 	else {
@@ -54,14 +60,38 @@ bool llipse::IsInStage(float stage) {
 	}
 	return true;
 }
-
-void llipse::set(Player& player,Screen screen) {
-	do {
-		position.x = RAND(-Area(player,screen), Area(player,screen));
-		position.y = RAND(-Area(player,screen), Area(player,screen));
-	} while (llipse::IsInStage(stage));
+void llipse::Update(Player player) {
 	
+	  
+	if (!easingset) {
+		start = position;
+		end = player.pos.Normalized() * radian;
+		easingset = true;
+		easingflag = true;
+		t = 0.0f;
+	}
+	if (easingflag) {
+		t+=0.01;
+		Easing::easeInSine(t);
+		position.x = (1.0f - t) * start.x + t * end.x;
+		position.y = (1.0f - t) * start.y + t * end.y;
+		if (t >= 1) {
+			easingflag = false;
+			easingset = false;
+			count = 0;
+			t = 0.0f;
+		}
+	}
 
+}
+
+void llipse::set(Player& player,Screen screen,Map map) {
+	do {
+		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
+		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
+	} while (llipse::IsInStage(stage(map)));
+	
+	count = RAND(0, 240);
 	//半径
 	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	//色
@@ -78,12 +108,16 @@ void llipse::set(Player& player,Screen screen) {
 //	}
 //}
 
-void llipse::respon(Player player, Screen screen) {
-	/*flag = false;*/
-	cooltime = 0;
-	do {
-		set(player,screen);
-	} while (InScreen(player, position,screen));
+void llipse::respon(Player player, Screen screen,Map map) {
+	if (player.radius < IsRespon(map)) {
+		cooltime = 0;
+		do {
+			set(player, screen,map);
+		} while (InScreen(player, position, screen));
+	}
+	else {
+		flag = false;
+	}
 }
 
 void llipse::draw(Screen& screen, Player& players) {
@@ -101,52 +135,71 @@ bool Triangle::IsInStage(float stage) {
 	return true;
 }
 
-void Triangle::set(Player& player, Screen screen) {
+void Triangle::Update(Player player) {
+	if (player.radius * 3.0 > radian) {
+		radian += 0.2;
+		//頂点
+		top_position.x = position.x + cosf(theta) * radian;
+		top_position.y = position.y + sinf(theta) * radian;
+		//左
+		left_position.x = position.x + cosf(theta_left) * radian;
+		left_position.y = position.y + sinf(theta_left) * radian;
+		//右
+		right_position.x = position.x + cosf(theta_right) * radian;
+		right_position.y = position.y + sinf(theta_right) * radian;
+	}
+}
+void Triangle::set(Player& player, Screen screen,Map map) {
 	do {
-		position.x = RAND(-Area(player,screen), Area(player,screen));
-		position.y = RAND(-Area(player,screen), Area(player,screen));
+		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
+		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//半径
 		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
-	} while (Triangle::IsInStage(stage));
+	} while (Triangle::IsInStage(stage(map)));
 
 	//頂点
-	float theta = (float)Degree(RAND(0, 360));
-	float left = 0;
-	float right = 0;
+	theta = (float)Degree(RAND(0, 360));
+	theta_left = 0;
+	theta_right = 0;
 	if (theta - Degree(120) <= 0.0f) {
-		left = theta + Degree(120) - Degree(360);
+		theta_left = theta + Degree(120) - Degree(360);
 	}
 	else {
-		left = theta + Degree(120);
+		theta_left = theta + Degree(120);
 	}
 
-	if (left - Degree(120) <= 0.0f) {
-		right = left + Degree(120) - Degree(360);
+	if (theta_left - Degree(120) <= 0.0f) {
+		theta_right = theta_left + Degree(120) - Degree(360);
 	}
 	else {
-		right = left + Degree(120);
+		theta_right = theta_left + Degree(120);
 	}
 	
 	//頂点
 	top_position.x = position.x + cosf(theta) * radian;
 	top_position.y = position.y + sinf(theta) * radian;
 	//左
-	left_position.x = position.x + cosf(left) * radian;
-	left_position.y = position.y + sinf(left) * radian;
+	left_position.x = position.x + cosf(theta_left) * radian;
+	left_position.y = position.y + sinf(theta_left) * radian;
 	//右
-	right_position.x = position.x + cosf(right) * radian;
-	right_position.y = position.y + sinf(right) * radian;
+	right_position.x = position.x + cosf(theta_right) * radian;
+	right_position.y = position.y + sinf(theta_right) * radian;
 	//色
 	color = GREEN;
 	flag = true;
 
 }
 
-void Triangle::respon(Player player, Screen screen) {
-	flag = false;
-	do {
-		set(player,screen);
-	} while (InScreen(player, position, screen));
+void Triangle::respon(Player player, Screen screen,Map map) {
+	if (player.radius < IsRespon(map)) {
+		cooltime = 0;
+		do {
+			set(player, screen,map);
+		} while (InScreen(player, position, screen));
+	}
+	else {
+		flag = false;
+	}
 }
 
 //bool Triangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
@@ -182,16 +235,16 @@ bool Quadrangle::IsInStage(float stage) {
 	return true;
 }
 
-void Quadrangle::set(Player& player, Screen screen) {
+void Quadrangle::set(Player& player, Screen screen,Map map) {
 	do {
-		position.x = RAND(-Area(player,screen), Area(player,screen));
-		position.y = RAND(-Area(player,screen), Area(player,screen));
+		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
+		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//半径
 		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
-	} while (Quadrangle::IsInStage(stage));
+	} while (Quadrangle::IsInStage(stage(map)));
 	
 	//頂点
-	float theta = (float)Degree(RAND(0, 360));
+	theta = (float)Degree(RAND(0, 360));
 	top_right = checkroll(theta);
 	bottom_left = checkroll(top_right);
 	bottom_right = checkroll(bottom_left);
@@ -213,11 +266,16 @@ void Quadrangle::set(Player& player, Screen screen) {
 
 }
 
-void Quadrangle::respon(Player player,Screen screen) {
-	flag = false;
-	do {
-		set(player,screen);
-	} while (InScreen(player, position, screen));
+void Quadrangle::respon(Player player,Screen screen,Map map) {
+	if (player.radius < IsRespon(map)) {
+		cooltime = 0;
+		do {
+			set(player, screen,map);
+		} while (InScreen(player, position, screen));
+	}
+	else {
+		flag = false;
+	}
 }
 
 //bool Quadrangle::cheakdraw(Screen screen, Vec2 Position, int width, int height, bool Flag) {
