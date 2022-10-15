@@ -24,13 +24,13 @@ void Player::Init() {
 	deg = 0;
 	radius = 30;
 	Reverse = 1;
-	speed = 3;
 	Length = 300;
+	incDeg = 2.0f;
 	isScroll = false;
 	tmpCenpos = { 0,0 };
 	tmpMovepos = { 0,0 };
-	easingt = 0.0f;
-	incT = 0.05;
+	Scrolleasingt = 0.0f;
+	ScrollincT = 0.05;
 }
 
 /*　main.cppで座標をしようするために取得する関数　*/
@@ -50,8 +50,9 @@ void Player::SetZoom(Screen& screen, Player& players) {
 
 /*　円運動の関数　*/
 void CircleA::CircleProcess(Player& players) {
-	incDeg = speed * players.Reverse;
+	
 	circleA.deg += incDeg;
+	circleA.deg += players.incDeg * players.Reverse;
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
 	circleA.pos = circleA.center + circleA.add * players.Length;
@@ -61,8 +62,9 @@ void CircleA::CircleProcess(Player& players) {
 	player->deg = circleA.deg;
 }
 void CircleB::CircleProcess(Player& players) {
-	incDeg = speed * players.Reverse;
+	
 	circleB.deg -= incDeg;
+	circleB.deg -= players.incDeg * players.Reverse;
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
 	circleB.pos = circleB.center + circleB.add * players.Length;
@@ -108,13 +110,13 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 		isScroll = true;
 	}
 	if (isScroll == true){
-		easingt += incT;
-		Clamp(easingt, 0.0f, 1.0f);
-		screen.Scroll.x = Lerp(Easing::easeOutQuint(easingt), players.tmpMovepos.x) + players.tmpCenpos.x;
-		screen.Scroll.y = Lerp(Easing::easeOutQuint(easingt), players.tmpMovepos.y) + players.tmpCenpos.y;
-		if (easingt >= 1.0f){
+		Scrolleasingt += ScrollincT;
+		Clamp(Scrolleasingt, 0.0f, 1.0f);
+		screen.Scroll.x = Lerp(Easing::easeOutQuint(Scrolleasingt), players.tmpMovepos.x) + players.tmpCenpos.x;
+		screen.Scroll.y = Lerp(Easing::easeOutQuint(Scrolleasingt), players.tmpMovepos.y) + players.tmpCenpos.y;
+		if (Scrolleasingt >= 1.0f){
 			isScroll = false;
-			easingt = 0.0f;
+			Scrolleasingt = 0.0f;
 		}
 	}
 }
@@ -171,6 +173,12 @@ void Player::Draw(Screen& screen, Player& players) {
 	outtmp.LeftBottom = outop.LeftBottom * mat;
 	outtmp.RightBottom = outop.RightBottom * mat;
 
+	//スペースキーを押したときに波紋を出す
+	for (int i = 0; i < RIPPLES_MAX; i++){
+		if (isExist[i] == true){
+			screen.DrawEllipse(Rpos[i].x, Rpos[i].y, Rradius[i], Rradius[i], 0.0f, Rcolor[i], kFillModeSolid);
+		}
+	}
 	//アウトライン
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius + 5 / screen.Zoom.x, players.radius + 5 / screen.Zoom.x, 0.0f, BLACK, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius + 5 / screen.Zoom.x, players.radius + 5 / screen.Zoom.x, 0.0f, BLACK, kFillModeSolid);
