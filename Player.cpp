@@ -24,11 +24,12 @@ void Player::Init() {
 	radius = 30;
 	Reverse = 1;
 	Length = 300;
+	incDeg = 2.0f;
 	isScroll = false;
 	tmpCenpos = { 0,0 };
 	tmpMovepos = { 0,0 };
-	easingt = 0.0f;
-	incT = 0.05;
+	Scrolleasingt = 0.0f;
+	ScrollincT = 0.05;
 }
 
 /*　main.cppで座標をしようするために取得する関数　*/
@@ -48,8 +49,7 @@ void Player::SetZoom(Screen& screen, Player& players) {
 
 /*　円運動の関数　*/
 void CircleA::CircleProcess(Player& players) {
-	incDeg = 1 * players.Reverse;
-	circleA.deg += incDeg;
+	circleA.deg += players.incDeg * players.Reverse;
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
 	circleA.pos = circleA.center + circleA.add * players.Length;
@@ -59,8 +59,7 @@ void CircleA::CircleProcess(Player& players) {
 	player->deg = circleA.deg;
 }
 void CircleB::CircleProcess(Player& players) {
-	incDeg = 1 * players.Reverse;
-	circleB.deg -= incDeg;
+	circleB.deg -= players.incDeg * players.Reverse;
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
 	circleB.pos = circleB.center + circleB.add * players.Length;
@@ -106,13 +105,13 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 		isScroll = true;
 	}
 	if (isScroll == true){
-		easingt += incT;
-		Clamp(easingt, 0.0f, 1.0f);
-		screen.Scroll.x = Lerp(Easing::easeOutQuint(easingt), players.tmpMovepos.x) + players.tmpCenpos.x;
-		screen.Scroll.y = Lerp(Easing::easeOutQuint(easingt), players.tmpMovepos.y) + players.tmpCenpos.y;
-		if (easingt >= 1.0f){
+		Scrolleasingt += ScrollincT;
+		Clamp(Scrolleasingt, 0.0f, 1.0f);
+		screen.Scroll.x = Lerp(Easing::easeOutQuint(Scrolleasingt), players.tmpMovepos.x) + players.tmpCenpos.x;
+		screen.Scroll.y = Lerp(Easing::easeOutQuint(Scrolleasingt), players.tmpMovepos.y) + players.tmpCenpos.y;
+		if (Scrolleasingt >= 1.0f){
 			isScroll = false;
-			easingt = 0.0f;
+			Scrolleasingt = 0.0f;
 		}
 	}
 }
@@ -177,4 +176,6 @@ void Player::Draw(Screen& screen, Player& players) {
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0xFF6E00FF);
+	//中心点
+	screen.DrawEllipse(players.center.x, players.center.y, players.radius - 20 / screen.Zoom.x, players.radius - 20 / screen.Zoom.y, 0.0f, 0xFFFF00FF, kFillModeSolid);
 }

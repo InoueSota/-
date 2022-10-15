@@ -21,17 +21,16 @@ public:
 	float radius;		//半径
 
 	int Reverse;		//反転用
-	int incDeg;			//回転速度
 	int Length;			//円と円の間の長さ
+	float incDeg;		//回転速度
 
 	bool isHit;
-
 
 	bool isScroll;		//スクロールフラグ
 	Vec2 tmpCenpos;		//スクロール初期座標
 	Vec2 tmpMovepos;	//スクロール目標座標
-	float easingt;		//これはただのｔ
-	float incT;			//easingtの増加量
+	float Scrolleasingt;//これはただのｔ
+	float ScrollincT;	//easingtの増加量
 
 	/*　関数　*/
 	void Init();																		//初期化する関数
@@ -40,7 +39,7 @@ public:
 	virtual void SetDegree() {};														//円運動する円を変更する際の度数の設定する関数
 	void SetScrollPos(Screen& screen, Player& players, char prekeys, char keys);		//スクロール座標を設定する関数
 	void SetZoom(Screen& screen, Player& players);										//ズームの値を設定する関数
-	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d);	//関数をまとめる関数
+	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d);	//関数をまとめてmain.cppで一行にする関数
 	void Draw(Screen& screen, Player& players);											//描画関数
 
 private:
