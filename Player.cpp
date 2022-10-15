@@ -25,7 +25,7 @@ void Player::Init() {
 	radius = 30;
 	Reverse = 1;
 	Length = 300;
-	incDeg = 1.0f;
+	incDeg = 3.0f;
 	isScroll = false;
 	tmpCenpos = { 0,0 };
 	tmpMovepos = { 0,0 };
