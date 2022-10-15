@@ -3,6 +3,7 @@
 #include <Novice.h>
 #include "Screen.h"
 #include "Player.h"
+#include "Map.h"
 
 
 class Figure
@@ -10,8 +11,8 @@ class Figure
 public:
 	Figure();
 	//調整/////////////////////////////////////////
-	static const int FigureMax = 500;
-	float Area(Player& player ,Screen screen);
+	static const int FigureMax = 50;
+	float Area(Player& player ,Screen screen,Map map);
 	float RadianMin(Player& player);
 	float RadianMax(Player& player);
 	///////////////////////////////////////////////
@@ -23,6 +24,7 @@ public:
 	bool cheakdraw(Player player, Vec2 Position,Screen screen, bool Flag);
 	//画面内かチェック
 	bool InScreen(Player player, Vec2 Position, Screen screen);
+	float IsRespon(Map map);
 
 	Vec2 position;
 	float radian;
@@ -30,7 +32,8 @@ public:
 	bool flag;
 	int cooltime;
 	//消
-	float stage = 10000;
+	float stage(Map map);
+	/*float area = 2000;*/
 private:
 	
 };
@@ -40,8 +43,8 @@ class llipse:public Figure
 public:
 	llipse();
 	void draw(Screen& screen, Player& players);
-	void set(Player& player,Screen screen);
-	void respon(Player player, Screen screen);
+	void set(Player& player,Screen screen,Map map);
+	void respon(Player player, Screen screen,Map map);
 	bool IsInStage(float stage);
 private:
 
@@ -52,8 +55,8 @@ class Triangle:public Figure
 public:
 	Triangle();
 	void draw(Screen& screen);
-	void set(Player& player,Screen screen);
-	void respon(Player player, Screen screen);
+	void set(Player& player,Screen screen,Map map);
+	void respon(Player player, Screen screen, Map map);
 	bool IsInStage(float stage);
 
 	Vec2 top_position;
@@ -68,8 +71,8 @@ class Quadrangle:public Figure
 public:
 	Quadrangle();
 	void draw(Screen& screen);
-	void set(Player& player, Screen screen);
-	void respon(Player player, Screen screen);
+	void set(Player& player, Screen screen,Map map);
+	void respon(Player player, Screen screen, Map map);
 	bool IsInStage(float stage);
 
 	Vec2 top_left_position;

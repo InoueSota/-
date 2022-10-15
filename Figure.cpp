@@ -5,9 +5,16 @@ Figure::Figure() {
 	SRAND();
 }
 
-///
-float Figure::Area(Player& player,Screen screen) {
-	return player.center.x + 10000 / screen.Zoom.x;
+float Figure::IsRespon(Map map) {
+	return map.radius * 0.02;
+}
+
+float Figure::stage(Map map) {
+	return map.radius;
+}
+
+float Figure::Area(Player& player,Screen screen,Map map) {
+	return player.center.x + stage(map) / screen.Zoom.x;
 }
 
 float Figure::RadianMin(Player& player) {
@@ -54,11 +61,11 @@ bool llipse::IsInStage(float stage) {
 	return true;
 }
 
-void llipse::set(Player& player,Screen screen) {
+void llipse::set(Player& player,Screen screen,Map map) {
 	do {
-		position.x = RAND(-Area(player,screen), Area(player,screen));
-		position.y = RAND(-Area(player,screen), Area(player,screen));
-	} while (llipse::IsInStage(stage));
+		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
+		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
+	} while (llipse::IsInStage(stage(map)));
 	
 
 	//”¼Œa
@@ -77,11 +84,11 @@ void llipse::set(Player& player,Screen screen) {
 //	}
 //}
 
-void llipse::respon(Player player, Screen screen) {
-	if (player.radius < 200) {
+void llipse::respon(Player player, Screen screen,Map map) {
+	if (player.radius < IsRespon(map)) {
 		cooltime = 0;
 		do {
-			set(player, screen);
+			set(player, screen,map);
 		} while (InScreen(player, position, screen));
 	}
 	else {
@@ -104,13 +111,13 @@ bool Triangle::IsInStage(float stage) {
 	return true;
 }
 
-void Triangle::set(Player& player, Screen screen) {
+void Triangle::set(Player& player, Screen screen,Map map) {
 	do {
-		position.x = RAND(-Area(player,screen), Area(player,screen));
-		position.y = RAND(-Area(player,screen), Area(player,screen));
+		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
+		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//”¼Œa
 		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
-	} while (Triangle::IsInStage(stage));
+	} while (Triangle::IsInStage(stage(map)));
 
 	//’¸“_
 	float theta = (float)Degree(RAND(0, 360));
@@ -145,11 +152,11 @@ void Triangle::set(Player& player, Screen screen) {
 
 }
 
-void Triangle::respon(Player player, Screen screen) {
-	if (player.radius < 200) {
+void Triangle::respon(Player player, Screen screen,Map map) {
+	if (player.radius < IsRespon(map)) {
 		cooltime = 0;
 		do {
-			set(player, screen);
+			set(player, screen,map);
 		} while (InScreen(player, position, screen));
 	}
 	else {
@@ -190,13 +197,13 @@ bool Quadrangle::IsInStage(float stage) {
 	return true;
 }
 
-void Quadrangle::set(Player& player, Screen screen) {
+void Quadrangle::set(Player& player, Screen screen,Map map) {
 	do {
-		position.x = RAND(-Area(player,screen), Area(player,screen));
-		position.y = RAND(-Area(player,screen), Area(player,screen));
+		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
+		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//”¼Œa
 		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
-	} while (Quadrangle::IsInStage(stage));
+	} while (Quadrangle::IsInStage(stage(map)));
 	
 	//’¸“_
 	float theta = (float)Degree(RAND(0, 360));
@@ -221,11 +228,11 @@ void Quadrangle::set(Player& player, Screen screen) {
 
 }
 
-void Quadrangle::respon(Player player,Screen screen) {
-	if (player.radius < 200) {
+void Quadrangle::respon(Player player,Screen screen,Map map) {
+	if (player.radius < IsRespon(map)) {
 		cooltime = 0;
 		do {
-			set(player, screen);
+			set(player, screen,map);
 		} while (InScreen(player, position, screen));
 	}
 	else {
