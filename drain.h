@@ -357,14 +357,14 @@ bool IsHit_Drain(float px, float py, float prad, llipse& ellipse, Triangle& tria
 
 //‹ß‚¢‚©‚Ç‚¤‚©
 bool Drain_Check_Ellipse(Vec2 Figure_Position,Vec2 Center_Pos,float Figure_Radius,float Center_Radius) {
-	if (sqrt(powf(Center_Pos.x + Center_Radius, 2) + powf(Center_Pos.y + Center_Radius, 2))+ Center_Radius >= Figure_Position.x + Figure_Radius && sqrt(powf(Center_Pos.x + Center_Radius, 2) + powf(Center_Pos.y + Center_Radius, 2)) + Center_Radius >= Figure_Position.y + Figure_Radius) {
+	if (sqrt(powf(Center_Pos.x, 2) + powf(Center_Pos.y, 2))+ Center_Radius >= Figure_Position.x + Figure_Radius && sqrt(powf(Center_Pos.x, 2) + powf(Center_Pos.y, 2)) + Center_Radius >= Figure_Position.y + Figure_Radius) {
 		return true;
 	}
 	return false;
 }
 
 bool Drain_Check(Vec2 Figure_Position, Vec2 Center_Pos, float Figure_Radius, float Center_Radius) {
-	if (sqrt(powf(Center_Pos.x + Center_Radius, 2) + powf(Center_Pos.y + Center_Radius, 2)) + Center_Radius >= Figure_Position.x + sqrt(powf(Figure_Radius, 2)) && sqrt(powf(Center_Pos.x + Center_Radius, 2) + powf(Center_Pos.y + Center_Radius, 2)) + Center_Radius >= Figure_Position.y + sqrt(powf(Figure_Radius, 2))) {
+	if (sqrt(powf(Center_Pos.x, 2) + powf(Center_Pos.y, 2)) + Center_Radius >= Figure_Position.x + sqrt(powf(Figure_Radius, 2)) && sqrt(powf(Center_Pos.x, 2) + powf(Center_Pos.y, 2)) + Center_Radius >= Figure_Position.y + sqrt(powf(Figure_Radius, 2))) {
 		return true;
 	}
 	return false;

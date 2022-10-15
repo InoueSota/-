@@ -48,7 +48,7 @@ void Player::SetZoom(Screen& screen, Player& players) {
 
 /*@‰~‰^“®‚ÌŠÖ”@*/
 void CircleA::CircleProcess(Player& players) {
-	incDeg = 1 * players.Reverse;
+	incDeg = 5 * players.Reverse;
 	circleA.deg += incDeg;
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
@@ -59,7 +59,7 @@ void CircleA::CircleProcess(Player& players) {
 	player->deg = circleA.deg;
 }
 void CircleB::CircleProcess(Player& players) {
-	incDeg = 1 * players.Reverse;
+	incDeg = 5 * players.Reverse;
 	circleB.deg -= incDeg;
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));

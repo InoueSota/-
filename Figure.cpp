@@ -78,7 +78,7 @@ void llipse::set(Player& player,Screen screen) {
 //}
 
 void llipse::respon(Player player, Screen screen) {
-	if (player.radius < 700) {
+	if (player.radius < 200) {
 		cooltime = 0;
 		do {
 			set(player, screen);
@@ -146,7 +146,7 @@ void Triangle::set(Player& player, Screen screen) {
 }
 
 void Triangle::respon(Player player, Screen screen) {
-	if (player.radius < 700) {
+	if (player.radius < 200) {
 		cooltime = 0;
 		do {
 			set(player, screen);
@@ -222,7 +222,7 @@ void Quadrangle::set(Player& player, Screen screen) {
 }
 
 void Quadrangle::respon(Player player,Screen screen) {
-	if (player.radius < 700) {
+	if (player.radius < 200) {
 		cooltime = 0;
 		do {
 			set(player, screen);
