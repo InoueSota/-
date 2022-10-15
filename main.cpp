@@ -85,7 +85,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}*/
 			
 			
-			if (Drain_Check_Ellipse(ellipse[i].position, players.center, ellipse[i].radian, players.radius)) {
+			if (Drain_Check_Ellipse(players,ellipse[i])) {
 				if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
 					Novice::PlayAudio(drain, 0, 0.5);
 					players.radius += (ellipse[i].radian / 100);
