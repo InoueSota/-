@@ -62,7 +62,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}*/
 			if (triangle[i].InScreen(players, triangle[i].position,screen)) {
 				triangle[i].Update(players);
-			}*/
+			}
 
 			/*if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i], screen.Zoom.x)==true && ellipse[i].flag == true) {
 
