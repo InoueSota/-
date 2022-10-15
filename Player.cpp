@@ -176,6 +176,4 @@ void Player::Draw(Screen& screen, Player& players) {
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0xFF6E00FF);
-	//íÜêSì_
-	screen.DrawEllipse(players.center.x, players.center.y, players.radius - 20 / screen.Zoom.x, players.radius - 20 / screen.Zoom.y, 0.0f, 0xFFFF00FF, kFillModeSolid);
 }
