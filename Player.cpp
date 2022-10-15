@@ -231,3 +231,24 @@ void Player::Draw_Rand_Skin(Screen& screen)
 	//screen.DrawQuad(tmp.LeftTop.x, tmp.LeftTop.y, tmp.RightTop.x, tmp.RightTop.y, tmp.LeftBottom.x, tmp.LeftBottom.y, tmp.RightBottom.x, tmp.RightBottom.y, 0, 0, 90, 700, aisu_atari, WHITE);
 	//screen.DrawSprite(tmp.LeftTop.x, tmp.LeftTop.y, aisu_atari, 1, 1, 0, WHITE);
 }
+
+void Player::Ripples(Screen& screen, Player& players, char prekeys, char keys) {
+	for (int i = 0; i < RIPPLES_MAX; i++) {
+		if (prekeys == 0 && keys && isExist[i] == false && isScroll == false) {
+			Rpos[i] = players.center;
+			Rradius[i] = players.radius;
+			Rcolor[i] = 0x000000FF;
+			Existtime[i] = 0.0f;
+			isExist[i] = true;
+			break;
+		}
+		if (isExist[i] == true) {
+			Rradius[i] += 5 / screen.Zoom.x;
+			Existtime[i] += 0.01f;
+			Rcolor[i] = 0x00000000 | static_cast<int>((1.0f - Existtime[i]) * 0xFF + Existtime[i] * 0x00);
+			if (Rcolor[i] == 0x00000000) {
+				isExist[i] = false;
+			}
+		}
+	}
+}

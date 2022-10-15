@@ -59,7 +59,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (ellipse[i].count >= 240 ) {
 					ellipse[i].Update(players);
 				}
-			}*/
+			}
 			if (triangle[i].InScreen(players, triangle[i].position,screen)) {
 				triangle[i].Update(players);
 			}*/
