@@ -8,6 +8,7 @@ Player* player = &circleA;
 Player::Player()
 {
 	Player::Init();
+	SRAND();
 }
 
 Player::~Player()
@@ -23,6 +24,7 @@ void Player::Init() {
 	deg = 0;
 	radius = 30;
 	Reverse = 1;
+	speed = 3;
 	Length = 300;
 	isScroll = false;
 	tmpCenpos = { 0,0 };
@@ -48,7 +50,7 @@ void Player::SetZoom(Screen& screen, Player& players) {
 
 /*@‰~‰^“®‚ÌŠÖ”@*/
 void CircleA::CircleProcess(Player& players) {
-	incDeg = 5 * players.Reverse;
+	incDeg = speed * players.Reverse;
 	circleA.deg += incDeg;
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
@@ -59,7 +61,7 @@ void CircleA::CircleProcess(Player& players) {
 	player->deg = circleA.deg;
 }
 void CircleB::CircleProcess(Player& players) {
-	incDeg = 5 * players.Reverse;
+	incDeg = speed * players.Reverse;
 	circleB.deg -= incDeg;
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
@@ -177,4 +179,47 @@ void Player::Draw(Screen& screen, Player& players) {
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0xFF6E00FF);
+}
+
+void Player::Draw_Rand_Skin(Screen& screen)
+{
+	int once = 0;
+	int gra = 0;
+	int aisu_atari = Novice::LoadTexture("./resource/aisu_atari.png");
+	int aisu_hazure = Novice::LoadTexture("./resource/aisu_hazuret.png");
+	/*if (once == 0) {
+		int aisu_atari = Novice::LoadTexture("./resource/aisu_atari.png");
+		int aisu_hazure = Novice::LoadTexture("./resource/aisu_hazuret.png");
+		once = 1;
+	}*/
+	Quad tmp, outtmp, op{
+		{ 0, -radius},
+		{ static_cast<float>(Length), -radius},
+		{ 0,  radius},
+		{ static_cast<float>(Length), radius}
+	}, outop{
+		{ 0, -radius - 5 / screen.Zoom.x},
+		{ static_cast<float>(Length), -radius - 5 / screen.Zoom.x},
+		{ 0, radius + 5 / screen.Zoom.x},
+		{ static_cast<float>(Length), radius + 5 / screen.Zoom.x}
+	};
+	Matrix33 mat;
+	mat = Matrix33::Identity();
+	mat = Matrix33::MakeScaling(screen.Zoom);
+	mat = Matrix33::MakeRotation(Degree(deg));
+	mat *= Matrix33::MakeTranslation(center);
+	tmp.LeftTop = op.LeftTop * mat;
+	tmp.RightTop = op.RightTop * mat;
+	tmp.LeftBottom = op.LeftBottom * mat;
+	tmp.RightBottom = op.RightBottom * mat;
+	outtmp.LeftTop = outop.LeftTop * mat;
+	outtmp.RightTop = outop.RightTop * mat;
+	outtmp.LeftBottom = outop.LeftBottom * mat;
+	outtmp.RightBottom = outop.RightBottom * mat;
+
+
+	//screen.DrawQuad2(tmp, 0, 0, 90, 70, aisu_atari, WHITE);
+	screen.DrawQuad( tmp.RightTop.x, tmp.RightTop.y, tmp.RightBottom.x, tmp.RightBottom.y, tmp.LeftTop.x, tmp.LeftTop.y, tmp.LeftBottom.x, tmp.LeftBottom.y, 0, 0, 90, 700, aisu_hazure, WHITE);
+	//screen.DrawQuad(tmp.LeftTop.x, tmp.LeftTop.y, tmp.RightTop.x, tmp.RightTop.y, tmp.LeftBottom.x, tmp.LeftBottom.y, tmp.RightBottom.x, tmp.RightBottom.y, 0, 0, 90, 700, aisu_atari, WHITE);
+	//screen.DrawSprite(tmp.LeftTop.x, tmp.LeftTop.y, aisu_atari, 1, 1, 0, WHITE);
 }

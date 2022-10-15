@@ -22,6 +22,7 @@ public:
 
 	int Reverse;		//”½“]—p
 	int incDeg;			//‰ñ“]‘¬“x
+	int speed;			//‘¬“x
 	int Length;			//‰~‚Æ‰~‚ÌŠÔ‚Ì’·‚³
 
 	bool isHit;
@@ -42,7 +43,7 @@ public:
 	void SetZoom(Screen& screen, Player& players);										//ƒY[ƒ€‚Ì’l‚ğİ’è‚·‚éŠÖ”
 	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d);	//ŠÖ”‚ğ‚Ü‚Æ‚ß‚éŠÖ”
 	void Draw(Screen& screen, Player& players);											//•`‰æŠÖ”
-
+	void Draw_Rand_Skin(Screen& screen);
 private:
 
 };

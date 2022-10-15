@@ -52,7 +52,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		for (int i = 0; i < Figure::FigureMax; i++) {	
 			//
-			if (ellipse[i].InScreen(players, ellipse[i].position, screen)) {
+			/*if (ellipse[i].InScreen(players, ellipse[i].position, screen)) {
 				ellipse[i].count++;
 				if (ellipse[i].count >= 240 ) {
 					ellipse[i].Update(players);
@@ -60,7 +60,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			if (triangle[i].InScreen(players, triangle[i].position,screen)) {
 				triangle[i].Update(players);
-			}
+			}*/
 
 			/*if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i], screen.Zoom.x)==true && ellipse[i].flag == true) {
 
@@ -171,9 +171,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		
 		}
-		players.Draw(screen,players);
+		//players.Draw(screen,players);
+		players.Draw_Rand_Skin(screen);
 		Novice::ScreenPrintf(0, 20,"zoomed_prad= %f", players.radius*screen.Zoom.x);
-		Novice::ScreenPrintf(0, 0, "prad= %f", players.radius);
+		Novice::ScreenPrintf(0, 0, "prad= %d", players.Length);
 
 
 		///
