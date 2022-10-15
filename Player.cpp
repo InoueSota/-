@@ -168,6 +168,12 @@ void Player::Draw(Screen& screen, Player& players) {
 	outtmp.LeftBottom = outop.LeftBottom * mat;
 	outtmp.RightBottom = outop.RightBottom * mat;
 
+	//スペースキーを押したときに波紋を出す
+	for (int i = 0; i < RIPPLES_MAX; i++){
+		if (isExist[i] == true){
+			screen.DrawEllipse(Rpos[i].x, Rpos[i].y, Rradius[i], Rradius[i], 0.0f, Rcolor[i], kFillModeSolid);
+		}
+	}
 	//アウトライン
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius + 5 / screen.Zoom.x, players.radius + 5 / screen.Zoom.x, 0.0f, BLACK, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius + 5 / screen.Zoom.x, players.radius + 5 / screen.Zoom.x, 0.0f, BLACK, kFillModeSolid);
@@ -176,4 +182,25 @@ void Player::Draw(Screen& screen, Player& players) {
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0xFF6E00FF);
+}
+
+void Player::Ripples(Screen& screen, Player& players, char prekeys, char keys) {
+	for (int i = 0; i < RIPPLES_MAX; i++){
+		if (prekeys == 0 && keys && isExist[i] == false && isScroll == false) {
+			Rpos[i] = players.center;
+			Rradius[i] = players.radius;
+			Rcolor[i] = 0x000000FF;
+			Existtime[i] = 0.0f;
+			isExist[i] = true;
+			break;
+		}
+		if (isExist[i] == true){
+			Rradius[i] += 5 / screen.Zoom.x;
+			Existtime[i] += 0.01f;
+			Rcolor[i] = 0x00000000 | static_cast<int>((1.0f - Existtime[i]) * 0xFF + Existtime[i] * 0x00);
+			if (Rcolor[i] == 0x00000000){
+				isExist[i] = false;
+			}
+		}
+	}
 }
