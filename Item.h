@@ -5,21 +5,31 @@
 #include "Player.h"
 
 
+
 class Item {
 
 	Vec2 pos;
 	float radius;
+	int item_rand;
 	bool flag;
 	bool speed_item;
 	bool shild;
 	bool length_up;
+	int flame ;
+	int speed_flame;
+
+	
+
+
 
 public:
+	Item();
 	bool Item_collision(Player& player, Screen& screen);
 
-	void Randam_Item(int rand);
-	void Set_Item(float x,float y,Player&player);
-
+	void Randam_Item();
+	void Set_Item(float x,float y,Player&player,int rand);
+	void Draw(Screen& screen, Player& player);
+	void Result(Player& player,Screen& screen);
 };
 
 
