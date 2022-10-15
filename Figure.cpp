@@ -60,6 +60,30 @@ bool llipse::IsInStage(float stage) {
 	}
 	return true;
 }
+void llipse::Update(Player player) {
+	
+	  
+	if (!easingset) {
+		start = position;
+		end = player.pos.Normalized() * radian;
+		easingset = true;
+		easingflag = true;
+		t = 0.0f;
+	}
+	if (easingflag) {
+		t+=0.01;
+		Easing::easeInSine(t);
+		position.x = (1.0f - t) * start.x + t * end.x;
+		position.y = (1.0f - t) * start.y + t * end.y;
+		if (t >= 1) {
+			easingflag = false;
+			easingset = false;
+			count = 0;
+			t = 0.0f;
+		}
+	}
+
+}
 
 void llipse::set(Player& player,Screen screen,Map map) {
 	do {
@@ -67,7 +91,7 @@ void llipse::set(Player& player,Screen screen,Map map) {
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 	} while (llipse::IsInStage(stage(map)));
 	
-
+	count = RAND(0, 240);
 	//半径
 	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	//色
@@ -111,6 +135,20 @@ bool Triangle::IsInStage(float stage) {
 	return true;
 }
 
+void Triangle::Update(Player player) {
+	if (player.radius * 3.0 > radian) {
+		radian += 0.2;
+		//頂点
+		top_position.x = position.x + cosf(theta) * radian;
+		top_position.y = position.y + sinf(theta) * radian;
+		//左
+		left_position.x = position.x + cosf(theta_left) * radian;
+		left_position.y = position.y + sinf(theta_left) * radian;
+		//右
+		right_position.x = position.x + cosf(theta_right) * radian;
+		right_position.y = position.y + sinf(theta_right) * radian;
+	}
+}
 void Triangle::set(Player& player, Screen screen,Map map) {
 	do {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
@@ -120,32 +158,32 @@ void Triangle::set(Player& player, Screen screen,Map map) {
 	} while (Triangle::IsInStage(stage(map)));
 
 	//頂点
-	float theta = (float)Degree(RAND(0, 360));
-	float left = 0;
-	float right = 0;
+	theta = (float)Degree(RAND(0, 360));
+	theta_left = 0;
+	theta_right = 0;
 	if (theta - Degree(120) <= 0.0f) {
-		left = theta + Degree(120) - Degree(360);
+		theta_left = theta + Degree(120) - Degree(360);
 	}
 	else {
-		left = theta + Degree(120);
+		theta_left = theta + Degree(120);
 	}
 
-	if (left - Degree(120) <= 0.0f) {
-		right = left + Degree(120) - Degree(360);
+	if (theta_left - Degree(120) <= 0.0f) {
+		theta_right = theta_left + Degree(120) - Degree(360);
 	}
 	else {
-		right = left + Degree(120);
+		theta_right = theta_left + Degree(120);
 	}
 	
 	//頂点
 	top_position.x = position.x + cosf(theta) * radian;
 	top_position.y = position.y + sinf(theta) * radian;
 	//左
-	left_position.x = position.x + cosf(left) * radian;
-	left_position.y = position.y + sinf(left) * radian;
+	left_position.x = position.x + cosf(theta_left) * radian;
+	left_position.y = position.y + sinf(theta_left) * radian;
 	//右
-	right_position.x = position.x + cosf(right) * radian;
-	right_position.y = position.y + sinf(right) * radian;
+	right_position.x = position.x + cosf(theta_right) * radian;
+	right_position.y = position.y + sinf(theta_right) * radian;
 	//色
 	color = GREEN;
 	flag = true;
@@ -206,7 +244,7 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 	} while (Quadrangle::IsInStage(stage(map)));
 	
 	//頂点
-	float theta = (float)Degree(RAND(0, 360));
+	theta = (float)Degree(RAND(0, 360));
 	top_right = checkroll(theta);
 	bottom_left = checkroll(top_right);
 	bottom_right = checkroll(bottom_left);
