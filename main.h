@@ -6,6 +6,8 @@
 #include "drain.h"
 #include "Screen.h"
 #include "Map.h"
+#include "Item.h"
+
 
 
 
@@ -18,3 +20,4 @@ llipse ellipse[Figure::FigureMax];
 Triangle triangle[Figure::FigureMax];
 Quadrangle quadrangle[Figure::FigureMax];
 clock_t oldTime;
+Item item;

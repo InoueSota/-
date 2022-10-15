@@ -189,17 +189,34 @@ void Player::Draw(Screen& screen, Player& players) {
 	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0xFF6E00FF);
 }
 
-void Player::Draw_Rand_Skin(Screen& screen)
+void Player::Draw_Rand_Skin(Screen& screen, char prekeys, char keys)
 {
-	int once = 0;
+	
 	int gra = 0;
+	int Rand = 0;
+	bool change = false;
 	int aisu_atari = Novice::LoadTexture("./resource/aisu_atari.png");
 	int aisu_hazure = Novice::LoadTexture("./resource/aisu_hazuret.png");
-	/*if (once == 0) {
-		int aisu_atari = Novice::LoadTexture("./resource/aisu_atari.png");
-		int aisu_hazure = Novice::LoadTexture("./resource/aisu_hazuret.png");
-		once = 1;
-	}*/
+	int waribashi= Novice::LoadTexture("./resource/waribashi.png");
+	if (prekeys == 0 && keys&&change==false){
+		change = true;
+
+	}
+	if (change == true) {
+		Rand = RAND(0, 2);
+		change = false;
+	}
+
+	if (Rand == 0) {
+		gra = waribashi;
+	}
+	if (Rand == 1) {
+		gra = aisu_hazure;
+	}
+	if (Rand == 2) {
+		gra = aisu_atari;
+	}
+
 	Quad tmp, outtmp, op{
 		{ 0, -radius},
 		{ static_cast<float>(Length), -radius},
@@ -226,10 +243,9 @@ void Player::Draw_Rand_Skin(Screen& screen)
 	outtmp.RightBottom = outop.RightBottom * mat;
 
 
-	//screen.DrawQuad2(tmp, 0, 0, 90, 70, aisu_atari, WHITE);
-	screen.DrawQuad( tmp.RightTop.x, tmp.RightTop.y, tmp.RightBottom.x, tmp.RightBottom.y, tmp.LeftTop.x, tmp.LeftTop.y, tmp.LeftBottom.x, tmp.LeftBottom.y, 0, 0, 90, 700, aisu_hazure, WHITE);
-	//screen.DrawQuad(tmp.LeftTop.x, tmp.LeftTop.y, tmp.RightTop.x, tmp.RightTop.y, tmp.LeftBottom.x, tmp.LeftBottom.y, tmp.RightBottom.x, tmp.RightBottom.y, 0, 0, 90, 700, aisu_atari, WHITE);
-	//screen.DrawSprite(tmp.LeftTop.x, tmp.LeftTop.y, aisu_atari, 1, 1, 0, WHITE);
+	
+	screen.DrawQuad( tmp.RightTop.x, tmp.RightTop.y, tmp.RightBottom.x, tmp.RightBottom.y, tmp.LeftTop.x, tmp.LeftTop.y, tmp.LeftBottom.x, tmp.LeftBottom.y, 0, 0, 90, 700, gra, WHITE);
+	
 }
 
 void Player::Ripples(Screen& screen, Player& players, char prekeys, char keys) {
