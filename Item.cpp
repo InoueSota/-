@@ -92,7 +92,7 @@ void Item::Result(Player& player,Screen&screen)
 		Novice::ScreenPrintf(0, 60, "%d",flame);
 		Novice::ScreenPrintf(0, 80, "%f", flame);
 		if (speed_flame <= 0) {
-			player.incDeg = 3.0f;
+			player.incDeg = 2.0f;
 			speed_item = false;
 			flag = false;
 		}
