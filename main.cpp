@@ -16,7 +16,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
 	//
 	stage_1.Set_Map(0, 0, 2000, RED);
-
+	
 	for (int i = 0; i < Figure::FigureMax; i++) {
 		ellipse[i].set(players,screen,stage_1);
 		triangle[i].set(players, screen, stage_1);
@@ -41,7 +41,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		////セット
 		
 		/*stage_1.Set_Map(0, 0, 2000,RED);*/
-
+		
+		
 		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
 
 		players.SetPlayers(players);
@@ -51,6 +52,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 
 		players.SetZoom(screen, players);
+
+		item.Set_Item(RAND(0, 500), RAND(0, 500), players,RAND(0,0));
+		if (item.Item_collision(players, screen) == true) {
+
+			item.Randam_Item();
+			
+		}
+		item.Result(players,screen);
+		//Novice::ScreenPrintf(0, 60, "%f", players.incDeg);
 
 		for (int i = 0; i < Figure::FigureMax; i++) {	
 			//
@@ -64,26 +74,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				triangle[i].Update(players);
 			}
 
-			/*if (Drain_Circle(players.pos.x, players.pos.y, players.radius, ellipse[i], screen.Zoom.x)==true && ellipse[i].flag == true) {
-
-				players.radius += (ellipse[i].radian / 25);
-				players.Length += (ellipse[i].radian / 5);
-				ellipse[i].flag = false;
-				
-			}
 						
-			if (Drain_Triangle(players.pos.x, players.pos.y, players.radius, triangle[i]) == true && triangle[i].flag == true) {
-				players.radius += (triangle[i].radian / 25);
-				players.Length += (triangle[i].radian / 5);
-				triangle[i].flag = false;
-			}
-			
-			if (Drain_Quadrangl(players.pos.x, players.pos.y, players.radius, quadrangle[i]) == true && quadrangle[i].flag == true) {
-				players.radius += (quadrangle[i].radian / 25);
-				players.Length += (quadrangle[i].radian / 5);
-				quadrangle[i].flag = false;
-			}*/
-			
 			
 			if (Drain_Check_Ellipse(players,ellipse[i])) {
 				if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
@@ -173,8 +164,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		
 		}
-		//players.Draw(screen,players);
-		players.Draw_Rand_Skin(screen);
+		players.Draw(screen,players);
+		item.Draw(screen,players);
+		//players.Draw_Rand_Skin(screen,preKeys[DIK_SPACE],keys[DIK_SPACE]);
 
 		Novice::ScreenPrintf(0, 20,"zoomed_prad= %f", players.radius*screen.Zoom.x);
 		Novice::ScreenPrintf(0, 0, "prad= %d", players.Length);

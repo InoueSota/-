@@ -51,7 +51,7 @@ public:
 	void Draw(Screen& screen, Player& players);											//•`‰æŠÖ”
 	void Ripples(Screen& screen, Player& players, char prekeys, char keys);				//”g–ä‚ÌŠÖ”
 
-	void Draw_Rand_Skin(Screen& screen);
+	void Draw_Rand_Skin(Screen& screen, char prekeys, char keys);
 private:
 
 };
