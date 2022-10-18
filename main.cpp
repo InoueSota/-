@@ -53,15 +53,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		players.SetZoom(screen, players);
 
-		item.Set_Item(RAND(0, 500), RAND(0, 500), players,RAND(0,0));
-		if (item.Item_collision(players, screen) == true) {
+		item.Set_Item(RAND(0, 1000), RAND(0, 1000), players,RAND(0,0));
 
+		if (item.Item_collision(players, screen) == true) {
+			
 			item.Randam_Item();
 			
 		}
-		item.Result(players,screen);
-		//Novice::ScreenPrintf(0, 60, "%f", players.incDeg);
 
+		item.Result(players,screen);
+		
 		for (int i = 0; i < Figure::FigureMax; i++) {	
 			//
 			/*if (ellipse[i].InScreen(players, ellipse[i].position, screen)) {
@@ -111,7 +112,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			players.radius = 10;
 		}
 		
-		stage_1.Map_Collision(players);
+		if (stage_1.Map_Collision(players) == false) {
+
+
+		}
 		/*for (int i = 0; i < Figure::FigureMax; i++) {
 			
 			if (ellipse[i].flag == false) {

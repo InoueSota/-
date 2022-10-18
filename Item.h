@@ -11,7 +11,6 @@ class Item {
 	Vec2 pos;
 	float radius;
 	int item_rand;
-	bool flag;
 	bool speed_item;
 	bool shild;
 	bool length_up;
@@ -23,6 +22,8 @@ class Item {
 
 
 public:
+	bool flag;
+
 	Item();
 	bool Item_collision(Player& player, Screen& screen);
 
