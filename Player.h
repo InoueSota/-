@@ -23,6 +23,9 @@ public:
 	float radius;						//”¼Œa
 
 	int Reverse;						//”½“]—p
+	int Longpressframe;					//’·‰Ÿ‚µƒtƒŒ[ƒ€
+	bool isLongpress;					//’·‰Ÿ‚µ‚µ‚½‚©
+
 	int Length;							//‰~‚Æ‰~‚ÌŠÔ‚Ì’·‚³
 	float incDeg;						//‰ñ“]‘¬“x
 
