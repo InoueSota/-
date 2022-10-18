@@ -16,7 +16,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
 	//
 	stage_1.Set_Map(0, 0, 2000, RED);
-	
+	//
+	boss.set(players, screen, stage_1);
+
 	for (int i = 0; i < Figure::FigureMax; i++) {
 		ellipse[i].set(players,screen,stage_1);
 		triangle[i].set(players, screen, stage_1);
@@ -53,6 +55,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		players.SetZoom(screen, players);
 
+
 		item.Set_Item(RAND(0, 500), RAND(0, 500), players,RAND(0,0));
 		if (item.Item_collision(players, screen) == true) {
 
@@ -60,13 +63,28 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			
 		}
 		item.Result(players,screen);
+
+		/*boss.count++;
+
+		if (boss.count > 300) {
+			for (int i = 0; i < 3; i++) {
+				if (!enemy[i].setflag) {
+					boss.radian += enemy[i].set(boss, players, screen, stage_1);
+				}
+				else {
+					boss.Update(enemy[i], players, screen, stage_1);
+					enemy[i].Update(boss);
+				}
+			}
+		}*/
+
 		//Novice::ScreenPrintf(0, 60, "%f", players.incDeg);
 
 		for (int i = 0; i < Figure::FigureMax; i++) {	
-			//
-			/*if (ellipse[i].InScreen(players, ellipse[i].position, screen)) {
+			
+			if (ellipse[i].InScreen(players, ellipse[i].position, screen)) {
 				ellipse[i].count++;
-				if (ellipse[i].count >= 240 ) {
+				if (ellipse[i].count >= ellipse[i].count_state && ellipse[i].count <= ellipse[i].count_end) {
 					ellipse[i].Update(players);
 				}
 			}
@@ -100,11 +118,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					quadrangle[i].flag = false;
 				}
 			}
-			//if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
+			/*if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
 
-			//	players.radius -= (ellipse[i].radian / 100);
-			//	players.Length -= (ellipse[i].radian / 100);
-			//}
+				players.radius -= (ellipse[i].radian / 100);
+				players.Length -= (ellipse[i].radian / 100);
+			}*/
 
 		}
 		if (players.radius < 10) {
@@ -112,7 +130,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		
 		stage_1.Map_Collision(players);
-		/*for (int i = 0; i < Figure::FigureMax; i++) {
+		for (int i = 0; i < Figure::FigureMax; i++) {
 			
 			if (ellipse[i].flag == false) {
 				ellipse[i].cooltime++;
@@ -133,7 +151,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 			
-		}*/
+		}
 		
 		///
 		/// ↑更新処理ここまで
@@ -166,10 +184,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		players.Draw(screen,players);
 		item.Draw(screen,players);
+		/*boss.draw(screen);
+		for (int i = 0; i < 3; i++) {
+			enemy[i].draw(screen);
+		}*/
 		//players.Draw_Rand_Skin(screen,preKeys[DIK_SPACE],keys[DIK_SPACE]);
 
 		Novice::ScreenPrintf(0, 20,"zoomed_prad= %f", players.radius*screen.Zoom.x);
-		Novice::ScreenPrintf(0, 0, "prad= %d", players.Length);
+		Novice::ScreenPrintf(0, 0, "%d", boss.count);
 
 
 		///

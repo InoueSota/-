@@ -3,6 +3,8 @@
 
 Figure::Figure() {
 	SRAND();
+	count_state = 240;
+	count_end = 360;
 }
 
 float Figure::IsRespon(Map map) {
@@ -22,7 +24,7 @@ float Figure::RadianMin(Player& player) {
 }
 
 float Figure::RadianMax(Player& player) {
-	return player.radius * 1.5;
+	return player.radius * 2.5;
 }
 
 bool Figure::cheakdraw(Player player, Vec2 Position, Screen screen ,bool Flag) {
@@ -61,27 +63,31 @@ bool llipse::IsInStage(float stage) {
 	return true;
 }
 void llipse::Update(Player player) {
-	
-	  
-	if (!easingset) {
-		start = position;
-		end = player.pos.Normalized() * radian;
-		easingset = true;
-		easingflag = true;
-		t = 0.0f;
+	Vec2 vel = (player.center - position).Normalized() * radian / 10;
+	position += vel;
+	if (count > count_end) {
+		count = 0;
 	}
-	if (easingflag) {
-		t+=0.01;
-		Easing::easeInSine(t);
-		position.x = (1.0f - t) * start.x + t * end.x;
-		position.y = (1.0f - t) * start.y + t * end.y;
-		if (t >= 1) {
-			easingflag = false;
-			easingset = false;
-			count = 0;
-			t = 0.0f;
-		}
-	}
+	//if (!easingset) {
+	//	start = {0,0};
+	//	end = player.center;
+	//	/*end.x = (player.center.x - position.x) / radian;
+	//	end.y = (player.center.y - position.y) / radian;*/
+	//	easingset = true;
+	//	easingflag = true;
+	//	t = 0.0f;
+	//}
+	//if (easingflag) {
+	//	t+=0.01;
+	//	position.x = Lerp(Easing::easeInSine(t),end.x)+ position.x;
+	//	position.y = Lerp(Easing::easeInSine(t), end.y) + position.y;
+	//	if (t >= 1.0f) {
+	//		easingflag = false;
+	//		easingset = false;
+	//		count = 0;
+	//		t = 0.0f;
+	//	}
+	//}
 
 }
 

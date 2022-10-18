@@ -7,6 +7,7 @@
 #include "Screen.h"
 #include "Map.h"
 #include "Item.h"
+#include "Boss.h"
 
 
 
@@ -21,3 +22,5 @@ Triangle triangle[Figure::FigureMax];
 Quadrangle quadrangle[Figure::FigureMax];
 clock_t oldTime;
 Item item;
+Boss boss;
+Enemy enemy[3];

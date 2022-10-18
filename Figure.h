@@ -33,9 +33,11 @@ public:
 	unsigned int color;
 	bool flag;
 	int cooltime;
+
+	int count_state;
+	int count_end;
 	//Á
 	float stage(Map map);
-	/*float area = 2000;*/
 private:
 	
 };
