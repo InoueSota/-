@@ -24,6 +24,8 @@ void Player::Init() {
 	deg = 0;
 	radius = 30;
 	Reverse = 1;
+	Longpressframe = 0;
+	isLongpress = false;
 	Length = 300;
 	incDeg = 2.0f;
 	isScroll = false;
@@ -51,7 +53,6 @@ void Player::SetZoom(Screen& screen, Player& players) {
 /*　円運動の関数　*/
 void CircleA::CircleProcess(Player& players) {
 	
-	circleA.deg += incDeg;
 	circleA.deg += players.incDeg * players.Reverse;
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
@@ -63,7 +64,6 @@ void CircleA::CircleProcess(Player& players) {
 }
 void CircleB::CircleProcess(Player& players) {
 	
-	circleB.deg -= incDeg;
 	circleB.deg -= players.incDeg * players.Reverse;
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
@@ -106,7 +106,7 @@ void CircleB::SetDegree() {
 
 /*　スクロール座標を設定する関数　*/
 void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char keys) {
-	if (prekeys == 0 && keys && isScroll == false){
+	if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false){
 		isScroll = true;
 	}
 	if (isScroll == true){
@@ -125,12 +125,9 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 
 /*　関数をまとめる関数　*/
 void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d) {
-	if (predik_d == 0 && dik_d){
-		players.Reverse *= -1;
-	}
-	if (prekeys == 0 && keys && isScroll == false) {
+	if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false) {
 		player->SetDegree();
-		if (player == &circleA){
+		if (player == &circleA) {
 			players.tmpCenpos = circleB.pos;
 			players.tmpMovepos = circleA.pos - players.tmpCenpos;
 			player = nullptr;
@@ -143,23 +140,39 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 			player = &circleA;
 		}
 	}
+	if (keys) {
+		players.Longpressframe++;
+		if (players.Longpressframe == 30) {
+			players.Reverse *= -1;
+			players.isLongpress = true;
+		}
+	}
+	if (prekeys == 0 && keys == 0) {
+		players.Longpressframe = 0;
+		players.isLongpress = false;
+	}
 	player->CircleProcess(players);
 }
 
 /*　描画関数　*/
 void Player::Draw(Screen& screen, Player& players) {
-	Quad tmp, outtmp, op{
-		{ 0, -players.radius},
-		{ static_cast<float>(players.Length), -players.radius},
-		{ 0,  players.radius},
-		{ static_cast<float>(players.Length), players.radius}
+	Quad tmp, outtmp, ReverseGaugetmp, op{
+		{ 0, -(players.radius - 10)},
+		{ static_cast<float>(players.Length), -(players.radius - 10)},
+		{ 0,  (players.radius - 10)},
+		{ static_cast<float>(players.Length),(players.radius - 10)}
 	}, outop{
-		{ 0, -players.radius - 5 / screen.Zoom.x},
-		{ static_cast<float>(players.Length), -players.radius - 5 / screen.Zoom.x},
-		{ 0,  players.radius + 5 / screen.Zoom.x},
-		{ static_cast<float>(players.Length), players.radius + 5 / screen.Zoom.x}
+		{ 0, -(players.radius - 5)},
+		{ static_cast<float>(players.Length), -(players.radius - 5)},
+		{ 0,  (players.radius - 5)},
+		{ static_cast<float>(players.Length), (players.radius - 5)}
+	}, ReverseGaugeop{
+		{ 0, -(players.radius - 5)},
+		{ static_cast<float>(players.Length) / 30 * players.Longpressframe, -(players.radius - 5)},
+		{ 0,  (players.radius - 5)},
+		{ static_cast<float>(players.Length) / 30 * players.Longpressframe, (players.radius - 5)}
 	};
-	Matrix33 mat;
+	Matrix33 mat, mat2;
 	mat = Matrix33::Identity();
 	mat = Matrix33::MakeScaling(screen.Zoom);
 	mat = Matrix33::MakeRotation(Degree(players.deg));
@@ -172,12 +185,24 @@ void Player::Draw(Screen& screen, Player& players) {
 	outtmp.RightTop = outop.RightTop * mat;
 	outtmp.LeftBottom = outop.LeftBottom * mat;
 	outtmp.RightBottom = outop.RightBottom * mat;
+	mat2 = Matrix33::Identity();
+	mat2 = Matrix33::MakeScaling(screen.Zoom);
+	mat2 = Matrix33::MakeRotation(Degree(90));
+	mat2 *= Matrix33::MakeTranslation(players.center.x + 100, players.center.y - players.Length / 2);
+	ReverseGaugetmp.LeftTop = ReverseGaugeop.LeftTop * mat2;
+	ReverseGaugetmp.RightTop = ReverseGaugeop.RightTop * mat2;
+	ReverseGaugetmp.LeftBottom = ReverseGaugeop.LeftBottom * mat2;
+	ReverseGaugetmp.RightBottom = ReverseGaugeop.RightBottom * mat2;
 
 	//スペースキーを押したときに波紋を出す
 	for (int i = 0; i < RIPPLES_MAX; i++){
 		if (isExist[i] == true){
 			screen.DrawEllipse(Rpos[i].x, Rpos[i].y, Rradius[i], Rradius[i], 0.0f, Rcolor[i], kFillModeSolid);
 		}
+	}
+	//リバースゲージ
+	if (players.isLongpress == false) {
+		screen.DrawQuad2(ReverseGaugetmp, 0, 0, 0, 0, 0, 0x555555FF);
 	}
 	//アウトライン
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius + 5 / screen.Zoom.x, players.radius + 5 / screen.Zoom.x, 0.0f, BLACK, kFillModeSolid);
@@ -219,14 +244,14 @@ void Player::Draw_Rand_Skin(Screen& screen, char prekeys, char keys)
 
 	Quad tmp, outtmp, op{
 		{ 0, -radius},
-		{ static_cast<float>(Length), -radius},
+		{ static_cast<float>(Length), -(radius - 10)},
 		{ 0,  radius},
-		{ static_cast<float>(Length), radius}
+		{ static_cast<float>(Length), (radius - 10)}
 	}, outop{
 		{ 0, -radius - 5 / screen.Zoom.x},
-		{ static_cast<float>(Length), -radius - 5 / screen.Zoom.x},
+		{ static_cast<float>(Length), -(radius - 15) / screen.Zoom.x},
 		{ 0, radius + 5 / screen.Zoom.x},
-		{ static_cast<float>(Length), radius + 5 / screen.Zoom.x}
+		{ static_cast<float>(Length), (radius - 15) / screen.Zoom.x}
 	};
 	Matrix33 mat;
 	mat = Matrix33::Identity();
@@ -250,7 +275,7 @@ void Player::Draw_Rand_Skin(Screen& screen, char prekeys, char keys)
 
 void Player::Ripples(Screen& screen, Player& players, char prekeys, char keys) {
 	for (int i = 0; i < RIPPLES_MAX; i++) {
-		if (prekeys == 0 && keys && isExist[i] == false && isScroll == false) {
+		if (prekeys != 0 && keys == 0 && isExist[i] == false && isScroll == false && players.isLongpress == false) {
 			Rpos[i] = players.center;
 			Rradius[i] = players.radius;
 			Rcolor[i] = 0x000000FF;
