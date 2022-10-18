@@ -23,4 +23,4 @@ Quadrangle quadrangle[Figure::FigureMax];
 clock_t oldTime;
 Item item;
 Boss boss;
-Enemy enemy[3];
+//Enemy enemy[3];
