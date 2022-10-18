@@ -23,11 +23,13 @@ void Player::Init() {
 	tmppos = { 0,0 };
 	deg = 0;
 	radius = 30;
+
 	Reverse = 1;
 	Longpressframe = 0;
 	isLongpress = false;
+
 	Length = 300;
-	incDeg = 3.0f;
+
 	isScroll = false;
 	tmpCenpos = { 0,0 };
 	tmpMovepos = { 0,0 };
@@ -102,6 +104,14 @@ void CircleB::SetDegree() {
 	circleA.deg = angleAB + 180;
 }
 
+/*　incDegの速度を変化させる処理関数　*/
+void Player::IncDegProcess(Player& players, char prekeys, char keys) {
+	if (prekeys != 0 && keys == 0){
+		players.incDeg = initVelo;
+	}
+	players.incDeg -= 0.04f;
+	players.incDeg = Clamp(players.incDeg, 1.5f, initVelo);
+}
 
 
 /*　スクロール座標を設定する関数　*/
@@ -111,7 +121,7 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 	}
 	if (isScroll == true){
 		Scrolleasingt += ScrollincT;
-		Clamp(Scrolleasingt, 0.0f, 1.0f);
+		Scrolleasingt = Clamp(Scrolleasingt, 0.0f, 1.0f);
 		screen.Scroll.x = Lerp(Easing::easeOutQuint(Scrolleasingt), players.tmpMovepos.x) + players.tmpCenpos.x;
 		screen.Scroll.y = Lerp(Easing::easeOutQuint(Scrolleasingt), players.tmpMovepos.y) + players.tmpCenpos.y;
 		if (Scrolleasingt >= 1.0f){
@@ -125,6 +135,7 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 
 /*　関数をまとめる関数　*/
 void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d) {
+	IncDegProcess(players, prekeys, keys);
 	if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false) {
 		player->SetDegree();
 		if (player == &circleA) {
@@ -212,6 +223,7 @@ void Player::Draw(Screen& screen, Player& players) {
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0xFF6E00FF);
+	Novice::ScreenPrintf(0, 100, "%f", players.incDeg);
 }
 
 //void Player::Draw_Rand_Skin(Screen& screen, char prekeys, char keys)

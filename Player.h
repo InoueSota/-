@@ -27,15 +27,9 @@ public:
 	bool isLongpress;					//長押ししたか
 
 	int Length;							//円と円の間の長さ
-	float incDeg;						//回転速度
 
-	Vec2 Rpos[RIPPLES_MAX];				//波紋pos
-	bool isExist[RIPPLES_MAX];			//波紋フラグ
-	float Rradius[RIPPLES_MAX];			//波紋radius
-	float Existtime[RIPPLES_MAX];		//波紋存在time
-	unsigned int Rcolor[RIPPLES_MAX];	//波紋color
-
-	bool isHit;
+	float incDeg = 0.0f;				//結果回転速度
+	const float initVelo = 5.0f;		//初速度
 
 	bool isScroll;						//スクロールフラグ
 	Vec2 tmpCenpos;						//スクロール初期座標
@@ -43,18 +37,25 @@ public:
 	float Scrolleasingt;				//これはただのｔ
 	float ScrollincT;					//easingtの増加量
 
+	Vec2 Rpos[RIPPLES_MAX];				//波紋pos
+	bool isExist[RIPPLES_MAX];			//波紋フラグ
+	float Rradius[RIPPLES_MAX];			//波紋radius
+	float Existtime[RIPPLES_MAX];		//波紋存在time
+	unsigned int Rcolor[RIPPLES_MAX];	//波紋color
+
 	/*　関数　*/
 	void Init();																		//初期化する関数
 	void SetPlayers(Player& players);													//main.cppで座標を使用するために取得する関数
 	virtual void CircleProcess(Player& players) {};										//円運動の関数
 	virtual void SetDegree() {};														//円運動する円を変更する際の度数の設定する関数
+	void IncDegProcess(Player& players, char prekeys, char keys);						//incDegの速度を変化させる処理関数
 	void SetScrollPos(Screen& screen, Player& players, char prekeys, char keys);		//スクロール座標を設定する関数
 	void SetZoom(Screen& screen, Player& players);										//ズームの値を設定する関数
 	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d);	//関数をまとめてmain.cppで一行にする関数
 	void Draw(Screen& screen, Player& players);											//描画関数
 	void Ripples(Screen& screen, Player& players, char prekeys, char keys);				//波紋の関数
 
-	void Draw_Rand_Skin(Screen& screen, char prekeys, char keys);
+	//void Draw_Rand_Skin(Screen& screen, char prekeys, char keys);
 private:
 
 };
