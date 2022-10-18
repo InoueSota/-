@@ -8,14 +8,13 @@ const int PARTICLE_LIFE = 250;				//パーティクルの寿命
 class Particle
 {
 public:
+
 	Vec2 pos[PARTICLE_MAX];
 	int frame;
 	int life[PARTICLE_MAX];
 	float radius[PARTICLE_MAX];
 	int decreaseSize[PARTICLE_MAX];		//パーティクルの減少量
 
-
-private:
 	virtual void ParticleInit() {};							//　初期化
 	virtual void ParticleMake() {};							//　生成
 	virtual void ParticleMove() {};							//　移動
