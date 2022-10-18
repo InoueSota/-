@@ -51,15 +51,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		players.SetZoom(screen, players);
 
+		item.Set_Item(RAND(0, 1000), RAND(0, 1000), players,RAND(0,0));
 		/*　パーティクル処理　*/
 		Pparticle.ParticleProcess(players, screen);
 
-		item.Set_Item(RAND(0, 500), RAND(0, 500), players,RAND(0,0));
 		if (item.Item_collision(players, screen) == true) {
-
+			
 			item.Randam_Item();
 			
 		}
+
 		item.Result(players,screen);
 
 		/*boss.count++;
