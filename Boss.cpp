@@ -7,16 +7,15 @@ Boss::Boss()
 	radian = 0;
 	SRAND();
 	rand_num=0;
-
+	shild = 3;
 	count=0;
 	cooltime=300;
 }
 
-void Boss::set(Player& player, Screen screen, Map map) {
+void Boss::set(Vec2 pos ) {
 
 	//ポジションなど必要な値を引数を用いて代入するでやんす。
-	position.y = screen.Worldcenter.y + 1000;
-	position.x = 0;
+	position = pos;
 	radian = 500;
 
 }
@@ -49,14 +48,27 @@ void Boss::Result()
 void Boss::Keep_Up(Player& player)
 {
 	//プレイヤーについていく関数使わないかもしれない
-
+	Vec2 vel = (player.center - position).Normalized();
+	position += vel;
 
 }
 
 
 
 void Boss::draw(Screen& screen) {
+	
 	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, BLACK, kFillModeSolid);
+	if (shild >= 1) {
+		screen.DrawEllipse(position.x, position.y, radian/10, radian/10, 0.0f, RED, kFillModeSolid);
+		if (shild >= 2) {
+			screen.DrawTriangle(position.x, position.y + 100, position.x - 100, position.y - 50, position.x + 100, position.y - 50, GREEN, kFillModeSolid);
+
+		}
+		
+				
+		
+	}
+	
 }
 
 

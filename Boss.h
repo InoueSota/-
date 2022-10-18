@@ -13,12 +13,13 @@ class Boss:public Figure
 public:
 	Boss();
 	void draw(Screen& screen);
-	void set(Player& player, Screen screen,Map map);
+	void set(Vec2 pos);
 	void Rand_Move();
 	void Result();
 	void Keep_Up(Player& player);
 
 	int rand_num;
+	int shild;
 	bool pattern_1;
 	bool pattern_2;
 	bool pattern_3;

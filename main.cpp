@@ -17,7 +17,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//
 	stage_1.Set_Map(0, 0, 2000, RED);
 	//
-	boss.set(players, screen, stage_1);
+	boss.set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
+
 
 	for (int i = 0; i < Figure::FigureMax; i++) {
 		ellipse[i].set(players,screen,stage_1);
@@ -51,6 +52,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		players.SetZoom(screen, players);
 
+		/*ボス関係*/
+		boss.Keep_Up(players);
 		/*　パーティクル処理　*/
 		Pparticle.ParticleProcess(players, screen);
 
@@ -171,11 +174,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		
 		}
 
+		boss.draw(screen);
+
 		Pparticle.DrawParticle(screen);
 		players.Draw(screen,players);
 
 		item.Draw(screen,players);
-		boss.draw(screen);
 		
 		//players.Draw_Rand_Skin(screen,preKeys[DIK_SPACE],keys[DIK_SPACE]);
 
