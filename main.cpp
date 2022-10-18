@@ -64,19 +64,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		item.Result(players,screen);
 
-		/*boss.count++;
-
-		if (boss.count > 300) {
-			for (int i = 0; i < 3; i++) {
-				if (!enemy[i].setflag) {
-					boss.radian += enemy[i].set(boss, players, screen, stage_1);
-				}
-				else {
-					boss.Update(enemy[i], players, screen, stage_1);
-					enemy[i].Update(boss);
-				}
-			}
-		}*/
+		
 
 		//Novice::ScreenPrintf(0, 60, "%f", players.incDeg);
 
@@ -187,10 +175,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		players.Draw(screen,players);
 
 		item.Draw(screen,players);
-		/*boss.draw(screen);
-		for (int i = 0; i < 3; i++) {
-			enemy[i].draw(screen);
-		}*/
+		boss.draw(screen);
+		
 		//players.Draw_Rand_Skin(screen,preKeys[DIK_SPACE],keys[DIK_SPACE]);
 
 		Novice::ScreenPrintf(0, 20,"zoomed_prad= %f", players.radius*screen.Zoom.x);
