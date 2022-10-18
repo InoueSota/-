@@ -2,6 +2,7 @@
 #include <Novice.h>
 #include <time.h>
 #include "Player.h"
+#include "Particle.h"
 #include "Figure.h"
 #include "drain.h"
 #include "Screen.h"
@@ -17,6 +18,7 @@
 Screen screen;
 Map stage_1;
 Player players;
+PlayerP Pparticle;
 llipse ellipse[Figure::FigureMax];
 Triangle triangle[Figure::FigureMax];
 Quadrangle quadrangle[Figure::FigureMax];

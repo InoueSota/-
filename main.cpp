@@ -44,16 +44,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		
 		/*stage_1.Set_Map(0, 0, 2000,RED);*/
 		
-		
+		/*　プレイヤー関係の関数（それぞれの意味はPlayer.hに記述）　*/
 		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
-
 		players.SetPlayers(players);
-
 		players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-
 		players.SetZoom(screen, players);
+
+		/*　パーティクル処理　*/
+		Pparticle.ParticleProcess(players, screen);
 
 		item.Set_Item(RAND(0, 1000), RAND(0, 1000), players,RAND(0,0));
 
@@ -87,7 +86,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
 					Novice::PlayAudio(drain, 0, 0.5);
 					players.radius += (ellipse[i].radian / 100);
-					players.Length += (ellipse[i].radian / 25);
+					players.Length += (ellipse[i].radian / 15);
 					ellipse[i].flag = false;
 				}
 			}
@@ -95,7 +94,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true) {
 					Novice::PlayAudio(drain, 0, 0.5);
 					players.radius += (triangle[i].radian / 100);
-					players.Length += (triangle[i].radian / 25);
+					players.Length += (triangle[i].radian / 15);
 					triangle[i].flag = false;
 				}
 			}
@@ -103,7 +102,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true) {
 					Novice::PlayAudio(drain, 0, 0.5);
 					players.radius += (quadrangle[i].radian / 100);
-					players.Length += (quadrangle[i].radian / 25);
+					players.Length += (quadrangle[i].radian / 15);
 					quadrangle[i].flag = false;
 				}
 			}
@@ -171,7 +170,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		
 		}
+
+		Pparticle.DrawParticle(screen);
 		players.Draw(screen,players);
+
 		item.Draw(screen,players);
 		boss.draw(screen);
 		
