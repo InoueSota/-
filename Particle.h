@@ -12,9 +12,11 @@ public:
 	int frame;
 	int life[PARTICLE_MAX];
 	float radius[PARTICLE_MAX];
+	int decreaseSize[PARTICLE_MAX];		//パーティクルの減少量
+
 
 private:
-	virtual void ParticleInit(){};							//　初期化
+	virtual void ParticleInit() {};							//　初期化
 	virtual void ParticleMake() {};							//　生成
 	virtual void ParticleMove() {};							//　移動
 	virtual void ParticleProcess() {};						//　処理
@@ -23,9 +25,9 @@ private:
 
 class PlayerP : public Particle {
 public:
-	void ParticleInit() {};
-	void ParticleMake(Player& players) {};
-	void ParticleMove() {};
-	void ParticleProcess() {};
-	void DrawParticle() {};
+	void ParticleInit();
+	void ParticleMake(Player& players, Screen& screen);
+	void ParticleMove();
+	void ParticleProcess(Player& players, Screen& screen);
+	void DrawParticle(Screen& screen);
 };

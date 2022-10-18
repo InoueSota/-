@@ -35,7 +35,7 @@ void Player::Init() {
 	ScrollincT = 0.1;
 }
 
-/*　main.cppで座標をしようするために取得する関数　*/
+/*　main.cppで座標を使用するために取得する関数　*/
 void Player::SetPlayers(Player& players) {
 	players.pos = player->pos;
 	players.center = player->center;
@@ -214,64 +214,64 @@ void Player::Draw(Screen& screen, Player& players) {
 	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0xFF6E00FF);
 }
 
-void Player::Draw_Rand_Skin(Screen& screen, char prekeys, char keys)
-{
-	
-	int gra = 0;
-	int Rand = 0;
-	bool change = false;
-	int aisu_atari = Novice::LoadTexture("./resource/aisu_atari.png");
-	int aisu_hazure = Novice::LoadTexture("./resource/aisu_hazuret.png");
-	int waribashi= Novice::LoadTexture("./resource/waribashi.png");
-	if (prekeys == 0 && keys&&change==false){
-		change = true;
-
-	}
-	if (change == true) {
-		Rand = RAND(0, 2);
-		change = false;
-	}
-
-	if (Rand == 0) {
-		gra = waribashi;
-	}
-	if (Rand == 1) {
-		gra = aisu_hazure;
-	}
-	if (Rand == 2) {
-		gra = aisu_atari;
-	}
-
-	Quad tmp, outtmp, op{
-		{ 0, -radius},
-		{ static_cast<float>(Length), -(radius - 10)},
-		{ 0,  radius},
-		{ static_cast<float>(Length), (radius - 10)}
-	}, outop{
-		{ 0, -radius - 5 / screen.Zoom.x},
-		{ static_cast<float>(Length), -(radius - 15) / screen.Zoom.x},
-		{ 0, radius + 5 / screen.Zoom.x},
-		{ static_cast<float>(Length), (radius - 15) / screen.Zoom.x}
-	};
-	Matrix33 mat;
-	mat = Matrix33::Identity();
-	mat = Matrix33::MakeScaling(screen.Zoom);
-	mat = Matrix33::MakeRotation(Degree(deg));
-	mat *= Matrix33::MakeTranslation(center);
-	tmp.LeftTop = op.LeftTop * mat;
-	tmp.RightTop = op.RightTop * mat;
-	tmp.LeftBottom = op.LeftBottom * mat;
-	tmp.RightBottom = op.RightBottom * mat;
-	outtmp.LeftTop = outop.LeftTop * mat;
-	outtmp.RightTop = outop.RightTop * mat;
-	outtmp.LeftBottom = outop.LeftBottom * mat;
-	outtmp.RightBottom = outop.RightBottom * mat;
-
-
-	
-	screen.DrawQuad( tmp.RightTop.x, tmp.RightTop.y, tmp.RightBottom.x, tmp.RightBottom.y, tmp.LeftTop.x, tmp.LeftTop.y, tmp.LeftBottom.x, tmp.LeftBottom.y, 0, 0, 90, 700, gra, WHITE);
-	
-}
+//void Player::Draw_Rand_Skin(Screen& screen, char prekeys, char keys)
+//{
+//	
+//	int gra = 0;
+//	int Rand = 0;
+//	bool change = false;
+//	int aisu_atari = Novice::LoadTexture("./resource/aisu_atari.png");
+//	int aisu_hazure = Novice::LoadTexture("./resource/aisu_hazuret.png");
+//	int waribashi= Novice::LoadTexture("./resource/waribashi.png");
+//	if (prekeys == 0 && keys&&change==false){
+//		change = true;
+//
+//	}
+//	if (change == true) {
+//		Rand = RAND(0, 2);
+//		change = false;
+//	}
+//
+//	if (Rand == 0) {
+//		gra = waribashi;
+//	}
+//	if (Rand == 1) {
+//		gra = aisu_hazure;
+//	}
+//	if (Rand == 2) {
+//		gra = aisu_atari;
+//	}
+//
+//	Quad tmp, outtmp, op{
+//		{ 0, -radius},
+//		{ static_cast<float>(Length), -(radius - 10)},
+//		{ 0,  radius},
+//		{ static_cast<float>(Length), (radius - 10)}
+//	}, outop{
+//		{ 0, -radius - 5 / screen.Zoom.x},
+//		{ static_cast<float>(Length), -(radius - 15) / screen.Zoom.x},
+//		{ 0, radius + 5 / screen.Zoom.x},
+//		{ static_cast<float>(Length), (radius - 15) / screen.Zoom.x}
+//	};
+//	Matrix33 mat;
+//	mat = Matrix33::Identity();
+//	mat = Matrix33::MakeScaling(screen.Zoom);
+//	mat = Matrix33::MakeRotation(Degree(deg));
+//	mat *= Matrix33::MakeTranslation(center);
+//	tmp.LeftTop = op.LeftTop * mat;
+//	tmp.RightTop = op.RightTop * mat;
+//	tmp.LeftBottom = op.LeftBottom * mat;
+//	tmp.RightBottom = op.RightBottom * mat;
+//	outtmp.LeftTop = outop.LeftTop * mat;
+//	outtmp.RightTop = outop.RightTop * mat;
+//	outtmp.LeftBottom = outop.LeftBottom * mat;
+//	outtmp.RightBottom = outop.RightBottom * mat;
+//
+//
+//	
+//	screen.DrawQuad( tmp.RightTop.x, tmp.RightTop.y, tmp.RightBottom.x, tmp.RightBottom.y, tmp.LeftTop.x, tmp.LeftTop.y, tmp.LeftBottom.x, tmp.LeftBottom.y, 0, 0, 90, 700, gra, WHITE);
+//	
+//}
 
 void Player::Ripples(Screen& screen, Player& players, char prekeys, char keys) {
 	for (int i = 0; i < RIPPLES_MAX; i++) {
