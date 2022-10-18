@@ -16,4 +16,8 @@ public:
 	void DrawMap(Screen& screen);
 	void Set_Map(float x, float y, float rad, unsigned int iro);
 	void Map_Collision(Player& player);
+	/*void draw();
+	static const int Max = 500;
+	int MapChip[Max][Max];*/
+	
 };
