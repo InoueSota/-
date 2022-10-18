@@ -32,7 +32,7 @@ void Player::Init() {
 	tmpCenpos = { 0,0 };
 	tmpMovepos = { 0,0 };
 	Scrolleasingt = 0.0f;
-	ScrollincT = 0.05;
+	ScrollincT = 0.1;
 }
 
 /*@main.cpp‚ÅÀ•W‚ğ‚µ‚æ‚¤‚·‚é‚½‚ß‚Éæ“¾‚·‚éŠÖ”@*/
