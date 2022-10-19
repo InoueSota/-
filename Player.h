@@ -29,7 +29,7 @@ public:
 	int Length;							//円と円の間の長さ
 
 	float incDeg = 0.0f;				//結果回転速度
-	const float initVelo = 5.0f;		//初速度
+	const float initVelo = 4.5f;		//初速度
 
 	bool isScroll;						//スクロールフラグ
 	Vec2 tmpCenpos;						//スクロール初期座標

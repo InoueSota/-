@@ -168,24 +168,19 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 /*　描画関数　*/
 void Player::Draw(Screen& screen, Player& players) {
 	Quad tmp, outtmp, ReverseGaugetmp, op{
-		{ 0, -(players.radius - 10)},
-		{ static_cast<float>(players.Length), -(players.radius - 10)},
-		{ 0,  (players.radius - 10)},
-		{ static_cast<float>(players.Length),(players.radius - 10)}
+		{ 0, -players.radius + 15 / screen.Zoom.x},
+		{ static_cast<float>(players.Length), -players.radius + 15 / screen.Zoom.x},
+		{ 0,  players.radius - 15 / screen.Zoom.x},
+		{ static_cast<float>(players.Length),players.radius - 15 / screen.Zoom.x}
 	}, outop{
-		{ 0, -(players.radius - 5)},
-		{ static_cast<float>(players.Length), -(players.radius - 5)},
-		{ 0,  (players.radius - 5)},
-		{ static_cast<float>(players.Length), (players.radius - 5)}
-	}, ReverseGaugeop{
-		{ 0, -(players.radius - 5)},
-		{ static_cast<float>(players.Length) / 30 * players.Longpressframe, -(players.radius - 5)},
-		{ 0,  (players.radius - 5)},
-		{ static_cast<float>(players.Length) / 30 * players.Longpressframe, (players.radius - 5)}
+		{ 0, -players.radius + 10 / screen.Zoom.x},
+		{ static_cast<float>(players.Length), -players.radius + 10 / screen.Zoom.x},
+		{ 0,  players.radius - 10 / screen.Zoom.x},
+		{ static_cast<float>(players.Length), players.radius - 10 / screen.Zoom.x}
 	};
 	Matrix33 mat, mat2;
 	mat = Matrix33::Identity();
-	mat = Matrix33::MakeScaling(screen.Zoom);
+	mat = Matrix33::MakeScaling(screen.Zoom.x, 0.5);
 	mat = Matrix33::MakeRotation(Degree(players.deg));
 	mat *= Matrix33::MakeTranslation(players.center);
 	tmp.LeftTop = op.LeftTop * mat;
@@ -196,24 +191,12 @@ void Player::Draw(Screen& screen, Player& players) {
 	outtmp.RightTop = outop.RightTop * mat;
 	outtmp.LeftBottom = outop.LeftBottom * mat;
 	outtmp.RightBottom = outop.RightBottom * mat;
-	mat2 = Matrix33::Identity();
-	mat2 = Matrix33::MakeScaling(screen.Zoom);
-	mat2 = Matrix33::MakeRotation(Degree(90));
-	mat2 *= Matrix33::MakeTranslation(players.center.x + 100, players.center.y - players.Length / 2);
-	ReverseGaugetmp.LeftTop = ReverseGaugeop.LeftTop * mat2;
-	ReverseGaugetmp.RightTop = ReverseGaugeop.RightTop * mat2;
-	ReverseGaugetmp.LeftBottom = ReverseGaugeop.LeftBottom * mat2;
-	ReverseGaugetmp.RightBottom = ReverseGaugeop.RightBottom * mat2;
 
 	//スペースキーを押したときに波紋を出す
 	for (int i = 0; i < RIPPLES_MAX; i++){
 		if (isExist[i] == true){
 			screen.DrawEllipse(Rpos[i].x, Rpos[i].y, Rradius[i], Rradius[i], 0.0f, Rcolor[i], kFillModeSolid);
 		}
-	}
-	//リバースゲージ
-	if (players.isLongpress == false) {
-		screen.DrawQuad2(ReverseGaugetmp, 0, 0, 0, 0, 0, 0x555555FF);
 	}
 	//アウトライン
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius + 5 / screen.Zoom.x, players.radius + 5 / screen.Zoom.x, 0.0f, BLACK, kFillModeSolid);
