@@ -5,16 +5,6 @@ CircleB circleB;
 Player* player = &circleA;
 
 
-Player::Player()
-{
-	Player::Init();
-	SRAND();
-}
-
-Player::~Player()
-{
-}
-
 /*@‰Šú‰»‚·‚éŠÖ”@*/
 void Player::Init() {
 	pos = { 0,0 };
@@ -154,7 +144,6 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 	if (keys) {
 		players.Longpressframe++;
 		if (players.Longpressframe == 30) {
-			players.Reverse *= -1;
 			players.isLongpress = true;
 		}
 	}

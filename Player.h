@@ -11,8 +11,10 @@ class Player
 {
 public:
 
-	Player();
-	~Player();
+	Player() {
+		Init();
+		SRAND();
+	};
 
 	/*@•Ï”@*/
 	Vec2 pos;							//‚±‚ê‚Í‚½‚¾‚Ìposition

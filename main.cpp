@@ -46,16 +46,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/*stage_1.Set_Map(0, 0, 2000,RED);*/
 		
 		/*　プレイヤー関係の関数（それぞれの意味はPlayer.hに記述）　*/
+		//プレイヤー本体
 		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
 		players.SetPlayers(players);
 		players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		players.SetZoom(screen, players);
 
+		//アビリティ
+		bubble.Process(players, screen, keys[DIK_SPACE]);
+
+		//パーティクル処理
+		Pparticle.ParticleProcess(players, screen);
+
 		/*ボス関係*/
 		boss.Keep_Up(players);
-		/*　パーティクル処理　*/
-		Pparticle.ParticleProcess(players, screen);
 
 		item.Set_Item(RAND(0, 1000), RAND(0, 1000), players,RAND(0,0));
 
@@ -177,14 +182,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		boss.draw(screen);
 
 		Pparticle.DrawParticle(screen);
+		bubble.Draw(screen);
 		players.Draw(screen,players);
 
 		item.Draw(screen,players);
 		
 		//players.Draw_Rand_Skin(screen,preKeys[DIK_SPACE],keys[DIK_SPACE]);
 
-		Novice::ScreenPrintf(0, 20,"zoomed_prad= %f", players.radius*screen.Zoom.x);
-		Novice::ScreenPrintf(0, 0, "%d", boss.count);
+		//Novice::ScreenPrintf(0, 20,"zoomed_prad= %f", players.radius*screen.Zoom.x);
+		//Novice::ScreenPrintf(0, 0, "%d", boss.count);
 
 
 		///
