@@ -296,7 +296,7 @@ void Player::Ripples(Screen& screen, Player& players, char prekeys, char keys) {
 			break;
 		}
 		if (isExist[i] == true) {
-			Rradius[i] += 5 / screen.Zoom.x;
+			Rradius[i] += 3 / screen.Zoom.x;
 			Existtime[i] += 0.01f;
 			Rcolor[i] = 0x00000000 | static_cast<int>((1.0f - Existtime[i]) * 0xFF + Existtime[i] * 0x00);
 			if (Rcolor[i] == 0x00000000) {
