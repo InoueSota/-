@@ -54,6 +54,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		/*ボス関係*/
 		boss.Keep_Up(players);
+		boss.Rand_Move(RAND(0,2));
+		boss.Result(players, screen);
 		/*　パーティクル処理　*/
 		Pparticle.ParticleProcess(players, screen);
 
@@ -67,7 +69,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		item.Result(players,screen);
 
-		
+		if (keys[DIK_O]) {
+			screen.Zoom -= {0.5f,0.5f};
+		}
 
 		//Novice::ScreenPrintf(0, 60, "%f", players.incDeg);
 
