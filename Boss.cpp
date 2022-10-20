@@ -17,6 +17,8 @@ Boss::Boss()
 	pattern_1=false;
 	pattern_2=false;
 	pattern_3=false;
+	bullet_true=false;
+
 	for (int i = 0; i < MAX_BULLET; i++) {
 
 	bullet_pos[i] = { 0,0 };
@@ -75,19 +77,14 @@ void Boss::Result(Player& player,Screen& screen)
 				}
 				if (bullet_flag[i] == true) {
 					EaseT_bullet[i] += 0.01f;
-					bullet_pos[0].x += Lerp(Easing::easeInOutCirc(EaseT_bullet[0]), 200);
-					bullet_pos[1].x -= Lerp(Easing::easeInOutCirc(EaseT_bullet[1]), 200);
-					bullet_pos[2].y += Lerp(Easing::easeInOutCirc(EaseT_bullet[2]), 200);
-					bullet_pos[3].y -= Lerp(Easing::easeInOutCirc(EaseT_bullet[3]), 200);
-
-					/*bullet_pos[0].x = easing(Easing::easeInOutCirc(EaseT_bullet[0]),position.x, 300);
-					bullet_pos[1].x = easing(Easing::easeInOutCirc(EaseT_bullet[1]),position.x, 300);
-					bullet_pos[2].y = easing(Easing::easeInOutCirc(EaseT_bullet[2]),position.y, 300);
-					bullet_pos[3].y = easing(Easing::easeInOutCirc(EaseT_bullet[3]),position.y, 300);*/
+					bullet_pos[0].x += Lerp(Easing::easeInOutCirc(EaseT_bullet[0]), 20);
+					bullet_pos[1].x -= Lerp(Easing::easeInOutCirc(EaseT_bullet[1]), 20);
+					bullet_pos[2].y += Lerp(Easing::easeInOutCirc(EaseT_bullet[2]), 20);
+					bullet_pos[3].y -= Lerp(Easing::easeInOutCirc(EaseT_bullet[3]), 20);
 
 				}
 
-				if (EaseT_bullet[i]>=0.9f) {
+				if (EaseT_bullet[i]>=1.0f) {
 
 					bullet_flag[i] = false;
 					pattern_1 = false;
@@ -107,20 +104,41 @@ void Boss::Result(Player& player,Screen& screen)
 				if (bullet_flag[i] == false) {
 					bullet_pos[i].x =position.x+RAND(-1000,1000);
 					bullet_pos[i].y= position.y + RAND(-1000, 1000);
-					color[i] = 0xFFFF0000;
+					color[i] = 0x00000077;
+					tikafle[i] = 0;
 					lifetime[i] = 0;
+					bullet_rad[i] = 100;
+					bullet_true = false;
+					bullettruefle[i] =0;
+
 					bullet_flag[i] = true;
 				}
 
 
 				if (bullet_flag[i] == true) {
 					lifetime[i] += 0.005f;
-					color[i]=0x00000000 | static_cast<int>((1.0f - lifetime[i]) * 0x00 + lifetime[i] * 0xFF);
+					tikafle[i] += 1;
+					
+						
 					if (lifetime[i]>=1.0f) {
 						//bullet_flag[i] = false;
 						flag = false;
 						pattern_2 = false;
 					}
+					if (tikafle[i] % 55 <= 30||lifetime[i]>=0.9f) {
+						bullet_true = true;
+					}
+					else {
+						bullet_true = false;
+					}
+					if (lifetime[i] >= 0.95f) {
+						//bullet_rad[i] += 2;
+						/*color[i]=0x00000000 | static_cast<int>((1.0f - lifetime[i]) * 0x55 + lifetime[i] * 0xFF);
+
+						Clamp(color[i], 0x00000055, 0x000000FF);*/
+						color[i] = 0x000000FF;
+					}
+					
 				}
 			}
 		}
@@ -209,7 +227,8 @@ void Boss::draw(Screen& screen) {
 	if (pattern_1 == true) {
 		for (int i = 0; i < MAX_BULLET; i++) {
 			if (bullet_flag[i] == true) {
-			screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, 0xFFFF00FF,kFillModeSolid);
+			screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, 0x000000FF,kFillModeSolid);
+			//screen.DrawTriangle(bullet_pos[i].x, bullet_pos[i].y + 20, bullet_pos[i].x - 20, bullet_pos[i].y - 20, bullet_pos[i].x + 20, bullet_pos[i].y - 20, GREEN, kFillModeWireFrame);
 
 			}
 
@@ -218,7 +237,9 @@ void Boss::draw(Screen& screen) {
 	if (pattern_2 == true) {
 		for (int i = 0; i < MAX_BULLET; i++) {
 			if (bullet_flag[i] == true) {
-				screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeSolid);
+				if (bullet_true == true) {
+					screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeSolid);
+									}
 
 			}
 

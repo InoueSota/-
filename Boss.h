@@ -64,10 +64,13 @@ public:
 	bool bullet_flag[MAX_BULLET];
 	unsigned int color[MAX_BULLET];
 	float lifetime[MAX_BULLET];
+	int tikafle[MAX_BULLET];
+	int bullettruefle[MAX_BULLET];
 	bool pattern_1;
 	bool pattern_2;
 	bool pattern_3;
 
+	bool bullet_true;
 
 	int count;
 	int cooltime;
