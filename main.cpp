@@ -61,7 +61,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		/*ボス関係*/
 		boss.Keep_Up(players);
-		boss.Rand_Move(RAND(0,2));
+		boss.Rand_Move(RAND(3,3));
 		boss.Result(players, screen);
 		/*　パーティクル処理　*/
 		Pparticle.ParticleProcess(players, screen);

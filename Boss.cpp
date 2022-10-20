@@ -17,6 +17,7 @@ Boss::Boss()
 	pattern_1=false;
 	pattern_2=false;
 	pattern_3=false;
+	blade = { 0,0,0,0,0,0,0,0 };
 	for (int i = 0; i < MAX_BULLET; i++) {
 
 	bullet_pos[i] = { 0,0 };
@@ -24,6 +25,8 @@ Boss::Boss()
 	EaseT_bullet[i]=0;
 	bullet_flag[i]=false;
 	color[i] = 0xFFFF0000;
+	lifetime[i] = 0;
+
 	}
 }
 
@@ -125,8 +128,38 @@ void Boss::Result(Player& player,Screen& screen)
 			}
 		}
 		if (pattern_3 == true) {
+			Novice::ScreenPrintf(0, 120, "blade.ttheaa::%f", blade.theta);
+			blade.t += 0.0125f;
+			blade.t=Clamp(blade.t,0, 1);
+			blade.theta = Lerp(Easing::easeInQuart(blade.t),6);
+			blade.theta=Clamp(blade.theta, 0, 360);
+			Matrix2x2 mat = MakeRotateMatrix(blade.theta);
+			///torbox
+			Vector2 top_left = { 0,100 };
+			Vector2 top_right = { 750+radian ,100 };
+			Vector2 bottom_left = { 0 ,-100 };
+			Vector2 bottom_right = { 750+radian ,-100 };
 
+			blade.top_left = Multiply(top_left, mat);
+			blade.top_right = Multiply(top_right, mat);
+			blade.bottom_left = Multiply(bottom_left, mat);
+			blade.bottom_right = Multiply(bottom_right, mat);
 
+			blade.top_left.x += position.x;
+			blade.top_left.y += position.y;
+			blade.top_right.x += position.x;
+			blade.top_right.y += position.y;
+			blade.bottom_left.x += position.x;
+			blade.bottom_left.y += position.y;
+			blade.bottom_right.x += position.x;
+			blade.bottom_right.y += position.y;
+			
+			if (blade.t==1) {
+				blade.theta = 0;
+				blade.t = 0;
+				flag = false;
+				pattern_3 = false;
+			}
 
 		}
 
@@ -190,21 +223,7 @@ void Boss::draw(Screen& screen) {
 	rotate_bottom_right.y += position.y;
 	rotate_bottom_left.x += position.x;
 	rotate_bottom_left.y += position.y;
-	if (shild >= 1) {
-		screen.DrawEllipse(position.x, position.y, radian/10, radian/10, 0.0f, RED, kFillModeWireFrame);
-		if (shild >= 2) {
-			screen.DrawTriangle(rotate_top.x, rotate_top.y, rotate_right.x, rotate_right.y, rotate_left.x, rotate_left.y, GREEN, kFillModeWireFrame);
-			if (shild >= 3) {
-			
-				screen.DrawLine(rotate_top_left.x, rotate_top_left.y, rotate_top_right.x, rotate_top_right.y, BLUE);
-				screen.DrawLine(rotate_top_left.x, rotate_top_left.y, rotate_bottom_left.x, rotate_bottom_left.y, BLUE);
-				screen.DrawLine(rotate_top_right.x, rotate_top_right.y, rotate_bottom_right.x, rotate_bottom_right.y, BLUE);
-				screen.DrawLine(rotate_bottom_left.x, rotate_bottom_left.y, rotate_bottom_right.x, rotate_bottom_right.y, BLUE);
-
-
-			}
-		}	
-	}
+	
 
 	if (pattern_1 == true) {
 		for (int i = 0; i < MAX_BULLET; i++) {
@@ -222,6 +241,26 @@ void Boss::draw(Screen& screen) {
 
 			}
 
+		}
+	}
+	if (pattern_3 == true) {
+		screen.DrawQuad(blade.top_left.x, blade.top_left.y, blade.top_right.x, blade.top_right.y, blade.bottom_left.x, blade.bottom_left.y, blade.bottom_right.x, blade.bottom_right.y, 0, 0, 0, 0, 0, BLACK);
+
+	}
+
+	if (shild >= 1) {
+		screen.DrawEllipse(position.x, position.y, radian / 10, radian / 10, 0.0f, RED, kFillModeWireFrame);
+		if (shild >= 2) {
+			screen.DrawTriangle(rotate_top.x, rotate_top.y, rotate_right.x, rotate_right.y, rotate_left.x, rotate_left.y, GREEN, kFillModeWireFrame);
+			if (shild >= 3) {
+
+				screen.DrawLine(rotate_top_left.x, rotate_top_left.y, rotate_top_right.x, rotate_top_right.y, BLUE);
+				screen.DrawLine(rotate_top_left.x, rotate_top_left.y, rotate_bottom_left.x, rotate_bottom_left.y, BLUE);
+				screen.DrawLine(rotate_top_right.x, rotate_top_right.y, rotate_bottom_right.x, rotate_bottom_right.y, BLUE);
+				screen.DrawLine(rotate_bottom_left.x, rotate_bottom_left.y, rotate_bottom_right.x, rotate_bottom_right.y, BLUE);
+
+
+			}
 		}
 	}
 }

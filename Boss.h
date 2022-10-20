@@ -20,6 +20,18 @@ class Boss:public Figure
 		float y;
 	};
 
+	static struct Blade
+	{
+
+		Vector2 top_left = { 0,0};
+		Vector2 top_right = { 0,0 };
+		Vector2 bottom_left = { 0,0 };
+		Vector2 bottom_right = { 0,0 };
+		float theta=0;
+		float t = 0;
+		
+	};
+
 	Matrix2x2 MakeRotateMatrix(float theta)
 	{
 
@@ -59,6 +71,7 @@ public:
 	int shild;
 	float theta;
 	Vec2 bullet_pos[MAX_BULLET];
+	Blade blade;
 	int bullet_rad[MAX_BULLET];
 	float EaseT_bullet[MAX_BULLET];
 	bool bullet_flag[MAX_BULLET];
