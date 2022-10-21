@@ -128,7 +128,7 @@ public:
 	/// <param name="srcH">画像上の描画したい範囲縦幅</param>
 	/// <param name="textureHandle">テクスチャのハンドル</param>
 	/// <param name="color">描画するスプライトの色</param>
-	void DrawQuad2(Quad& quad, int srcX, int srcY, int srcW, int srcH, int textureHandle, unsigned int color);
+	void DrawQuad2(Quad& quad, float srcX, float srcY, float srcW, float srcH, float textureHandle, unsigned int color);
 	/// <summary>
 	/// 
 	/// </summary>

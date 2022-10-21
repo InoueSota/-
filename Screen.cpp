@@ -103,20 +103,21 @@ void Screen::DrawQuad(float x1, float y1, float x2, float y2, float x3, float y3
 	Novice::DrawQuad(static_cast<int>(x1), static_cast<int>(y1), static_cast<int>(x2), static_cast<int>(y2), static_cast<int>(x3), static_cast<int>(y3), static_cast<int>(x4), static_cast<int>(y4), srcX, srcY, srcW, srcH, textureHandle, color);
 }
 
-void Screen::DrawQuad2(Quad& quad, int srcX, int srcY, int srcW, int srcH, int textureHandle, unsigned int color) {
+void Screen::DrawQuad2(Quad& quad, float srcX, float srcY, float srcW, float srcH, float textureHandle, unsigned int color) {
+	float x1, y1, x2, y2, x3, y3, x4, y4;
 	Vec2 tmp1(quad.LeftTop.x - Scroll.x, quad.LeftTop.y - Scroll.y);
 	Vec2 tmp2(quad.RightTop.x - Scroll.x, quad.RightTop.y - Scroll.y);
 	Vec2 tmp3(quad.LeftBottom.x - Scroll.x, quad.LeftBottom.y - Scroll.y);
 	Vec2 tmp4(quad.RightBottom.x - Scroll.x, quad.RightBottom.y - Scroll.y);
-	quad.LeftTop.x = tmp1.x * Zoom.x + Worldcenter.x + ScreenShake.x;
-	quad.LeftTop.y = tmp1.y * Zoom.y * -1 + Worldcenter.y - ScreenShake.y;
-	quad.RightTop.x = tmp2.x * Zoom.x + Worldcenter.x + ScreenShake.x;
-	quad.RightTop.y = tmp2.y * Zoom.y * -1 + Worldcenter.y - ScreenShake.y;
-	quad.LeftBottom.x = tmp3.x * Zoom.x + Worldcenter.x + ScreenShake.x;
-	quad.LeftBottom.y = tmp3.y * Zoom.y * -1 + Worldcenter.y - ScreenShake.y;
-	quad.RightBottom.x = tmp4.x * Zoom.x + Worldcenter.x + ScreenShake.x;
-	quad.RightBottom.y = tmp4.y * Zoom.y * -1 + Worldcenter.y - ScreenShake.y;
-	Novice::DrawQuad(static_cast<int>(quad.LeftTop.x), static_cast<int>(quad.LeftTop.y), static_cast<int>(quad.RightTop.x), static_cast<int>(quad.RightTop.y), static_cast<int>(quad.LeftBottom.x), static_cast<int>(quad.LeftBottom.y), static_cast<int>(quad.RightBottom.x), static_cast<int>(quad.RightBottom.y), srcX, srcY, srcW, srcH, textureHandle, color);
+	x1 = tmp1.x * Zoom.x + Worldcenter.x + ScreenShake.x;
+	y1 = tmp1.y * Zoom.y * -1 + Worldcenter.y - ScreenShake.y;
+	x2 = tmp2.x * Zoom.x + Worldcenter.x + ScreenShake.x;
+	y2 = tmp2.y * Zoom.y * -1 + Worldcenter.y - ScreenShake.y;
+	x3 = tmp3.x * Zoom.x + Worldcenter.x + ScreenShake.x;
+	y3 = tmp3.y * Zoom.y * -1 + Worldcenter.y - ScreenShake.y;
+	x4 = tmp4.x * Zoom.x + Worldcenter.x + ScreenShake.x;
+	y4 = tmp4.y * Zoom.y * -1 + Worldcenter.y - ScreenShake.y;
+	Novice::DrawQuad(static_cast<int>(x1), static_cast<int>(y1), static_cast<int>(x2), static_cast<int>(y2), static_cast<int>(x3), static_cast<int>(y3), static_cast<int>(x4), static_cast<int>(y4), srcX, srcY, srcW, srcH, textureHandle, color);
 }
 
 void Screen::DrawQuad2normal(int x1, int y1, int quadw, int quadh, int srcX, int srcY, int srcW, int srcH, int textureHandle, unsigned int color) {
