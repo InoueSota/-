@@ -71,8 +71,8 @@ public:
 	}
 
 	static const int kBeamSizeMax = 120;
-	static const int kBeamTimeMax = 30;
-	static const int kBeamInterval = 240;
+	static const int kBeamTimeMax = 120;
+	static const int kBeamInterval = 600;
 
 	Quad op;
 	Quad pos1, pos2;
@@ -80,6 +80,7 @@ public:
 	bool isLoadTexture;
 	int frame;
 	int shotframe;
+	int Lefttop;	//‰æ‘œ—p•Ï”
 	int beamImage;	//‰æ‘œ—p•Ï”
 
 	void Init();

@@ -143,6 +143,7 @@ void Beam::Init() {
 	};
 	frame = 0;
 	shotframe = 0;
+	Lefttop = 0;
 	isOccur = false;
 	isLoadTexture = false;
 }
@@ -183,6 +184,7 @@ void Beam::Process(Player& players, Screen& screen) {
 	frame++;
 	if (frame % kBeamInterval == 0){
 		shotframe = 0;
+		Lefttop = 0;
 		isOccur = true;
 	}
 	Make(players, screen);
@@ -190,7 +192,7 @@ void Beam::Process(Player& players, Screen& screen) {
 }
 void Beam::Draw(Screen& screen) {
 	if (isOccur == true) {
-		screen.DrawQuad2(pos1, 0, 0, 420, 2940, beamImage, WHITE);
-		screen.DrawQuad2(pos2, 0, 0, 420, 2940, beamImage, WHITE);
+		screen.DrawQuad2Renban(pos1, Lefttop, 0, 420, 2940, 12, 10, shotframe, beamImage, WHITE);
+		screen.DrawQuad2Renban(pos2, Lefttop, 0, 420, 2940, 12, 10, shotframe, beamImage, WHITE);
 	}
 }
