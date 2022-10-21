@@ -37,8 +37,8 @@ void Player::SetPlayers(Player& players) {
 /*　ズームの値を設定する関数　*/
 void Player::SetZoom(Screen& screen, Player& players) {
 	Vec2 tmp(1.0f, 1.0f);
-	tmp.x /= players.radius / 30;
-	tmp.y /= players.radius / 30;
+	tmp.x /= players.radius / 25;
+	tmp.y /= players.radius / 25;
 	screen.Zoom = tmp;
 }
 
@@ -169,8 +169,7 @@ void Player::Draw(Screen& screen, Player& players) {
 	};
 	Matrix33 mat, mat2;
 	mat = Matrix33::Identity();
-	mat = Matrix33::MakeScaling(screen.Zoom.x, 0.5);
-	mat = Matrix33::MakeRotation(Degree(players.deg));
+	mat *= Matrix33::MakeRotation(Degree(players.deg));
 	mat *= Matrix33::MakeTranslation(players.center);
 	tmp.LeftTop = op.LeftTop * mat;
 	tmp.RightTop = op.RightTop * mat;
@@ -195,7 +194,6 @@ void Player::Draw(Screen& screen, Player& players) {
 	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
 	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0xFF6E00FF);
-	Novice::ScreenPrintf(0, 100, "%f", players.incDeg);
 }
 
 //void Player::Draw_Rand_Skin(Screen& screen, char prekeys, char keys)

@@ -21,6 +21,8 @@ Map stage_1;
 Player players;
 PlayerP Pparticle;
 Bubble bubble;
+Slash slash;
+Beam beam;
 llipse ellipse[Figure::FigureMax];
 Triangle triangle[Figure::FigureMax];
 Quadrangle quadrangle[Figure::FigureMax];

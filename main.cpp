@@ -52,10 +52,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		players.SetZoom(screen, players);
-
 		//アビリティ
 		bubble.Process(players, screen, keys[DIK_SPACE]);
-
+		slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
+		beam.Process(players, screen);
 		//パーティクル処理
 		Pparticle.ParticleProcess(players, screen);
 
@@ -159,7 +159,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		
 
 		if (keys[DIK_Z] != 0) {
-			players.radius += 10;
+			players.radius += 2;
 		}
 
 		//背景描画
@@ -183,12 +183,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Pparticle.DrawParticle(screen);
 		bubble.Draw(screen);
+		slash.Draw(screen);
+		beam.Draw(screen);
 		players.Draw(screen,players);
 
 		item.Draw(screen,players);
 		
 		//players.Draw_Rand_Skin(screen,preKeys[DIK_SPACE],keys[DIK_SPACE]);
-
 		//Novice::ScreenPrintf(0, 20,"zoomed_prad= %f", players.radius*screen.Zoom.x);
 		//Novice::ScreenPrintf(0, 0, "%d", boss.count);
 
