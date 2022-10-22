@@ -22,5 +22,6 @@ Triangle triangle[Figure::FigureMax];
 Quadrangle quadrangle[Figure::FigureMax];
 clock_t oldTime;
 Item item;
-Boss boss;
-Enemy enemy[3];
+Seed seed[Figure::FigureMax];
+//Boss boss;
+//Enemy enemy[3];

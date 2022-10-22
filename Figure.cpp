@@ -3,8 +3,7 @@
 
 Figure::Figure() {
 	SRAND();
-	count_state = 240;
-	count_end = 360;
+	
 }
 
 float Figure::IsRespon(Map map) {
@@ -52,7 +51,8 @@ bool Figure::InScreen(Player player, Vec2 Position, Screen screen) {
 }
 
 llipse::llipse() {
-
+	count_state = 240;
+	count_end = 300;
 }
 
 bool llipse::IsInStage(float stage) {
@@ -130,8 +130,73 @@ void llipse::draw(Screen& screen, Player& players) {
 	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
 }
 
+Seed::Seed() {
+	seedcount = 0;
+	t = 0.0f;
+	/*UpdateFlag = false;*/
+}
+
+void Seed::set(Player& player, Screen screen, Map map, Vec2 pos,int seed) {
+	if (seed > SeedMax) {
+		seedcount = SeedMax;
+	}
+	else {
+		seedcount = seed;
+	}
+	for (int i = 0; i < seedcount; i++) {
+		position[i] = pos;
+		Vec2 Vec;
+		Vec.x = RAND(-500, 500);
+		Vec.y = RAND(-500, 500);
+		vec[i] = Vec.Normalized() * RAND(2, 4);
+	}
+
+	radian = player.radius * 0.3;
+	color = BLACK;
+
+	UpdateFlag = true;
+	setFlag = true;
+}
+
+void Seed::Update(Player player, Screen screen, Map map) {
+		t += 0.01;
+		if (t > 1) {
+			UpdateFlag = false;
+			setFlag = false;
+			t = 0.0f;
+			seedcount = 0;
+			for (int i = 0; i < seedcount; i++) {
+				vec[i] = { 0.0f, 0.0f };
+				position[i] = { 0.0f, 0.0f };
+			}
+		}
+		else {
+			for (int i = 0; i < seedcount; i++) {
+				position[i] += vec[i];
+			}
+		}
+
+}
+
+void Seed::respon(Player player, Screen screen,Vec2 pos ,Map map) {
+
+	if (player.radius < IsRespon(map)) {
+		set(player,screen,map,pos,3);
+	}
+	else {
+		/*setFlag = true;*/
+		UpdateFlag = false;
+	}
+}
+
+void Seed::draw(Screen& screen) {
+	for (int i = 0; i < seedcount; i++) {
+		screen.DrawEllipse(position[i].x, position[i].y, radian, radian, 0.0f, color, kFillModeSolid);
+	}
+}
+
 Triangle::Triangle() {
-	
+	triangle_death = false;
 }
 
 bool Triangle::IsInStage(float stage) {
@@ -141,9 +206,9 @@ bool Triangle::IsInStage(float stage) {
 	return true;
 }
 
-void Triangle::Update(Player player) {
+void Triangle::Update(Player player, Screen screen, Map map,Seed seed) {
 	if (player.radius * 3.0 > radian) {
-		radian += 0.2;
+		radian += 0.4;
 		//頂点
 		top_position.x = position.x + cosf(theta) * radian;
 		top_position.y = position.y + sinf(theta) * radian;
@@ -154,13 +219,19 @@ void Triangle::Update(Player player) {
 		right_position.x = position.x + cosf(theta_right) * radian;
 		right_position.y = position.y + sinf(theta_right) * radian;
 	}
+	else {
+		seedcount = (int)(radian / 4.0f);
+		triangle_death = true;
+		flag = false;
+		/*respon(player,screen,map);*/
+	}
 }
 void Triangle::set(Player& player, Screen screen,Map map) {
 	do {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//半径
-		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
+		radian = RAND(player.radius*0.25, player.radius * 0.5);
 	} while (Triangle::IsInStage(stage(map)));
 
 	//頂点
@@ -205,6 +276,7 @@ void Triangle::respon(Player player, Screen screen,Map map) {
 	}
 	else {
 		flag = false;
+		triangle_death = false;
 	}
 }
 
@@ -250,22 +322,51 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 	} while (Quadrangle::IsInStage(stage(map)));
 	
 	//頂点
-	theta = (float)Degree(RAND(0, 360));
-	top_right = checkroll(theta);
+	theta = (float)Degree(RAND(0, 0));
+	Quad op,bread_1,bread_2;
+	Matrix33 mat;
+	op = {
+		{-radian/2,+radian/2},
+		{+radian/2,+radian/2},
+		{-radian/2,-radian/2},
+		{+radian/2,-radian/2},
+	};
+	bread_1 = {
+		{-radian,+(radian / 2)},
+		{+radian,+(radian / 2)},
+		{-radian,-(radian / 2)},
+		{+radian,-(radian / 2)},
+	};
+	bread_2 = {
+		{-(radian / 2),+radian},
+		{+(radian / 2),+radian},
+		{-(radian / 2),-radian},
+		{+(radian / 2),-radian},
+	};
+	mat = Matrix33::Identity();
+	mat *= Matrix33::MakeScaling(screen.Zoom);
+	mat *= Matrix33::MakeRotation(theta);
+	mat *= Matrix33::MakeTranslation(position);
+	/*top_right = checkroll(theta);
 	bottom_left = checkroll(top_right);
-	bottom_right = checkroll(bottom_left);
-	//左上
-	top_left_position.x = position.x + cosf(theta) * radian;
-	top_left_position.y = position.y + sinf(theta) * radian;
-	//右上
-	top_right_position.x = position.x + cosf(top_right) * radian;
-	top_right_position.y = position.y + sinf(top_right) * radian;
-	//左下
-	bottom_left_position.x = position.x + cosf(bottom_left) * radian;
-	bottom_left_position.y = position.y + sinf(bottom_left) * radian;
-	//右下
-	bottom_right_position.x = position.x + cosf(bottom_right) * radian;
-	bottom_right_position.y = position.y + sinf(bottom_right) * radian;
+	bottom_right = checkroll(bottom_left);*/
+
+	
+	top_left_position = op.LeftTop * mat;
+	top_right_position = op.RightTop * mat;
+	bottom_left_position = op.LeftBottom * mat;
+	bottom_right_position = op.RightBottom * mat;
+
+	///ブレード1
+	bread_1_top_left_position = bread_1.LeftTop * mat;
+	bread_1_top_right_position = bread_1.RightTop * mat;
+	bread_1_bottom_left_position = bread_1.LeftBottom * mat;
+	bread_1_bottom_right_position = bread_1.RightBottom * mat;
+	//ブレード2
+	bread_2_top_left_position = bread_2.LeftTop * mat;
+	bread_2_top_right_position = bread_2.RightTop * mat;
+	bread_2_bottom_left_position = bread_2.LeftBottom * mat;
+	bread_2_bottom_right_position = bread_2.RightBottom * mat;
 	//色
 	color = BLUE;
 	flag = true;
@@ -294,5 +395,10 @@ void Quadrangle::respon(Player player,Screen screen,Map map) {
 //}
 
 void Quadrangle::draw(Screen& screen) {
-	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_right_position.x, bottom_right_position.y, bottom_left_position.x, bottom_left_position.y, 0.0f, 0.0f, radian, radian, 0, color);
+	/*screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, BLUE);*/
+}
+
+void Quadrangle::breaddraw(Screen& screen) {
+	screen.DrawQuad(bread_1_top_left_position.x, bread_1_top_left_position.y, bread_1_top_right_position.x, bread_1_top_right_position.y, bread_1_bottom_left_position.x, bread_1_bottom_left_position.y, bread_2_bottom_right_position.x, bread_2_bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, WHITE);
+	/*screen.DrawQuad(bread_2_top_left_position.x, bread_2_top_left_position.y, bread_2_top_right_position.x, bread_2_top_right_position.y, bread_1_bottom_left_position.x, bread_1_bottom_left_position.y, bread_2_bottom_right_position.x, bread_2_bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, WHITE);*/
 }

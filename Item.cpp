@@ -70,8 +70,11 @@ void Item::Set_Item(float x,float y,Player& player,int rand)
 void Item::Draw(Screen& screen, Player& player)
 {
 	
+	if (flag == true && speed_item == false) {
+		
+		screen.DrawEllipse(pos.x, pos.y, radius,radius, 0, BLACK, kFillModeSolid);
 
-	screen.DrawEllipse(pos.x, pos.y, radius,radius, 0, BLACK, kFillModeSolid);
+	}
 	if (speed_item == true) {
 		screen.DrawEllipse(player.pos.x, player.pos.y, player.radius, player.radius, 0, BLUE, kFillModeSolid);
 
@@ -92,7 +95,7 @@ void Item::Result(Player& player,Screen&screen)
 		Novice::ScreenPrintf(0, 60, "%d",flame);
 		Novice::ScreenPrintf(0, 80, "%f", flame);
 		if (speed_flame <= 0) {
-			player.incDeg = 2.0f;
+			player.incDeg = 3.0f;
 			speed_item = false;
 			flag = false;
 		}

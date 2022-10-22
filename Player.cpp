@@ -27,7 +27,7 @@ void Player::Init() {
 	Longpressframe = 0;
 	isLongpress = false;
 	Length = 300;
-	incDeg = 2.0f;
+	incDeg = 3.0f;
 	isScroll = false;
 	tmpCenpos = { 0,0 };
 	tmpMovepos = { 0,0 };

@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Map.h"
 #include "easing.h"
+#include "Quad.h"
 
 
 class Figure
@@ -12,7 +13,7 @@ class Figure
 public:
 	Figure();
 	//í≤êÆ/////////////////////////////////////////
-	static const int FigureMax = 50;
+	static const int FigureMax = 25;
 	float Area(Player& player ,Screen screen,Map map);
 	float RadianMin(Player& player);
 	float RadianMax(Player& player);
@@ -34,8 +35,6 @@ public:
 	bool flag;
 	int cooltime;
 
-	int count_state;
-	int count_end;
 	//è¡
 	float stage(Map map);
 private:
@@ -57,6 +56,31 @@ public:
 	Vec2 start;
 	Vec2 end;
 	float t;
+	int count_state;
+	int count_end;
+private:
+
+};
+
+
+
+class Seed :public Figure
+{
+public:
+	Seed();
+	void draw(Screen& screen);
+	void set(Player& player, Screen screen, Map map, Vec2 pos, int seed);
+	void Update(Player player, Screen screen, Map map);
+	void respon(Player player, Screen screen, Vec2 pos, Map map);
+
+
+	bool UpdateFlag = false;
+	static const int SeedMax = 3;
+	int seedcount;
+	Vec2 position[SeedMax];
+	Vec2 vec[SeedMax];
+	float t;
+	bool setFlag = false;
 private:
 
 };
@@ -69,7 +93,7 @@ public:
 	void set(Player& player,Screen screen,Map map);
 	void respon(Player player, Screen screen, Map map);
 	bool IsInStage(float stage);
-	void Update(Player player);
+	void Update(Player player, Screen screen, Map map, Seed seed);
 
 	Vec2 top_position;
 	Vec2 right_position;
@@ -77,15 +101,21 @@ public:
 	float theta;
 	float theta_left;
 	float theta_right;
+
+	bool triangle_death;
+	int seedcount;
 private:
 
 };
+
+
 
 class Quadrangle:public Figure
 {
 public:
 	Quadrangle();
 	void draw(Screen& screen);
+	void breaddraw(Screen& screen);
 	void set(Player& player, Screen screen,Map map);
 	void respon(Player player, Screen screen, Map map);
 	bool IsInStage(float stage);
@@ -94,6 +124,17 @@ public:
 	Vec2 top_right_position;
 	Vec2 bottom_left_position;
 	Vec2 bottom_right_position;
+
+	//
+	Vec2 bread_1_top_left_position;
+	Vec2 bread_1_top_right_position;
+	Vec2 bread_1_bottom_left_position;
+	Vec2 bread_1_bottom_right_position;
+	//
+	Vec2 bread_2_top_left_position;
+	Vec2 bread_2_top_right_position;
+	Vec2 bread_2_bottom_left_position;
+	Vec2 bread_2_bottom_right_position;
 private:
 	float theta;
 	float checkroll(float Theta);
