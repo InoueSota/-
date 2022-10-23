@@ -29,4 +29,5 @@ Quadrangle quadrangle[Figure::FigureMax];
 clock_t oldTime;
 Item item;
 Boss boss;
+Seed seed[Figure::FigureMax];
 //Enemy enemy[3];
