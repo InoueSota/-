@@ -43,11 +43,11 @@ void Item::Randam_Item()
 		speed_item = true;
 	}
 	if (item_rand == 1) {
-		shild = true;
+		length_up = true;
 		
 	}
 	if (item_rand == 2) {
-		length_up = true;
+		shild = true;
 	}
 	
 
@@ -60,7 +60,7 @@ void Item::Set_Item(float x,float y,Player& player,int rand)
 		pos.y = y;
 		radius = player.radius;
 		item_rand = rand;
-		
+		flame = 200;
 		speed_flame = 200;
 
 		flag = true;
@@ -70,7 +70,7 @@ void Item::Set_Item(float x,float y,Player& player,int rand)
 void Item::Draw(Screen& screen, Player& player)
 {
 	
-	if (flag == true && speed_item == false) {
+	if (flag == true&&speed_item==false&&length_up==false) {
 		
 		screen.DrawEllipse(pos.x, pos.y, radius,radius, 0, BLACK, kFillModeSolid);
 
@@ -92,8 +92,8 @@ void Item::Result(Player& player,Screen&screen)
 		}
 		flame -= 1;
 		Clamp(flame,0, 60);
-		Novice::ScreenPrintf(0, 60, "%d",flame);
-		Novice::ScreenPrintf(0, 80, "%f", flame);
+		//Novice::ScreenPrintf(0, 60, "%d",flame);
+		//Novice::ScreenPrintf(0, 80, "%f", flame);
 		if (speed_flame <= 0) {
 			player.incDeg = 3.0f;
 			speed_item = false;
@@ -102,7 +102,20 @@ void Item::Result(Player& player,Screen&screen)
 
 
 	}
+
+	if (length_up == true) {
+		
+		player.Length+=1;
+		flame -= 1;
+		if (flame <= 0) {
+			length_up = false;
+			flag = false;
+
+		}
+	}
+
 	
-	Novice::ScreenPrintf(0, 80, "speedtime:::%d",speed_flame );
+	
+	//Novice::ScreenPrintf(0, 80, "speedtime:::%d",speed_flame );
 
 }

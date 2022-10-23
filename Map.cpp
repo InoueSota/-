@@ -22,7 +22,7 @@ void Map::Set_Map(float x, float y, float rad,unsigned int iro)
 	color = iro;
 }
 
-void Map::Map_Collision(Player& player)
+bool Map::Map_Collision(Player& player)
 {
 	
 	float a = pos.x - player.pos.x;
@@ -30,10 +30,10 @@ void Map::Map_Collision(Player& player)
 	float c = sqrtf(a * a + b * b);
 	
 	if ((c >= radius)) {
-		
+		return false;
 	}
 	else if ((c < radius)) {
-		
+		return true;
 	}
 
 	

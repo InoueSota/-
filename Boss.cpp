@@ -1,70 +1,74 @@
-//#include "Boss.h"
-//
-//
-//
-//void Boss::set(Player& player, Screen screen, Map map) {
-//	position.y = screen.Worldcenter.y + 1000;
-//	position.x = 0;
-//	radian = 500;
-//}
-//
-//void Boss::Update(Enemy enemy,Player& player, Screen screen, Map map) {
-//	if (!enemy.easingflag) {
-//		count = 0;
-//		radian += 50;
-//	}
-//}
-//
-//void Boss::draw(Screen& screen) {
-//	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, BLACK, kFillModeSolid);
-//}
-//
-//
-//bool Enemy::IsInStage(float stage) {
-//	stage;//ステージの半径
-//	if (sqrt((powf(position.x, 2) + powf(position.y, 2)) + radian) < stage - radian) {
-//		return false;
-//	}
-//	return true;
-//}
-//
-//float Enemy::set(Boss boss,Player& player, Screen screen, Map map) {
-//	
-//	radian = 250;
-//	do {
-//		position.x = RAND(-Area(player, screen, map), Area(player, screen, map));
-//		position.y = RAND(-Area(player, screen, map), Area(player, screen, map));
-//	} while (IsInStage(stage(map))&& sqrt(powf(boss.position.x - position.x, 2) + powf(boss.position.y - position.y, 2)) + boss.radian >= radian);
-//
-//	color = BLACK;
-//	setflag = true;
-//	return -50;
-//}
-//
-//void Enemy::Update(Boss boss) {
-//	if (!easingset) {
-//			start = position;
-//			end = boss.position;
-//			easingset = true;
-//			easingflag = true;
-//			t = 0.0f;
-//	}
-//	if (easingflag) {
-//		t += 0.002;
-//		Easing::easeInSine(t);
-//		position.x = (1.0f - t) * start.x + t * end.x;
-//		position.y = (1.0f - t) * start.y + t * end.y;
-//		if (t >= 1) {
-//			easingflag = false;
-//			easingset = false;
-//			count = 0;
-//			t = 0.0f;
-//			setflag = false;
-//		}
-//	}
-//	
-//}
-//
-//void Enemy::draw(Screen& screen) {
-//	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, BLACK, kFillModeSolid);
-//}
+#include "Boss.h"
+
+
+Boss::Boss()
+{
+	position = { 0,0 };
+	radian = 0;
+	SRAND();
+	rand_num=0;
+	shild = 3;
+	count=0;
+	cooltime=300;
+}
+
+void Boss::set(Vec2 pos ) {
+
+	//ポジションなど必要な値を引数を用いて代入するでやんす。
+	position = pos;
+	radian = 500;
+
+}
+
+void Boss::Rand_Move()
+{
+	//ランダムで何をするか今は三分ただけど確率を操るのもあり（運命の指揮者と名付ける）
+	rand_num=RAND(1, 3);
+
+	if (rand_num == 1) {
+		pattern_1 = true;
+	}
+	if (rand_num == 2) {
+		pattern_2 = true;
+	}
+	if (rand_num == 3) {
+		pattern_3 = true;
+	}
+}
+
+void Boss::Result()
+{
+	//攻撃パターンの設定
+	if (pattern_1 == true) {
+
+	}
+
+}
+
+void Boss::Keep_Up(Player& player)
+{
+	//プレイヤーについていく関数使わないかもしれない
+	Vec2 vel = (player.center - position).Normalized();
+	position += vel;
+
+}
+
+
+
+void Boss::draw(Screen& screen) {
+	
+	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, BLACK, kFillModeSolid);
+	if (shild >= 1) {
+		screen.DrawEllipse(position.x, position.y, radian/10, radian/10, 0.0f, RED, kFillModeSolid);
+		if (shild >= 2) {
+			screen.DrawTriangle(position.x, position.y + 100, position.x - 100, position.y - 50, position.x + 100, position.y - 50, GREEN, kFillModeSolid);
+
+		}
+		
+				
+		
+	}
+	
+}
+
+

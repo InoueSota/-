@@ -2,6 +2,8 @@
 #include <Novice.h>
 #include <time.h>
 #include "Player.h"
+#include "Particle.h"
+#include "Ability.h"
 #include "Figure.h"
 #include "drain.h"
 #include "Screen.h"
@@ -17,11 +19,14 @@
 Screen screen;
 Map stage_1;
 Player players;
+PlayerP Pparticle;
+Bubble bubble;
+Slash slash;
+Beam beam;
 llipse ellipse[Figure::FigureMax];
 Triangle triangle[Figure::FigureMax];
 Quadrangle quadrangle[Figure::FigureMax];
 clock_t oldTime;
 Item item;
-Seed seed[Figure::FigureMax];
-//Boss boss;
+Boss boss;
 //Enemy enemy[3];
