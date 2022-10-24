@@ -13,7 +13,12 @@
 #include "Wave.h"
 
 
-int radius;
+enum Scene
+{
+	TITLE,
+	INGAME
+};
+Scene scene = TITLE;
 
 
 //インスタンス化

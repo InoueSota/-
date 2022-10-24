@@ -260,14 +260,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-
-		if (keys[DIK_Z] != 0) {
-			radius += 15;
-		}
-		if (keys[DIK_X] != 0) {
-			radius -= 15;
-		}
-
 		//背景描画
 		//Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
 		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
