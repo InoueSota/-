@@ -116,10 +116,19 @@ public:
 	Quadrangle();
 	void draw(Screen& screen);
 	void breaddraw(Screen& screen);
+	void Update(Player& player, Screen screen, Map map);
 	void set(Player& player, Screen screen,Map map);
 	void respon(Player player, Screen screen, Map map);
 	bool IsInStage(float stage);
 
+	bool UpdatesetFlag;
+	bool BreadOpenFlag;
+	bool BreadCloseFlag;
+	float theta_plus;
+	float t;
+	int cooltime;
+	Vec2 vel;
+	Vec2 End_position;
 	Vec2 top_left_position;
 	Vec2 top_right_position;
 	Vec2 bottom_left_position;
@@ -130,12 +139,35 @@ public:
 	Vec2 bread_1_top_right_position;
 	Vec2 bread_1_bottom_left_position;
 	Vec2 bread_1_bottom_right_position;
+
+	Vec2 bread_1_top_left_position_state;
+	Vec2 bread_1_top_right_position_state;
+	Vec2 bread_1_bottom_left_position_state;
+	Vec2 bread_1_bottom_right_position_state;
+
+	Vec2 bread_1_top_left_position_end;
+	Vec2 bread_1_top_right_position_end;
+	Vec2 bread_1_bottom_left_position_end;
+	Vec2 bread_1_bottom_right_position_end;
 	//
 	Vec2 bread_2_top_left_position;
 	Vec2 bread_2_top_right_position;
 	Vec2 bread_2_bottom_left_position;
 	Vec2 bread_2_bottom_right_position;
-private:
+	//ÉuÉåÅ[Éh2
+
+	Vec2 bread_2_top_left_position_state;
+	Vec2 bread_2_top_right_position_state;
+	Vec2 bread_2_bottom_left_position_state;
+	Vec2 bread_2_bottom_right_position_state;
+
+	Vec2 bread_2_top_left_position_end;
+	Vec2 bread_2_top_right_position_end;
+	Vec2 bread_2_bottom_left_position_end;
+	Vec2 bread_2_bottom_right_position_end;
+
+	
+	
 	float theta;
 	float checkroll(float Theta);
 	float top_right = 0.0f;

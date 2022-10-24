@@ -95,9 +95,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				
 			}
 
-			/*if (triangle[i].triangle_death && seed[i].UpdateFlag) {
-				seed[i].Update(players, screen, stage_1);
-			}*/
+			if (quadrangle[i].InScreen(players, quadrangle[i].position, screen)) {
+				quadrangle[i].Update(players, screen, stage_1);
+			}
+			
 
 			if (Drain_Check_Ellipse(players, ellipse[i])) {
 				if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
@@ -114,10 +115,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					players.Length += (triangle[i].radian / 15);
 					triangle[i].flag = false;
 					seed[i].UpdateFlag = false;
-				/*	if (!seed[i].setFlag) {*/
-					/*seed[i].respon(players, screen, triangle[i].position, stage_1);*/
-					/*}*/
-					/*triangle[i].triangle_death = true;*/ 
 				}
 			}
 			if (Drain_Check_Quadrangle(players, quadrangle[i])) {
@@ -200,7 +197,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			
 		}
 
-		boss.draw(screen);
+		/*boss.draw(screen);*/
 
 		Pparticle.DrawParticle(screen);
 		bubble.Draw(screen);

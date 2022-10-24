@@ -208,7 +208,7 @@ bool Triangle::IsInStage(float stage) {
 
 void Triangle::Update(Player player, Screen screen, Map map,Seed seed) {
 	if (player.radius * 3.0 > radian) {
-		radian += 0.4;
+		radian += 0.2;
 		//頂点
 		top_position.x = position.x + cosf(theta) * radian;
 		top_position.y = position.y + sinf(theta) * radian;
@@ -231,7 +231,7 @@ void Triangle::set(Player& player, Screen screen,Map map) {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//半径
-		radian = RAND(player.radius*0.25, player.radius * 0.5);
+		radian = RAND(player.radius*0.2, player.radius * 0.7);
 	} while (Triangle::IsInStage(stage(map)));
 
 	//頂点
@@ -294,6 +294,11 @@ void Triangle::draw(Screen& screen) {
 }
 
 Quadrangle::Quadrangle() {
+	UpdatesetFlag = false;
+	BreadOpenFlag = false;
+	BreadCloseFlag = false;
+	vel = { 0,0 };
+	t = 0.0f;
 }
 
 float Quadrangle::checkroll(float Theta) {
@@ -322,7 +327,7 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 	} while (Quadrangle::IsInStage(stage(map)));
 	
 	//頂点
-	theta = (float)Degree(RAND(0, 0));
+	theta = (float)Degree(RAND(0, 360));
 	Quad op,bread_1,bread_2;
 	Matrix33 mat;
 	op = {
@@ -332,16 +337,16 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 		{+radian/2,-radian/2},
 	};
 	bread_1 = {
-		{-radian,+(radian / 2)},
-		{+radian,+(radian / 2)},
-		{-radian,-(radian / 2)},
-		{+radian,-(radian / 2)},
+		{-radian*2,+radian/2 },
+		{+radian*2,+radian/2 },
+		{-radian*2,-radian/2 },
+		{+radian*2,-radian/2 },
 	};
 	bread_2 = {
-		{-(radian / 2),+radian},
-		{+(radian / 2),+radian},
-		{-(radian / 2),-radian},
-		{+(radian / 2),-radian},
+		{-(radian / 2),+radian*2},
+		{+(radian / 2),+radian*2},
+		{-(radian / 2),-radian*2},
+		{+(radian / 2),-radian*2},
 	};
 	mat = Matrix33::Identity();
 	mat *= Matrix33::MakeScaling(screen.Zoom);
@@ -358,24 +363,236 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 	bottom_right_position = op.RightBottom * mat;
 
 	///ブレード1
-	bread_1_top_left_position = bread_1.LeftTop * mat;
-	bread_1_top_right_position = bread_1.RightTop * mat;
-	bread_1_bottom_left_position = bread_1.LeftBottom * mat;
-	bread_1_bottom_right_position = bread_1.RightBottom * mat;
+	bread_1_top_left_position_end = bread_1.LeftTop * mat;
+	bread_1_top_right_position_end = bread_1.RightTop * mat;
+	bread_1_bottom_left_position_end = bread_1.LeftBottom * mat;
+	bread_1_bottom_right_position_end = bread_1.RightBottom * mat;
 	//ブレード2
-	bread_2_top_left_position = bread_2.LeftTop * mat;
-	bread_2_top_right_position = bread_2.RightTop * mat;
-	bread_2_bottom_left_position = bread_2.LeftBottom * mat;
-	bread_2_bottom_right_position = bread_2.RightBottom * mat;
+	bread_2_top_left_position_end = bread_2.LeftTop * mat;
+	bread_2_top_right_position_end = bread_2.RightTop * mat;
+	bread_2_bottom_left_position_end = bread_2.LeftBottom * mat;
+	bread_2_bottom_right_position_end = bread_2.RightBottom * mat;
 	//色
 	color = BLUE;
 	flag = true;
+
+	BreadOpenFlag = true;
+}
+
+void Quadrangle::Update(Player& player, Screen screen, Map map) {
+	if (UpdatesetFlag) {
+		theta += theta_plus;
+		Matrix33 mat;
+		Quad op, bread_1, bread_2;
+		op = {
+			{-radian / 2,+radian / 2},
+			{+radian / 2,+radian / 2},
+			{-radian / 2,-radian / 2},
+			{+radian / 2,-radian / 2},
+		};
+		bread_1 = {
+			{-radian * 2,+radian / 2 },
+			{+radian * 2,+radian / 2 },
+			{-radian * 2,-radian / 2 },
+			{+radian * 2,-radian / 2 },
+		};
+		bread_2 = {
+			{-(radian / 2),+radian * 2},
+			{+(radian / 2),+radian * 2},
+			{-(radian / 2),-radian * 2},
+			{+(radian / 2),-radian * 2},
+		};
+		mat = Matrix33::Identity();
+		mat *= Matrix33::MakeScaling(screen.Zoom);
+		mat *= Matrix33::MakeRotation(theta);
+		mat *= Matrix33::MakeTranslation(position);
+
+		top_left_position = op.LeftTop * mat;
+		top_right_position = op.RightTop * mat;
+		bottom_left_position = op.LeftBottom * mat;
+		bottom_right_position = op.RightBottom * mat;
+		///ブレード1
+		bread_1_top_left_position = bread_1.LeftTop * mat;
+		bread_1_top_right_position = bread_1.RightTop * mat;
+		bread_1_bottom_left_position = bread_1.LeftBottom * mat;
+		bread_1_bottom_right_position = bread_1.RightBottom * mat;
+		//ブレード2
+		bread_2_top_left_position = bread_2.LeftTop * mat;
+		bread_2_top_right_position = bread_2.RightTop * mat;
+		bread_2_bottom_left_position = bread_2.LeftBottom * mat;
+		bread_2_bottom_right_position = bread_2.RightBottom * mat;
+		/*vel = (player.center - position).Normalized() * radian * (1 / radian * 3);*/
+		position += vel;
+		if (position.x <= End_position.x + radian && position.x >= End_position.x - radian && position.y <= End_position.y+radian&& position.y >= End_position.y - radian) {
+			Quad bread_1, bread_2;
+				Matrix33 mat;
+				bread_1 = {
+					{-radian / 2,+radian / 2},
+					{+radian / 2,+radian / 2},
+					{-radian / 2,-radian / 2},
+					{+radian / 2,-radian / 2},
+				};
+				bread_2 = {
+					{-(radian / 2),+radian / 2},
+					{+(radian / 2),+radian / 2},
+					{-(radian / 2),-radian / 2},
+					{+(radian / 2),-radian / 2},
+				};
+
+				mat = Matrix33::Identity();
+				mat *= Matrix33::MakeScaling(screen.Zoom);
+				mat *= Matrix33::MakeRotation(theta);
+				mat *= Matrix33::MakeTranslation(position);
+				///ブレード1
+				bread_1_top_left_position_state = bread_1_top_left_position;
+				bread_1_top_right_position_state = bread_1_top_right_position;
+				bread_1_bottom_left_position_state = bread_1_bottom_left_position;
+				bread_1_bottom_right_position_state = bread_1_bottom_right_position;
+
+				bread_1_top_left_position_end = bread_1.LeftTop * mat;
+				bread_1_top_right_position_end = bread_1.RightTop * mat;
+				bread_1_bottom_left_position_end = bread_1.LeftBottom * mat;
+				bread_1_bottom_right_position_end = bread_1.RightBottom * mat;
+				//ブレード2
+				bread_2_top_left_position_state = bread_2_top_left_position;
+				bread_2_top_right_position_state = bread_2_top_right_position;
+				bread_2_bottom_left_position_state = bread_2_bottom_left_position;
+				bread_2_bottom_right_position_state = bread_2_bottom_right_position;
+
+				bread_2_top_left_position_end = bread_2.LeftTop * mat;
+				bread_2_top_right_position_end = bread_2.RightTop * mat;
+				bread_2_bottom_left_position_end = bread_2.LeftBottom * mat;
+				bread_2_bottom_right_position_end = bread_2.RightBottom * mat;
+			UpdatesetFlag = false;
+			BreadCloseFlag = true;
+		}
+		
+	}
+	if(BreadOpenFlag) {
+		if (t > 1) {
+			t = 0.0f;
+			vel = (player.center - position).Normalized() * radian * (1 / radian * 3);
+			theta_plus = (float)Degree(10);
+			UpdatesetFlag = true;
+			BreadOpenFlag = false;
+			End_position = player.center;
+		}
+		else {
+			t += 0.01;
+
+			//bread_1_top_left_position.x = (1.0f- t)* top_left_position.x + t * bread_1_top_left_position_end.x;
+			//bread_1_top_left_position.y = (1.0f -t) * top_left_position.y + t * bread_1_top_left_position_end.y;
+			//bread_1_top_right_position.x = (1.0f - t) * top_right_position.x + t * bread_1_top_right_position_end.x;
+			//bread_1_top_right_position.y = (1.0f - t) * top_right_position.y + t * bread_1_top_right_position_end.y;
+			//bread_1_bottom_left_position.x = (1.0f - t) * bottom_left_position.x + t * bread_1_bottom_left_position_end.x;
+			//bread_1_bottom_left_position.y = (1.0f - t) * bottom_left_position.y + t * bread_1_bottom_left_position_end.y;
+			//bread_1_bottom_right_position.x = (1.0f -t) * bottom_right_position.x + t * bread_1_bottom_right_position_end.x;
+			//bread_1_bottom_right_position.y = (1.0f - t) * bottom_right_position.y + t * bread_1_bottom_right_position_end.y;
+			////ブレード2
+			//bread_2_top_left_position.x = Lerp(Easing::easeOutQuint(t), bread_2_top_left_position_end.x) + position.x;
+			//bread_2_top_left_position.y = Lerp(Easing::easeOutQuint(t), bread_2_top_left_position_end.y) + position.y;
+			//bread_2_top_right_position.x = Lerp(Easing::easeOutQuint(t), bread_2_top_right_position_end.x) + position.x;
+			//bread_2_top_right_position.y = Lerp(Easing::easeOutQuint(t), bread_2_top_right_position_end.y) + position.y;
+			//bread_2_bottom_left_position.x = Lerp(Easing::easeOutQuint(t), bread_2_bottom_left_position_end.x) + position.x;
+			//bread_2_bottom_left_position.y = Lerp(Easing::easeOutQuint(t), bread_2_bottom_left_position_end.y) + position.y;
+			//bread_2_bottom_right_position.x = Lerp(Easing::easeOutQuint(t), bread_2_bottom_right_position_end.x) + position.x;
+			//bread_2_bottom_right_position.y = Lerp(Easing::easeOutQuint(t), bread_2_bottom_right_position_end.y) + position.y;
+			bread_1_top_left_position.x = Lerp(Easing::easeInOutCirc(t), bread_1_top_left_position_end.x - position.x) + position.x;
+			bread_1_top_left_position.y = Lerp(Easing::easeInOutCirc(t), bread_1_top_left_position_end.y - position.y) + position.y;
+			bread_1_top_right_position.x = Lerp(Easing::easeInOutCirc(t), bread_1_top_right_position_end.x - position.x) + position.x;
+			bread_1_top_right_position.y = Lerp(Easing::easeInOutCirc(t), bread_1_top_right_position_end.y - position.y) + position.y;
+			bread_1_bottom_left_position.x = Lerp(Easing::easeInOutCirc(t), bread_1_bottom_left_position_end.x - position.x) + position.x;
+			bread_1_bottom_left_position.y = Lerp(Easing::easeInOutCirc(t), bread_1_bottom_left_position_end.y - position.y) + position.y;
+			bread_1_bottom_right_position.x = Lerp(Easing::easeInOutCirc(t), bread_1_bottom_right_position_end.x - position.x) + position.x;
+			bread_1_bottom_right_position.y = Lerp(Easing::easeInOutCirc(t), bread_1_bottom_right_position_end.y - position.y) + position.y;
+			//ブレード2
+			bread_2_top_left_position.x = Lerp(Easing::easeInOutCirc(t), bread_2_top_left_position_end.x - position.x) + position.x;
+			bread_2_top_left_position.y = Lerp(Easing::easeInOutCirc(t), bread_2_top_left_position_end.y - position.y) + position.y;
+			bread_2_top_right_position.x = Lerp(Easing::easeInOutCirc(t), bread_2_top_right_position_end.x - position.x) + position.x;
+			bread_2_top_right_position.y = Lerp(Easing::easeInOutCirc(t), bread_2_top_right_position_end.y - position.y) + position.y;
+			bread_2_bottom_left_position.x = Lerp(Easing::easeInOutCirc(t), bread_2_bottom_left_position_end.x - position.x) + position.x;
+			bread_2_bottom_left_position.y = Lerp(Easing::easeInOutCirc(t), bread_2_bottom_left_position_end.y - position.y) + position.y;
+			bread_2_bottom_right_position.x = Lerp(Easing::easeInOutCirc(t), bread_2_bottom_right_position_end.x - position.x) + position.x;
+			bread_2_bottom_right_position.y = Lerp(Easing::easeInOutCirc(t), bread_2_bottom_right_position_end.y - position.y) + position.y;
+
+		}
+		
+	}
+	if (BreadCloseFlag) {
+		if (t > 1) {
+			cooltime += 1;
+			if (cooltime > 300) {
+				Quad bread_1, bread_2;
+				Matrix33 mat;
+				bread_1 = {
+					{-radian * 2,+radian / 2},
+					{+radian * 2,+radian / 2},
+					{-radian * 2,-radian / 2},
+					{+radian * 2,-radian / 2},
+				};
+				bread_2 = {
+					{-(radian / 2),+radian * 2},
+					{+(radian / 2),+radian * 2},
+					{-(radian / 2),-radian * 2},
+					{+(radian / 2),-radian * 2},
+				};
+
+				mat = Matrix33::Identity();
+				mat *= Matrix33::MakeScaling(screen.Zoom);
+				mat *= Matrix33::MakeRotation(theta);
+				mat *= Matrix33::MakeTranslation(position);
+				///ブレード1
+				bread_1_top_left_position_end = bread_1.LeftTop * mat;
+				bread_1_top_right_position_end = bread_1.RightTop * mat;
+				bread_1_bottom_left_position_end = bread_1.LeftBottom * mat;
+				bread_1_bottom_right_position_end = bread_1.RightBottom * mat;
+				//ブレード2
+				bread_2_top_left_position_end = bread_2.LeftTop * mat;
+				bread_2_top_right_position_end = bread_2.RightTop * mat;
+				bread_2_bottom_left_position_end = bread_2.LeftBottom * mat;
+				bread_2_bottom_right_position_end = bread_2.RightBottom * mat;
+
+				BreadCloseFlag = false;
+				BreadOpenFlag = true;
+				cooltime = 0;
+				t = 0.0f;
+			}
+		}
+		else {
+			t += 0.01;
+
+			bread_1_top_left_position.x = (1.0f - t) * bread_1_top_left_position_state.x + t * bread_1_top_left_position_end.x;/*Lerp(Easing::easeInOutCirc(t), bread_1_top_left_position_end.x - position.x) + position.x*/;
+			bread_1_top_left_position.y = (1.0f - t) * bread_1_top_left_position_state.y + t * bread_1_top_left_position_end.y/*Lerp(Easing::easeInOutCirc(t), bread_1_top_left_position_end.y - position.y) + position.y;*/;
+			bread_1_top_right_position.x = (1.0f - t) * bread_1_top_right_position_state.x + t * bread_1_top_right_position_end.x/* Lerp(Easing::easeInOutCirc(t), bread_1_top_right_position_end.x - position.x) + position.x;*/;
+			bread_1_top_right_position.y = (1.0f - t) * bread_1_top_right_position_state.y + t * bread_1_top_right_position_end.y/*Lerp(Easing::easeInOutCirc(t), bread_1_top_right_position_end.y - position.y) + position.y;*/;
+			bread_1_bottom_left_position.x = (1.0f - t) * bread_1_bottom_left_position_state.x + t * bread_1_bottom_left_position_end.x/* Lerp(Easing::easeInOutCirc(t), bread_1_bottom_left_position_end.x - position.x) + position.x;*/;
+			bread_1_bottom_left_position.y = (1.0f - t) * bread_1_bottom_left_position_state.y + t * bread_1_bottom_left_position_end.y/*Lerp(Easing::easeInOutCirc(t), bread_1_bottom_left_position_end.y - position.y) + position.y;*/;
+			bread_1_bottom_right_position.x = (1.0f - t) * bread_1_bottom_right_position_state.x + t * bread_1_bottom_right_position_end.x/*Lerp(Easing::easeInOutCirc(t), bread_1_bottom_right_position_end.x - position.x) + position.x;*/;
+			bread_1_bottom_right_position.y = (1.0f - t) * bread_1_bottom_right_position_state.y + t * bread_1_bottom_right_position_end.y/*Lerp(Easing::easeInOutCirc(t), bread_1_bottom_right_position_end.y - position.y) + position.y;*/;
+			//ブレード2
+			bread_2_top_left_position.x = (1.0f - t) * bread_2_top_left_position_state.x + t * bread_2_top_left_position_end.x;
+			bread_2_top_left_position.y = (1.0f - t) * bread_2_top_left_position_state.y + t * bread_2_top_left_position_end.y;
+			bread_2_top_right_position.x = (1.0f - t) * bread_2_top_right_position_state.x + t * bread_2_top_right_position_end.x;
+			bread_2_top_right_position.y = (1.0f - t) * bread_2_top_right_position_state.y + t * bread_2_top_right_position_end.y;
+			bread_2_bottom_left_position.x = (1.0f - t) * bread_2_bottom_left_position_state.x + t * bread_2_bottom_left_position_end.x;
+			bread_2_bottom_left_position.y = (1.0f - t) * bread_2_bottom_left_position_state.y + t * bread_2_bottom_left_position_end.y;
+			bread_2_bottom_right_position.x = (1.0f - t) * bread_2_bottom_right_position_state.x + t * bread_2_bottom_right_position_end.x;
+			bread_2_bottom_right_position.y = (1.0f - t) * bread_2_bottom_right_position_state.y + t * bread_2_bottom_right_position_end.y;
+
+
+		}
+	}
 
 }
 
 void Quadrangle::respon(Player player,Screen screen,Map map) {
 	if (player.radius < IsRespon(map)) {
 		cooltime = 0;
+		UpdatesetFlag = false;
+		BreadOpenFlag = false;
+		BreadCloseFlag = false;
+		vel = { 0,0 };
+		t = 0.0f;
 		do {
 			set(player, screen,map);
 		} while (InScreen(player, position, screen));
@@ -395,10 +612,12 @@ void Quadrangle::respon(Player player,Screen screen,Map map) {
 //}
 
 void Quadrangle::draw(Screen& screen) {
-	/*screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, BLUE);*/
+	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, BLUE);
 }
 
 void Quadrangle::breaddraw(Screen& screen) {
-	screen.DrawQuad(bread_1_top_left_position.x, bread_1_top_left_position.y, bread_1_top_right_position.x, bread_1_top_right_position.y, bread_1_bottom_left_position.x, bread_1_bottom_left_position.y, bread_2_bottom_right_position.x, bread_2_bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, WHITE);
-	/*screen.DrawQuad(bread_2_top_left_position.x, bread_2_top_left_position.y, bread_2_top_right_position.x, bread_2_top_right_position.y, bread_1_bottom_left_position.x, bread_1_bottom_left_position.y, bread_2_bottom_right_position.x, bread_2_bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, WHITE);*/
+	if (!(t > 1 && BreadCloseFlag)) {
+		screen.DrawQuad(bread_1_top_left_position.x, bread_1_top_left_position.y, bread_1_top_right_position.x, bread_1_top_right_position.y, bread_1_bottom_left_position.x, bread_1_bottom_left_position.y, bread_1_bottom_right_position.x, bread_1_bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, WHITE);
+		screen.DrawQuad(bread_2_top_left_position.x, bread_2_top_left_position.y, bread_2_top_right_position.x, bread_2_top_right_position.y, bread_2_bottom_left_position.x, bread_2_bottom_left_position.y, bread_2_bottom_right_position.x, bread_2_bottom_right_position.y, 0.0f, 0.0f, radian / 2, radian, 0, WHITE);
+	}
 }
