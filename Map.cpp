@@ -1,5 +1,12 @@
 #include "Map.h"
 
+//void Map::draw() {
+//	for (int y = -5000; y < 5000; y++) {
+//		for (int x = -5000; x < 5000; x++) {
+//			if()
+//		}
+//	}
+//}
 
 void Map::DrawMap(Screen& screen) {
 

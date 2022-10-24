@@ -34,7 +34,7 @@ public:
 	}
 
 	friend inline Vec2 operator*(const Vec2& vec, const Matrix33& mat) {
-		return {
+ 		return {
 			vec.x * mat.m[0][0] + vec.y * mat.m[1][0] + 1.0f * mat.m[2][0],
 			vec.x * mat.m[0][1] + vec.y * mat.m[1][1] + 1.0f * mat.m[2][1]
 		};
