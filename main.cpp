@@ -236,7 +236,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (!wave.boss_set_flag) {
 				wave.stage_2_set_flag = false;
 				///一回だけのやつ
-				boss.set()
+				boss.set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
 
 				wave.boss_set_flag = true;
 			}
@@ -333,7 +333,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		case wave.boss_stage:
-
+			boss.draw(screen);
 			break;
 		case wave.rest:
 
