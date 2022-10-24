@@ -239,6 +239,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				wave.boss_set_flag = true;
 			}
+			//処理書いてね
+
 			break;
 		case wave.rest:
 
