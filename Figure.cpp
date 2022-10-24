@@ -101,7 +101,7 @@ void llipse::set(Player& player,Screen screen,Map map) {
 	//îºåa
 	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
 	//êF
-	color = RED;
+	color = 0xE80971FF;
 	flag = true;
 }
 
@@ -191,7 +191,7 @@ void Triangle::set(Player& player, Screen screen,Map map) {
 	right_position.x = position.x + cosf(theta_right) * radian;
 	right_position.y = position.y + sinf(theta_right) * radian;
 	//êF
-	color = GREEN;
+	color = 0xE80971FF;
 	flag = true;
 
 }
@@ -267,7 +267,7 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 	bottom_right_position.x = position.x + cosf(bottom_right) * radian;
 	bottom_right_position.y = position.y + sinf(bottom_right) * radian;
 	//êF
-	color = BLUE;
+	color = 0xE80971FF;
 	flag = true;
 
 }

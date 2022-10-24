@@ -13,7 +13,7 @@ void Bubble::Init() {
 	Longpressframe = 0;
 }
 void Bubble::Make(Player& players, Screen& screen) {
-	radius = 20 / screen.Zoom.x;
+	radius = 8 / screen.Zoom.x;
 	for (int i = 0; i < kBubbleMax; i++){
 		if (Longpressframe >= 20 && Longpressframe % kBubbleInterval == 0 && isOccur[i] == false){
 			pos[i].x = players.center.x + cosf(Degree(players.deg)) * (players.Length + kBubbleDistance / screen.Zoom.x);
@@ -72,7 +72,7 @@ void Slash::Init() {
 		{-1, 2.5},
 		{ 1, 2.5}
 	};
-	spd = 3.0f;
+	spd = 5.0f;
 	delayframe = 0;
 	shotframe = 0;
 	isOccur = false;
@@ -255,12 +255,12 @@ void Beam::Process(Player& players, Screen& screen) {
 }
 void Beam::Draw(Screen& screen) {
 	if (isOccur == true) {
-		screen.DrawQuad2Renban(pos1, Lefttop1, 0, 420, 2940, kBeamTimeMax / 10, 10, shotframe, beamImage, WHITE);
-		screen.DrawQuad2Renban(pos2, Lefttop2, 0, 420, 2940, kBeamTimeMax / 10, 10, shotframe, beamImage, WHITE);
+		screen.DrawQuad2Renban(pos1, Lefttop1, 0, 420, 2940, 10, kBeamTimeMax / 10, shotframe, beamImage, 0xFFFFFFAA);
+		screen.DrawQuad2Renban(pos2, Lefttop2, 0, 420, 2940, 10, kBeamTimeMax / 10, shotframe, beamImage, 0xFFFFFFAA);
 		for (int i = 0; i < kLineMax; i++){
 			if (life[i] > 0) {
-				screen.DrawQuad2(linepos1[i], 0, 0, 0, 0, 0, 0xFF9933FF);
-				screen.DrawQuad2(linepos2[i], 0, 0, 0, 0, 0, 0xFF9933FF);
+				screen.DrawQuad2(linepos1[i], 0, 0, 0, 0, 0, 0xF44336FF);
+				screen.DrawQuad2(linepos2[i], 0, 0, 0, 0, 0, 0xF44336FF);
 			}
 		}
 	}

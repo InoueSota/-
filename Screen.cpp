@@ -74,10 +74,10 @@ void Screen::DrawEllipse(float x, float y, float radiusX, float radiusY, float a
 }
 
 void Screen::DrawSprite(int x, int y, int textureHandle, int scaleX, int scaleY, int angle, unsigned int color) {
-	Novice::DrawSprite( 
-		x + Worldcenter.x + ScreenShake.x, 
-		y * -1 + Worldcenter.y - ScreenShake.y,  
-		textureHandle,  scaleX,  scaleY,  angle,  color);
+	Vec2 tmp(x - Scroll.x, y - Scroll.y);
+	x = tmp.x * Zoom.x + Worldcenter.x + ScreenShake.x;
+	y = tmp.y * Zoom.y * -1 + Worldcenter.y - ScreenShake.y;
+	Novice::DrawSprite(x, y , textureHandle, scaleX, scaleY, angle, color);
 }
 
 void Screen::DrawSpriteRect(int destX, int destY, int srcX, int srcY, int srcW, int srcH, int textureHandle, int scaleX, int scaleY, int angle, unsigned int color) {

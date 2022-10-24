@@ -8,10 +8,10 @@ public:
 		Init();
 	}
 
-	static const int kBubbleMax = 12;
+	static const int kBubbleMax = 30;
 	static const int kBubbleTimeMax = 120;
 	static const int kBubbleStanFrame = 120;
-	static const int kBubbleInterval = 6;
+	static const int kBubbleInterval = 2;
 	static const int kBubbleDistance = 100;
 
 	Vec2 pos[kBubbleMax];
@@ -21,8 +21,8 @@ public:
 	bool isRelease[kBubbleMax];
 	int Shotframe[kBubbleMax];
 	int Longpressframe;
-	unsigned int color = 0xFF6E00FF;
-	float spd = 3;
+	unsigned int color = 0xE5C210FF;
+	float spd = 5;
 	float radius;
 
 	void Init();
@@ -72,7 +72,7 @@ public:
 	}
 
 	static const int kBeamSizeMax = 120;
-	static const int kBeamTimeMax = 120;
+	static const int kBeamTimeMax = 90;
 	static const int kBeamInterval = 180;
 
 	static const int kLineMax = 50;

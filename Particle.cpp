@@ -41,7 +41,7 @@ void PlayerP::ParticleProcess(Player& players, Screen& screen) {
 void PlayerP::DrawParticle(Screen& screen) {
     for (int i = 0; i < PARTICLE_MAX; i++) {
         if (life[i] > 0) {
-            screen.DrawEllipse(pos[i].x, pos[i].y, radius[i], radius[i], 0.0f, 0xFF6E00FF, kFillModeSolid);
+            screen.DrawEllipse(pos[i].x, pos[i].y, radius[i], radius[i], 0.0f, 0xE5C210FF, kFillModeSolid);
         }
     }
 }
