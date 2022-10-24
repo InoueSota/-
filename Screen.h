@@ -146,17 +146,17 @@ public:
 	/// <summary>
 	/// 
 	/// </summary>
-	/// <param name="x1">描画する四角形の左上座標</param>
-	/// <param name="y1">描画する四角形の左上座標</param>
-	/// <param name="quadw">描画する四角形の範囲横幅</param>
-	/// <param name="quadh">描画する四角形の範囲縦幅</param>
-	/// <param name="srcX">画像上の描画したい範囲左上座標 X</param>
+	/// <param name="quad">Quad型変数</param>
+	/// <param name="srcX">画像上の描画したい範囲左上座標 X（変数）</param>
 	/// <param name="srcY">画像上の描画したい範囲左上座標 Y</param>
 	/// <param name="srcW">画像上の描画したい範囲横幅</param>
 	/// <param name="srcH">画像上の描画したい範囲縦幅</param>
+	/// <param name="sheets">画像枚数</param>
+	/// <param name="frame">何フレームで切り替えるか</param>
+	/// <param name="framehensuu">加算しているフレームの変数</param>
 	/// <param name="textureHandle">テクスチャのハンドル</param>
 	/// <param name="color">描画するスプライトの色</param>
-	void DrawQuad2normal2(int x1, int y1, int quadw, int quadh, int& srcX, int srcY, int srcW, int srcH,int renban,int frame,int& framehensuu, int textureHandle, unsigned int color);
+	void DrawQuad2Renban(Quad &quad, int& srcX, int srcY, int srcW, int srcH,int sheets,int frame,int& framehensuu, int textureHandle, unsigned int color);
 	/// <summary>
 	/// 
 	/// </summary>

@@ -12,7 +12,7 @@
 #include "Boss.h"
 
 
-
+int radius;
 
 
 //インスタンス化

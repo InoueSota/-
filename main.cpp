@@ -13,6 +13,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char preKeys[256] = { 0 };
 
 	//
+	int background = Novice::LoadTexture("./resource./Background.png");
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
 	//
 	stage_1.Set_Map(0, 0, 2000, RED);
@@ -172,11 +173,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 		if (keys[DIK_Z] != 0) {
-			players.radius += 2;
+			radius += 15;
+		}
+		if (keys[DIK_X] != 0) {
+			radius -= 15;
 		}
 
 		//背景描画
-		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x999999FF, kFillModeSolid);
+		//Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
+		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
+		screen.DrawEllipse(0, 0, radius, radius, 0.0f, 0x090022FF, kFillModeSolid);
+		for (int y = -4; y < 5; y++) {
+			for (int x = -4; x < 5; x++) {
+				int width = 4000;
+				int height = 3000;
+				screen.DrawQuad(x * width, y * height, x * width + width, y * height, x * width, y * height + height, x * width + width, y * height + height, 0, 0, 2000, 1500, background, BLACK);
+			}
+		}
 		stage_1.DrawMap(screen);
 		for (int i = 0; i < Figure::FigureMax; i++) {
 			if (triangle[i].triangle_death && seed[i].UpdateFlag) {
