@@ -9,3 +9,7 @@ WAVE::WAVE() {
 	stage_2_draw_flag = false;
 	boss_draw_flag = false;
 };
+
+float WAVE::MapChenge(Map map) {
+	return map.radius * 0.04;
+}

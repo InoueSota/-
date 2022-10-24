@@ -1,4 +1,5 @@
 #pragma once
+#include "Map.h"
 class WAVE
 {
 public:
@@ -9,6 +10,7 @@ public:
 		boss_stage,
 		rest,
 	};
+	float MapChenge(Map map);
 	int stage;
 	bool stage_1_set_flag;
 	bool stage_2_set_flag;

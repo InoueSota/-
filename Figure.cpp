@@ -7,7 +7,7 @@ Figure::Figure() {
 }
 
 float Figure::IsRespon(Map map) {
-	return map.radius * 0.02;
+	return map.radius * 0.04;
 }
 
 float Figure::stage(Map map) {
@@ -99,7 +99,7 @@ void llipse::set(Player& player,Screen screen,Map map) {
 	
 	count = RAND(0, 240);
 	//”¼Œa
-	radian = RAND(player.radius * 0.2, player.radius * 5.0);
+	radian = RAND(player.radius * 0.2, player.radius * 2.0);
 	//F
 	color = 0xE80971FF;
 	flag = true;

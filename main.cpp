@@ -41,6 +41,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					ellipse[i].set(players, screen, stage_1);
 				}
 				wave.stage_1_set_flag = true;
+				wave.boss_set_flag = false;
 			}
 			else {
 
@@ -81,7 +82,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 				}
-				if (players.radius >= 50) {
+				if (players.radius >= wave.MapChenge(stage_1)) {
 					wave.stage = wave.stage_2;
 				}
 				wave.stage_1_draw_flag = true;
@@ -222,7 +223,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 
 				}
-				if (players.radius >= 80) {
+				if (players.radius >= wave.MapChenge(stage_2)) {
 					wave.stage = wave.boss_stage;
 				}
 				wave.stage_2_draw_flag = true;
