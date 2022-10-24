@@ -10,6 +10,7 @@
 #include "Map.h"
 #include "Item.h"
 #include "Boss.h"
+#include "Wave.h"
 
 
 int radius;
@@ -30,4 +31,5 @@ clock_t oldTime;
 Item item;
 Boss boss;
 Seed seed[Figure::FigureMax];
+WAVE wave;
 //Enemy enemy[3];
