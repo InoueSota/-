@@ -37,8 +37,8 @@ void Player::SetPlayers(Player& players) {
 /*　ズームの値を設定する関数　*/
 void Player::SetZoom(Screen& screen, Player& players) {
 	Vec2 tmp(1.0f, 1.0f);
-	tmp.x /= players.radius / 30;
-	tmp.y /= players.radius / 30;
+	tmp.x /= players.radius / 25;
+	tmp.y /= players.radius / 25;
 	screen.Zoom = tmp;
 }
 
@@ -162,15 +162,14 @@ void Player::Draw(Screen& screen, Player& players) {
 		{ 0,  players.radius - 15 / screen.Zoom.x},
 		{ static_cast<float>(players.Length),players.radius - 15 / screen.Zoom.x}
 	}, outop{
-		{ 0, -players.radius + 10 / screen.Zoom.x},
-		{ static_cast<float>(players.Length), -players.radius + 10 / screen.Zoom.x},
-		{ 0,  players.radius - 10 / screen.Zoom.x},
-		{ static_cast<float>(players.Length), players.radius - 10 / screen.Zoom.x}
+		{ 0, -players.radius + 12 / screen.Zoom.x},
+		{ static_cast<float>(players.Length), -players.radius + 12 / screen.Zoom.x},
+		{ 0,  players.radius - 12 / screen.Zoom.x},
+		{ static_cast<float>(players.Length), players.radius - 12 / screen.Zoom.x}
 	};
 	Matrix33 mat, mat2;
 	mat = Matrix33::Identity();
-	mat = Matrix33::MakeScaling(screen.Zoom.x, 0.5);
-	mat = Matrix33::MakeRotation(Degree(players.deg));
+	mat *= Matrix33::MakeRotation(Degree(players.deg));
 	mat *= Matrix33::MakeTranslation(players.center);
 	tmp.LeftTop = op.LeftTop * mat;
 	tmp.RightTop = op.RightTop * mat;
@@ -188,14 +187,13 @@ void Player::Draw(Screen& screen, Player& players) {
 		}
 	}
 	//アウトライン
-	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius + 5 / screen.Zoom.x, players.radius + 5 / screen.Zoom.x, 0.0f, BLACK, kFillModeSolid);
-	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius + 5 / screen.Zoom.x, players.radius + 5 / screen.Zoom.x, 0.0f, BLACK, kFillModeSolid);
-	screen.DrawQuad2(outtmp, 0, 0, 0, 0, 0, BLACK);
-	//本体（オレンジ色）
-	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
-	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, 0xFF6E00FF, kFillModeSolid);
-	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0xFF6E00FF);
-	Novice::ScreenPrintf(0, 100, "%f", players.incDeg);
+	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius + 3 / screen.Zoom.x, players.radius + 3 / screen.Zoom.x, 0.0f, 0xE5C210FF, kFillModeSolid);
+	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius + 3 / screen.Zoom.x, players.radius + 3 / screen.Zoom.x, 0.0f, 0xE5C210FF, kFillModeSolid);
+	screen.DrawQuad2(outtmp, 0, 0, 0, 0, 0, 0xE5C210FF);
+	//本体（背景と同じ色）
+	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, 0x2B1247FF, kFillModeSolid);
+	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, 0x2B1247FF, kFillModeSolid);
+	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0x2B1247FF);
 }
 
 //void Player::Draw_Rand_Skin(Screen& screen, char prekeys, char keys)
