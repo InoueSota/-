@@ -107,9 +107,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			else {
 
-		/*ボス関係*/
-		boss.Keep_Up(players);
-		boss.Result(players, screen, RAND(0, 1));
+		
 				/*　プレイヤー関係の関数（それぞれの意味はPlayer.hに記述）　*/
 			//プレイヤー本体
 				players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
@@ -238,12 +236,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (!wave.boss_set_flag) {
 				wave.stage_2_set_flag = false;
 				///一回だけのやつ
-				
+				boss.set()
 
 				wave.boss_set_flag = true;
 			}
 			//処理書いてね
-
+			/*ボス関係*/
+			boss.Keep_Up(players);
+			boss.Result(players, screen, RAND(0, 1));
 			break;
 		case wave.rest:
 
