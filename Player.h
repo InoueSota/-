@@ -1,7 +1,5 @@
 #pragma once
-#include <Novice.h>
-#include "Vec2.h"
-#include "Screen.h"
+#include "Title.h"
 #include "easing.h"
 #include "Matrix33.h"
 
@@ -44,6 +42,8 @@ public:
 	float Rradius[RIPPLES_MAX];			//”g–äradius
 	float Existtime[RIPPLES_MAX];		//”g–ä‘¶İtime
 	unsigned int Rcolor[RIPPLES_MAX];	//”g–äcolor
+
+	bool isTitleClear;
 
 	/*@ŠÖ”@*/
 	void Init();																		//‰Šú‰»‚·‚éŠÖ”

@@ -52,13 +52,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			players.SetPlayers(players);
 			players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 			players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-			players.SetZoom(screen, players);
-			//アビリティ
-			bubble.Process(players, screen, keys[DIK_SPACE]);
-			slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-			beam.Process(players, screen);
 			//パーティクル処理
 			Pparticle.ParticleProcess(players, screen);
+			if (Drain_InTitle(players, title.Targetpos, title.kTargetRadius) == true) {
+				title.isTitleClear = true;
+			}
+			if (title.isTitleClear == true){
+				scene = INGAME;
+			}
 			break;
 		case INGAME:
 			////セット
@@ -185,6 +186,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		switch (scene)
 		{
 		case TITLE:
+			//背景描画
+			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
+			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
+			for (int y = -4; y < 5; y++) {
+				for (int x = -4; x < 5; x++) {
+					int width = 4000;
+					int height = 3000;
+					screen.DrawQuad(x * width, y * height, x * width + width, y * height, x * width, y * height + height, x * width + width, y * height + height, 0, 0, 2000, 1500, background, BLACK);
+				}
+			}
 			title.Draw(screen, title);
 			Pparticle.DrawParticle(screen);
 			bubble.Draw(screen);

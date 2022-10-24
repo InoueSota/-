@@ -8,7 +8,7 @@ Screen::Screen(){
 	Scroll.setZero();
 	ScreenShake.setZero();
 	Scroll_Fixed_Value_X = 250;
-	Zoom = { 1.0f, 1.0f };
+	Zoom = { 0.7f, 0.7f };
 	Ishit = false;
 };
 
