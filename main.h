@@ -18,7 +18,7 @@ int radius;
 
 //インスタンス化
 Screen screen;
-Map stage_1;
+Map stage_1,stage_2,boss_stage;
 Player players;
 PlayerP Pparticle;
 Bubble bubble;

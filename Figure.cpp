@@ -99,7 +99,7 @@ void llipse::set(Player& player,Screen screen,Map map) {
 	
 	count = RAND(0, 240);
 	//”¼Œa
-	radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
+	radian = RAND(player.radius * 0.2, player.radius * 5.0);
 	//F
 	color = 0xE80971FF;
 	flag = true;

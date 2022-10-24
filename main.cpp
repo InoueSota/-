@@ -35,23 +35,71 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		////セット
 		switch (wave.stage) {
 		case wave.stage_1_only:
-			if (preKeys[DIK_T] == 0 && keys[DIK_T] != 0) {
-				wave.stage = wave.stage_2;
-				break;
+			if (!wave.stage_1_set_flag) {
+				stage_1.Set_Map(0, 0, 2000, RED);
+				for (int i = 0; i < Figure::FigureMax; i++) {
+					ellipse[i].set(players, screen, stage_1);
+				}
+				wave.stage_1_set_flag = true;
+			}
+			else {
+
+				players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
+				players.SetPlayers(players);
+				players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
+				players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
+				players.SetZoom(screen, players);
+				//アビリティ
+				bubble.Process(players, screen, keys[DIK_SPACE]);
+				slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
+				beam.Process(players, screen);
+				//パーティクル処理
+				Pparticle.ParticleProcess(players, screen);
+
+				for (int i = 0; i < Figure::FigureMax; i++) {
+					/*if (ellipse[i].InScreen(players, ellipse[i].position, screen)) {
+						ellipse[i].count++;
+						if (ellipse[i].count >= ellipse[i].count_state && ellipse[i].count <= ellipse[i].count_end) {
+							ellipse[i].Update(players);
+						}
+					}*/
+
+					if (Drain_Check_Ellipse(players, ellipse[i])) {
+						if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true) {
+							Novice::PlayAudio(drain, 0, 0.5);
+							players.radius += (ellipse[i].radian / 100);
+							players.Length += (ellipse[i].radian / 15);
+							ellipse[i].flag = false;
+						}
+					}
+				}
+				for (int i = 0; i < Figure::FigureMax; i++) {
+					if (ellipse[i].flag == false) {
+						ellipse[i].cooltime++;
+						if (ellipse[i].cooltime % 30 == 0) {
+							ellipse[i].respon(players, screen, stage_1);
+						}
+					}
+				}
+				if (players.radius >= 50) {
+					wave.stage = wave.stage_2;
+				}
+				wave.stage_1_draw_flag = true;
+
 			}
 			break;
 		case wave.stage_2:
 
 			if (!wave.stage_2_set_flag) {
-				stage_1.Set_Map(0, 0, 2000, RED);
+				stage_2.Set_Map(0, 0, 5000, RED);
 				//
-				boss.set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
+				/*boss.set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));*/
 
 				for (int i = 0; i < Figure::FigureMax; i++) {
-					ellipse[i].set(players, screen, stage_1);
-					triangle[i].set(players, screen, stage_1);
-					quadrangle[i].set(players, screen, stage_1);
-					seed[i].set(players, screen, stage_1, triangle[i].position, 3/*triangle[i].seedcount*/);
+					ellipse[i].set(players, screen, stage_2);
+					triangle[i].set(players, screen, stage_2);
+					quadrangle[i].set(players, screen, stage_2);
+					seed[i].set(players, screen, stage_2, triangle[i].position, 3/*triangle[i].seedcount*/);
 				}
 				wave.stage_2_set_flag = true;
 
@@ -73,7 +121,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				Pparticle.ParticleProcess(players, screen);
 
 				/*ボス関係*/
-				boss.Keep_Up(players);
+				/*boss.Keep_Up(players);*/
 
 				item.Set_Item(RAND(0, 1000), RAND(0, 1000), players, RAND(0, 0));
 
@@ -98,9 +146,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 					if (triangle[i].InScreen(players, triangle[i].position, screen)) {
-						triangle[i].Update(players, screen, stage_1, seed[i]);
+						triangle[i].Update(players, screen, stage_2, seed[i]);
 						if (triangle[i].triangle_death && seed[i].UpdateFlag) {
-							seed[i].Update(players, screen, stage_1);
+							seed[i].Update(players, screen, stage_2);
 						}
 						/*if (!seed[i].setFlag && !seed[i].UpdateFlag) {
 							seed[i].respon(players, screen, triangle[i].position, stage_1);
@@ -109,7 +157,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 
 					if (quadrangle[i].InScreen(players, quadrangle[i].position, screen)) {
-						quadrangle[i].Update(players, screen, stage_1);
+						quadrangle[i].Update(players, screen, stage_2);
 					}
 
 
@@ -150,26 +198,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 
 
-				stage_1.Map_Collision(players);
+				stage_2.Map_Collision(players);
 				for (int i = 0; i < Figure::FigureMax; i++) {
 
 					if (ellipse[i].flag == false) {
 						ellipse[i].cooltime++;
 						if (ellipse[i].cooltime % 30 == 0) {
-							ellipse[i].respon(players, screen, stage_1);
+							ellipse[i].respon(players, screen, stage_2);
 						}
 					}
 					if (triangle[i].flag == false && !seed[i].UpdateFlag && !triangle[i].triangle_death) {
 						triangle[i].cooltime++;
 						if (triangle[i].cooltime % 30 == 0) {
-							triangle[i].respon(players, screen, stage_1);
-							seed[i].respon(players, screen, triangle[i].position, stage_1);
+							triangle[i].respon(players, screen, stage_2);
+							seed[i].respon(players, screen, triangle[i].position, stage_2);
 						}
 					}
 					if (quadrangle[i].flag == false) {
 						quadrangle[i].cooltime++;
 						if (quadrangle[i].cooltime % 30 == 0) {
-							quadrangle[i].respon(players, screen, stage_1);
+							quadrangle[i].respon(players, screen, stage_2);
 						}
 					}
 
@@ -227,11 +275,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		switch (wave.stage) {
 		case wave.stage_1_only:
+			if (wave.stage_1_set_flag && wave.stage_1_draw_flag) {
+				stage_1.DrawMap(screen);
+				for (int i = 0; i < Figure::FigureMax; i++) {
+					if (ellipse[i].cheakdraw(players, ellipse[i].position, screen, ellipse[i].flag)) {
+						ellipse[i].draw(screen, players);
+					}
+				}
+
+				Pparticle.DrawParticle(screen);
+				bubble.Draw(screen);
+				slash.Draw(screen);
+				beam.Draw(screen);
+				players.Draw(screen, players);
+
+				item.Draw(screen, players);
+			}
 
 			break;
 		case wave.stage_2:
 			if (wave.stage_2_set_flag && wave.stage_2_draw_flag) {
-				stage_1.DrawMap(screen);
+				stage_2.DrawMap(screen);
 				for (int i = 0; i < Figure::FigureMax; i++) {
 					if (triangle[i].triangle_death && seed[i].UpdateFlag) {
 						seed[i].draw(screen);
