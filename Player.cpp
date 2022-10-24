@@ -12,7 +12,7 @@ void Player::Init() {
 	add = { 0,0 };
 	tmppos = { 0,0 };
 	deg = 0;
-	radius = 30;
+	radius = 25;
 
 	Reverse = 1;
 	Longpressframe = 0;
@@ -25,6 +25,8 @@ void Player::Init() {
 	tmpMovepos = { 0,0 };
 	Scrolleasingt = 0.0f;
 	ScrollincT = 0.1;
+
+	isTitleClear = false;
 }
 
 /*　main.cppで座標を使用するために取得する関数　*/
@@ -106,7 +108,7 @@ void Player::IncDegProcess(Player& players, char prekeys, char keys) {
 
 /*　スクロール座標を設定する関数　*/
 void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char keys) {
-	if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false){
+	if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false && (isTitleClear == true || (isTitleClear == false && (players.pos.Length() <= 5000)))){
 		isScroll = true;
 	}
 	if (isScroll == true){
@@ -126,7 +128,7 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 /*　関数をまとめる関数　*/
 void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d) {
 	IncDegProcess(players, prekeys, keys);
-	if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false) {
+	if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false && (isTitleClear == true || (isTitleClear == false && (players.pos.Length() <= 5000)))) {
 		player->SetDegree();
 		if (player == &circleA) {
 			players.tmpCenpos = circleB.pos;
@@ -141,16 +143,19 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 			player = &circleA;
 		}
 	}
-	if (keys) {
-		players.Longpressframe++;
-		if (players.Longpressframe == 30) {
-			players.isLongpress = true;
+	if (isTitleClear == true){
+		if (keys) {
+			players.Longpressframe++;
+			if (players.Longpressframe == 30) {
+				players.isLongpress = true;
+			}
+		}
+		if (prekeys == 0 && keys == 0) {
+			players.Longpressframe = 0;
+			players.isLongpress = false;
 		}
 	}
-	if (prekeys == 0 && keys == 0) {
-		players.Longpressframe = 0;
-		players.isLongpress = false;
-	}
+
 	player->CircleProcess(players);
 }
 

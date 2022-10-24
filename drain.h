@@ -20,14 +20,14 @@ bool IsHit_Drain(float px, float py, float prad, llipse& ellipse, Triangle& tria
 ///プロトタイプ宣言ここまで//////////////////
 ///円と円の当たり判定/////////////////
 
-bool Drain_Circle(float px, float py, float prad, llipse& ellipse, float zoom) {
+bool Drain_Circle(Vec2 ppos, float prad, Vec2 epos, float erad) {
 
-	float a = px - ellipse.position.x;
-	float b = py - ellipse.position.y;
+	float a = ppos.x - epos.x;
+	float b = ppos.y - epos.y;
 	float c = sqrtf(a * a + b * b);
 
-	if (c <= (prad * zoom + ellipse.radian * zoom)) {
-		if (prad * zoom >= ellipse.radian * zoom) {
+	if (c <= (prad + erad)) {
+		if (prad >= erad) {
 			return true;
 		}
 	}
@@ -281,6 +281,31 @@ bool Drain_Center_Circle(Player& player, llipse& ellipse) {
 	float distance =(ellipse.position - f).Length();
 
 	if (distance < player.radius/50 + ellipse.radian) {
+		return true;
+	}
+	return false;
+
+}
+
+bool Drain_InTitle(Player& player, Vec2 pos, float radias) {
+
+	//center::回っていない
+	//pos::回っている
+
+	Vec2 start_to_center = Vec2(pos - player.center);
+	Vec2 start_to_end = Vec2(player.pos - player.center);
+	Vec2 nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * player.center + t * player.pos;
+
+	float distance = (pos - f).Length();
+
+	if (distance < player.radius / 50 + radias) {
 		return true;
 	}
 	return false;
