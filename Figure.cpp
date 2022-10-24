@@ -3,7 +3,8 @@
 
 Figure::Figure() {
 	SRAND();
-	
+	colortime = 0;
+	responflag = false;
 }
 
 float Figure::IsRespon(Map map) {
@@ -53,6 +54,7 @@ bool Figure::InScreen(Player player, Vec2 Position, Screen screen) {
 llipse::llipse() {
 	count_state = 240;
 	count_end = 300;
+	
 }
 
 bool llipse::IsInStage(float stage) {
@@ -91,17 +93,22 @@ void llipse::Update(Player player) {
 
 }
 
-void llipse::set(Player& player,Screen screen,Map map) {
-	do {
-		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
-		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
-	} while (llipse::IsInStage(stage(map)));
-	
+void llipse::set(Player& player,Screen screen,Map map,WAVE wave) {
+		do {
+			position.x = RAND(-Area(player, screen, map), Area(player, screen, map));
+			position.y = RAND(-Area(player, screen, map), Area(player, screen, map));
+		} while (llipse::IsInStage(stage(map)));
 	count = RAND(0, 240);
 	//îºåa
-	radian = RAND(player.radius * 0.2, player.radius * 2.0);
+	if (wave.stage_1_only) {
+		radian = RAND(player.radius * 0.2, player.radius * 3.0);
+	}
+	else {
+		radian = RAND(player.radius * 0.2, player.radius * 2.0);
+	}
 	//êF
 	color = 0xE80971FF;
+	responflag = true;
 	flag = true;
 }
 
@@ -114,12 +121,19 @@ void llipse::set(Player& player,Screen screen,Map map) {
 //	}
 //}
 
-void llipse::respon(Player player, Screen screen,Map map) {
+void Figure::reset() {
+	colortime += 0.05f;
+	color = 0xE8097100 | static_cast<int>((1.0f - colortime) * 0x00 + colortime * 0xFF);
+	if (colortime >= 1) {
+		color = 0xE80971FF;
+		colortime = 0.0f;
+		responflag = false;
+	}
+}
+void llipse::respon(Player player, Screen screen,Map map,WAVE wave) {
 	if (player.radius < IsRespon(map)) {
 		cooltime = 0;
-		do {
-			set(player, screen,map);
-		} while (InScreen(player, position, screen));
+		set(player, screen,map, wave);
 	}
 	else {
 		flag = false;
@@ -151,15 +165,15 @@ void Seed::set(Player& player, Screen screen, Map map, Vec2 pos,int seed) {
 		vec[i] = Vec.Normalized() * RAND(2, 4);
 	}
 
-	radian = player.radius * 0.3;
-	color = BLACK;
+	radian = player.radius * 0.5;
+	color = WHITE;
 
 	UpdateFlag = true;
 	setFlag = true;
 }
 
 void Seed::Update(Player player, Screen screen, Map map) {
-		t += 0.01;
+		t += 0.05;
 		if (t > 1) {
 			UpdateFlag = false;
 			setFlag = false;
@@ -263,6 +277,7 @@ void Triangle::set(Player& player, Screen screen,Map map) {
 	right_position.y = position.y + sinf(theta_right) * radian;
 	//êF
 	color = 0xE80971FF;
+	responflag = true;
 	flag = true;
 
 }
@@ -270,9 +285,7 @@ void Triangle::set(Player& player, Screen screen,Map map) {
 void Triangle::respon(Player player, Screen screen,Map map) {
 	if (player.radius < IsRespon(map)) {
 		cooltime = 0;
-		do {
-			set(player, screen,map);
-		} while (InScreen(player, position, screen));
+		set(player, screen,map);
 	}
 	else {
 		flag = false;
@@ -375,7 +388,7 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 	//êF
 	color = 0xE80971FF;
 	flag = true;
-
+	responflag = true;
 	BreadOpenFlag = true;
 }
 
@@ -593,9 +606,7 @@ void Quadrangle::respon(Player player,Screen screen,Map map) {
 		BreadCloseFlag = false;
 		vel = { 0,0 };
 		t = 0.0f;
-		do {
-			set(player, screen,map);
-		} while (InScreen(player, position, screen));
+		set(player, screen,map);
 	}
 	else {
 		flag = false;

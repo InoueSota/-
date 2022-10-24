@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "easing.h"
 #include "Quad.h"
+#include "Wave.h"
 
 
 class Figure
@@ -28,12 +29,15 @@ public:
 	//画面内かチェック
 	bool InScreen(Player player, Vec2 Position, Screen screen);
 	float IsRespon(Map map);
+	void reset();
 
 	Vec2 position;
 	float radian;
 	unsigned int color;
 	bool flag;
 	int cooltime;
+	float colortime;
+	bool responflag;
 
 	//消
 	float stage(Map map);
@@ -46,8 +50,9 @@ class llipse:public Figure
 public:
 	llipse();
 	void draw(Screen& screen, Player& players);
-	void set(Player& player,Screen screen,Map map);
-	void respon(Player player, Screen screen,Map map);
+	void set(Player& player,Screen screen,Map map,WAVE wave);
+	void respon(Player player, Screen screen,Map map, WAVE wave);
+	
 	bool IsInStage(float stage);
 	void Update(Player player);
 	int count;
