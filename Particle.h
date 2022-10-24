@@ -14,6 +14,8 @@ public:
 	int life[PARTICLE_MAX];
 	float radius[PARTICLE_MAX];
 	int decreaseSize[PARTICLE_MAX];		//パーティクルの減少量
+	float alphat[PARTICLE_MAX];
+	unsigned int color[PARTICLE_MAX];
 
 	virtual void ParticleInit() {};							//　初期化
 	virtual void ParticleMake() {};							//　生成
