@@ -43,6 +43,8 @@ public:
 	float Existtime[RIPPLES_MAX];		//îgñ‰ë∂ç›time
 	unsigned int Rcolor[RIPPLES_MAX];	//îgñ‰color
 
+	float theta;
+	bool isPressSpace;
 	bool isTitleClear;
 
 	/*Å@ä÷êîÅ@*/

@@ -16,6 +16,10 @@ public:
 	const int kTitleHeight = 286;
 	const int kSpaceWidth = 1170;
 	const int kSpaceHeight = 168;
+	const int kArrowWidth = 75;
+	const int kArrowHeight = 100;
+	const int kLetsWidth = 1000;
+	const int kLetsHeight = 120;
 	const int kTargetRadius = 20;
 
 	Vec2 BackCirclepos;
@@ -24,7 +28,7 @@ public:
 	float theta;
 
 	Vec2 Arrowpos;
-
+	Vec2 Letspos;
 	Vec2 Targetpos;
 	Vec2 TargetRipplespos;
 	bool isExist;			//”g–äƒtƒ‰ƒO
@@ -38,6 +42,7 @@ public:
 	int titlebackground;
 	int title;
 	int space;
+	int lets;
 
 	void Init();
 	void Process(char prekeys, char keys);

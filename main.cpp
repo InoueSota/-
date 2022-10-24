@@ -16,6 +16,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int background = Novice::LoadTexture("./resource./Background.png");
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
 	//
+	int isFull = 1;
 	
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -32,18 +33,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓更新処理ここから
 		///
+		
+		//スクリーン関係
+		if (preKeys[DIK_F] == 0 && keys[DIK_F]) {
+			isFull *= -1;
+		}
+		if (isFull == 1) {
+			Novice::SetWindowMode(kWindowed);
+		}
+		if (isFull == -1) {
+			Novice::SetWindowMode(kFullscreen);
+		}
+		/*　プレイヤー関係の関数（それぞれの意味はPlayer.hに記述）　*/
+		//プレイヤー本体
+		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
+		players.SetPlayers(players);
+		players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
+		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
+		//パーティクル処理
+		Pparticle.ParticleProcess(players, screen);
 		switch (scene)
 		{
 		case TITLE:
 			title.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]);
-			/*　プレイヤー関係の関数（それぞれの意味はPlayer.hに記述）　*/
-			//プレイヤー本体
-			players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
-			players.SetPlayers(players);
-			players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-			players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-			//パーティクル処理
-			Pparticle.ParticleProcess(players, screen);
 			if (Drain_InTitle(players, title.Targetpos, title.kTargetRadius) == true) {
 				title.isTitleClear = true;
 			}
@@ -53,6 +65,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case INGAME:
 			////セット
+
+			players.SetZoom(screen, players);
+			//アビリティ
+			bubble.Process(players, screen, keys[DIK_SPACE]);
+			slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
+			beam.Process(players, screen);
 			switch (wave.stage) {
 			case wave.stage_1_only:
 				if (!wave.stage_1_set_flag) {
@@ -64,19 +82,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					wave.boss_set_flag = false;
 				}
 				else {
-
-					players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
-					players.SetPlayers(players);
-					players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-					players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-					players.SetZoom(screen, players);
-					//アビリティ
-					bubble.Process(players, screen, keys[DIK_SPACE]);
-					slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-					beam.Process(players, screen);
-					//パーティクル処理
-					Pparticle.ParticleProcess(players, screen);
-
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						/*if (ellipse[i].InScreen(players, ellipse[i].position, screen)) {
 							ellipse[i].count++;
@@ -126,21 +131,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				}
 				else {
-
-
-					/*　プレイヤー関係の関数（それぞれの意味はPlayer.hに記述）　*/
-				//プレイヤー本体
-					players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
-					players.SetPlayers(players);
-					players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-					players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-					players.SetZoom(screen, players);
-					//アビリティ
-					bubble.Process(players, screen, keys[DIK_SPACE]);
-					slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-					beam.Process(players, screen);
-					//パーティクル処理
-					Pparticle.ParticleProcess(players, screen);
 
 					/*ボス関係*/
 					/*boss.Keep_Up(players);*/
@@ -253,6 +243,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				break;
 			case wave.boss_stage:
+
+				/*ボス関係*/
+				/*boss.Keep_Up(players);*/
+
+				item.Set_Item(RAND(0, 1000), RAND(0, 1000), players, RAND(0, 0));
+
+				if (item.Item_collision(players, screen) == true) {
+
+					item.Randam_Item();
+
+				}
+
+				item.Result(players, screen);
 				if (!wave.boss_set_flag) {
 					wave.stage_2_set_flag = false;
 					///一回だけのやつ
@@ -294,11 +297,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 			title.Draw(screen, title);
-			Pparticle.DrawParticle(screen);
-			bubble.Draw(screen);
-			slash.Draw(screen);
-			beam.Draw(screen);
-			players.Draw(screen, players);
 			break;
 		case INGAME:
 			//背景描画
@@ -365,6 +363,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 				break;
 			case wave.boss_stage:
+				Pparticle.DrawParticle(screen);
+				bubble.Draw(screen);
+				slash.Draw(screen);
+				beam.Draw(screen);
+				players.Draw(screen, players);
+
+				item.Draw(screen, players);
 				boss.draw(screen);
 				break;
 			case wave.rest:
