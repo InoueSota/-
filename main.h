@@ -1,6 +1,7 @@
 #pragma once
 #include <Novice.h>
 #include <time.h>
+#include "Title.h"
 #include "Player.h"
 #include "Particle.h"
 #include "Ability.h"
@@ -24,6 +25,7 @@ Scene scene = TITLE;
 //インスタンス化
 Screen screen;
 Map stage_1,stage_2,boss_stage;
+Title title;
 Player players;
 PlayerP Pparticle;
 Bubble bubble;
