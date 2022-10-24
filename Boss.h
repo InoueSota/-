@@ -72,6 +72,10 @@ public:
 	float theta;
 
 	//ÇœÇΩÅ[ÇÒÇP
+
+	bool dekaku;
+	float dekaku_t;
+	bool dekaku_tback;
 	Vec2 bullet_t_pos[MAX_BULLET_t];
 	bool bullet_t_flag[MAX_BULLET_t];
 	bool pattern_1;
@@ -81,6 +85,12 @@ public:
 	int zanrad[MAX_ZAN];
 	float zan_time[MAX_ZAN];
 	bool zan_flag[MAX_ZAN];
+
+	bool bakuha;
+	bool bakuha_back;
+
+	float bakuha_T;
+	float bakuha_Tback;
 
 	//ÇœÇΩÅ[ÇÒ2
 
