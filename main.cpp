@@ -105,7 +105,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 						if (ellipse[i].Player_Ellipse(players) == true) {
 							players.SizeDecrease(players);
+							screen.Shake(0, 10, 0, 10, true);
 						}
+						
 					}
 
 					for (int i = 0; i < Figure::FigureMax; i++) {
@@ -122,6 +124,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 				}
 				bar.Update(players, stage_1, wave);
+				wave.stage_1_draw_flag = true;
 				break;
 			case wave.stage_2:
 				if (!wave.stage_2_set_flag) {
@@ -412,7 +415,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			switch (wave.stage) {
 			case wave.stage_1_only:
-				if (wave.stage_1_set_flag/* && wave.stage_1_draw_flag*/) {
+				//if (wave.stage_1_set_flag/* && wave.stage_1_draw_flag*/) {
 					stage_1.DrawMap(screen);
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						if (ellipse[i].cheakdraw(players, ellipse[i].position, screen, ellipse[i].flag)) {
@@ -424,9 +427,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					item.Draw(screen, players);
 
-					bar.beasdraw();
-					bar.draw();
-				}
+					bar.beasdraw(screen);
+					bar.draw(screen);
+				/*}*/
 				
 				break;
 			case wave.stage_2:
@@ -456,8 +459,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					item.Draw(screen, players);
 					bar.Update(players, stage_2, wave);
-					bar.beasdraw();
-					bar.draw();
+					bar.beasdraw(screen);
+					bar.draw(screen);
 				}
 				break;
 			case wave.stage_3:

@@ -1,7 +1,7 @@
 #include "Wave.h"
 
 WAVE::WAVE() {
-	stage = boss_stage;
+	stage = stage_1_only;
 	stage_1_set_flag = false;
 	stage_2_set_flag = false;
 	boss_set_flag = false;

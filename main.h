@@ -22,7 +22,7 @@ enum Scene
 	CHANGE,
 	INGAME
 };
-Scene scene = INGAME;
+Scene scene = TITLE;
 
 
 //インスタンス化
