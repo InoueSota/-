@@ -73,9 +73,14 @@ void Slash::Init() {
 		{ 1, 2.5}
 	};
 	spd = 2.0f;
-	shotframe = 0;
-	isOccur = false;
+	SlashMax = 1;
+	for (int i = 0; i < kSlashMax; i++){
+		shotframe[i] = 0;
+		isOccur[i] = false;
+	}
+	isPressSpace = false;
 	isLoadTexture = false;
+	delayframe = 0;
 }
 void Slash::Make(Player& players, Screen& screen) {
 	Matrix33 mat;
@@ -83,23 +88,30 @@ void Slash::Make(Player& players, Screen& screen) {
 	mat *= Matrix33::MakeScaling(kSlashSizeMax / screen.Zoom.x, kSlashSizeMax / screen.Zoom.y);
 	mat *= Matrix33::MakeRotation(Degree(players.deg));
 	mat *= Matrix33::MakeTranslation(players.pos);
-	pos.LeftTop = op.LeftTop * mat;
-	pos.RightTop = op.RightTop * mat;
-	pos.LeftBottom = op.LeftBottom * mat;
-	pos.RightBottom = op.RightBottom * mat;
 	direvelo = players.pos - players.center;
 	velo = direvelo.Normalized() * (spd / screen.Zoom.x);
-	shotframe = 0;
-	isOccur = true;
+	for (int i = 0; i < SlashMax; i++){
+		pos[i].LeftTop = op.LeftTop * mat;
+		pos[i].RightTop = op.RightTop * mat;
+		pos[i].LeftBottom = op.LeftBottom * mat;
+		pos[i].RightBottom = op.RightBottom * mat;
+		shotframe[i] = 0;
+		isOccur[i] = true;
+	}
 }
 void Slash::Move() {
-	shotframe++;
-	pos.LeftTop += velo;
-	pos.RightTop += velo;
-	pos.LeftBottom += velo;
-	pos.RightBottom += velo;
-	if (shotframe >= kSlashTimeMax) {
-		isOccur = false;
+	for (int i = 0; i < SlashMax; i++) {
+		if (isOccur[i] == true && isStart[i] == true) {
+			shotframe[i]++;
+			pos[i].LeftTop += velo;
+			pos[i].RightTop += velo;
+			pos[i].LeftBottom += velo;
+			pos[i].RightBottom += velo;
+			if (shotframe[i] >= kSlashTimeMax) {
+				isStart[i] = false;
+				isOccur[i] = false;
+			}
+		}
 	}
 }
 void Slash::Process(Player& players, Screen& screen, char prekeys, char keys) {
@@ -107,19 +119,33 @@ void Slash::Process(Player& players, Screen& screen, char prekeys, char keys) {
 		slashImage = Novice::LoadTexture("./resource/Slash.png");
 		isLoadTexture = true;
 	}
-	if ((prekeys != 0 && keys == 0) && isOccur == false){
+	if ((prekeys != 0 && keys == 0) && isPressSpace == false){
 		spd = Clamp(spd, 2.0f, 10.0f);
 		Make(players, screen);
+		isPressSpace = true;
 	}
-	else if (isOccur == true){
+	else if (isPressSpace == true){
+		delayframe++;
+		if (delayframe % 20 == 0){
+			for (int i = 0; i < SlashMax; i++){
+				isStart[i] = true;
+			}
+		}
 		Move();
+		if (delayframe >= 300){
+			isPressSpace = false;
+		}
 	}
-	Vec2 tmptoppos = { pos.RightBottom - pos.RightTop };
-	Toppos = tmptoppos.Normalized() * (125 / screen.Zoom.y);
+	for (int i = 0; i < SlashMax; i++){
+		Vec2 tmptoppos = { pos[i].RightBottom - pos[i].RightTop};
+		Toppos[i] = tmptoppos.Normalized() * (125 / screen.Zoom.y);
+	}
 }
 void Slash::Draw(Screen& screen) {
-	if (isOccur == true){
-		screen.DrawQuad2(pos, 0, 0, 480, 2260, slashImage, WHITE);
+	for (int i = 0; i < SlashMax; i++) {
+		if (isOccur[i] == true) {
+			screen.DrawQuad2(pos[i], 0, 0, 480, 2260, slashImage, WHITE);
+		}
 	}
 }
 

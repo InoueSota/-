@@ -42,18 +42,23 @@ public:
 
 	static constexpr int kSlashSizeMax = 100;
 	static constexpr int kSlashTimeMax = 120;
+	static constexpr int kSlashMax = 3;
 
 	//ã≠âªçÄñ⁄
+	int SlashMax;
 	float spd;
 
 	Quad op;
-	Quad pos;
+	Quad pos[kSlashMax];
 	Vec2 direvelo;
 	Vec2 velo;
-	Vec2 Toppos;
-	bool isOccur;
+	Vec2 Toppos[kSlashMax];
+	bool isStart[kSlashMax];
+	bool isPressSpace;
+	bool isOccur[kSlashMax];
 	bool isLoadTexture;
-	int shotframe;
+	int shotframe[kSlashMax];
+	int delayframe;
 	int slashImage;	//âÊëúópïœêî
 
 	void Init();

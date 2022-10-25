@@ -270,8 +270,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				/*ボス関係*/
 				boss.Keep_Up(players);
 				boss.Result(players, screen, RAND(2, 2));
-				if (Slash_Boss(slash, boss) == true){
-					boss.radian-=0.5f;
+				for (int i = 0; i < slash.kSlashMax; i++){
+					if (Slash_Boss(slash.pos[i].LeftTop, slash.pos[i].LeftBottom, slash.Toppos[i], boss) == true) {
+						boss.radian -= 0.5f;
+					}
 				}
 				if (beam.isOccur == true){
 					if (Beam_Boss(beam, boss) == true) {
