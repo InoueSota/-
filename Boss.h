@@ -91,6 +91,7 @@ public:
 
 	float bakuha_T;
 	float bakuha_Tback;
+	float radius_f;
 
 	//‚Ï‚½[‚ñ2
 
