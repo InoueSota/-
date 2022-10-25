@@ -32,6 +32,9 @@ void Player::Init() {
 	circleB.pos = { (float)Length / 2, 0 };
 	circleA.center = { -(float)Length / 2, 0 };
 	circleB.center = { (float)Length / 2, 0 };
+
+	outcolor = 0xE5C210FF;
+	color = 0x2B1247FF;
 }
 
 /*　main.cppで座標を使用するために取得する関数　*/
@@ -142,6 +145,35 @@ void Player::SizeDecrease(Player& players) {
 		players.radius = 25;
 	}
 }
+void Player::MutekiTime() {
+
+	//フラグ変化はここ
+	Muteki_Timer++;
+	Muteki_Timer = Clamp(Muteki_Timer, 0, 120);
+	if (Muteki_Timer % 20 == 0) {
+		isMutekiDisplay = true;
+	}
+	if (Muteki_Timer % 20 == 10) {
+		isMutekiDisplay = false;
+	}
+
+	//色の変化はここ
+	if (isMutekiDisplay == false){
+		outcolor = 0xFFFFFF08;
+		color = 0xFFFFFF08;
+	}
+	if (isMutekiDisplay == true){
+		outcolor = 0xFFFFFF02;
+		color = 0xFFFFFF02;
+	}
+	if (Muteki_Timer == 120) {
+		isMutekiDisplay = false;
+		outcolor = 0xE5C210FF;
+		color = 0x2B1247FF;
+		Muteki_Timer = 0;
+		Muteki = false;
+	}
+}
 
 
 
@@ -223,73 +255,16 @@ void Player::Draw(Screen& screen, Player& players) {
 		}
 	}
 	//アウトライン
-	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius + 3 / screen.Zoom.x, players.radius + 3 / screen.Zoom.x, 0.0f, 0xE5C210FF, kFillModeSolid);
-	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius + 3 / screen.Zoom.x, players.radius + 3 / screen.Zoom.x, 0.0f, 0xE5C210FF, kFillModeSolid);
-	screen.DrawQuad2(outtmp, 0, 0, 0, 0, 0, 0xE5C210FF);
+	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius + 3 / screen.Zoom.x, players.radius + 3 / screen.Zoom.x, 0.0f, outcolor, kFillModeSolid);
+	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius + 3 / screen.Zoom.x, players.radius + 3 / screen.Zoom.x, 0.0f, outcolor, kFillModeSolid);
+	screen.DrawQuad2(outtmp, 0, 0, 0, 0, 0, outcolor);
 	//本体（背景と同じ色）
-	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, 0x2B1247FF, kFillModeSolid);
-	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, 0x2B1247FF, kFillModeSolid);
-	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, 0x2B1247FF);
+	screen.DrawEllipse(circleA.pos.x, circleA.pos.y, players.radius, players.radius, 0.0f, color, kFillModeSolid);
+	screen.DrawEllipse(circleB.pos.x, circleB.pos.y, players.radius, players.radius, 0.0f, color, kFillModeSolid);
+	screen.DrawQuad2(tmp, 0, 0, 0, 0, 0, color);
 }
 
-//void Player::Draw_Rand_Skin(Screen& screen, char prekeys, char keys)
-//{
-//	
-//	int gra = 0;
-//	int Rand = 0;
-//	bool change = false;
-//	int aisu_atari = Novice::LoadTexture("./resource/aisu_atari.png");
-//	int aisu_hazure = Novice::LoadTexture("./resource/aisu_hazuret.png");
-//	int waribashi= Novice::LoadTexture("./resource/waribashi.png");
-//	if (prekeys == 0 && keys&&change==false){
-//		change = true;
-//
-//	}
-//	if (change == true) {
-//		Rand = RAND(0, 2);
-//		change = false;
-//	}
-//
-//	if (Rand == 0) {
-//		gra = waribashi;
-//	}
-//	if (Rand == 1) {
-//		gra = aisu_hazure;
-//	}
-//	if (Rand == 2) {
-//		gra = aisu_atari;
-//	}
-//
-//	Quad tmp, outtmp, op{
-//		{ 0, -radius},
-//		{ static_cast<float>(Length), -(radius - 10)},
-//		{ 0,  radius},
-//		{ static_cast<float>(Length), (radius - 10)}
-//	}, outop{
-//		{ 0, -radius - 5 / screen.Zoom.x},
-//		{ static_cast<float>(Length), -(radius - 15) / screen.Zoom.x},
-//		{ 0, radius + 5 / screen.Zoom.x},
-//		{ static_cast<float>(Length), (radius - 15) / screen.Zoom.x}
-//	};
-//	Matrix33 mat;
-//	mat = Matrix33::Identity();
-//	mat = Matrix33::MakeScaling(screen.Zoom);
-//	mat = Matrix33::MakeRotation(Degree(deg));
-//	mat *= Matrix33::MakeTranslation(center);
-//	tmp.LeftTop = op.LeftTop * mat;
-//	tmp.RightTop = op.RightTop * mat;
-//	tmp.LeftBottom = op.LeftBottom * mat;
-//	tmp.RightBottom = op.RightBottom * mat;
-//	outtmp.LeftTop = outop.LeftTop * mat;
-//	outtmp.RightTop = outop.RightTop * mat;
-//	outtmp.LeftBottom = outop.LeftBottom * mat;
-//	outtmp.RightBottom = outop.RightBottom * mat;
-//
-//
-//	
-//	screen.DrawQuad( tmp.RightTop.x, tmp.RightTop.y, tmp.RightBottom.x, tmp.RightBottom.y, tmp.LeftTop.x, tmp.LeftTop.y, tmp.LeftBottom.x, tmp.LeftBottom.y, 0, 0, 90, 700, gra, WHITE);
-//	
-//}
+
 
 void Player::Ripples(Screen& screen, Player& players, char prekeys, char keys) {
 	for (int i = 0; i < RIPPLES_MAX; i++) {
