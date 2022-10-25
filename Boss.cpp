@@ -239,7 +239,7 @@ void Boss::set(Vec2 pos ) {
 
 	//ポジションなど必要な値を引数を用いて代入するでやんす。
 	position = pos;
-	radian = 500;
+	radian = 1500;
 
 }
 
