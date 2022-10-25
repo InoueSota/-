@@ -290,9 +290,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				/*ボス関係*/
 				boss.Keep_Up(players);
 				boss.Result(players, screen, RAND(3, 3));
-				if (Slash_Boss(slash, boss) == true){
+				/*if (Slash_Boss(slash, boss) == true){
 					boss.radian-=0.25f;
-				}
+				}*/
 				
 				if (beam.isOccur == true){
 					if (Beam_Boss(beam, boss) == true) {
@@ -309,12 +309,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 				}
-				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
-					Novice::DrawBox(0, 0, 1000, 1000, 0, GREEN, kFillModeSolid);
-				}
-				if (boss.shild != 0 && boss.Boss_Player(players) == true) {
-					players.Reverse *= -1;
-				}
+				
+
 				///プレイヤーに攻撃が当たった時
 				if (boss.Bullet_Player(players) == true) {
 					players.radius -= 0.5f;
@@ -326,8 +322,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					players.radius -= 0.5f;
 
 				}
+				//ボスのプレイヤーが当たった時
+				
+				if (boss.shild != 0 && boss.Boss_Player(players) == true&&players.Muteki==false) {  //ボスのシールドがある、俺が無敵じゃない、当たる
+					players.Muteki = true;
+					players.Reverse *= -1;
+					players.radius -= 1;
+				}
+				else if (players.Muteki == true) {
+					players.Muteki_Timer += 0.01f;
+					players.Muteki_Timer = Clamp(players.Muteki_Timer,0,1.0f);
+					if (players.Muteki_Timer == 1.0f) {
+						players.Muteki = false;
+						players.Muteki_Timer = 0.0f;
+					}
 
-
+				}
+				//クリア条件
+				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
+					Novice::DrawBox(0, 0, 1000, 1000, 0, GREEN, kFillModeSolid);
+				}
 				break;
 			case wave.rest:
 				break;
@@ -446,7 +460,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				Pparticle.DrawParticle(screen);
 				slash.Draw(screen);
 				beam.Draw(screen);
+				if (players.Muteki == false) {
 				players.Draw(screen, players);
+
+				}
 
 				item.Draw(screen, players);
 				boss.draw(screen);
