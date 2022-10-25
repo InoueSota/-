@@ -27,6 +27,13 @@ Boss::Boss()
 	keep = true;
 	blade = { 0,0,0,0,0,0,0,0 };
 	flame_2 = 0;
+	radius_f = 0;
+	bakuha=0;
+	bakuha_back=0;
+
+	bakuha_T=0;
+	bakuha_Tback=0;
+
 	for (int i = 0; i < MAX_BULLET; i++) {
 
 	bullet_pos[i] = { 0,0 };
@@ -137,9 +144,9 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 				if (dekaku_tback == false) {
 					dekaku_t += 0.02f;
 					dekaku_t = Clamp(dekaku_t, 0, 1.0f);
-					radian = easing(Easing::easeInBounce(dekaku_t), 500, 700);
+					radius_f = easing(Easing::easeInBounce(dekaku_t), 0, 200);
 				}
-					if (dekaku_t == 1.0f||radian==700) {
+					if (dekaku_t == 1.0f||radius_f==200) {
 						dekaku_tback = true;
 						dekaku_t = 0;
 					}
@@ -148,12 +155,12 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 					dekaku_t += 0.03f;
 					dekaku_t = Clamp(dekaku_t, 0, 1.0f);
 
-					radian = easing(Easing::easeInBack(dekaku_t), 700, 500);
+					radius_f = easing(Easing::easeInBack(dekaku_t), 200, 0);
 
 
 				}
 			
-				if (dekaku_tback == true&&(radian==500||dekaku_t==1.0f)) {
+				if (dekaku_tback == true&&(radius_f==500||dekaku_t==1.0f)) {
 					dekaku = true;
 				}
 			}
@@ -208,6 +215,7 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 						dekaku = false; 
 						dekaku_t = 0.01;
 						dekaku_tback = false;
+						radius_f = 0;
 
 					}
 
@@ -540,7 +548,7 @@ void Boss::draw(Screen& screen) {
 		}
 
 	}
-	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, BLACK, kFillModeSolid);
+	screen.DrawEllipse(position.x, position.y, radian+radius_f, radian+radius_f, 0.0f, BLACK, kFillModeSolid);
 
 	if (shild >= 1) {
 		screen.DrawEllipse(position.x, position.y, radian / 10, radian / 10, 0.0f, RED, kFillModeWireFrame);
