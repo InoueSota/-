@@ -55,6 +55,8 @@ public:
 	void IncDegProcess(Player& players, char prekeys, char keys);						//incDegの速度を変化させる処理関数
 	void SetScrollPos(Screen& screen, Player& players, char prekeys, char keys);		//スクロール座標を設定する関数
 	void SetZoom(Screen& screen, Player& players);										//ズームの値を設定する関数
+	void SizeIncrease(Player& players);													//敵に当たった時に使用する関数（半径が長くなる）
+	void SizeDecrease(Player& players);													//敵に当たった時に使用する関数（半径が短くなる）
 	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d);	//関数をまとめてmain.cppで一行にする関数
 	void Draw(Screen& screen, Player& players);											//描画関数
 	void Ripples(Screen& screen, Player& players, char prekeys, char keys);				//波紋の関数

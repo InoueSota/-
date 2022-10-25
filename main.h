@@ -17,15 +17,17 @@
 enum Scene
 {
 	TITLE,
+	CHANGE,
 	INGAME
 };
-Scene scene = INGAME;
+Scene scene = TITLE;
 
 
 //インスタンス化
 Screen screen;
 Map stage_1,stage_2,boss_stage;
 Title title;
+Change change;
 Player players;
 PlayerP Pparticle;
 Bubble bubble;
