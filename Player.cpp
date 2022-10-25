@@ -12,13 +12,13 @@ void Player::Init() {
 	add = { 0,0 };
 	tmppos = { 0,0 };
 	deg = 0;
-	radius = 100;
+	radius = 25;
 
 	Reverse = 1;
 	Longpressframe = 0;
 	isLongpress = false;
 
-	Length = 800;
+	Length = 300;
 
 	isScroll = false;
 	tmpCenpos = { 0,0 };
@@ -39,6 +39,7 @@ void Player::SetPlayers(Player& players) {
 	players.pos = player->pos;
 	players.center = player->center;
 	players.deg = player->deg;
+	players.Length = players.radius * 12;
 }
 
 /*　ズームの値を設定する関数　*/

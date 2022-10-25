@@ -80,7 +80,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					wave.stage_1_set_flag = true;
 					wave.boss_set_flag = false;
 				}
-				else {
+				
+
+				if(wave.stage_1_set_flag == true) {
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						if (ellipse[i].responflag == true) {
 							ellipse[i].reset();
@@ -272,9 +274,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				//処理書いてね
 				/*ボス関係*/
 				boss.Keep_Up(players);
-				boss.Result(players, screen, RAND(0, 1));
+				boss.Result(players, screen, RAND(0, 3));
 				if (Slash_Boss(slash, boss) == true){
-					players.radius = 10;
+					//players.radius = 10;
 				}
 				break;
 			case wave.rest:
@@ -312,7 +314,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case INGAME:
 			//背景描画
-			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
+			//Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
 			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
 			for (int y = -4; y < 5; y++) {
 				for (int x = -4; x < 5; x++) {
