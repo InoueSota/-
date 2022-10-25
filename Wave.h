@@ -15,6 +15,8 @@ public:
 	int stage;
 	bool stage_1_set_flag;
 	bool stage_2_set_flag;
+	bool stage_3_set_flag;
+
 	bool boss_set_flag;
 	bool stage_1_draw_flag;
 	bool stage_2_draw_flag;

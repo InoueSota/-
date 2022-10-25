@@ -41,6 +41,7 @@ Quadrangle quadrangle[Figure::FigureMax];
 clock_t oldTime;
 Item item;
 Boss boss;
+Boss tboss;
 Seed seed[Figure::FigureMax];
 WAVE wave;
 Bar bar;

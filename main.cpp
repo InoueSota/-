@@ -271,13 +271,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				break;
 			case wave.stage_3:
 				//中ボス追加
+				if (!wave.stage_3_set_flag) {
+					wave.stage_2_set_flag = false;
+					///一回だけのやつ
+					tboss.set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
+					boss_stage.Set_Map(0, 0, 10000, RED);
+					wave.stage_3_set_flag = true;
+				}
+				//処理書いてね
+				/*ボス関係*/
 					
 			break;
 			case wave.boss_stage:
 				/*ボス関係*/
 				/*boss.Keep_Up(players);*/
 
-				item.Set_Item(RAND(0, 1000), RAND(0, 1000), players, RAND(0, 0));
+				/*item.Set_Item(RAND(0, 1000), RAND(0, 1000), players, RAND(0, 0));
 
 				if (item.Item_collision(players, screen) == true) {
 
@@ -285,7 +294,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				}
 
-				item.Result(players, screen);
+				item.Result(players, screen);*/
 				if (!wave.boss_set_flag) {
 					wave.stage_2_set_flag = false;
 					///一回だけのやつ
