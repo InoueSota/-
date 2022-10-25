@@ -48,18 +48,18 @@ public:
 	bool isTitleClear;
 
 	/*　関数　*/
-	void Init();																		//初期化する関数
-	void SetPlayers(Player& players);													//main.cppで座標を使用するために取得する関数
-	virtual void CircleProcess(Player& players) {};										//円運動の関数
-	virtual void SetDegree() {};														//円運動する円を変更する際の度数の設定する関数
-	void IncDegProcess(Player& players, char prekeys, char keys);						//incDegの速度を変化させる処理関数
-	void SetScrollPos(Screen& screen, Player& players, char prekeys, char keys);		//スクロール座標を設定する関数
-	void SetZoom(Screen& screen, Player& players);										//ズームの値を設定する関数
-	void SizeIncrease(Player& players);													//敵に当たった時に使用する関数（半径が長くなる）
-	void SizeDecrease(Player& players);													//敵に当たった時に使用する関数（半径が短くなる）
-	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d);	//関数をまとめてmain.cppで一行にする関数
-	void Draw(Screen& screen, Player& players);											//描画関数
-	void Ripples(Screen& screen, Player& players, char prekeys, char keys);				//波紋の関数
+	void Init();																						//初期化する関数
+	void SetPlayers(Player& players);																	//main.cppで座標を使用するために取得する関数
+	virtual void CircleProcess(Player& players) {};														//円運動の関数
+	virtual void SetDegree() {};																		//円運動する円を変更する際の度数の設定する関数
+	void IncDegProcess(Player& players, char prekeys, char keys);										//incDegの速度を変化させる処理関数
+	void SetScrollPos(Screen& screen, Player& players, char prekeys, char keys);						//スクロール座標を設定する関数
+	void SetZoom(Screen& screen, Player& players);														//ズームの値を設定する関数
+	void SizeIncrease(Player& players);																	//敵に当たった時に使用する関数（半径が長くなる）
+	void SizeDecrease(Player& players);																	//敵に当たった時に使用する関数（半径が短くなる）
+	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d, Title& title);	//関数をまとめてmain.cppで一行にする関数
+	void Draw(Screen& screen, Player& players);															//描画関数
+	void Ripples(Screen& screen, Player& players, char prekeys, char keys);								//波紋の関数
 
 	//void Draw_Rand_Skin(Screen& screen, char prekeys, char keys);
 private:

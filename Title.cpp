@@ -40,7 +40,7 @@ void Title::Process(char prekeys, char keys) {
 		}
 	}
 	if (isDrainClear == true){
-		alphat += 0.005f;
+		alphat += 0.01f;
 		color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0x00 + alphat * 0xFF);
 		if (color >= 0x000000FF){
 			isTitleClear = true;
@@ -101,7 +101,7 @@ void Change::Init() {
 void Change::Process() {
 	frame++;
 	if (frame >= 300){
-		alphat += 0.005f;
+		alphat += 0.01f;
 		color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0xFF + alphat * 0x00);
 		if (color <= 0x00000000){
 			isChangeClear = true;
