@@ -125,6 +125,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 				bar.Update(players, stage_1, wave);
 				wave.stage_1_draw_flag = true;
+				
 				break;
 			case wave.stage_2:
 				if (!wave.stage_2_set_flag) {
@@ -133,7 +134,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						ellipse[i].set(players, screen, stage_2, wave);
-						triangle[i].set(players, screen, stage_2);
+						triangle[i].set(players, screen, stage_2,wave);
 						quadrangle[i].set(players, screen, stage_2);
 						seed[i].set(players, screen, stage_2, triangle[i].position, 3);
 					}
@@ -186,20 +187,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						
 						if (ellipse[i].Player_Ellipse(players) == true) {
 							players.SizeDecrease(players);
+							screen.Shake(0, 10, 0, 10, true);
 						}
 
 						if (triangle[i].Player_Triangle(players) == true) {
 							players.SizeDecrease(players);
+							screen.Shake(0, 10, 0, 10, true);
 						}
 						if (triangle[i].triangle_death && seed[i].UpdateFlag&&seed[i].Player_Seed(players)) {
 							players.SizeDecrease(players);
+							screen.Shake(0, 10, 0, 10, true);
 						}
 						if (quadrangle[i].Player_Quadrangle(players) == true) {
 							players.SizeDecrease(players);
+							screen.Shake(0, 10, 0, 10, true);
 						}
 						if (quadrangle[i].UpdatesetFlag) {
 							if (quadrangle[i].Player_Update(players)) {
 								players.SizeDecrease(players);
+								screen.Shake(0, 10, 0, 10, true);
 							}
 						}
 						
@@ -225,6 +231,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 								players.SizeIncrease(players);
 								quadrangle[i].flag = false;
 								quadrangle[i].drawflag = false;
+								///ブレード1
+								quadrangle[i].bread_1_top_left_position_end = { -20,-20 };
+								quadrangle[i].bread_1_top_right_position_end = { -20,-20 };
+								quadrangle[i].bread_1_bottom_left_position_end = { -20,-20 };
+								quadrangle[i].bread_1_bottom_right_position_end = { -20,-20 };
+								//ブレード2
+								quadrangle[i].bread_2_top_left_position_end = { -20,-20 };
+								quadrangle[i].bread_2_top_right_position_end = { -20,-20 };
+								quadrangle[i].bread_2_bottom_left_position_end = { -20,-20 };
+								quadrangle[i].bread_2_bottom_right_position_end = { -20,-20 };
 							}
 						}
 						//if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
@@ -249,7 +265,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						if (triangle[i].flag == false && !seed[i].UpdateFlag && !triangle[i].triangle_death) {
 							triangle[i].cooltime++;
 							if (triangle[i].cooltime % 30 == 0) {
-								triangle[i].respon(players, screen, stage_2);
+								triangle[i].respon(players, screen, stage_2,wave);
 								seed[i].respon(players, screen, triangle[i].position, stage_2);
 							}
 						}
@@ -266,7 +282,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 					wave.stage_2_draw_flag = true;
 				}
-
+				if (players.radius >= wave.MapChenge(stage_2)) {
+					wave.stage = wave.stage_3;
+				}
 				bar.Update(players,stage_2,wave);
 				break;
 			case wave.stage_3:
@@ -356,6 +374,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 		
+		if (keys[DIK_M] != 0) {
+			players.radius += 1;
+		}
+
 		///
 		/// ↑更新処理ここまで
 		///
@@ -415,7 +437,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			switch (wave.stage) {
 			case wave.stage_1_only:
-				//if (wave.stage_1_set_flag/* && wave.stage_1_draw_flag*/) {
+				if (wave.stage_1_set_flag/* && wave.stage_1_draw_flag*/) {
 					stage_1.DrawMap(screen);
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						if (ellipse[i].cheakdraw(players, ellipse[i].position, screen, ellipse[i].flag)) {
@@ -429,7 +451,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					bar.beasdraw(screen);
 					bar.draw(screen);
-				/*}*/
+				}
 				
 				break;
 			case wave.stage_2:

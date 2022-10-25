@@ -96,8 +96,8 @@ class Triangle:public Figure
 public:
 	Triangle();
 	void draw(Screen& screen);
-	void set(Player& player,Screen screen,Map map);
-	void respon(Player player, Screen screen, Map map);
+	void set(Player& player,Screen screen,Map map, WAVE wave);
+	void respon(Player player, Screen screen, Map map, WAVE wave);
 	bool IsInStage(float stage);
 	void Update(Player player, Screen screen, Map map, Seed seed);
 	bool Player_Triangle(Player player);

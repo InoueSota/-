@@ -101,8 +101,11 @@ void llipse::set(Player& player,Screen screen,Map map,WAVE wave) {
 	if (wave.stage_1_only) {
 		radian = RAND(25 * 1.5, 25 * 8.0);
 	}
+	else if(wave.stage_2) {
+		radian = RAND(80 * 1.5, 80 * 5.0);
+	}
 	else {
-		radian = RAND(player.radius * 1.5, player.radius * 5.0);
+		radian = RAND(80 * 1.5, 80 * 5.0);
 	}
 	//êF
 	color = 0xE80971FF;
@@ -289,12 +292,17 @@ void Triangle::Update(Player player, Screen screen, Map map,Seed seed) {
 		/*respon(player,screen,map);*/
 	}
 }
-void Triangle::set(Player& player, Screen screen,Map map) {
+void Triangle::set(Player& player, Screen screen,Map map, WAVE wave) {
 	do {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//îºåa
-		radian = RAND(player.radius*0.3, player.radius * 0.7);
+		if (wave.stage_2) {
+			radian = RAND(80 * 0.3, 80 * 0.7);
+		}
+		else {
+
+		}
 	} while (Triangle::IsInStage(stage(map)));
 
 	//í∏ì_
@@ -331,10 +339,10 @@ void Triangle::set(Player& player, Screen screen,Map map) {
 
 }
 
-void Triangle::respon(Player player, Screen screen,Map map) {
+void Triangle::respon(Player player, Screen screen,Map map, WAVE wave) {
 	if (player.radius < IsRespon(map)) {
 		cooltime = 0;
-		set(player, screen,map);
+		set(player, screen,map,wave);
 	}
 	else {
 		flag = false;
