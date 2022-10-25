@@ -304,6 +304,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 			title.Draw(screen, title);
+			Pparticle.DrawParticle(screen);
+			players.Draw(screen, players);
 			break;
 		case INGAME:
 			//背景描画

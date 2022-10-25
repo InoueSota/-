@@ -24,7 +24,7 @@ void PlayerP::ParticleMove() {
     for (int i = 0; i < PARTICLE_MAX; i++) {
         if (life[i] > 0) {
             life[i]--;
-            alphat[i] += 0.015f;
+            alphat[i] += 0.01f;
             color[i] = 0xE5C21000 | static_cast<int>((1.0f - alphat[i]) * 0xFF + alphat[i] * 0x00);
             if (life[i] % 5 == 0) {
                 radius[i] -= decreaseSize[i];
