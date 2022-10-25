@@ -129,6 +129,7 @@ public:
 	bool UpdatesetFlag;
 	bool BreadOpenFlag;
 	bool BreadCloseFlag;
+	bool drawflag;
 	float theta_plus;
 	float t;
 	int cooltime;

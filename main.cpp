@@ -201,6 +201,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 								Novice::PlayAudio(drain, 0, 0.5);
 								players.SizeIncrease(players);
 								quadrangle[i].flag = false;
+								quadrangle[i].drawflag = false;
 							}
 						}
 						//if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
@@ -357,7 +358,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 							triangle[i].draw(screen);
 						}
 						if (quadrangle[i].cheakdraw(players, quadrangle[i].position, screen, quadrangle[i].flag)) {
-							quadrangle[i].breaddraw(screen);
+							if (quadrangle[i].drawflag) {
+								quadrangle[i].breaddraw(screen);
+							}
 							quadrangle[i].draw(screen);
 
 						}

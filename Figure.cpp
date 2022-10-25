@@ -222,7 +222,7 @@ bool Triangle::IsInStage(float stage) {
 
 void Triangle::Update(Player player, Screen screen, Map map,Seed seed) {
 	if (player.radius * 3.0 > radian) {
-		radian += 3;
+		radian += 2;
 		//頂点
 		top_position.x = position.x + cosf(theta) * radian;
 		top_position.y = position.y + sinf(theta) * radian;
@@ -245,7 +245,7 @@ void Triangle::set(Player& player, Screen screen,Map map) {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//半径
-		radian = RAND(player.radius*0.2, player.radius * 0.7);
+		radian = RAND(player.radius*0.3, player.radius * 0.7);
 	} while (Triangle::IsInStage(stage(map)));
 
 	//頂点
@@ -310,6 +310,7 @@ Quadrangle::Quadrangle() {
 	UpdatesetFlag = false;
 	BreadOpenFlag = false;
 	BreadCloseFlag = false;
+	drawflag = false;
 	vel = { 0,0 };
 	t = 0.0f;
 	///ブレード1
@@ -346,7 +347,7 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//半径
-		radian = RAND(player.radius*0.5, player.radius * 3.0);
+		radian = RAND(player.radius*2.0, player.radius * 5.0);
 	} while (Quadrangle::IsInStage(stage(map)));
 	
 	//頂点
@@ -400,6 +401,7 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 	flag = true;
 	responflag = true;
 	BreadOpenFlag = true;
+	drawflag = true;
 }
 
 void Quadrangle::Update(Player& player, Screen screen, Map map) {
