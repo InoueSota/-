@@ -285,9 +285,13 @@ bool Drain_Center_Circle(Player& player, llipse& ellipse) {
 	float distance =(ellipse.position - f).Length();
 
 	if (distance < player.radius/50 + ellipse.radian) {
+		if (player.Length >= ellipse.radian*2) {
+
 		return true;
+		}
+		
 	}
-	return false;
+
 
 }
 
@@ -335,7 +339,11 @@ bool Drain_Center_Triangle(Player& player,Triangle&triangle) {
 	float distance = (triangle.position - f).Length();
 
 	if (distance < player.radius / 50 + triangle.radian) {
-		return true;
+		if (player.Length >= triangle.radian * 2) {
+
+			return true;
+		}
+		
 	}
 	return false;
 
@@ -360,7 +368,11 @@ bool Drain_Center_Quad(Player& player, Quadrangle& quad) {
 	float distance = (quad.position - f).Length();
 
 	if (distance < player.radius / 50 + quad.radian) {
-		return true;
+		if (player.Length >= quad.radian * 2) {
+
+			return true;
+		}
+		
 	}
 	return false;
 
@@ -409,12 +421,12 @@ bool Drain_Check_Quadrangle(Player player, Quadrangle quadrangle) {
 
 /////ƒ{ƒX‚Æ‚Ì“–‚½‚è”»’è
 
-bool Slash_1_Boss(Slash& slash,Boss& boss) {
+bool Slash_1_Boss(Vec2 LeftTop, Vec2 Toppos, Boss& boss) {
 
 	
 
-	Vec2 start_to_center = Vec2(boss.position - slash.pos.LeftTop);
-	Vec2 start_to_end = Vec2(slash.Toppos - slash.pos.LeftTop);
+	Vec2 start_to_center = Vec2(boss.position - LeftTop);
+	Vec2 start_to_end = Vec2(Toppos - LeftTop);
 	Vec2 nomalize_stc = start_to_center.Normalized();
 
 	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
@@ -422,7 +434,7 @@ bool Slash_1_Boss(Slash& slash,Boss& boss) {
 	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
 	t = Clamp(t, 0, 1);
 
-	Vec2 f = (1.0f - t) * slash.pos.LeftTop + t * slash.Toppos;
+	Vec2 f = (1.0f - t) * LeftTop + t * Toppos;
 
 	float distance = (boss.position - f).Length();
 
@@ -432,12 +444,12 @@ bool Slash_1_Boss(Slash& slash,Boss& boss) {
 	return false;
 
 }
-bool Slash_2_Boss(Slash& slash, Boss& boss) {
+bool Slash_2_Boss(Vec2 LeftBottom, Vec2 Toppos, Boss& boss) {
 
 
 
-	Vec2 start_to_center = Vec2(boss.position - slash.pos.LeftBottom);
-	Vec2 start_to_end = Vec2(slash.Toppos - slash.pos.LeftBottom);
+	Vec2 start_to_center = Vec2(boss.position - LeftBottom);
+	Vec2 start_to_end = Vec2(Toppos - LeftBottom);
 	Vec2 nomalize_stc = start_to_center.Normalized();
 
 	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
@@ -445,7 +457,7 @@ bool Slash_2_Boss(Slash& slash, Boss& boss) {
 	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
 	t = Clamp(t, 0, 1);
 
-	Vec2 f = (1.0f - t) * slash.pos.LeftBottom + t * slash.Toppos;
+	Vec2 f = (1.0f - t) * LeftBottom + t * Toppos;
 
 	float distance = (boss.position - f).Length();
 
@@ -456,9 +468,9 @@ bool Slash_2_Boss(Slash& slash, Boss& boss) {
 
 }
 
-bool Slash_Boss(Slash& slash, Boss& boss) {
+bool Slash_Boss(Vec2 LeftTop, Vec2 LeftBottom, Vec2 Toppos, Boss& boss) {
 
-	if (Slash_1_Boss(slash, boss) == true || Slash_1_Boss(slash, boss) == true) {
+	if (Slash_1_Boss(LeftTop, Toppos, boss) == true || Slash_1_Boss(LeftBottom, Toppos, boss) == true) {
 		return true;
 	}
 	else {

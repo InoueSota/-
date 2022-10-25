@@ -95,12 +95,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						if (ellipse[i].responflag == true) {
 							ellipse[i].reset();
 						}
+						ellipse[i].Update(players,screen,stage_1,wave);
 						if (Drain_Check_Ellipse(players, ellipse[i])) {
 							if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true && ellipse[i].responflag == false) {
 								Novice::PlayAudio(drain, 0, 0.5);
 								players.SizeIncrease(players);
 								ellipse[i].flag = false;
 							}
+						}
+						if (ellipse[i].Player_Ellipse(players) == true) {
+							players.SizeDecrease(players);
 						}
 					}
 
@@ -117,6 +121,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						wave.stage = wave.stage_2;
 					}
 				}
+				bar.Update(players, stage_1, wave);
 				break;
 			case wave.stage_2:
 				if (!wave.stage_2_set_flag) {
@@ -170,17 +175,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 							if (triangle[i].triangle_death && seed[i].UpdateFlag) {
 								seed[i].Update(players, screen, stage_2);
 							}
-							/*if (!seed[i].setFlag && !seed[i].UpdateFlag) {
-								seed[i].respon(players, screen, triangle[i].position, stage_1);
-							}*/
-
 						}
 
 						if (quadrangle[i].InScreen(players, quadrangle[i].position, screen) && quadrangle[i].responflag == false) {
-							quadrangle[i].Update(players, screen, stage_2);
+							quadrangle[i].Update(players, screen, stage_2, wave);
+						}
+						
+						if (ellipse[i].Player_Ellipse(players) == true) {
+							players.SizeDecrease(players);
 						}
 
-
+						if (triangle[i].Player_Triangle(players) == true) {
+							players.SizeDecrease(players);
+						}
+						if (triangle[i].triangle_death && seed[i].UpdateFlag&&seed[i].Player_Seed(players)) {
+							players.SizeDecrease(players);
+						}
+						if (quadrangle[i].Player_Quadrangle(players) == true) {
+							players.SizeDecrease(players);
+						}
+						if (quadrangle[i].UpdatesetFlag) {
+							if (quadrangle[i].Player_Update(players)) {
+								players.SizeDecrease(players);
+							}
+						}
+						
 						if (Drain_Check_Ellipse(players, ellipse[i])) {
 							if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true && ellipse[i].responflag == false) {
 								Novice::PlayAudio(drain, 0, 0.5);
@@ -198,10 +217,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 							}
 						}
 						if (Drain_Check_Quadrangle(players, quadrangle[i])) {
-							if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true && quadrangle[i].responflag == false) {
+							if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true && quadrangle[i].responflag == false&& quadrangle[i].UpdatesetFlag==false) {
 								Novice::PlayAudio(drain, 0, 0.5);
 								players.SizeIncrease(players);
 								quadrangle[i].flag = false;
+								quadrangle[i].drawflag = false;
 							}
 						}
 						//if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
@@ -219,8 +239,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 						if (ellipse[i].flag == false) {
 							ellipse[i].cooltime++;
-							if (ellipse[i].cooltime % 30 == 0) {
-								ellipse[i].respon(players, screen, stage_2, wave);
+							if (ellipse[i].cooltime % 120 == 0) {
+								ellipse[i].respon(players, screen, stage_2,wave);
 							}
 						}
 						if (triangle[i].flag == false && !seed[i].UpdateFlag && !triangle[i].triangle_death) {
@@ -244,7 +264,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					wave.stage_2_draw_flag = true;
 				}
 
-
+				bar.Update(players,stage_2,wave);
 				break;
 			case wave.boss_stage:
 				/*ボス関係*/
@@ -322,6 +342,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
+		
 		switch (scene)
 		{
 		case TITLE:
@@ -384,8 +405,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					players.Draw(screen, players);
 
 					item.Draw(screen, players);
-				}
 
+					bar.beasdraw();
+					bar.draw();
+				}
+				
 				break;
 			case wave.stage_2:
 				if (wave.stage_2_set_flag && wave.stage_2_draw_flag) {
@@ -401,7 +425,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 							triangle[i].draw(screen);
 						}
 						if (quadrangle[i].cheakdraw(players, quadrangle[i].position, screen, quadrangle[i].flag)) {
-							quadrangle[i].breaddraw(screen);
+							if (quadrangle[i].drawflag) {
+								quadrangle[i].breaddraw(screen);
+							}
 							quadrangle[i].draw(screen);
 						}
 					}
@@ -411,6 +437,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					players.Draw(screen, players);
 
 					item.Draw(screen, players);
+					bar.Update(players, stage_2, wave);
+					bar.beasdraw();
+					bar.draw();
 				}
 				break;
 			case wave.boss_stage:
@@ -431,7 +460,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		}
-
+		
 		///
 		/// ↑描画処理ここまで
 		///

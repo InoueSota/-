@@ -12,6 +12,8 @@
 #include "Item.h"
 #include "Boss.h"
 #include "Wave.h"
+#include "Bar.h"
+
 
 
 enum Scene
@@ -41,4 +43,5 @@ Item item;
 Boss boss;
 Seed seed[Figure::FigureMax];
 WAVE wave;
+Bar bar;
 //Enemy enemy[3];
