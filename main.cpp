@@ -359,7 +359,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				//処理書いてね
 				/*ボス関係*/
 				boss.Keep_Up(players);
-				boss.Result(players, screen, RAND(3, 3));
+				boss.Result(players, screen, RAND(2, 2));
 				if (Slash_Boss(slash, boss) == true) {
 					boss.radian -= 5.25f;
 				}
@@ -388,7 +388,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (boss.Bullet_Player_2(players) == true) {
 					players.radius -= 0.5f;
 				}
-				if (boss.Blade_Player(players) == true) {
+				if (boss.Blade_Player(players) == true|| boss.Blade_Player_2(players) == true) {
 					players.radius -= 0.5f;
 
 				}
