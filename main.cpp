@@ -269,13 +269,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				//処理書いてね
 				/*ボス関係*/
 				boss.Keep_Up(players);
-				boss.Result(players, screen, RAND(2, 2));
+				boss.Result(players, screen, RAND(3, 3));
 				if (Slash_Boss(slash, boss) == true){
-					boss.radian-=0.5f;
+					boss.radian-=0.25f;
 				}
+				
 				if (beam.isOccur == true){
 					if (Beam_Boss(beam, boss) == true) {
-						boss.radian -= 0.2f;
+						boss.radian -= 0.05f;
 					}
 				}
 				if (boss.radian < 300) {
@@ -291,12 +292,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
 					Novice::DrawBox(0, 0, 1000, 1000, 0, GREEN, kFillModeSolid);
 				}
+				if (boss.shild != 0 && boss.Boss_Player(players) == true) {
+					players.Reverse *= -1;
+				}
 				///プレイヤーに攻撃が当たった時
 				if (boss.Bullet_Player(players) == true) {
 					players.radius -= 0.5f;
 				}
 				if (boss.Bullet_Player_2(players) == true) {
 					players.radius -= 0.5f;
+				}
+				if (boss.Blade_Player(players) == true) {
+					players.radius -= 0.5f;
+
 				}
 
 
@@ -413,6 +421,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				item.Draw(screen, players);
 				boss.draw(screen);
+				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
+					Novice::DrawBox(0, 0, 1000, 1000, 0, GREEN, kFillModeSolid);
+				}
 				break;
 			case wave.rest:
 

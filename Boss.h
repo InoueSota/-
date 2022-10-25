@@ -69,6 +69,7 @@ public:
 	
 	bool Bullet_Player(Player& player);
 	bool Bullet_Player_2(Player& player);
+	bool Blade_Player(Player& player);
 	bool Boss_Player(Player& player);
 	
 	int rand_num;
