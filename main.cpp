@@ -46,6 +46,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		/*　プレイヤー関係の関数（それぞれの意味はPlayer.hに記述）　*/
 		//プレイヤー本体
+		slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
 		players.SetPlayers(players);
 		players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
@@ -306,6 +307,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			title.Draw(screen, title);
 			Pparticle.DrawParticle(screen);
 			players.Draw(screen, players);
+			slash.Draw(screen);
 			break;
 		case INGAME:
 			//背景描画

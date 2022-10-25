@@ -47,6 +47,7 @@ public:
 	Quad pos;
 	Vec2 direvelo;
 	Vec2 velo;
+	Vec2 Toppos;
 	float spd;
 	bool isTrigger;
 	bool isOccur;

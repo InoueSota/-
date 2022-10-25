@@ -72,7 +72,7 @@ void Slash::Init() {
 		{-1, 2.5},
 		{ 1, 2.5}
 	};
-	spd = 5.0f;
+	spd = 8.0f;
 	delayframe = 0;
 	shotframe = 0;
 	isOccur = false;
@@ -80,7 +80,7 @@ void Slash::Init() {
 }
 void Slash::Make(Player& players, Screen& screen) {
 	if (isTrigger == true){
-		delayframe++;
+		delayframe = 10;
 	}
 	if (delayframe >= 10 && isOccur == false){
 		Matrix33 mat;
@@ -120,9 +120,10 @@ void Slash::Process(Player& players, Screen& screen, char prekeys, char keys) {
 	if ((prekeys != 0 && keys == 0) && isTrigger == false) {
 		isTrigger = true;
 	}
-
 	Make(players, screen);
 	Move();
+	Vec2 tmptoppos = { pos.RightBottom - pos.RightTop };
+	Toppos = tmptoppos.Normalized() * (125 / screen.Zoom.y);
 }
 void Slash::Draw(Screen& screen) {
 	if (isOccur == true){
@@ -162,11 +163,11 @@ void Beam::Make(Player& players, Screen& screen) {
 		Matrix33 mat1, mat2;
 		mat1 = Matrix33::Identity();
 		mat1 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
-		mat1 *= Matrix33::MakeRotation(Degree(players.deg + 180));
+		mat1 *= Matrix33::MakeRotation(Degree(90));
 		mat1 *= Matrix33::MakeTranslation(players.center);
 		mat2 = Matrix33::Identity();
 		mat2 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
-		mat2 *= Matrix33::MakeRotation(Degree(players.deg));
+		mat2 *= Matrix33::MakeRotation(Degree(270));
 		mat2 *= Matrix33::MakeTranslation(players.center);
 		pos1.LeftTop = op.LeftTop * mat1;
 		pos1.RightTop = op.RightTop * mat1;
@@ -201,11 +202,11 @@ void Beam::MoveLine(Player& players, Screen& screen) {
 		lineframe++;
 		linemat1 = Matrix33::Identity();
 		linemat1 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
-		linemat1 *= Matrix33::MakeRotation(Degree(tmpdeg + 180));
+		linemat1 *= Matrix33::MakeRotation(Degree(90));
 		linemat1 *= Matrix33::MakeTranslation(tmpcenter.x + RAND(-80 / screen.Zoom.x, 80 / screen.Zoom.x), tmpcenter.y + RAND(-100 / screen.Zoom.y, 100 / screen.Zoom.y));
 		linemat2 = Matrix33::Identity();
 		linemat2 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
-		linemat2 *= Matrix33::MakeRotation(Degree(tmpdeg));
+		linemat2 *= Matrix33::MakeRotation(Degree(270));
 		linemat2 *= Matrix33::MakeTranslation(tmpcenter.x + RAND(-80 / screen.Zoom.x, 80 / screen.Zoom.x), tmpcenter.y + RAND(-100 / screen.Zoom.y, 100 / screen.Zoom.y));
 		for (int i = 0; i < kLineMax; i++) {
 			if (life[i] <= 0 && lineframe % 10 == 0) {

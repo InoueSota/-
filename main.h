@@ -19,7 +19,7 @@ enum Scene
 	TITLE,
 	INGAME
 };
-Scene scene = INGAME;
+Scene scene = TITLE;
 
 
 //インスタンス化
