@@ -101,7 +101,7 @@ void llipse::set(Player& player,Screen screen,Map map,WAVE wave) {
 	count = RAND(0, 240);
 	//半径
 	if (wave.stage_1_only) {
-		radian = RAND(player.radius * 0.2, player.radius * 3.0);
+		radian = RAND(player.radius * 0.5, player.radius * 5.0);
 	}
 	else {
 		radian = RAND(player.radius * 0.2, player.radius * 2.0);
@@ -173,7 +173,7 @@ void Seed::set(Player& player, Screen screen, Map map, Vec2 pos,int seed) {
 }
 
 void Seed::Update(Player player, Screen screen, Map map) {
-		t += 0.05;
+		t += 0.01;
 		if (t > 1) {
 			UpdateFlag = false;
 			setFlag = false;
@@ -222,7 +222,7 @@ bool Triangle::IsInStage(float stage) {
 
 void Triangle::Update(Player player, Screen screen, Map map,Seed seed) {
 	if (player.radius * 3.0 > radian) {
-		radian += 0.2;
+		radian += 3;
 		//頂点
 		top_position.x = position.x + cosf(theta) * radian;
 		top_position.y = position.y + sinf(theta) * radian;
@@ -312,6 +312,16 @@ Quadrangle::Quadrangle() {
 	BreadCloseFlag = false;
 	vel = { 0,0 };
 	t = 0.0f;
+	///ブレード1
+	bread_1_top_left_position_end = { -20,-20};
+	bread_1_top_right_position_end = { -20,-20 };
+	bread_1_bottom_left_position_end = { -20,-20 };
+	bread_1_bottom_right_position_end = { -20,-20 };
+	//ブレード2
+	bread_2_top_left_position_end = { -20,-20 };
+	bread_2_top_right_position_end = { -20,-20 };
+	bread_2_bottom_left_position_end = { -20,-20 };
+	bread_2_bottom_right_position_end = { -20,-20 };
 }
 
 float Quadrangle::checkroll(float Theta) {
@@ -336,7 +346,7 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//半径
-		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
+		radian = RAND(player.radius*0.5, player.radius * 3.0);
 	} while (Quadrangle::IsInStage(stage(map)));
 	
 	//頂点
@@ -605,8 +615,8 @@ void Quadrangle::respon(Player player,Screen screen,Map map) {
 		BreadOpenFlag = false;
 		BreadCloseFlag = false;
 		vel = { 0,0 };
-		t = 0.0f;
 		set(player, screen,map);
+		t = 0.0f;
 	}
 	else {
 		flag = false;
@@ -623,7 +633,7 @@ void Quadrangle::respon(Player player,Screen screen,Map map) {
 //}
 
 void Quadrangle::draw(Screen& screen) {
-	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, BLUE);
+	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, color);
 }
 
 void Quadrangle::breaddraw(Screen& screen) {
