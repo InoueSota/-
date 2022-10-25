@@ -401,3 +401,29 @@ bool Drain_Check_Quadrangle(Player player, Quadrangle quadrangle) {
 	}
 	return false;
 }
+
+
+/////ƒ{ƒX‚Æ‚Ì“–‚½‚è”»’è
+bool Slash_Boss(Slash& slash,Boss& boss) {
+
+	
+
+	Vec2 start_to_center = Vec2(boss.position - slash.pos.LeftTop);
+	Vec2 start_to_end = Vec2( - slash.pos.LeftTop);
+	Vec2 nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * player.center + t * player.pos;
+
+	float distance = (ellipse.position - f).Length();
+
+	if (distance < player.radius / 50 + ellipse.radian) {
+		return true;
+	}
+	return false;
+
+}
