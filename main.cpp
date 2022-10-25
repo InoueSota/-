@@ -66,10 +66,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case INGAME:
 			////セット
-
 			players.SetZoom(screen, players);
 			//アビリティ
-			bubble.Process(players, screen, keys[DIK_SPACE]);
 			slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 			beam.Process(players, screen);
 			switch (wave.stage) {
@@ -275,6 +273,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				/*ボス関係*/
 				boss.Keep_Up(players);
 				boss.Result(players, screen, RAND(0, 1));
+				if (Slash_Boss(slash, boss) == true){
+					players.radius = 10;
+				}
 				break;
 			case wave.rest:
 
@@ -331,7 +332,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 
 					Pparticle.DrawParticle(screen);
-					bubble.Draw(screen);
 					slash.Draw(screen);
 					beam.Draw(screen);
 					players.Draw(screen, players);
@@ -365,7 +365,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 					Pparticle.DrawParticle(screen);
-					bubble.Draw(screen);
 					slash.Draw(screen);
 					beam.Draw(screen);
 					players.Draw(screen, players);
@@ -375,7 +374,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				break;
 			case wave.boss_stage:
 				Pparticle.DrawParticle(screen);
-				bubble.Draw(screen);
 				slash.Draw(screen);
 				beam.Draw(screen);
 				players.Draw(screen, players);

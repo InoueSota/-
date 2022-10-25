@@ -2,8 +2,9 @@
 #include <math.h>
 #include<Novice.h>
 #include "Figure.h"
-#include "main.h"
 #include "Screen.h"
+#include "Ability.h"
+#include "Boss.h"
 
 
 ///プロトタイプ宣言//////////////////
@@ -405,15 +406,6 @@ bool Drain_Check_Quadrangle(Player player, Quadrangle quadrangle) {
 
 /////ボスとの当たり判定
 
-bool Slash_Boss(Slash& slash, Boss& boss) {
-	if (Slash_1_Boss(slash, boss) == true || Slash_2_Boss(slash, boss) == true) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
 bool Slash_1_Boss(Slash& slash,Boss& boss) {
 
 	
@@ -459,4 +451,13 @@ bool Slash_2_Boss(Slash& slash, Boss& boss) {
 	}
 	return false;
 
+}
+
+bool Slash_Boss(Slash& slash, Boss& boss) {
+	if (Slash_1_Boss(slash, boss) == true || Slash_2_Boss(slash, boss) == true) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
