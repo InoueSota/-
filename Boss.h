@@ -67,6 +67,10 @@ public:
 	void Keep_Up(Player& player);
 	void Init();
 	
+	bool Bullet_Player(Player& player);
+	bool Bullet_Player_2(Player& player);
+	bool Boss_Player(Player& player);
+	
 	int rand_num;
 	int shild;
 	float theta;
@@ -85,7 +89,7 @@ public:
 	int zanrad[MAX_ZAN];
 	float zan_time[MAX_ZAN];
 	bool zan_flag[MAX_ZAN];
-
+	bool dasita[MAX_BULLET_t];
 	bool bakuha;
 	bool bakuha_back;
 
@@ -104,24 +108,18 @@ public:
 	float lifetime[MAX_BULLET];
 	bool pattern_2;
 	int flame_2;
+	bool tyakkaman[MAX_BULLET];
 
 	//ВѕВљБ[Вс3
 
 	Blade blade;
 	bool pattern_3;
 	bool keep;
-	
-
-
 	unsigned int color[MAX_BULLET];
-
-
 	int count;
 	int cooltime;
-
-
-
-	
+	//4
+	bool pattern_4;
 };
 
 

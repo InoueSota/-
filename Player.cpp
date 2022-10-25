@@ -26,7 +26,7 @@ void Player::Init() {
 	Scrolleasingt = 0.0f;
 	ScrollincT = 0.1;
 
-	isTitleClear = false;
+	isTitleClear = true;
 
 	circleA.pos = { -(float)Length / 2, 0 };
 	circleB.pos = { (float)Length / 2, 0 };
