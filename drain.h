@@ -449,7 +449,7 @@ bool Slash_2_Boss(Slash& slash, Boss& boss) {
 
 
 	Vec2 start_to_center = Vec2(boss.position - slash.pos.LeftBottom);
-	Vec2 start_to_end = Vec2(slash.pos.LeftTop - slash.pos.LeftBottom);
+	Vec2 start_to_end = Vec2(slash.Toppos - slash.pos.LeftBottom);
 	Vec2 nomalize_stc = start_to_center.Normalized();
 
 	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/

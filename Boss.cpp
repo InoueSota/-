@@ -281,6 +281,14 @@ void Boss::set(Vec2 pos ) {
 	radian = 1500;
 
 }
+void Boss::t_set(Vec2 pos) {
+
+	//ポジションなど必要な値を引数を用いて代入するでやんす。
+	position = pos;
+	radian = 750;
+	shild = 1;
+
+}
 
 void Boss::Rand_Move(int rand)
 {
@@ -615,10 +623,10 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 				blade.theta = Clamp(blade.theta, 0, 360);
 				Matrix2x2 mat = MakeRotateMatrix(blade.theta);
 				///torbox
-				Vector2 top_left = { 0,100 };
-				Vector2 top_right = { 450 + radian ,100 };
-				Vector2 bottom_left = { 0 ,-100 };
-				Vector2 bottom_right = { 750 + radian ,-100 };
+				Vector2 top_left = { 0,100 + (radian / 4) };
+				Vector2 top_right = { 2*radian ,100+(radian/4) };
+				Vector2 bottom_left = { 0 ,-100 - (radian / 4) };
+				Vector2 bottom_right = {  (2*radian)+250 ,-100- (radian / 4) };
 
 				blade.top_left = Multiply(top_left, mat);
 				blade.top_right = Multiply(top_right, mat);
@@ -865,22 +873,27 @@ void Boss::Keep_Up(Player& player)
 	theta += 0.05f;
 
 }
+void Boss::t_draw(Screen& screen) {
 
+	screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, BLACK, kFillModeSolid);
 
-
+	if (shild >= 1) {
+		screen.DrawEllipse(position.x, position.y, 300, 300, 0.0f, RED, kFillModeWireFrame);
+	}
+}
 void Boss::draw(Screen& screen) {
 	
 	Matrix2x2 mat= MakeRotateMatrix(theta);
 	
 	//tri
-	Vector2 top = { 0,200 };
-	Vector2 right = { -200,-100 };
-	Vector2 left = { 200,-100};
+	Vector2 top = { 0,300*2 };
+	Vector2 right = { -300*2,-150*2 };
+	Vector2 left = { 300*2,-150*2};
 	///torbox
-	Vector2 top_left = { -300,300};
-	Vector2 top_right = { 300,300 };
-	Vector2 bottom_left = { -300,-300};
-	Vector2 bottom_right = { 300,-300 };
+	Vector2 top_left = { -300*2,300*2};
+	Vector2 top_right = { 300*2,300*2 };
+	Vector2 bottom_left = { -300*2,-300*2};
+	Vector2 bottom_right = { 300*2,-300*2 };
 	  
 	Vector2 rotate_top = Multiply(top,mat);
 	Vector2 rotate_right = Multiply(right, mat);
@@ -949,7 +962,7 @@ void Boss::draw(Screen& screen) {
 	}
 	if (pattern_3 == true) {
 		if (keep == true) {
-			screen.DrawEllipse(position.x, position.y, 950, 950, 0, 0xFF000088, kFillModeSolid);
+			screen.DrawEllipse(position.x, position.y, radian*2, radian * 2, 0, 0xFF000088, kFillModeSolid);
 		}
 		if (keep == false) {
 			screen.DrawQuad(blade.top_left.x, blade.top_left.y, blade.top_right.x, blade.top_right.y, blade.bottom_left.x, blade.bottom_left.y, blade.bottom_right.x, blade.bottom_right.y, 0, 0, 0, 0, 0, BLACK);
@@ -982,7 +995,7 @@ void Boss::draw(Screen& screen) {
 	screen.DrawEllipse(position.x, position.y, radian+radius_f, radian+radius_f, 0.0f, BLACK, kFillModeSolid);
 
 	if (shild >= 1) {
-		screen.DrawEllipse(position.x, position.y, 100, 100, 0.0f, RED, kFillModeWireFrame);
+		screen.DrawEllipse(position.x, position.y, 200, 200, 0.0f, RED, kFillModeWireFrame);
 		if (shild >= 2) {
 			screen.DrawTriangle(rotate_top.x, rotate_top.y, rotate_right.x, rotate_right.y, rotate_left.x, rotate_left.y, GREEN, kFillModeWireFrame);
 			if (shild >= 3) {
