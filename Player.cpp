@@ -39,7 +39,7 @@ void Player::SetPlayers(Player& players) {
 	players.pos = player->pos;
 	players.center = player->center;
 	players.deg = player->deg;
-	players.Length = players.radius * 8;
+	players.Length = players.radius * 12;
 }
 
 /*　ズームの値を設定する関数　*/
