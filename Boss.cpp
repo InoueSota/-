@@ -58,11 +58,16 @@ void Boss::Init()
 {
 
 	flag = false;
-
-
+	bakuha_T=0;
+	bakuha_Tback=0;
+	radius_f=0;
+	dekaku=0;
+	dekaku_t=0;
+	dekaku_tback=0;
 	pattern_1 = false;
 	pattern_2 = false;
 	pattern_3 = false;
+	pattern_4 = false;
 	flame_2 = 0;
 	for (int i = 0; i < MAX_BULLET; i++) {
 
@@ -75,12 +80,160 @@ void Boss::Init()
 		bullet_flag[i] = false;
 		color[i] = 0xFFFF0000;
 		lifetime[i] = 0;
+		tyakkaman[i];
+
 	}
 	for (int i = 0; i < MAX_BULLET_t; i++) {
 		bullet_t_pos[i] = { 0,0 };
 		bullet_t_flag[i] = false;
+		dasita[i] = false;
+
 
 	}
+}
+bool Boss::Bullet_Player(Player& player)
+{
+	Vec2 start_to_center[MAX_BULLET];
+	Vec2 start_to_end;
+	Vec2 nomalize_stc[MAX_BULLET];
+	float t[MAX_BULLET]={};
+	Vec2 f[MAX_BULLET];
+	float distance[MAX_BULLET]={};
+	//center::回っていない
+	//pos::回っている
+	for (int i = 0; i < MAX_BULLET; i++) {
+
+		 start_to_center[i] = Vec2(bullet_pos[i] - player.center);
+		 start_to_end = Vec2(player.pos - player.center);
+		 nomalize_stc[i] = start_to_center[i].Normalized();
+
+		/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+		t[i] = ((start_to_center[i].Dot(nomalize_stc[i])) / start_to_end.Length());
+		t[i] = Clamp(t[i], 0, 1);
+
+		f[i] = (1.0f - t[i]) * player.center + t[i] * player.pos;
+
+		distance[i] = (bullet_pos[i] - f[i]).Length();
+		
+
+		
+	}
+	
+
+	if (distance[0] < player.radius + bullet_rad[0]) {
+		if (tyakkaman[0] == true&&bullet_flag[0]==true) {
+			return true;
+		}
+	}if (distance[1] < player.radius + bullet_rad[1]) {
+		if (tyakkaman[1] == true && bullet_flag[1] == true) {
+			return true;
+		}
+	}if (distance[2] < player.radius + bullet_rad[2]) {
+		if (tyakkaman[2] == true && bullet_flag[2] == true) {
+			return true;
+		}
+	}if (distance[3] < player.radius + bullet_rad[3]) {
+		if (tyakkaman[3] == true && bullet_flag[3] == true) {
+			return true;
+		}
+	}if (distance[4] < player.radius + bullet_rad[4]) {
+		if (tyakkaman[4] == true && bullet_flag[4] == true) {
+			return true;
+		}
+	}if (distance[5] < player.radius + bullet_rad[5]) {
+		if (tyakkaman[5] == true && bullet_flag[5] == true) {
+			return true;
+		}
+	}if (distance[6] < player.radius + bullet_rad[6]) {
+		if (tyakkaman[6] == true && bullet_flag[6] == true) {
+			return true;
+		}
+	}if(distance[7] < player.radius + bullet_rad[7]) {
+		if (tyakkaman[7] == true && bullet_flag[7] == true) {
+			return true;
+		}
+	}
+	
+	return false;
+}
+bool Boss::Bullet_Player_2(Player& player)
+{
+
+	Vec2 start_to_center[MAX_BULLET_t];
+	Vec2 start_to_end;
+	Vec2 nomalize_stc[MAX_BULLET_t];
+	float t[MAX_BULLET_t] = {};
+	Vec2 f[MAX_BULLET_t];
+	float distance[MAX_BULLET_t] = {};
+	//center::回っていない
+	//pos::回っている
+	for (int i = 0; i < MAX_BULLET_t; i++) {
+
+		start_to_center[i] = Vec2(bullet_t_pos[i] - player.center);
+		start_to_end = Vec2(player.pos - player.center);
+		nomalize_stc[i] = start_to_center[i].Normalized();
+
+		/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+		t[i] = ((start_to_center[i].Dot(nomalize_stc[i])) / start_to_end.Length());
+		t[i] = Clamp(t[i], 0, 1);
+
+		f[i] = (1.0f - t[i]) * player.center + t[i] * player.pos;
+
+		distance[i] = (bullet_t_pos[i] - f[i]).Length();
+
+	}
+	if (distance[0] < player.radius + bullet_rad[0]) {
+		if (bullet_t_flag[0] == true) {
+			bullet_t_flag[0] = false;
+			return true;
+
+		}
+	}
+	if (distance[1] < player.radius + bullet_rad[1]) {
+		if (bullet_t_flag[1] == true) {
+			bullet_t_flag[1] = false;
+			return true;
+		}
+	}
+	if (distance[2] < player.radius + bullet_rad[2]) {
+		if (bullet_t_flag[2] == true) {
+			bullet_t_flag[2] = false;
+			return true;
+		}
+	}
+	if (distance[3] < player.radius + bullet_rad[3]) {
+		if (bullet_t_flag[3] == true) {
+			bullet_t_flag[3] = false;
+			return true;
+		}
+	}
+}
+bool Boss::Boss_Player(Player& player)
+{
+
+	//center::回っていない
+	//pos::回っている
+
+	Vec2 start_to_center = Vec2(position - player.center);
+	Vec2 start_to_end = Vec2(player.pos - player.center);
+	Vec2 nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * player.center + t * player.pos;
+
+	float distance = (position - f).Length();
+
+	if (distance < player.radius / 50 + radian) {
+		return true;
+	}
+	
+	return false;
 }
 void Boss::set(Vec2 pos ) {
 
@@ -94,10 +247,10 @@ void Boss::Rand_Move(int rand)
 {
 	
 	//ランダムで何をするか今は三分ただけど確率を操るのもあり（運命の指揮者と名付ける）
-	if (flag == false&&pattern_1==false&&pattern_2==false&&pattern_3==false) {
+	if (flag == false&&pattern_1==false&&pattern_2==false&&pattern_3==false && pattern_4 == false) {
 		//rand_num = 0;
 		Init();
-		int time = 0;
+		int time = 100;
 		/*rand_num = RAND(0,2);*/
 		rand_num = rand;
 		cooltime -= 1;
@@ -117,6 +270,12 @@ void Boss::Rand_Move(int rand)
 			}
 			if (rand_num == 3) {
 				pattern_3 = true;
+				flag = true;
+				cooltime = time;
+
+			}
+			if (rand_num == 4) {
+				pattern_4 = true;
 				flag = true;
 				cooltime = time;
 
@@ -161,19 +320,27 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 				}
 			
 				if (dekaku_tback == true&&(radius_f==500||dekaku_t==1.0f)) {
+					dasita[0] = false;
+					dasita[1] = false;
+					dasita[2] = false;
+					dasita[3] = false;
+
+
 					dekaku = true;
 				}
 			}
 			if (dekaku == true) {
-
+				
 
 				for (int i = 0; i < MAX_BULLET_t; i++) {
-					if (bullet_t_flag[i] == false) {
+					if (bullet_t_flag[i] == false&&dasita[i] == false) {
 						bullet_t_pos[i] = position;
 						EaseT_bullet[i] = 0;
 						bullet_t_flag[i] = true;
+						dasita[i] = true;
 					}
 					if (bullet_t_flag[i] == true && bakuha == false) {
+						/*dasita[i] = true;*/
 						EaseT_bullet[i] += 0.01f;
 
 						bullet_t_pos[0].x += 10;
@@ -338,7 +505,8 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 				if (bullet_flag[i] == false && flame_2 % 30 == 0&&bullet_flag[7]==false) {
 					bullet_pos[i].x = player.pos.x + RAND(-1000, 1000);
 					bullet_pos[i].y = player.pos.y + RAND(-1000, 1000);
-					color[i] = 0x000000FF;
+					tyakkaman[i] = false;
+					color[i] = 0xFFFFFFFF;
 					lifetime[i] = 0;
 					Ease_t_radback[i] = 0;
 					Ease_t_rad[i] = 0.0f;
@@ -356,9 +524,6 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 						Ease_t_radback[i] += 0.02f;
 						bullet_rad[i] = easing(Easing::easeOutCubic(Ease_t_radback[i]), 250, 0);
 
-
-
-
 						if (bullet_rad[i] <= 0) {
 							bullet_flag[i] = false;
 
@@ -366,7 +531,7 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 
 					}
 					else if (lifetime[i] >= 0.8f) {
-
+						tyakkaman[i] = true;
 						Ease_t_rad[i] += 0.05f;
 						bullet_rad[i] = easing(Easing::easeOutBack(Ease_t_rad[i]), 0, 250);
 						bullet_rad[i] = Clamp(bullet_rad[i], 0, 280);
@@ -380,7 +545,7 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 			}
 			if (bullet_rad[MAX_BULLET - 1] <= 0) {
 				
-
+				///*tyakkaman[i] = false;*/
 				flag = false;
 				pattern_2 = false;
 				flame_2 = 0;
@@ -439,7 +604,212 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 				}
 			}
 		}
+		if (pattern_4 == true) {
+			//ホットプレートの完成
+			if (dekaku == false) {
+				dekaku_t = Clamp(dekaku_t, 0, 1.0f);
+				if (dekaku_tback == false) {
+					dekaku_t += 0.02f;
+					dekaku_t = Clamp(dekaku_t, 0, 1.0f);
+					radius_f = easing(Easing::easeInBounce(dekaku_t), 0, 200);
+				}
+				if (dekaku_t == 1.0f || radius_f == 200) {
+					dekaku_tback = true;
+					dekaku_t = 0;
+				}
 
+				if (dekaku_tback == true) {
+					dekaku_t += 0.03f;
+					dekaku_t = Clamp(dekaku_t, 0, 1.0f);
+
+					radius_f = easing(Easing::easeInBack(dekaku_t), 200, 0);
+
+
+				}
+
+				if (dekaku_tback == true && (radius_f == 500 || dekaku_t == 1.0f)) {
+					dasita[0] = false;
+					dasita[1] = false;
+					dasita[2] = false;
+					dasita[3] = false;
+
+
+					dekaku = true;
+				}
+			}
+			if (dekaku == true) {
+
+
+				for (int i = 0; i < MAX_BULLET_t; i++) {
+					if (bullet_t_flag[i] == false && dasita[i] == false) {
+						bullet_t_pos[i] = position;
+						EaseT_bullet[i] = 0;
+						bullet_t_flag[i] = true;
+						dasita[i] = true;
+					}
+					if (bullet_t_flag[i] == true && bakuha == false) {
+						/*dasita[i] = true;*/
+						EaseT_bullet[i] += 0.01f;
+
+						bullet_t_pos[0].x += 10 / sqrtf(2);
+						bullet_t_pos[0].y += 10 / sqrtf(2);
+						bullet_t_pos[1].x -= 10 / sqrtf(2);
+						bullet_t_pos[1].y -= 10 / sqrtf(2);
+						bullet_t_pos[2].x += 10 / sqrtf(2);
+						bullet_t_pos[2].y -= 10 / sqrtf(2);
+						bullet_t_pos[3].x -= 10 / sqrtf(2);
+						bullet_t_pos[3].y += 10 / sqrtf(2);
+
+						//bullet_rad[i] = RAND(200, 250);
+						if (EaseT_bullet[i] >= 0.9f) {
+							bakuha = true;
+						}
+					}
+					if (bakuha == true && bakuha_back == false) {
+						bakuha_T += 0.01f;
+						bakuha_T = Clamp(bakuha_T, 0, 1.0f);
+						bullet_rad[i] = easing(Easing::easeInBounce(bakuha_T), 250, 600);
+						if (bullet_rad[i] == 600) {
+							bakuha_back = true;
+						}
+					}
+					if (bakuha_back == true) {
+						bakuha_Tback += 0.01f;
+						bakuha_Tback = Clamp(bakuha_Tback, 0, 1.0f);
+						bullet_rad[i] = easing(Easing::easeOutBounce(bakuha_Tback), 600, 0);
+
+
+					}
+					if (bakuha_Tback == 1.0f) {
+						EaseT_bullet[i] = 0;
+						bullet_t_pos[i] = position;
+						bakuha_T = 0;
+						bakuha_Tback = 0;
+						theta_1 = 1 / 1.4;
+						bullet_t_flag[i] = false;
+						pattern_1 = false;
+						flag = false;
+						bakuha = false;
+						bakuha_back = false;
+						dekaku = false;
+						dekaku_t = 0.01;
+						dekaku_tback = false;
+						radius_f = 0;
+
+					}
+
+				}
+				if (bakuha_Tback == 1.0f) {
+					for (int i = 0; i < MAX_ZAN; i++) {
+						zan_flag[i] = false;
+						zanpos[i] = {};
+					}
+				}
+			}
+
+			////残像
+			flame_zan += 1;
+			if (flame_zan == 105) {
+				flame_zan = 0;
+			}
+			for (int i = 0; i < 5; i++) {
+
+				if (flame_zan % 10 == 0 && zan_flag[i] == false && bullet_t_flag[0] == true) {
+					zanpos[i] = bullet_t_pos[0];
+					zanrad[i] = 200;
+					zan_time[i] = 120;
+					zan_flag[i] = true;
+					break;
+				}
+
+
+				if (zan_flag[i] == true) {
+					zan_time[i] -= 1;
+					zanrad[i] -= 5;
+					zanrad[i] = Clamp(zanrad[i], 0, 200);
+
+					if (zanrad[i] == 0) {
+						zan_flag[i] = false;
+					}
+				}
+
+
+			}
+			for (int i = 5; i < 10; i++) {
+
+				if (flame_zan % 10 == 0 && zan_flag[i] == false && bullet_t_flag[1] == true) {
+					zanpos[i] = bullet_t_pos[1]/*+Vec2(0, RAND(-5, 5))*/;
+					zanrad[i] = 200;
+					zan_time[i] = 120;
+					zan_flag[i] = true;
+					break;
+				}
+
+
+				if (zan_flag[i] == true) {
+					zan_time[i] -= 1;
+					zanrad[i] -= 5;
+					zanrad[i] = Clamp(zanrad[i], 0, 200);
+
+					if (zanrad[i] == 0) {
+						zan_flag[i] = false;
+					}
+				}
+
+
+			}
+			for (int i = 10; i < 15; i++) {
+
+				if (flame_zan % 10 == 0 && zan_flag[i] == false && bullet_t_flag[2] == true) {
+					zanpos[i] = bullet_t_pos[2]/*+Vec2(0, RAND(-5, 5))*/;
+					zanrad[i] = 200;
+					zan_time[i] = 120;
+					zan_flag[i] = true;
+					break;
+				}
+
+
+				if (zan_flag[i] == true) {
+					zan_time[i] -= 1;
+					zanrad[i] -= 5;
+					zanrad[i] = Clamp(zanrad[i], 0, 200);
+
+					if (zanrad[i] == 0) {
+						zan_flag[i] = false;
+					}
+				}
+
+
+			}
+			for (int i = 15; i < 20; i++) {
+
+				if (flame_zan % 10 == 0 && zan_flag[i] == false && bullet_t_flag[3] == true) {
+					zanpos[i] = bullet_t_pos[3]/*+Vec2(0, RAND(-5, 5))*/;
+					zanrad[i] = 200;
+					zan_time[i] = 120;
+					zan_flag[i] = true;
+					break;
+				}
+
+
+				if (zan_flag[i] == true) {
+					zan_time[i] -= 1;
+					zanrad[i] -= 5;
+					zanrad[i] = Clamp(zanrad[i], 0, 200);
+
+					if (zanrad[i] == 0) {
+						zan_flag[i] = false;
+					}
+				}
+
+
+			}
+
+
+
+
+
+		}
 	
 }
 
@@ -548,10 +918,32 @@ void Boss::draw(Screen& screen) {
 		}
 
 	}
+	if (pattern_4 == true) {
+		for (int i = 0; i < MAX_BULLET_t; i++) {
+			if (bullet_t_flag[i] == true) {
+				if (dekaku == true) {
+					screen.DrawEllipse(bullet_t_pos[i].x, bullet_t_pos[i].y, bullet_rad[i] + RAND(-50, 50), bullet_rad[i] + RAND(-50, 50), 0, 0xFFFF00FF, kFillModeSolid);
+
+				}
+
+			}
+
+		}
+		////残像
+		for (int i = 0; i < MAX_ZAN; i++) {
+			if (bakuha == false) {
+				if (zan_flag[i] == true && bakuha_back == false) {
+					if (dekaku == true) {
+						screen.DrawEllipse(zanpos[i].x, zanpos[i].y, zanrad[i], zanrad[i], 0, 0xFFFF00aa, kFillModeSolid);
+					}
+				}
+			}
+		}
+	}
 	screen.DrawEllipse(position.x, position.y, radian+radius_f, radian+radius_f, 0.0f, BLACK, kFillModeSolid);
 
 	if (shild >= 1) {
-		screen.DrawEllipse(position.x, position.y, radian / 10, radian / 10, 0.0f, RED, kFillModeWireFrame);
+		screen.DrawEllipse(position.x, position.y, 100, 100, 0.0f, RED, kFillModeWireFrame);
 		if (shild >= 2) {
 			screen.DrawTriangle(rotate_top.x, rotate_top.y, rotate_right.x, rotate_right.y, rotate_left.x, rotate_left.y, GREEN, kFillModeWireFrame);
 			if (shild >= 3) {

@@ -465,27 +465,27 @@ bool Slash_Boss(Slash& slash, Boss& boss) {
 		return false;
 	}
 }
-//bool Beam_1_Boss(Beam& beam, Boss& boss) {
-//
-//
-//
-//	Vec2 start_to_center = Vec2(boss.position - beam.);
-//	Vec2 start_to_end = Vec2(slash.Toppos - slash.pos.LeftBottom);
-//	Vec2 nomalize_stc = start_to_center.Normalized();
-//
-//	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
-//
-//	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
-//	t = Clamp(t, 0, 1);
-//
-//	Vec2 f = (1.0f - t) * slash.pos.LeftBottom + t * slash.Toppos;
-//
-//	float distance = (boss.position - f).Length();
-//
-//	if (distance < 30 + boss.radian) {
-//		return true;
-//	}
-//	return false;
-//
-//
-//}
+bool Beam_Boss(Beam& beam, Boss& boss) {
+
+
+
+	Vec2 start_to_center = Vec2(boss.position - beam.Leftpos);
+	Vec2 start_to_end = Vec2(beam.Rightpos - beam.Leftpos);
+	Vec2 nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * beam.Leftpos + t * beam.Rightpos;
+
+	float distance = (boss.position - f).Length();
+
+	if (distance < 20 + boss.radian) {
+		return true;
+	}
+	return false;
+
+
+}

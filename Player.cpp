@@ -12,13 +12,13 @@ void Player::Init() {
 	add = { 0,0 };
 	tmppos = { 0,0 };
 	deg = 0;
-	radius = 25;
+	radius = 100;
 
 	Reverse = 1;
 	Longpressframe = 0;
 	isLongpress = false;
 
-	Length = 300;
+	Length = 800;
 
 	isScroll = false;
 	tmpCenpos = { 0,0 };
@@ -26,7 +26,7 @@ void Player::Init() {
 	Scrolleasingt = 0.0f;
 	ScrollincT = 0.1;
 
-	isTitleClear = false;
+	isTitleClear = true;
 
 	circleA.pos = { -(float)Length / 2, 0 };
 	circleB.pos = { (float)Length / 2, 0 };

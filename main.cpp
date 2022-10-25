@@ -266,16 +266,43 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					wave.stage_2_set_flag = false;
 					///一回だけのやつ
 					boss.set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
-
+					boss_stage.Set_Map(0, 0, 10000, RED);
 					wave.boss_set_flag = true;
 				}
 				//処理書いてね
 				/*ボス関係*/
 				boss.Keep_Up(players);
-				boss.Result(players, screen, RAND(0, 1));
+				boss.Result(players, screen, RAND(2, 2));
 				if (Slash_Boss(slash, boss) == true){
 					boss.radian-=0.5f;
 				}
+				if (beam.isOccur == true){
+					if (Beam_Boss(beam, boss) == true) {
+						boss.radian -= 0.2f;
+					}
+				}
+				if (boss.radian < 300) {
+					boss.shild = 2;
+					if (boss.radian < 200) {
+						boss.shild = 1;
+						if (boss.radian < 100) {
+							boss.shild = 0;
+
+						}
+					}
+				}
+				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
+					Novice::DrawBox(0, 0, 1000, 1000, 0, GREEN, kFillModeSolid);
+				}
+				///プレイヤーに攻撃が当たった時
+				if (boss.Bullet_Player(players) == true) {
+					players.radius -= 0.5f;
+				}
+				if (boss.Bullet_Player_2(players) == true) {
+					players.radius -= 0.5f;
+				}
+
+
 				break;
 			case wave.rest:
 

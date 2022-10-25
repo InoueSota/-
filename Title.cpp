@@ -7,7 +7,7 @@ void Title::Init() {
 	Arrowpos = { 0,0 };
 	Letspos = { 0,0 };
 	Targetpos = { 0,-1500 };
-	isTitleClear = false;
+	isTitleClear = true;
 	isLoadTexture = false;
 }
 void Title::Process(char prekeys, char keys) {
