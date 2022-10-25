@@ -6,7 +6,8 @@ void Title::Init() {
 	Spacepos = { 0,0 };
 	Arrowpos = { 0,0 };
 	Letspos = { 0,0 };
-	Targetpos = { 0,-1500 };
+	Targetpos = { 0,-1300 };
+	isDrainClear = false;
 	isTitleClear = false;
 	isLoadTexture = false;
 }
@@ -22,7 +23,7 @@ void Title::Process(char prekeys, char keys) {
 	Titlepos.y = sinf(theta) * 20;
 	Spacepos.y = sinf(theta) * 20 - (SCREEN_HEIGHT / 4);
 	Arrowpos.y = sinf(theta) * 20 - 600;
-	Letspos.y = sinf(theta) * 20 - 1300;
+	Letspos.y = sinf(theta) * 20 - 1100;
 	if (isExist == false) {
 		TargetRipplespos = Targetpos;
 		Rradius = 20;
@@ -36,6 +37,13 @@ void Title::Process(char prekeys, char keys) {
 		Rcolor = 0x00000000 | static_cast<int>((1.0f - Existtime) * 0xFF + Existtime * 0x00);
 		if (Rcolor == 0x00000000) {
 			isExist = false;
+		}
+	}
+	if (isDrainClear == true){
+		alphat += 0.005f;
+		color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0x00 + alphat * 0xFF);
+		if (color >= 0x000000FF){
+			isTitleClear = true;
 		}
 	}
 }
@@ -77,4 +85,29 @@ void Title::Draw(Screen& screen, Title& title) {
 	screen.DrawQuad2(letss, 0, 0, kLetsWidth, kLetsHeight, title.lets, WHITE);
 	screen.DrawEllipse(TargetRipplespos.x, TargetRipplespos.y, Rradius, Rradius, 0.0f, Rcolor, kFillModeSolid);
 	screen.DrawEllipse(Targetpos.x, Targetpos.y, kTargetRadius, kTargetRadius, 0.0f, 0xE80971FF, kFillModeSolid);
+	Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, color, kFillModeSolid);
+}
+
+
+
+
+
+void Change::Init() {
+	frame = 0;
+	alphat = 0.0f;
+	color = 0x000000FF;
+	isChangeClear = false;
+}
+void Change::Process() {
+	frame++;
+	if (frame >= 300){
+		alphat += 0.005f;
+		color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0xFF + alphat * 0x00);
+		if (color <= 0x00000000){
+			isChangeClear = true;
+		}
+	}
+}
+void Change::Draw(Screen& screen) {
+	Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, color, kFillModeSolid);
 }

@@ -282,9 +282,13 @@ bool Drain_Center_Circle(Player& player, llipse& ellipse) {
 	float distance =(ellipse.position - f).Length();
 
 	if (distance < player.radius/50 + ellipse.radian) {
+		if (player.Length >= ellipse.radian*2) {
+
 		return true;
+		}
+		
 	}
-	return false;
+
 
 }
 
@@ -332,7 +336,11 @@ bool Drain_Center_Triangle(Player& player,Triangle&triangle) {
 	float distance = (triangle.position - f).Length();
 
 	if (distance < player.radius / 50 + triangle.radian) {
-		return true;
+		if (player.Length >= triangle.radian * 2) {
+
+			return true;
+		}
+		
 	}
 	return false;
 
@@ -357,7 +365,11 @@ bool Drain_Center_Quad(Player& player, Quadrangle& quad) {
 	float distance = (quad.position - f).Length();
 
 	if (distance < player.radius / 50 + quad.radian) {
-		return true;
+		if (player.Length >= quad.radian * 2) {
+
+			return true;
+		}
+		
 	}
 	return false;
 

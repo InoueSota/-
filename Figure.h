@@ -54,7 +54,8 @@ public:
 	void respon(Player player, Screen screen,Map map, WAVE wave);
 	
 	bool IsInStage(float stage);
-	void Update(Player player);
+	void Update(Player player,  Screen screen, Map map, WAVE wave);
+	bool Player_Ellipse(Player player);
 	int count;
 	bool easingflag = false;
 	bool easingset = false;
@@ -77,7 +78,7 @@ public:
 	void set(Player& player, Screen screen, Map map, Vec2 pos, int seed);
 	void Update(Player player, Screen screen, Map map);
 	void respon(Player player, Screen screen, Vec2 pos, Map map);
-
+	bool Player_Seed(Player player);
 
 	bool UpdateFlag = false;
 	static const int SeedMax = 3;
@@ -99,7 +100,8 @@ public:
 	void respon(Player player, Screen screen, Map map);
 	bool IsInStage(float stage);
 	void Update(Player player, Screen screen, Map map, Seed seed);
-
+	bool Player_Triangle(Player player);
+	
 	Vec2 top_position;
 	Vec2 right_position;
 	Vec2 left_position;
@@ -121,10 +123,12 @@ public:
 	Quadrangle();
 	void draw(Screen& screen);
 	void breaddraw(Screen& screen);
-	void Update(Player& player, Screen screen, Map map);
+	void Update(Player& player, Screen screen, Map map, WAVE wave);
 	void set(Player& player, Screen screen,Map map);
 	void respon(Player player, Screen screen, Map map);
 	bool IsInStage(float stage);
+	bool Player_Quadrangle(Player player);
+	bool Player_Update(Player player);
 
 	bool UpdatesetFlag;
 	bool BreadOpenFlag;

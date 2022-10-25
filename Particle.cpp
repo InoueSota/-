@@ -29,7 +29,7 @@ void PlayerP::ParticleMove() {
             if (life[i] % 5 == 0) {
                 radius[i] -= decreaseSize[i];
             }
-            if (radius[i] < 0) {
+            if (radius[i] < 0 || color[i] <= 0xE5C21000) {
                 life[i] = 0;
             }
         }

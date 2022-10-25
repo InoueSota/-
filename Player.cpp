@@ -39,7 +39,7 @@ void Player::SetPlayers(Player& players) {
 	players.pos = player->pos;
 	players.center = player->center;
 	players.deg = player->deg;
-	players.Length = players.radius * 12;
+	players.Length = players.radius * 8;
 }
 
 /*　ズームの値を設定する関数　*/
@@ -132,10 +132,15 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 
 
 void Player::SizeIncrease(Player& players) {
-	players.radius += 0.4f;
+	players.radius += 0.8f;
 }
 void Player::SizeDecrease(Player& players) {
-	players.radius -= 0.4f;
+	if (players.radius >= 25) {
+		players.radius -= 0.05f;
+	}
+	else {
+		players.radius = 25;
+	}
 }
 
 
