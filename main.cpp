@@ -94,6 +94,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 								ellipse[i].flag = false;
 							}
 						}
+						if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
+							players.SizeDecrease(players);
+						}
 					}
 
 					for (int i = 0; i < Figure::FigureMax; i++) {
@@ -204,11 +207,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 								quadrangle[i].drawflag = false;
 							}
 						}
-						//if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
-
-						//	players.radius -= (ellipse[i].radian / 100);
-						//	players.Length -= (ellipse[i].radian / 100);
-						//}
+						if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
+							players.SizeDecrease(players);
+						}
 
 					}
 					if (players.radius < 10) {
