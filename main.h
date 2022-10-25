@@ -12,6 +12,7 @@
 #include "Item.h"
 #include "Boss.h"
 #include "Wave.h"
+#include "Bar.h"
 
 
 enum Scene
@@ -19,7 +20,7 @@ enum Scene
 	TITLE,
 	INGAME
 };
-Scene scene = TITLE;
+Scene scene = INGAME;
 
 
 //インスタンス化
@@ -39,4 +40,5 @@ Item item;
 Boss boss;
 Seed seed[Figure::FigureMax];
 WAVE wave;
+Bar bar;
 //Enemy enemy[3];

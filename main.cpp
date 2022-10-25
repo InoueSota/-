@@ -110,6 +110,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 					wave.stage_1_draw_flag = true;
 				}
+				bar.Update(players, stage_1, wave);
 				break;
 			case wave.stage_2:
 
@@ -247,7 +248,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					wave.stage_2_draw_flag = true;
 				}
 
-
+				bar.Update(players,stage_2,wave);
 				break;
 			case wave.boss_stage:
 
@@ -336,8 +337,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					players.Draw(screen, players);
 
 					item.Draw(screen, players);
-				}
 
+					bar.beasdraw();
+					bar.draw();
+				}
+				
 				break;
 			case wave.stage_2:
 				if (wave.stage_2_set_flag && wave.stage_2_draw_flag) {
@@ -370,6 +374,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					players.Draw(screen, players);
 
 					item.Draw(screen, players);
+					bar.Update(players, stage_2, wave);
+					bar.beasdraw();
+					bar.draw();
 				}
 				break;
 			case wave.boss_stage:
@@ -386,14 +393,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				break;
 			}
-
+			
 
 			//players.Draw_Rand_Skin(screen,preKeys[DIK_SPACE],keys[DIK_SPACE]);
 			//Novice::ScreenPrintf(0, 20,"zoomed_prad= %f", players.radius*screen.Zoom.x);
 			//Novice::ScreenPrintf(0, 0, "%d", boss.count);
 			break;
 		}
-
+		
 		///
 		/// ↑描画処理ここまで
 		///
