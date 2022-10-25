@@ -266,6 +266,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				bar.Update(players,stage_2,wave);
 				break;
+			case wave.stage_3:
+				//中ボス追加
+					
+			break;
 			case wave.boss_stage:
 				/*ボス関係*/
 				/*boss.Keep_Up(players);*/
@@ -436,6 +440,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					bar.draw();
 				}
 				break;
+			case wave.stage_3:
+				//中ボス追加
+
+				break;
+
 			case wave.boss_stage:
 				Pparticle.DrawParticle(screen);
 				slash.Draw(screen);

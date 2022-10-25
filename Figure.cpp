@@ -99,7 +99,7 @@ void llipse::set(Player& player,Screen screen,Map map,WAVE wave) {
 	count = RAND(0, 240);
 	//”¼Œa
 	if (wave.stage_1_only) {
-		radian = RAND(player.radius * 1.5, player.radius * 8.0);
+		radian = RAND(25 * 1.5, 25 * 8.0);
 	}
 	else {
 		radian = RAND(player.radius * 1.5, player.radius * 5.0);

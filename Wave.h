@@ -7,6 +7,7 @@ public:
 	enum Wave {
 		stage_1_only,
 		stage_2,
+		stage_3,
 		boss_stage,
 		rest,
 	};
