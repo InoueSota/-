@@ -22,6 +22,10 @@ public:
 	float deg;							//“x”
 	float radius;						//”¼Œa
 
+	//tuika//muteki
+	bool Muteki;						//–³“G‚©‚Ç‚¤‚©
+	float Muteki_Timer;					//–³“G‚ÌŠÔ
+
 	int Reverse;						//”½“]—p
 	int Longpressframe;					//’·‰Ÿ‚µƒtƒŒ[ƒ€
 	bool isLongpress;					//’·‰Ÿ‚µ‚µ‚½‚©

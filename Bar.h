@@ -17,8 +17,8 @@ public:
 	float Radius_Now;
 
 	void Update(Player player ,Map map,WAVE wave);
-	void beasdraw();
-	void draw();
+	void beasdraw(Screen screen);
+	void draw(Screen screen);
 
 };
 

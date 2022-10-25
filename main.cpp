@@ -105,7 +105,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 						if (ellipse[i].Player_Ellipse(players) == true) {
 							players.SizeDecrease(players);
+							screen.Shake(0, 10, 0, 10, true);
 						}
+						
 					}
 
 					for (int i = 0; i < Figure::FigureMax; i++) {
@@ -122,6 +124,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 				}
 				bar.Update(players, stage_1, wave);
+				wave.stage_1_draw_flag = true;
 				break;
 			case wave.stage_2:
 				if (!wave.stage_2_set_flag) {
@@ -266,6 +269,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				bar.Update(players,stage_2,wave);
 				break;
+			case wave.stage_3:
+				//中ボス追加
+					
+			break;
 			case wave.boss_stage:
 				/*ボス関係*/
 				/*boss.Keep_Up(players);*/
@@ -289,15 +296,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				//処理書いてね
 				/*ボス関係*/
 				boss.Keep_Up(players);
-				boss.Result(players, screen, RAND(2, 2));
-				for (int i = 0; i < slash.kSlashMax; i++){
-					if (Slash_Boss(slash, boss) == true) {
-						boss.radian -= 0.5f;
-					}
-				}
+				boss.Result(players, screen, RAND(3, 3));
+				/*if (Slash_Boss(slash, boss) == true){
+					boss.radian-=0.25f;
+				}*/
+				
 				if (beam.isOccur == true){
 					if (Beam_Boss(beam, boss) == true) {
-						boss.radian -= 0.2f;
+						boss.radian -= 0.05f;
 					}
 				}
 				if (boss.radian < 300) {
@@ -310,9 +316,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 				}
-				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
-					Novice::DrawBox(0, 0, 1000, 1000, 0, GREEN, kFillModeSolid);
-				}
+				
+
 				///プレイヤーに攻撃が当たった時
 				if (boss.Bullet_Player(players) == true) {
 					players.radius -= 0.5f;
@@ -320,8 +325,30 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (boss.Bullet_Player_2(players) == true) {
 					players.radius -= 0.5f;
 				}
+				if (boss.Blade_Player(players) == true) {
+					players.radius -= 0.5f;
 
+				}
+				//ボスのプレイヤーが当たった時
+				
+				if (boss.shild != 0 && boss.Boss_Player(players) == true&&players.Muteki==false) {  //ボスのシールドがある、俺が無敵じゃない、当たる
+					players.Muteki = true;
+					players.Reverse *= -1;
+					players.radius -= 1;
+				}
+				else if (players.Muteki == true) {
+					players.Muteki_Timer += 0.01f;
+					players.Muteki_Timer = Clamp(players.Muteki_Timer,0,1.0f);
+					if (players.Muteki_Timer == 1.0f) {
+						players.Muteki = false;
+						players.Muteki_Timer = 0.0f;
+					}
 
+				}
+				//クリア条件
+				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
+					Novice::DrawBox(0, 0, 1000, 1000, 0, GREEN, kFillModeSolid);
+				}
 				break;
 			case wave.rest:
 				break;
@@ -388,7 +415,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			switch (wave.stage) {
 			case wave.stage_1_only:
-				if (wave.stage_1_set_flag/* && wave.stage_1_draw_flag*/) {
+				//if (wave.stage_1_set_flag/* && wave.stage_1_draw_flag*/) {
 					stage_1.DrawMap(screen);
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						if (ellipse[i].cheakdraw(players, ellipse[i].position, screen, ellipse[i].flag)) {
@@ -400,9 +427,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					item.Draw(screen, players);
 
-					bar.beasdraw();
-					bar.draw();
-				}
+					bar.beasdraw(screen);
+					bar.draw(screen);
+				/*}*/
 				
 				break;
 			case wave.stage_2:
@@ -432,18 +459,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					item.Draw(screen, players);
 					bar.Update(players, stage_2, wave);
-					bar.beasdraw();
-					bar.draw();
+					bar.beasdraw(screen);
+					bar.draw(screen);
 				}
 				break;
+			case wave.stage_3:
+				//中ボス追加
+
+				break;
+
 			case wave.boss_stage:
 				Pparticle.DrawParticle(screen);
 				slash.Draw(screen);
 				beam.Draw(screen);
+				if (players.Muteki == false) {
 				players.Draw(screen, players);
+
+				}
 
 				item.Draw(screen, players);
 				boss.draw(screen);
+				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
+					Novice::DrawBox(0, 0, 1000, 1000, 0, GREEN, kFillModeSolid);
+				}
 				break;
 			case wave.rest:
 

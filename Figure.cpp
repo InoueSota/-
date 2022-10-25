@@ -99,7 +99,7 @@ void llipse::set(Player& player,Screen screen,Map map,WAVE wave) {
 	count = RAND(0, 240);
 	//”¼Œa
 	if (wave.stage_1_only) {
-		radian = RAND(player.radius * 1.5, player.radius * 8.0);
+		radian = RAND(25 * 1.5, 25 * 8.0);
 	}
 	else {
 		radian = RAND(player.radius * 1.5, player.radius * 5.0);
@@ -120,7 +120,7 @@ void llipse::set(Player& player,Screen screen,Map map,WAVE wave) {
 //}
 
 void Figure::reset() {
-	colortime += 0.05f;
+	colortime += 0.01f;
 	color = 0xE8097100 | static_cast<int>((1.0f - colortime) * 0x00 + colortime * 0xFF);
 	if (colortime >= 1) {
 		color = 0xE80971FF;

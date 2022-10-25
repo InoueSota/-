@@ -210,6 +210,45 @@ bool Boss::Bullet_Player_2(Player& player)
 		}
 	}
 }
+bool Boss::Blade_Player(Player& player)
+{
+
+	Vec2 start_to_center;
+	Vec2 start_to_end;
+	Vec2 nomalize_stc;
+	Vec2 blade_top = { blade.bottom_left.x,blade.bottom_left.y };
+	Vec2 blade_bottom = { blade.bottom_right.x,blade.bottom_right.y };
+
+	float t= {};
+	Vec2 f;
+	float distance = {};
+	//center::‰ñ‚Á‚Ä‚¢‚È‚¢
+	//pos::‰ñ‚Á‚Ä‚¢‚é
+	for (int i = 0; i < MAX_BULLET_t; i++) {
+
+		start_to_center = Vec2(player.center -blade_top );
+		start_to_end = Vec2(blade_top - blade_bottom);
+		nomalize_stc = start_to_center.Normalized();
+
+		/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+		t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+		t = Clamp(t, 0, 1);
+
+		f = (1.0f - t) * player.center + t * player.pos;
+
+		distance = (player.center - f).Length();
+
+	}
+	if (distance < player.radius +50) {
+		if (pattern_3 == true) {
+			
+			return true;
+
+		}
+	}
+	return false;
+}
 bool Boss::Boss_Player(Player& player)
 {
 
@@ -957,6 +996,8 @@ void Boss::draw(Screen& screen) {
 			}
 		}
 	}
+
+
 }
 
 
