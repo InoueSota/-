@@ -131,6 +131,15 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 
 
 
+void Player::SizeIncrease(Player& players) {
+	players.radius += 0.4f;
+}
+void Player::SizeDecrease(Player& players) {
+	players.radius -= 0.4f;
+}
+
+
+
 /*@ŠÖ”‚ğ‚Ü‚Æ‚ß‚éŠÖ”@*/
 void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d) {
 	if (isPressSpace == false){
