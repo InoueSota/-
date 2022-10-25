@@ -177,6 +177,8 @@ void Beam::Make(Player& players, Screen& screen) {
 		pos2.RightTop = op.RightTop * mat2;
 		pos2.LeftBottom = op.LeftBottom * mat2;
 		pos2.RightBottom = op.RightBottom * mat2;
+		Leftpos = { players.center.x - ((SCREEN_WIDTH / 2) / screen.Zoom.x), players.center.y };
+		Rightpos = { players.center.x + ((SCREEN_WIDTH / 2) / screen.Zoom.x), players.center.y };
 		spd = 30 / screen.Zoom.x;
 		tmpdeg = players.deg;
 		tmpcenter = players.center;
