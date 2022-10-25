@@ -470,7 +470,7 @@ bool Slash_2_Boss(Slash& slash, Boss& boss) {
 
 bool Slash_Boss(Slash& slash, Boss& boss) {
 
-	if (Slash_1_Boss(slash, boss) == true || Slash_1_Boss(slash, boss) == true) {
+	if (Slash_1_Boss(slash, boss) == true || Slash_2_Boss(slash, boss) == true) {
 		return true;
 	}
 	else {

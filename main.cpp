@@ -90,12 +90,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			players.SetZoom(screen, players);
 			switch (wave.stage) {
 			case wave.stage_1_only:
+			{
+				
+
 				if (wave.stage_1_set_flag == true) {
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						if (ellipse[i].responflag == true) {
 							ellipse[i].reset();
 						}
-						ellipse[i].Update(players,screen,stage_1,wave);
+						ellipse[i].Update(players, screen, stage_1, wave);
 						if (Drain_Check_Ellipse(players, ellipse[i])) {
 							if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true && ellipse[i].responflag == false) {
 								Novice::PlayAudio(drain, 0, 0.5);
@@ -107,7 +110,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 							players.SizeDecrease(players);
 							screen.Shake(0, 10, 0, 10, true);
 						}
-						
+
 					}
 
 					for (int i = 0; i < Figure::FigureMax; i++) {
@@ -125,18 +128,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 				bar.Update(players, stage_1, wave);
 				wave.stage_1_draw_flag = true;
+			}
 				break;
 			case wave.stage_2://中ボス
 				//中ボス追加
-
+			{
 				if (!wave.stage_2_set_flag) {
 					wave.stage_1_set_flag = false;
 
 					stage_2.Set_Map(0, 0, 5000, RED);
-					
+
 					tboss.t_set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
 					boss_stage.Set_Map(0, 0, 10000, RED);
-					
+
 					wave.stage_2_set_flag = true;
 
 				}
@@ -147,14 +151,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				tboss.Result(players, screen, RAND(0, 0));//追いかけて着る
 				if (tboss.shild != 0) {
 					if (Slash_Boss(slash, tboss) == true) {
-						tboss.radian -= 5.0f;
+						tboss.radian -= 3.0f;
 					}
 
-					if (beam.isOccur == true) {
+					/*if (beam.isOccur == true) {
 						if (Beam_Boss(beam, tboss) == true) {
 							tboss.radian -= 0.5f;
 						}
-					}
+					}*/
 
 					if (tboss.radian < 500) {
 						tboss.shild = 1;
@@ -197,10 +201,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (tboss.shild == 0 && tboss.Boss_Player(players) == true) {
 					wave.stage = wave.stage_3;
 				}
-				
-					
+
+			}
 				break;
 			case wave.stage_3:
+			{
 				if (!wave.stage_3_set_flag) {
 					wave.stage_2_set_flag = false;
 					///一回だけのやつ
@@ -210,11 +215,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						quadrangle[i].set(players, screen, stage_2);
 						seed[i].set(players, screen, stage_2, triangle[i].position, 3);
 					}
-					
+
 					wave.stage_3_set_flag = true;
 				}
-				
-					
+
+
 				item.Set_Item(RAND(0, 1000), RAND(0, 1000), players, RAND(0, 0));
 
 				if (item.Item_collision(players, screen) == true) {
@@ -335,23 +340,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					wave.stage = wave.boss_stage;
 				}
 				wave.stage_2_draw_flag = true;
-				
+
 
 				bar.Update(players, stage_2, wave);
+			}
 			break;
 			case wave.boss_stage:
+
 				/*ボス関係*/
-				/*boss.Keep_Up(players);*/
-
-				/*item.Set_Item(RAND(0, 1000), RAND(0, 1000), players, RAND(0, 0));
-
-				if (item.Item_collision(players, screen) == true) {
-
-					item.Randam_Item();
-
-				}
-
-				item.Result(players, screen);*/
+			{
 				if (!wave.boss_set_flag) {
 					wave.stage_3_set_flag = false;
 					///一回だけのやつ
@@ -363,11 +360,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				/*ボス関係*/
 				boss.Keep_Up(players);
 				boss.Result(players, screen, RAND(3, 3));
-				if (Slash_Boss(slash, boss) == true){
-					boss.radian-=5.25f;
+				if (Slash_Boss(slash, boss) == true) {
+					boss.radian -= 5.25f;
 				}
-				
-				if (beam.isOccur == true){
+
+				if (beam.isOccur == true) {
 					if (Beam_Boss(beam, boss) == true) {
 						boss.radian -= 1.05f;
 					}
@@ -382,7 +379,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 				}
-				
+
 
 				///プレイヤーに攻撃が当たった時
 				if (boss.Bullet_Player(players) == true) {
@@ -396,15 +393,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				}
 				//ボスのプレイヤーが当たった時
-				
-				if (boss.shild != 0 && boss.Boss_Player(players) == true&&players.Muteki==false) {  //ボスのシールドがある、俺が無敵じゃない、当たる
+
+				if (boss.shild != 0 && boss.Boss_Player(players) == true && players.Muteki == false) {  //ボスのシールドがある、俺が無敵じゃない、当たる
 					players.Muteki = true;
 					players.Reverse *= -1;
 					players.radius -= 1;
 				}
 				else if (players.Muteki == true) {
 					players.Muteki_Timer += 0.01f;
-					players.Muteki_Timer = Clamp(players.Muteki_Timer,0,1.0f);
+					players.Muteki_Timer = Clamp(players.Muteki_Timer, 0, 1.0f);
 					if (players.Muteki_Timer == 1.0f) {
 						players.Muteki = false;
 						players.Muteki_Timer = 0.0f;
@@ -415,6 +412,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
 					Novice::DrawBox(0, 0, 1000, 1000, 0, GREEN, kFillModeSolid);
 				}
+			}
 				break;
 			case wave.rest:
 				break;
