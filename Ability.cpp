@@ -72,44 +72,34 @@ void Slash::Init() {
 		{-1, 2.5},
 		{ 1, 2.5}
 	};
-	spd = 8.0f;
-	delayframe = 0;
+	spd = 2.0f;
 	shotframe = 0;
 	isOccur = false;
 	isLoadTexture = false;
 }
 void Slash::Make(Player& players, Screen& screen) {
-	if (isTrigger == true){
-		delayframe = 10;
-	}
-	if (delayframe >= 10 && isOccur == false){
-		Matrix33 mat;
-		mat = Matrix33::Identity();
-		mat *= Matrix33::MakeScaling(kSlashSizeMax / screen.Zoom.x, kSlashSizeMax / screen.Zoom.y);
-		mat *= Matrix33::MakeRotation(Degree(players.deg));
-		mat *= Matrix33::MakeTranslation(players.pos);
-		pos.LeftTop = op.LeftTop * mat;
-		pos.RightTop = op.RightTop * mat;
-		pos.LeftBottom = op.LeftBottom * mat;
-		pos.RightBottom = op.RightBottom * mat;
-		direvelo = players.pos - players.center;
-		velo = direvelo.Normalized() * (spd / screen.Zoom.x);
-		shotframe = 0;
-		isOccur = true;
-	}
+	Matrix33 mat;
+	mat = Matrix33::Identity();
+	mat *= Matrix33::MakeScaling(kSlashSizeMax / screen.Zoom.x, kSlashSizeMax / screen.Zoom.y);
+	mat *= Matrix33::MakeRotation(Degree(players.deg));
+	mat *= Matrix33::MakeTranslation(players.pos);
+	pos.LeftTop = op.LeftTop * mat;
+	pos.RightTop = op.RightTop * mat;
+	pos.LeftBottom = op.LeftBottom * mat;
+	pos.RightBottom = op.RightBottom * mat;
+	direvelo = players.pos - players.center;
+	velo = direvelo.Normalized() * (spd / screen.Zoom.x);
+	shotframe = 0;
+	isOccur = true;
 }
 void Slash::Move() {
-	if (isOccur == true){
-		shotframe++;
-		pos.LeftTop += velo;
-		pos.RightTop += velo;
-		pos.LeftBottom += velo;
-		pos.RightBottom += velo;
-		if (shotframe >= kSlashTimeMax){
-			delayframe = 0;
-			isTrigger = false;
-			isOccur = false;
-		}
+	shotframe++;
+	pos.LeftTop += velo;
+	pos.RightTop += velo;
+	pos.LeftBottom += velo;
+	pos.RightBottom += velo;
+	if (shotframe >= kSlashTimeMax) {
+		isOccur = false;
 	}
 }
 void Slash::Process(Player& players, Screen& screen, char prekeys, char keys) {
@@ -117,11 +107,13 @@ void Slash::Process(Player& players, Screen& screen, char prekeys, char keys) {
 		slashImage = Novice::LoadTexture("./resource/Slash.png");
 		isLoadTexture = true;
 	}
-	if ((prekeys != 0 && keys == 0) && isTrigger == false) {
-		isTrigger = true;
+	if ((prekeys != 0 && keys == 0) && isOccur == false){
+		spd = Clamp(spd, 2.0f, 10.0f);
+		Make(players, screen);
 	}
-	Make(players, screen);
-	Move();
+	else if (isOccur == true){
+		Move();
+	}
 	Vec2 tmptoppos = { pos.RightBottom - pos.RightTop };
 	Toppos = tmptoppos.Normalized() * (125 / screen.Zoom.y);
 }
@@ -159,83 +151,77 @@ void Beam::Init() {
 	}
 }
 void Beam::Make(Player& players, Screen& screen) {
-	if (isOccur == false) {
-		Matrix33 mat1, mat2;
-		mat1 = Matrix33::Identity();
-		mat1 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
-		mat1 *= Matrix33::MakeRotation(Degree(90));
-		mat1 *= Matrix33::MakeTranslation(players.center);
-		mat2 = Matrix33::Identity();
-		mat2 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
-		mat2 *= Matrix33::MakeRotation(Degree(270));
-		mat2 *= Matrix33::MakeTranslation(players.center);
-		pos1.LeftTop = op.LeftTop * mat1;
-		pos1.RightTop = op.RightTop * mat1;
-		pos1.LeftBottom = op.LeftBottom * mat1;
-		pos1.RightBottom = op.RightBottom * mat1;
-		pos2.LeftTop = op.LeftTop * mat2;
-		pos2.RightTop = op.RightTop * mat2;
-		pos2.LeftBottom = op.LeftBottom * mat2;
-		pos2.RightBottom = op.RightBottom * mat2;
-		Leftpos = { players.center.x - ((SCREEN_WIDTH / 2) / screen.Zoom.x), players.center.y };
-		Rightpos = { players.center.x + ((SCREEN_WIDTH / 2) / screen.Zoom.x), players.center.y };
-		spd = 30 / screen.Zoom.x;
-		tmpdeg = players.deg;
-		tmpcenter = players.center;
-		direvelo1 = { pos1.LeftBottom - pos1.LeftTop };
-		direvelo2 = { pos2.LeftBottom - pos2.LeftTop };
-		velo1 = direvelo1.Normalized() * spd;
-		velo2 = direvelo2.Normalized() * spd;
-		for (int i = 0; i < kLineMax; i++) {
-			life[i] = 0;
-		}
+	Matrix33 mat1, mat2;
+	mat1 = Matrix33::Identity();
+	mat1 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
+	mat1 *= Matrix33::MakeRotation(Degree(90));
+	mat1 *= Matrix33::MakeTranslation(players.center);
+	mat2 = Matrix33::Identity();
+	mat2 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
+	mat2 *= Matrix33::MakeRotation(Degree(270));
+	mat2 *= Matrix33::MakeTranslation(players.center);
+	pos1.LeftTop = op.LeftTop * mat1;
+	pos1.RightTop = op.RightTop * mat1;
+	pos1.LeftBottom = op.LeftBottom * mat1;
+	pos1.RightBottom = op.RightBottom * mat1;
+	pos2.LeftTop = op.LeftTop * mat2;
+	pos2.RightTop = op.RightTop * mat2;
+	pos2.LeftBottom = op.LeftBottom * mat2;
+	pos2.RightBottom = op.RightBottom * mat2;
+	Leftpos = { players.center.x - ((SCREEN_WIDTH / 2) / screen.Zoom.x), players.center.y };
+	Rightpos = { players.center.x + ((SCREEN_WIDTH / 2) / screen.Zoom.x), players.center.y };
+	spd = 30 / screen.Zoom.x;
+	tmpdeg = players.deg;
+	tmpcenter = players.center;
+	direvelo1 = { pos1.LeftBottom - pos1.LeftTop };
+	direvelo2 = { pos2.LeftBottom - pos2.LeftTop };
+	velo1 = direvelo1.Normalized() * spd;
+	velo2 = direvelo2.Normalized() * spd;
+	for (int i = 0; i < kLineMax; i++) {
+		life[i] = 0;
 	}
 }
 void Beam::Move(Player& players, Screen& screen) {
-	if (isOccur == true) {
-		shotframe++;
-		if (shotframe >= kBeamTimeMax) {
-			isOccur = false;
-		}
+	shotframe++;
+	if (shotframe >= kBeamTimeMax) {
+		isOccur = false;
 	}
 }
 void Beam::MoveLine(Player& players, Screen& screen) {
-	if (isOccur == true) {
-		lineframe++;
-		linemat1 = Matrix33::Identity();
-		linemat1 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
-		linemat1 *= Matrix33::MakeRotation(Degree(90));
-		linemat1 *= Matrix33::MakeTranslation(tmpcenter.x + RAND(-80 / screen.Zoom.x, 80 / screen.Zoom.x), tmpcenter.y + RAND(-100 / screen.Zoom.y, 100 / screen.Zoom.y));
-		linemat2 = Matrix33::Identity();
-		linemat2 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
-		linemat2 *= Matrix33::MakeRotation(Degree(270));
-		linemat2 *= Matrix33::MakeTranslation(tmpcenter.x + RAND(-80 / screen.Zoom.x, 80 / screen.Zoom.x), tmpcenter.y + RAND(-100 / screen.Zoom.y, 100 / screen.Zoom.y));
-		for (int i = 0; i < kLineMax; i++) {
-			if (life[i] <= 0 && lineframe % 10 == 0) {
-				linepos1[i].LeftTop = lineop.LeftTop * linemat1;
-				linepos1[i].RightTop = lineop.RightTop * linemat1;
-				linepos1[i].LeftBottom = lineop.LeftBottom * linemat1;
-				linepos1[i].RightBottom = lineop.RightBottom * linemat1;
-				linepos2[i].LeftTop = lineop.LeftTop * linemat2;
-				linepos2[i].RightTop = lineop.RightTop * linemat2;
-				linepos2[i].LeftBottom = lineop.LeftBottom * linemat2;
-				linepos2[i].RightBottom = lineop.RightBottom * linemat2;
-				life[i] = kLineLife;
-				break;
-			}
+	lineframe++;
+	linemat1 = Matrix33::Identity();
+	linemat1 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
+	linemat1 *= Matrix33::MakeRotation(Degree(90));
+	linemat1 *= Matrix33::MakeTranslation(tmpcenter.x + RAND(-80 / screen.Zoom.x, 80 / screen.Zoom.x), tmpcenter.y + RAND(-100 / screen.Zoom.y, 100 / screen.Zoom.y));
+	linemat2 = Matrix33::Identity();
+	linemat2 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
+	linemat2 *= Matrix33::MakeRotation(Degree(270));
+	linemat2 *= Matrix33::MakeTranslation(tmpcenter.x + RAND(-80 / screen.Zoom.x, 80 / screen.Zoom.x), tmpcenter.y + RAND(-100 / screen.Zoom.y, 100 / screen.Zoom.y));
+	for (int i = 0; i < kLineMax; i++) {
+		if (life[i] <= 0 && lineframe % 10 == 0) {
+			linepos1[i].LeftTop = lineop.LeftTop * linemat1;
+			linepos1[i].RightTop = lineop.RightTop * linemat1;
+			linepos1[i].LeftBottom = lineop.LeftBottom * linemat1;
+			linepos1[i].RightBottom = lineop.RightBottom * linemat1;
+			linepos2[i].LeftTop = lineop.LeftTop * linemat2;
+			linepos2[i].RightTop = lineop.RightTop * linemat2;
+			linepos2[i].LeftBottom = lineop.LeftBottom * linemat2;
+			linepos2[i].RightBottom = lineop.RightBottom * linemat2;
+			life[i] = kLineLife;
+			break;
 		}
-		for (int i = 0; i < kLineMax; i++) {
-			if (life[i] > 0) {
-				life[i]--;
-				linepos1[i].LeftTop += velo1;
-				linepos1[i].RightTop += velo1;
-				linepos1[i].LeftBottom += velo1;
-				linepos1[i].RightBottom += velo1;
-				linepos2[i].LeftTop += velo2;
-				linepos2[i].RightTop += velo2;
-				linepos2[i].LeftBottom += velo2;
-				linepos2[i].RightBottom += velo2;
-			}
+	}
+	for (int i = 0; i < kLineMax; i++) {
+		if (life[i] > 0) {
+			life[i]--;
+			linepos1[i].LeftTop += velo1;
+			linepos1[i].RightTop += velo1;
+			linepos1[i].LeftBottom += velo1;
+			linepos1[i].RightBottom += velo1;
+			linepos2[i].LeftTop += velo2;
+			linepos2[i].RightTop += velo2;
+			linepos2[i].LeftBottom += velo2;
+			linepos2[i].RightBottom += velo2;
 		}
 	}
 }
@@ -250,11 +236,13 @@ void Beam::Process(Player& players, Screen& screen) {
 		Lefttop1 = 0;
 		Lefttop2 = 0;
 		lineframe = 0;
+		Make(players, screen);
 		isOccur = true;
 	}
-	Make(players, screen);
-	Move(players, screen);
-	MoveLine(players, screen);
+	if (isOccur == true){
+		Move(players, screen);
+		MoveLine(players, screen);
+	}
 }
 void Beam::Draw(Screen& screen) {
 	if (isOccur == true) {

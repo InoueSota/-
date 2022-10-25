@@ -8,11 +8,11 @@ public:
 		Init();
 	}
 
-	static const int kBubbleMax = 30;
-	static const int kBubbleTimeMax = 120;
-	static const int kBubbleStanFrame = 120;
-	static const int kBubbleInterval = 2;
-	static const int kBubbleDistance = 100;
+	static constexpr int kBubbleMax = 30;
+	static constexpr int kBubbleTimeMax = 120;
+	static constexpr int kBubbleStanFrame = 120;
+	static constexpr int kBubbleInterval = 2;
+	static constexpr int kBubbleDistance = 100;
 
 	Vec2 pos[kBubbleMax];
 	Vec2 direvelo[kBubbleMax];
@@ -40,19 +40,19 @@ public:
 		Init();
 	}
 
-	static const int kSlashSizeMax = 100;
-	static const int kSlashTimeMax = 120;
+	static constexpr int kSlashSizeMax = 100;
+	static constexpr int kSlashTimeMax = 120;
+
+	//強化項目
+	float spd;
 
 	Quad op;
 	Quad pos;
 	Vec2 direvelo;
 	Vec2 velo;
 	Vec2 Toppos;
-	float spd;
-	bool isTrigger;
 	bool isOccur;
 	bool isLoadTexture;
-	int delayframe;
 	int shotframe;
 	int slashImage;	//画像用変数
 
@@ -72,12 +72,12 @@ public:
 		SRAND();
 	}
 
-	static const int kBeamSizeMax = 120;
-	static const int kBeamTimeMax = 90;
-	static const int kBeamInterval = 180;
+	static constexpr int kBeamSizeMax = 120;
+	static constexpr int kBeamTimeMax = 90;
+	static constexpr int kBeamInterval = 180;
 
-	static const int kLineMax = 50;
-	static const int kLineLife = 100;
+	static constexpr int kLineMax = 50;
+	static constexpr int kLineLife = 100;
 
 	/*　ビーム変数　*/
 	Quad op;

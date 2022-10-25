@@ -26,7 +26,7 @@ void Player::Init() {
 	Scrolleasingt = 0.0f;
 	ScrollincT = 0.1;
 
-	isTitleClear = false;
+	isTitleClear = true;
 
 	circleA.pos = { -(float)Length / 2, 0 };
 	circleB.pos = { (float)Length / 2, 0 };
@@ -114,7 +114,7 @@ void Player::IncDegProcess(Player& players, char prekeys, char keys) {
 
 /*　スクロール座標を設定する関数　*/
 void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char keys) {
-	if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false && (isTitleClear == true || (isTitleClear == false && (players.pos.Length() <= 5000)))){
+	if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000)))){
 		isScroll = true;
 	}
 	if (isScroll == true){
@@ -146,7 +146,7 @@ void Player::SizeDecrease(Player& players) {
 
 
 /*　関数をまとめる関数　*/
-void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d) {
+void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d, Title& title) {
 	if (isPressSpace == false){
 		theta += 1 / (8.0f * M_PI);
 		circleA.pos.y = sinf(theta) * 20;
@@ -159,7 +159,7 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 	}
 	if (isPressSpace == true) {
 		IncDegProcess(players, prekeys, keys);
-		if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false && (isTitleClear == true || (isTitleClear == false && (players.pos.Length() <= 5000)))) {
+		if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000)))) {
 			player->SetDegree();
 			if (player == &circleA) {
 				players.tmpCenpos = circleB.pos;
