@@ -46,6 +46,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		/*　プレイヤー関係の関数（それぞれの意味はPlayer.hに記述）　*/
 		//プレイヤー本体
+		slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D]);
 		players.SetPlayers(players);
 		players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
@@ -65,10 +66,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case INGAME:
 			////セット
-
 			players.SetZoom(screen, players);
 			//アビリティ
-			bubble.Process(players, screen, keys[DIK_SPACE]);
 			slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 			beam.Process(players, screen);
 			switch (wave.stage) {
@@ -81,7 +80,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					wave.stage_1_set_flag = true;
 					wave.boss_set_flag = false;
 				}
-				else {
+				
+
+				if(wave.stage_1_set_flag == true) {
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						if (ellipse[i].responflag == true) {
 							ellipse[i].reset();
@@ -89,8 +90,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						if (Drain_Check_Ellipse(players, ellipse[i])) {
 							if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true && ellipse[i].responflag==false) {
 								Novice::PlayAudio(drain, 0, 0.5);
-								players.radius += (ellipse[i].radian / 100);
-								players.Length += (ellipse[i].radian / 15);
+								players.SizeIncrease(players);
 								ellipse[i].flag = false;
 							}
 						}
@@ -184,16 +184,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						if (Drain_Check_Ellipse(players, ellipse[i])) {
 							if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true && ellipse[i].responflag == false) {
 								Novice::PlayAudio(drain, 0, 0.5);
-								players.radius += (ellipse[i].radian / 100);
-								players.Length += (ellipse[i].radian / 15);
+								players.SizeIncrease(players);
 								ellipse[i].flag = false;
 							}
 						}
 						if (Drain_Check_Triangle(players, triangle[i])) {
 							if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true && triangle[i].responflag == false) {
 								Novice::PlayAudio(drain, 0, 0.5);
-								players.radius += (triangle[i].radian / 100);
-								players.Length += (triangle[i].radian / 15);
+								players.SizeIncrease(players);
 								triangle[i].flag = false;
 								seed[i].UpdateFlag = false;
 							}
@@ -201,8 +199,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						if (Drain_Check_Quadrangle(players, quadrangle[i])) {
 							if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true && quadrangle[i].responflag == false) {
 								Novice::PlayAudio(drain, 0, 0.5);
-								players.radius += (quadrangle[i].radian / 100);
-								players.Length += (quadrangle[i].radian / 15);
+								players.SizeIncrease(players);
 								quadrangle[i].flag = false;
 							}
 						}
@@ -274,7 +271,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				//処理書いてね
 				/*ボス関係*/
 				boss.Keep_Up(players);
-				boss.Result(players, screen, RAND(0, 1));
+				boss.Result(players, screen, RAND(0, 3));
+				if (Slash_Boss(slash, boss) == true){
+					//players.radius = 10;
+				}
 				break;
 			case wave.rest:
 
@@ -308,10 +308,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			title.Draw(screen, title);
 			Pparticle.DrawParticle(screen);
 			players.Draw(screen, players);
+			slash.Draw(screen);
 			break;
 		case INGAME:
 			//背景描画
-			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
+			//Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
 			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
 			for (int y = -4; y < 5; y++) {
 				for (int x = -4; x < 5; x++) {
@@ -331,7 +332,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 
 					Pparticle.DrawParticle(screen);
-					bubble.Draw(screen);
 					slash.Draw(screen);
 					beam.Draw(screen);
 					players.Draw(screen, players);
@@ -368,7 +368,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 					Pparticle.DrawParticle(screen);
-					bubble.Draw(screen);
 					slash.Draw(screen);
 					beam.Draw(screen);
 					players.Draw(screen, players);
@@ -381,7 +380,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				break;
 			case wave.boss_stage:
 				Pparticle.DrawParticle(screen);
-				bubble.Draw(screen);
 				slash.Draw(screen);
 				beam.Draw(screen);
 				players.Draw(screen, players);

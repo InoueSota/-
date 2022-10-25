@@ -2,8 +2,9 @@
 #include <math.h>
 #include<Novice.h>
 #include "Figure.h"
-#include "main.h"
 #include "Screen.h"
+#include "Ability.h"
+#include "Boss.h"
 
 
 ///プロトタイプ宣言//////////////////
@@ -400,4 +401,63 @@ bool Drain_Check_Quadrangle(Player player, Quadrangle quadrangle) {
 		return true;
 	}
 	return false;
+}
+
+
+/////ボスとの当たり判定
+
+bool Slash_1_Boss(Slash& slash,Boss& boss) {
+
+	
+
+	Vec2 start_to_center = Vec2(boss.position - slash.pos.LeftTop);
+	Vec2 start_to_end = Vec2(slash.Toppos - slash.pos.LeftTop);
+	Vec2 nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * slash.pos.LeftTop + t * slash.Toppos;
+
+	float distance = (boss.position - f).Length();
+
+	if (distance < 30+ boss.radian) {
+		return true;
+	}
+	return false;
+
+}
+bool Slash_2_Boss(Slash& slash, Boss& boss) {
+
+
+
+	Vec2 start_to_center = Vec2(boss.position - slash.pos.LeftBottom);
+	Vec2 start_to_end = Vec2(slash.Toppos - slash.pos.LeftBottom);
+	Vec2 nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * slash.pos.LeftBottom + t * slash.Toppos;
+
+	float distance = (boss.position - f).Length();
+
+	if (distance < 30 + boss.radian) {
+		return true;
+	}
+	return false;
+
+}
+
+bool Slash_Boss(Slash& slash, Boss& boss) {
+	if (Slash_1_Boss(slash, boss) == true || Slash_2_Boss(slash, boss) == true) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }

@@ -47,6 +47,7 @@ public:
 	Quad pos;
 	Vec2 direvelo;
 	Vec2 velo;
+	Vec2 Toppos;
 	float spd;
 	bool isTrigger;
 	bool isOccur;
@@ -81,6 +82,8 @@ public:
 	/*　ビーム変数　*/
 	Quad op;
 	Quad pos1, pos2;
+	Vec2 Leftpos;
+	Vec2 Rightpos;
 	bool isOccur;
 	bool isLoadTexture;
 	int frame;
