@@ -17,6 +17,7 @@
 enum Scene
 {
 	TITLE,
+	CHANGE,
 	INGAME
 };
 Scene scene = TITLE;
@@ -26,6 +27,7 @@ Scene scene = TITLE;
 Screen screen;
 Map stage_1,stage_2,boss_stage;
 Title title;
+Change change;
 Player players;
 PlayerP Pparticle;
 Bubble bubble;

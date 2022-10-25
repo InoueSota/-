@@ -36,6 +36,9 @@ public:
 	float Existtime;		//îgñ‰ë∂ç›time
 	unsigned int Rcolor;	//îgñ‰color
 
+	float alphat;
+	unsigned int color;
+	bool isDrainClear;
 	bool isTitleClear;
 
 	bool isLoadTexture;
@@ -47,5 +50,24 @@ public:
 	void Init();
 	void Process(char prekeys, char keys);
 	void Draw(Screen& screen, Title& title);
+
+};
+
+class Change
+{
+public:
+
+	Change() {
+		Init();
+	}
+
+	int frame;
+	float alphat;
+	unsigned int color;
+	bool isChangeClear;
+
+	void Init();
+	void Process();
+	void Draw(Screen& screen);
 
 };

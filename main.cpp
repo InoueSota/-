@@ -58,30 +58,37 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		case TITLE:
 			title.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]);
 			if (Drain_InTitle(players, title.Targetpos, title.kTargetRadius) == true) {
-				title.isTitleClear = true;
+				title.isDrainClear = true;
 			}
 			if (title.isTitleClear == true) {
+				scene = CHANGE;
+			}
+			break;
+		case CHANGE:
+			change.Process();
+			//セット
+			players.SetZoom(screen, players);
+			if (!wave.stage_1_set_flag) {
+				stage_1.Set_Map(0, 0, 2000, RED);
+				for (int i = 0; i < Figure::FigureMax; i++) {
+					ellipse[i].set(players, screen, stage_1, wave);
+				}
+				wave.boss_set_flag = false;
+				wave.stage_1_set_flag = true;
+			}
+			if (change.isChangeClear == true){
 				scene = INGAME;
 			}
 			break;
 		case INGAME:
-			////セット
+			//セット
 			players.SetZoom(screen, players);
 			//アビリティ
 			slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 			beam.Process(players, screen);
 			switch (wave.stage) {
 			case wave.stage_1_only:
-				if (!wave.stage_1_set_flag) {
-					stage_1.Set_Map(0, 0, 2000, RED);
-					for (int i = 0; i < Figure::FigureMax; i++) {
-						ellipse[i].set(players, screen, stage_1,wave);
-					}
-					wave.stage_1_set_flag = true;
-					wave.boss_set_flag = false;
-				}
 				
-
 				if(wave.stage_1_set_flag == true) {
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						if (ellipse[i].responflag == true) {
@@ -108,7 +115,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					if (players.radius >= wave.MapChenge(stage_1)) {
 						wave.stage = wave.stage_2;
 					}
-					wave.stage_1_draw_flag = true;
 				}
 				break;
 			case wave.stage_2:
@@ -303,10 +309,30 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					screen.DrawQuad(x * width, y * height, x * width + width, y * height, x * width, y * height + height, x * width + width, y * height + height, 0, 0, 2000, 1500, background, BLACK);
 				}
 			}
-			title.Draw(screen, title);
 			Pparticle.DrawParticle(screen);
 			players.Draw(screen, players);
-			slash.Draw(screen);
+			title.Draw(screen, title);
+			break;
+		case CHANGE:
+			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
+			for (int y = -1; y < 1; y++) {
+				for (int x = -1; x < 1; x++) {
+					int width = 4000;
+					int height = 3000;
+					screen.DrawQuad(x * width, y * height, x * width + width, y * height, x * width, y * height + height, x * width + width, y * height + height, 0, 0, 2000, 1500, background, BLACK);
+				}
+			}
+			if (wave.stage_1_set_flag/* && wave.stage_1_draw_flag*/) {
+				stage_1.DrawMap(screen);
+				for (int i = 0; i < Figure::FigureMax; i++) {
+					if (ellipse[i].cheakdraw(players, ellipse[i].position, screen, ellipse[i].flag)) {
+						ellipse[i].draw(screen, players);
+					}
+				}
+				Pparticle.DrawParticle(screen);
+				players.Draw(screen, players);
+			}
+			change.Draw(screen);
 			break;
 		case INGAME:
 			//背景描画
@@ -321,17 +347,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			switch (wave.stage) {
 			case wave.stage_1_only:
-				if (wave.stage_1_set_flag && wave.stage_1_draw_flag) {
+				if (wave.stage_1_set_flag/* && wave.stage_1_draw_flag*/) {
 					stage_1.DrawMap(screen);
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						if (ellipse[i].cheakdraw(players, ellipse[i].position, screen, ellipse[i].flag)) {
 							ellipse[i].draw(screen, players);
 						}
 					}
-
 					Pparticle.DrawParticle(screen);
-					slash.Draw(screen);
-					beam.Draw(screen);
 					players.Draw(screen, players);
 
 					item.Draw(screen, players);
@@ -354,14 +377,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						if (quadrangle[i].cheakdraw(players, quadrangle[i].position, screen, quadrangle[i].flag)) {
 							quadrangle[i].breaddraw(screen);
 							quadrangle[i].draw(screen);
-
 						}
-
-
 					}
-
-
-
 					Pparticle.DrawParticle(screen);
 					slash.Draw(screen);
 					beam.Draw(screen);
@@ -383,11 +400,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				break;
 			}
-
-
-			//players.Draw_Rand_Skin(screen,preKeys[DIK_SPACE],keys[DIK_SPACE]);
-			//Novice::ScreenPrintf(0, 20,"zoomed_prad= %f", players.radius*screen.Zoom.x);
-			//Novice::ScreenPrintf(0, 0, "%d", boss.count);
 			break;
 		}
 
