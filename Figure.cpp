@@ -64,11 +64,9 @@ bool llipse::IsInStage(float stage) {
 	}
 	return true;
 }
-void llipse::Update(Player player) {
-	Vec2 vel = (player.center - position).Normalized() * radian / 10;
-	position += vel;
-	if (count > count_end) {
-		count = 0;
+void llipse::Update(Player player, Screen screen, Map map, WAVE wave) {
+	if (!(InScreen(player,position,screen)) && radian >= player.radius * 8.0) {
+		flag = false;
 	}
 	//if (!easingset) {
 	//	start = {0,0};
@@ -101,10 +99,10 @@ void llipse::set(Player& player,Screen screen,Map map,WAVE wave) {
 	count = RAND(0, 240);
 	//半径
 	if (wave.stage_1_only) {
-		radian = RAND(player.radius * 0.2, player.radius * 3.0);
+		radian = RAND(player.radius * 1.5, player.radius * 8.0);
 	}
 	else {
-		radian = RAND(player.radius * 0.2, player.radius * 2.0);
+		radian = RAND(player.radius * 1.5, player.radius * 5.0);
 	}
 	//色
 	color = 0xE80971FF;
@@ -144,6 +142,29 @@ void llipse::draw(Screen& screen, Player& players) {
 	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
 }
 
+bool llipse::Player_Ellipse(Player player) {
+	Vec2 start_to_center = Vec2(position - player.center);
+	Vec2 start_to_end = Vec2(player.pos - player.center);
+	Vec2 nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * player.center + t * player.pos;
+
+	float distance = (position - f).Length();
+
+	if (distance < player.radius / 50 + radian) {
+		if (player.Length <= radian*2) {
+
+			return true;
+		}
+	}
+	return false;
+}
+
 Seed::Seed() {
 	seedcount = 0;
 	t = 0.0f;
@@ -173,7 +194,7 @@ void Seed::set(Player& player, Screen screen, Map map, Vec2 pos,int seed) {
 }
 
 void Seed::Update(Player player, Screen screen, Map map) {
-		t += 0.05;
+		t += 0.01;
 		if (t > 1) {
 			UpdateFlag = false;
 			setFlag = false;
@@ -203,6 +224,34 @@ void Seed::respon(Player player, Screen screen,Vec2 pos ,Map map) {
 	}
 }
 
+bool Seed::Player_Seed(Player player) {
+	Vec2 start_to_center[3];
+	Vec2 start_to_end[3];
+	Vec2 nomalize_stc[3];
+	for (int i = 0; i < 3; i++) {
+		start_to_center[i] = Vec2(position[i] - player.center);
+		start_to_end[i] = Vec2(player.pos - player.center);
+		nomalize_stc[i] = start_to_center[i].Normalized();
+
+		/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+		float t = ((start_to_center[i].Dot(nomalize_stc[i])) / start_to_end[i].Length());
+		t = Clamp(t, 0, 1);
+
+		Vec2 f = (1.0f - t) * player.center + t * player.pos;
+
+		float distance = (position[i] - f).Length();
+
+		if (distance < player.radius / 50 + radian) {
+			if (player.Length <= radian * 2) {
+
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
 void Seed::draw(Screen& screen) {
 	for (int i = 0; i < seedcount; i++) {
 		screen.DrawEllipse(position[i].x, position[i].y, radian, radian, 0.0f, color, kFillModeSolid);
@@ -222,7 +271,7 @@ bool Triangle::IsInStage(float stage) {
 
 void Triangle::Update(Player player, Screen screen, Map map,Seed seed) {
 	if (player.radius * 3.0 > radian) {
-		radian += 0.2;
+		radian += 0.5;
 		//頂点
 		top_position.x = position.x + cosf(theta) * radian;
 		top_position.y = position.y + sinf(theta) * radian;
@@ -245,7 +294,7 @@ void Triangle::set(Player& player, Screen screen,Map map) {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//半径
-		radian = RAND(player.radius*0.2, player.radius * 0.7);
+		radian = RAND(player.radius*0.3, player.radius * 0.7);
 	} while (Triangle::IsInStage(stage(map)));
 
 	//頂点
@@ -305,13 +354,47 @@ void Triangle::respon(Player player, Screen screen,Map map) {
 void Triangle::draw(Screen& screen) {
 	screen.DrawTriangle(top_position.x, top_position.y, left_position.x, left_position.y, right_position.x, right_position.y, color, kFillModeSolid);
 }
+bool Triangle::Player_Triangle(Player player) {
+	Vec2 start_to_center = Vec2(position - player.center);
+	Vec2 start_to_end = Vec2(player.pos - player.center);
+	Vec2 nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * player.center + t * player.pos;
+
+	float distance = (position - f).Length();
+
+	if (distance < player.radius / 50 + radian) {
+		if (player.Length <= radian * 2) {
+
+			return true;
+		}
+	}
+	return false;
+}
+
 
 Quadrangle::Quadrangle() {
 	UpdatesetFlag = false;
 	BreadOpenFlag = false;
 	BreadCloseFlag = false;
+	drawflag = false;
 	vel = { 0,0 };
 	t = 0.0f;
+	///ブレード1
+	bread_1_top_left_position_end = { -20,-20};
+	bread_1_top_right_position_end = { -20,-20 };
+	bread_1_bottom_left_position_end = { -20,-20 };
+	bread_1_bottom_right_position_end = { -20,-20 };
+	//ブレード2
+	bread_2_top_left_position_end = { -20,-20 };
+	bread_2_top_right_position_end = { -20,-20 };
+	bread_2_bottom_left_position_end = { -20,-20 };
+	bread_2_bottom_right_position_end = { -20,-20 };
 }
 
 float Quadrangle::checkroll(float Theta) {
@@ -336,7 +419,7 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//半径
-		radian = RAND(Figure::RadianMin(player), Figure::RadianMax(player));
+		radian = RAND(player.radius*2.0, player.radius * 5.0);
 	} while (Quadrangle::IsInStage(stage(map)));
 	
 	//頂点
@@ -390,9 +473,10 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 	flag = true;
 	responflag = true;
 	BreadOpenFlag = true;
+	drawflag = true;
 }
 
-void Quadrangle::Update(Player& player, Screen screen, Map map) {
+void Quadrangle::Update(Player& player, Screen screen, Map map,WAVE wave) {
 	if (UpdatesetFlag) {
 		theta += theta_plus;
 		Matrix33 mat;
@@ -478,6 +562,9 @@ void Quadrangle::Update(Player& player, Screen screen, Map map) {
 				bread_2_bottom_right_position_end = bread_2.RightBottom * mat;
 			UpdatesetFlag = false;
 			BreadCloseFlag = true;
+		}
+		if (!(InScreen(player, position, screen)) && radian >= player.radius * 1.5) {
+			respon(player, screen, map);
 		}
 		
 	}
@@ -605,8 +692,8 @@ void Quadrangle::respon(Player player,Screen screen,Map map) {
 		BreadOpenFlag = false;
 		BreadCloseFlag = false;
 		vel = { 0,0 };
-		t = 0.0f;
 		set(player, screen,map);
+		t = 0.0f;
 	}
 	else {
 		flag = false;
@@ -621,9 +708,52 @@ void Quadrangle::respon(Player player,Screen screen,Map map) {
 //		return false;
 //	}
 //}
+bool Quadrangle::Player_Quadrangle(Player player) {
+	Vec2 start_to_center = Vec2(position - player.center);
+	Vec2 start_to_end = Vec2(player.pos - player.center);
+	Vec2 nomalize_stc = start_to_center.Normalized();
 
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * player.center + t * player.pos;
+
+	float distance = (position - f).Length();
+
+	if (distance < player.radius / 50 + radian) {
+		if (player.Length <= radian * 2) {
+
+			return true;
+		}
+	}
+	return false;
+}
+bool Quadrangle::Player_Update(Player player) {
+	Vec2 start_to_center = Vec2(position - player.center);
+	Vec2 start_to_end = Vec2(player.pos - player.center);
+	Vec2 nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * player.center + t * player.pos;
+
+	float distance = (position - f).Length();
+
+	if (distance < player.radius / 50 + radian) {
+		if (player.Length <= radian * 4) {
+
+			return true;
+		}
+	}
+	return false;
+}
 void Quadrangle::draw(Screen& screen) {
-	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, BLUE);
+	screen.DrawQuad(top_left_position.x, top_left_position.y, top_right_position.x, top_right_position.y, bottom_left_position.x, bottom_left_position.y, bottom_right_position.x, bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, color);
 }
 
 void Quadrangle::breaddraw(Screen& screen) {
