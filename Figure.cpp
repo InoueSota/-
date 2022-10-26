@@ -227,23 +227,23 @@ void Seed::respon(Player player, Screen screen,Vec2 pos ,Map map) {
 	}
 }
 
-bool Seed::Player_Seed(Player player) {
-	Vec2 start_to_center[3];
-	Vec2 start_to_end[3];
-	Vec2 nomalize_stc[3];
-	for (int i = 0; i < 3; i++) {
-		start_to_center[i] = Vec2(position[i] - player.center);
-		start_to_end[i] = Vec2(player.pos - player.center);
-		nomalize_stc[i] = start_to_center[i].Normalized();
+bool Seed::Player_Seed(Player player,Vec2 position) {
+	Vec2 start_to_center;
+	Vec2 start_to_end;
+	Vec2 nomalize_stc;
+	
+	start_to_center = Vec2(position - player.center);
+	start_to_end = Vec2(player.pos - player.center);
+	nomalize_stc = start_to_center.Normalized();
 
 		/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
 
-		float t = ((start_to_center[i].Dot(nomalize_stc[i])) / start_to_end[i].Length());
+		float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
 		t = Clamp(t, 0, 1);
 
 		Vec2 f = (1.0f - t) * player.center + t * player.pos;
 
-		float distance = (position[i] - f).Length();
+		float distance = (position - f).Length();
 
 		if (distance < player.radius / 50 + radian) {
 			if (player.Length <= radian * 2) {
@@ -252,7 +252,7 @@ bool Seed::Player_Seed(Player player) {
 			}
 		}
 		return false;
-	}
+	
 }
 
 void Seed::draw(Screen& screen) {

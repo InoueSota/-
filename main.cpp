@@ -111,7 +111,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 							}
 						}
 						if (ellipse[i].Player_Ellipse(players) == true) {
-							players.SizeDecrease(players);
+							players.SizeDecrease(players,wave.stage);
 							screen.Shake(0, 10, 0, 10, true);
 						}
 
@@ -139,6 +139,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				//中ボス追加
 			{
 				if (!wave.stage_2_set_flag) {
+
 					wave.stage_1_set_flag = false;
 
 					stage_2.Set_Map(0, 0, 5000, RED);
@@ -206,6 +207,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				//クリア条件
 				if (tboss.shild == 0 && tboss.Boss_Player(players) == true) {
 					wave.stage = wave.stage_3;
+					players.radius = 80;
 				}
 
 			}
@@ -233,16 +235,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 				}
 				if (ellipse[i].Player_Ellipse(players) == true) {
-					players.SizeDecrease(players);
+					players.SizeDecrease(players, wave.stage);
 					screen.Shake(0, 10, 0, 10, true);
 				}
 				if (triangle[i].Player_Triangle(players) == true) {
-					players.SizeDecrease(players);
+					players.SizeDecrease(players, wave.stage);
 					screen.Shake(0, 10, 0, 10, true);
 				}
-				if (triangle[i].triangle_death && seed[i].UpdateFlag && seed[i].Player_Seed(players)) {
-					players.SizeDecrease(players);
-					screen.Shake(0, 10, 0, 10, true);
+				if (triangle[i].triangle_death && seed[i].UpdateFlag ) {
+					for (int t = 0; t < 3; t++) {
+						if (seed[i].Player_Seed(players, seed[i].position[t])) {
+							players.SizeDecrease(players, wave.stage);
+							screen.Shake(0, 10, 0, 10, true);
+						}
+					}
 				}
 				if (Drain_Check_Triangle(players, triangle[i])) {
 					if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true && triangle[i].responflag == false) {
@@ -265,7 +271,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 				if (triangle[i].flag == false && !seed[i].UpdateFlag && !triangle[i].triangle_death) {
 					triangle[i].cooltime++;
-					if (triangle[i].cooltime % 30 == 0) {
+					if (triangle[i].cooltime % 120 == 0) {
 						triangle[i].respon(players, screen, stage_2, wave);
 						seed[i].respon(players, screen, triangle[i].position, stage_2);
 					}
@@ -276,13 +282,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			{
 				wave.isStart_stage_3 = true;
 				if (!wave.stage_3_set_flag) {
+					
 					wave.stage_2_set_flag = false;
+					stage_3.Set_Map(0, 0, 6000, RED);
 					///一回だけのやつ
 					for (int i = 0; i < Figure::FigureMax; i++) {
-						ellipse[i].set(players, screen, stage_2, wave);
-						triangle[i].set(players, screen, stage_2,wave);
-						quadrangle[i].set(players, screen, stage_2);
-						seed[i].set(players, screen, stage_2, triangle[i].position, 3);
+						ellipse[i].set(players, screen, stage_3, wave);
+						triangle[i].set(players, screen, stage_3, wave);
+						quadrangle[i].set(players, screen, stage_3);
+						seed[i].set(players, screen, stage_3, triangle[i].position, 3);
 					}
 
 					wave.stage_3_set_flag = true;
@@ -318,117 +326,119 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}*/
 
 					if (triangle[i].InScreen(players, triangle[i].position, screen) && triangle[i].responflag == false) {
-						triangle[i].Update(players, screen, stage_2, seed[i]);
+						triangle[i].Update(players, screen, stage_3, seed[i]);
 						if (triangle[i].triangle_death && seed[i].UpdateFlag) {
-							seed[i].Update(players, screen, stage_2);
+							seed[i].Update(players, screen, stage_3);
 						}
 					}
 
-						if (quadrangle[i].InScreen(players, quadrangle[i].position, screen) && quadrangle[i].responflag == false) {
-							quadrangle[i].Update(players, screen, stage_2, wave);
-						}
-						
-						if (ellipse[i].Player_Ellipse(players) == true) {
-							players.SizeDecrease(players);
-							screen.Shake(0, 10, 0, 10, true);
-						}
+					if (quadrangle[i].InScreen(players, quadrangle[i].position, screen) && quadrangle[i].responflag == false) {
+						quadrangle[i].Update(players, screen, stage_3, wave);
+					}
 
-						if (triangle[i].Player_Triangle(players) == true) {
-							players.SizeDecrease(players);
-							screen.Shake(0, 10, 0, 10, true);
-						}
-						if (triangle[i].triangle_death && seed[i].UpdateFlag&&seed[i].Player_Seed(players)) {
-							players.SizeDecrease(players);
-							screen.Shake(0, 10, 0, 10, true);
-						}
-						if (quadrangle[i].Player_Quadrangle(players) == true) {
-							players.SizeDecrease(players);
-							screen.Shake(0, 10, 0, 10, true);
-						}
-						if (quadrangle[i].UpdatesetFlag) {
-							if (quadrangle[i].Player_Update(players)) {
-								players.SizeDecrease(players);
+					if (ellipse[i].Player_Ellipse(players) == true) {
+						players.SizeDecrease(players, wave.stage);
+						screen.Shake(0, 10, 0, 10, true);
+					}
+
+					if (triangle[i].Player_Triangle(players) == true) {
+						players.SizeDecrease(players, wave.stage);
+						screen.Shake(0, 10, 0, 10, true);
+					}
+					if (triangle[i].triangle_death && seed[i].UpdateFlag) {
+						for (int t = 0; t < 3; t++) {
+							if (seed[i].Player_Seed(players, seed[i].position[t])) {
+								players.SizeDecrease(players, wave.stage);
 								screen.Shake(0, 10, 0, 10, true);
 							}
 						}
-						
-						if (Drain_Check_Ellipse(players, ellipse[i])) {
-							if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true && ellipse[i].responflag == false) {
-								Novice::PlayAudio(drain, 0, 0.5);
-								players.SizeIncrease(players);
-								ellipse[i].flag = false;
-							}
-						}
-						if (Drain_Check_Triangle(players, triangle[i])) {
-							if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true && triangle[i].responflag == false) {
-								Novice::PlayAudio(drain, 0, 0.5);
-								slash.spd += 0.2f;
-								players.SizeIncrease(players);
-								triangle[i].flag = false;
-								seed[i].UpdateFlag = false;
-							}
-						}
-						if (Drain_Check_Quadrangle(players, quadrangle[i])) {
-							if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true && quadrangle[i].responflag == false&& quadrangle[i].UpdatesetFlag==false) {
-								Novice::PlayAudio(drain, 0, 0.5);
-								players.SizeIncrease(players);
-								quadrangle[i].flag = false;
-								quadrangle[i].drawflag = false;
-								///ブレード1
-								quadrangle[i].bread_1_top_left_position_end = { -20,-20 };
-								quadrangle[i].bread_1_top_right_position_end = { -20,-20 };
-								quadrangle[i].bread_1_bottom_left_position_end = { -20,-20 };
-								quadrangle[i].bread_1_bottom_right_position_end = { -20,-20 };
-								//ブレード2
-								quadrangle[i].bread_2_top_left_position_end = { -20,-20 };
-								quadrangle[i].bread_2_top_right_position_end = { -20,-20 };
-								quadrangle[i].bread_2_bottom_left_position_end = { -20,-20 };
-								quadrangle[i].bread_2_bottom_right_position_end = { -20,-20 };
-							}
-						}
-						//if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
-						//	players.radius -= (ellipse[i].radian / 100);
-						//	players.Length -= (ellipse[i].radian / 100);
-						//}
+
 					}
-					if (players.radius < 10) {
-						players.radius = 10;
+					if (quadrangle[i].Player_Quadrangle(players) == true) {
+						players.SizeDecrease(players, wave.stage);
+						screen.Shake(0, 10, 0, 10, true);
+					}
+					if (quadrangle[i].UpdatesetFlag) {
+						if (quadrangle[i].Player_Update(players)) {
+							players.SizeDecrease(players, wave.stage);
+							screen.Shake(0, 10, 0, 10, true);
+						}
 					}
 
+					if (Drain_Check_Ellipse(players, ellipse[i])) {
+						if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true && ellipse[i].responflag == false) {
+							Novice::PlayAudio(drain, 0, 0.5);
+							players.SizeIncrease(players);
+							ellipse[i].flag = false;
+						}
+					}
+					if (Drain_Check_Triangle(players, triangle[i])) {
+						if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true && triangle[i].responflag == false) {
+							Novice::PlayAudio(drain, 0, 0.5);
+							slash.spd += 0.2f;
+							players.SizeIncrease(players);
+							triangle[i].flag = false;
+							seed[i].UpdateFlag = false;
+						}
+					}
+					if (Drain_Check_Quadrangle(players, quadrangle[i])) {
+						if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true && quadrangle[i].responflag == false && quadrangle[i].UpdatesetFlag == false) {
+							Novice::PlayAudio(drain, 0, 0.5);
+							players.SizeIncrease(players);
+							quadrangle[i].flag = false;
+							quadrangle[i].drawflag = false;
+							/////ブレード1
+							//quadrangle[i].bread_1_top_left_position_end = { -20,-20 };
+							//quadrangle[i].bread_1_top_right_position_end = { -20,-20 };
+							//quadrangle[i].bread_1_bottom_left_position_end = { -20,-20 };
+							//quadrangle[i].bread_1_bottom_right_position_end = { -20,-20 };
+							////ブレード2
+							//quadrangle[i].bread_2_top_left_position_end = { -20,-20 };
+							//quadrangle[i].bread_2_top_right_position_end = { -20,-20 };
+							//quadrangle[i].bread_2_bottom_left_position_end = { -20,-20 };
+							//quadrangle[i].bread_2_bottom_right_position_end = { -20,-20 };
+						}
+					}
+					//if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
+					//	players.radius -= (ellipse[i].radian / 100);
+					//	players.Length -= (ellipse[i].radian / 100);
+					//}
+				}
+				if (players.radius < 10) {
+					players.radius = 10;
+				}
 
-				stage_3.Map_Collision(players);//これボイドじゃないよ
+
+				/*stage_3.Map_Collision(players);*///これボイドじゃないよ
 				for (int i = 0; i < Figure::FigureMax; i++) {
 
-						if (ellipse[i].flag == false) {
-							ellipse[i].cooltime++;
-							if (ellipse[i].cooltime % 120 == 0) {
-								ellipse[i].respon(players, screen, stage_2,wave);
-							}
+					if (ellipse[i].flag == false) {
+						ellipse[i].cooltime++;
+						if (ellipse[i].cooltime % 120 == 0) {
+							ellipse[i].respon(players, screen, stage_3, wave);
 						}
-						if (triangle[i].flag == false && !seed[i].UpdateFlag && !triangle[i].triangle_death) {
-							triangle[i].cooltime++;
-							if (triangle[i].cooltime % 30 == 0) {
-								triangle[i].respon(players, screen, stage_2,wave);
-								seed[i].respon(players, screen, triangle[i].position, stage_2);
-							}
+					}
+					if (triangle[i].flag == false && !seed[i].UpdateFlag && !triangle[i].triangle_death) {
+						triangle[i].cooltime++;
+						if (triangle[i].cooltime % 30 == 0) {
+							triangle[i].respon(players, screen, stage_3, wave);
+							seed[i].respon(players, screen, triangle[i].position, stage_3);
 						}
-						if (quadrangle[i].flag == false) {
-							quadrangle[i].cooltime++;
-							if (quadrangle[i].cooltime % 30 == 0) {
-								quadrangle[i].respon(players, screen, stage_2);
-							}
+					}
+					if (quadrangle[i].flag == false) {
+						quadrangle[i].cooltime++;
+						if (quadrangle[i].cooltime % 30 == 0) {
+							quadrangle[i].respon(players, screen, stage_3);
 						}
+					}
 
-					}
-					if (players.radius >= wave.MapChenge(stage_2)) {
-						wave.stage = wave.boss_stage;
-					}
-					wave.stage_2_draw_flag = true;
 				}
-				if (players.radius >= wave.MapChenge(stage_2)) {
-					wave.stage = wave.stage_3;
+				if (players.radius >= wave.MapChenge(stage_3)) {
+ 					wave.stage = wave.boss_stage;
 				}
-				bar.Update(players,stage_2,wave);
+				wave.stage_2_draw_flag = true;
+			}
+			bar.Update(players,stage_3,wave);
 				break;
 			//case wave.stage_3:
 			//	//中ボス追加
@@ -618,7 +628,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				break;
 			case wave.stage_3:
 				//中ボス追加してない
-				stage_2.DrawMap(screen);
+				stage_3.DrawMap(screen);
 				for (int i = 0; i < Figure::FigureMax; i++) {
 					if (triangle[i].triangle_death && seed[i].UpdateFlag) {
 						seed[i].draw(screen);
@@ -672,6 +682,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			break;
 		}
+		Novice::ScreenPrintf(0, 0, "now.RightTop.x:%f",bar.now.RightTop.x);
 		
 		///
 		/// ↑描画処理ここまで
