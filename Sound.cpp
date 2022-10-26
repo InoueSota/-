@@ -12,6 +12,10 @@ Sound::Sound()
 	stage_3_handle=-1;
 	stage_boss=0;
 	stage_boss_handle=-1;
+	Title=0;
+	Title_handle=-1;
+	Clear=0;
+	Clear_handle=-1;
 }
 
 void Sound::Space_Sound()

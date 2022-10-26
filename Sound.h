@@ -15,6 +15,11 @@ public:
 	int stage_3_handle;
 	int stage_boss;
 	int stage_boss_handle;
+	int Title;
+	int Title_handle;
+	int Clear;
+	int Clear_handle;
+
 
 
 	void Space_Sound();

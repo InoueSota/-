@@ -17,9 +17,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int background = Novice::LoadTexture("./resource./Background.png");
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
 
+	sound.Title = Novice::LoadAudio("./resource/t_boss.mp3");
+
 	sound.stage_1 = Novice::LoadAudio("./resource/stage.mp3");
 	sound.stage_2=Novice::LoadAudio("./resource/t_boss.mp3");
-	
+	sound.stage_3 = Novice::LoadAudio("./resource/t_boss.mp3");
+	sound.stage_boss= Novice::LoadAudio("./resource/t_boss.mp3");
+
+	sound.Clear= Novice::LoadAudio("./resource/t_boss.mp3");
+
 	int isFull = 1;
 	
 
@@ -170,9 +176,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					//処理書いてね
 					/*ボス関係*/
 					/*ボス関係*/
-					tboss.Keep_Up(players);//追いかけ続けるやつ
-					tboss.Result(players, screen, RAND(1, 1), sound);//追いかけて着る
-
+					if (tboss.shild != 0) {
+						tboss.Keep_Up(players);//追いかけ続けるやつ
+						tboss.Result(players, screen, RAND(1, 1), sound);//追いかけて着る
+					}
 
 
 					if (slash.isOccur == true && Slash_EX_Boss(slash, tboss) == true) {
@@ -208,31 +215,45 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					///プレイヤーに攻撃が当たった時
 					if (tboss.Bullet_Player(players) == true) {
-						players.radius -= 10;
-					}
-					if (tboss.Bullet_Player_2(players) == true) {
-						players.radius -= 10;
-					}
-					if (tboss.Blade_Player(players) == true) {
-						players.radius -= 10;
+						players.SizeDecrease(players,wave.stage);
+						screen.Shake(-5, 500, -5, 5, true);
 
 					}
+					if (tboss.Bullet_Player_2(players) == true) {
+
+						players.SizeDecrease(players, wave.stage);
+					}
+					if (tboss.Blade_Player(players) == true) {
+
+						players.SizeDecrease(players, wave.stage);
+
+					}
+					screen.Shake(-5, 5, -5, 5, tboss.Blade_Player(players));
+					screen.Shake(-5, 5, -5, 5, tboss.Bullet_Player_2(players));
+
 					//ボスのプレイヤーが当たった時
 
 					if (tboss.shild != 0 && tboss.Boss_Player(players) == true && players.Muteki == false) {  //ボスのシールドがある、俺が無敵じゃない、当たる
 						players.Muteki = true;
 						players.Reverse *= -1;
-						players.radius -= 1;
+						players.SizeDecrease(players, wave.stage);
+
 					}
 					else if (players.Muteki == true) {
 						players.MutekiTime();
 
 					}
 					//クリア条件
+					if (tboss.shild == 0) {
+						tboss.bossgekiha();
+						tboss.Rune_Par();
+					}
+
 					if (tboss.shild == 0 && tboss.Boss_Player(players) == true) {
 						wave.stage = wave.stage_3;
 						players.radius = 80;
 					}
+					screen.Shake(-5, 5, -5, 5, tboss.Boss_Player(players));
 
 
 					//Update
@@ -323,15 +344,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 
 
-				item.Set_Item(RAND(0, 1000), RAND(0, 1000), players, RAND(0, 0));
-
-				if (item.Item_collision(players, screen) == true) {
-
-					item.Randam_Item();
-
-				}
-
-				item.Result(players, screen);
+				
 
 				for (int i = 0; i < Figure::FigureMax; i++) {
 					if (ellipse[i].responflag == true) {
@@ -489,8 +502,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 					//処理書いてね
 					/*ボス関係*/
-					boss.Keep_Up(players);
-					boss.Result(players, screen, RAND(2, 2), sound);
+					if (boss.shild != 0) {
+						boss.Keep_Up(players);
+						boss.Result(players, screen, RAND(0, 3), sound);
+					}
 					if (Slash_EX_Boss(slash, boss) == true) {
 
 						boss.radian -= 100;
@@ -524,13 +539,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					///プレイヤーに攻撃が当たった時
 					if (boss.Bullet_Player(players) == true) {
-						players.radius -= 0.5f;
+						players.SizeDecrease(players, wave.stage);
+						screen.Shake(-5, 5, -5, 5, boss.Bullet_Player(players));
+
 					}
 					if (boss.Bullet_Player_2(players) == true) {
 						players.radius -= 0.5f;
+						screen.Shake(-5, 5, -5, 5, boss.Bullet_Player_2(players));
+
 					}
 					if (boss.Blade_Player(players) == true || boss.Blade_Player_2(players) == true) {
 						players.radius -= 0.5f;
+						screen.Shake(-5, 5, -5, 5, boss.Blade_Player(players));
+
 
 					}
 					//ボスのプレイヤーが当たった時
@@ -538,10 +559,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					if (boss.shild != 0 && boss.Boss_Player(players) == true && players.Muteki == false) {  //ボスのシールドがある、俺が無敵じゃない、当たる
 						players.Muteki = true;
 						players.Reverse *= -1;
-						players.radius -= 1;
+						players.SizeDecrease(players, wave.stage);
+
 					}
 					else if (players.Muteki == true) {
 						players.MutekiTime();
+					}
+					if (boss.shild == 0) {
+						boss.bossgekiha();
+						boss.Rune_Par();
 					}
 					//クリア条件
 					if (boss.shild == 0 && boss.Boss_Player(players) == true) {

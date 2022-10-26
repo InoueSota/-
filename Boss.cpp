@@ -117,6 +117,18 @@ void Boss::Init()
 
 	}
 }
+void Boss::bossgekiha()
+{
+	
+	boss_c_t += 0.01f;
+	boss_c_t =Clamp(boss_c_t,0,1);
+
+	Boss_color = easing(boss_c_t, 0x000000FF, 0xE80971FF);
+	if (boss_c_t ==1) {
+		Boss_color = 0xE80971FF;
+
+	}
+}
 void Boss::Dame_Par()
 {
 	if (damepar == true) {
@@ -146,6 +158,40 @@ void Boss::Dame_Par()
 			}
 		}
 	}
+}
+void Boss::Rune_Par()
+{
+	rune.Time += 1;
+	if (rune.Time == 300) {
+		rune.Time =0;
+	}
+	for (int i = 0; i < MAX_RUNE; i++) {
+		if (rune.Time%6==0&&rune.flag[i] == false) {
+
+			rune.pos[i] = position + Vec2(RAND(-(radian / 2), (radian / 2)), RAND(-(radian / 2), (radian / 2)));
+			rune.rad[i] = radian / 4;
+			rune.lifetime[i] = RAND(0.5f,2.0f);
+			rune.vel[i] = Vec2(RAND(-3.0f, 3), RAND(0, 30));
+			rune.EaseT[i] = 0;
+			rune.color[i] = 0xE80971FF;
+				
+			rune.flag[i] = true;
+			break;
+		}
+
+
+		if (rune.flag[i] == true) {
+			rune.pos[i] += rune.vel[i];
+			rune.lifetime[i] -= 0.01f;
+			rune.lifetime[i] = Clamp(rune.lifetime[i], 0, 3.0f);
+			rune.color[i] = 0xE8097100 | static_cast<int>((1.0f - rune.lifetime[i]) * 0x00 + rune.lifetime[i] * 0xFF);
+			if (rune.lifetime[i] == 0) {
+				rune.flag[i] = false;
+				
+			}
+		}
+	}
+
 }
 bool Boss::Bullet_Player(Player& player)
 {
@@ -392,7 +438,7 @@ void Boss::Rand_Move(int rand)
 	if (flag == false&&pattern_1==false&&pattern_2==false&&pattern_3==false && pattern_4 == false) {
 		//rand_num = 0;
 		Init();
-		int time = 200;
+		int time = 100;
 		/*rand_num = RAND(0,2);*/
 		rand_num = rand;
 		cooltime -= 1;
@@ -450,9 +496,11 @@ void Boss::Result(Player& player,Screen& screen,int rand, Sound& sound)
 					if (dekaku_t == 1.0f||radius_f==200) {
 						dekaku_tback = true;
 						dekaku_t = 0;
-						sound.Boss_t_Sound();
 					}
-				
+					if (dekaku_t == true && dekaku_tback == true) {
+						sound.Boss_t_Sound();
+
+					}
 				if (dekaku_tback == true) {
 					dekaku_t += 0.03f;
 					dekaku_t = Clamp(dekaku_t, 0, 1.0f);
@@ -975,43 +1023,45 @@ void Boss::Keep_Up(Player& player)
 }
 void Boss::t_draw(Screen& screen) {
 
-	if (pattern_1 == true) {
-		for (int i = 0; i < MAX_BULLET_t; i++) {
-			if (bullet_t_flag[i] == true) {
-				if (dekaku == true) {
-					screen.DrawEllipse(bullet_t_pos[i].x, bullet_t_pos[i].y, bullet_rad[i] + RAND(-50, 50), bullet_rad[i] + RAND(-50, 50), 0, 0xFFFF00FF, kFillModeSolid);
+	if (shild != 0) {
+		if (pattern_1 == true) {
+			for (int i = 0; i < MAX_BULLET_t; i++) {
+				if (bullet_t_flag[i] == true) {
+					if (dekaku == true) {
+						screen.DrawEllipse(bullet_t_pos[i].x, bullet_t_pos[i].y, bullet_rad[i] + RAND(-50, 50), bullet_rad[i] + RAND(-50, 50), 0, 0xFFFF00FF, kFillModeSolid);
+
+					}
 
 				}
 
 			}
-
-		}
-		////残像
-		for (int i = 0; i < MAX_ZAN; i++) {
-			if (bakuha == false) {
-				if (zan_flag[i] == true && bakuha_back == false) {
-					if (dekaku == true) {
-						screen.DrawEllipse(zanpos[i].x, zanpos[i].y, zanrad[i], zanrad[i], 0, 0xFFFF00aa, kFillModeSolid);
+			////残像
+			for (int i = 0; i < MAX_ZAN; i++) {
+				if (bakuha == false) {
+					if (zan_flag[i] == true && bakuha_back == false) {
+						if (dekaku == true) {
+							screen.DrawEllipse(zanpos[i].x, zanpos[i].y, zanrad[i], zanrad[i], 0, 0xFFFF00aa, kFillModeSolid);
+						}
 					}
 				}
 			}
 		}
-	}
-	if (pattern_2 == true) {
-		for (int i = 0; i < MAX_BULLET; i++) {
-			if (bullet_flag[i] == true) {
+		if (pattern_2 == true) {
+			for (int i = 0; i < MAX_BULLET; i++) {
+				if (bullet_flag[i] == true) {
 
-				if (lifetime[i] <= 0.8f) {
-					screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeWireFrame);
+					if (lifetime[i] <= 0.8f) {
+						screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeWireFrame);
 
-				}
-				if (lifetime[i] >= 0.8f) {
-					screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeSolid);
+					}
+					if (lifetime[i] >= 0.8f) {
+						screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeSolid);
+
+					}
 
 				}
 
 			}
-
 		}
 	}
 	for (int i = 0; i < MAX_DAME; i++) {
@@ -1020,7 +1070,14 @@ void Boss::t_draw(Screen& screen) {
 
 		}
 	}
+	
 	screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, Boss_color, kFillModeSolid);
+	for (int i = 0; i < MAX_RUNE; i++) {
+		if (rune.flag[i] == true) {
+			screen.DrawEllipse(rune.pos[i].x, rune.pos[i].y, rune.rad[i], rune.rad[i], 0, rune.color[i], kFillModeSolid);
+
+		}
+	}
 	if (hit == true) {
 		screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, 0xFFFFFF33, kFillModeSolid);
 
@@ -1068,82 +1125,90 @@ void Boss::draw(Screen& screen) {
 		rotate_bottom_right.y += position.y;
 		rotate_bottom_left.x += position.x;
 		rotate_bottom_left.y += position.y;
+		if (shild != 0) {
 
-	
-	if (pattern_1 == true) {
-		for (int i = 0; i < MAX_BULLET_t; i++) {
-			if (bullet_t_flag[i] == true) {
-				if (dekaku == true) {
-				screen.DrawEllipse(bullet_t_pos[i].x, bullet_t_pos[i].y, bullet_rad[i]+RAND(-50,50), bullet_rad[i] + RAND(-50, 50), 0, 0xFFFF00FF, kFillModeSolid);
+			if (pattern_1 == true) {
+				for (int i = 0; i < MAX_BULLET_t; i++) {
+					if (bullet_t_flag[i] == true) {
+						if (dekaku == true) {
+							screen.DrawEllipse(bullet_t_pos[i].x, bullet_t_pos[i].y, bullet_rad[i] + RAND(-50, 50), bullet_rad[i] + RAND(-50, 50), 0, 0xFFFF00FF, kFillModeSolid);
+
+						}
+
+					}
 
 				}
-
-			}
-
-		}
-		////残像
-		for (int i = 0; i < MAX_ZAN; i++) {
-			if ( bakuha == false) {
-				if (zan_flag[i] == true && bakuha_back == false) {
-					if (dekaku == true) {
-						screen.DrawEllipse(zanpos[i].x, zanpos[i].y, zanrad[i], zanrad[i], 0, 0xFFFF00aa, kFillModeSolid);
+				////残像
+				for (int i = 0; i < MAX_ZAN; i++) {
+					if (bakuha == false) {
+						if (zan_flag[i] == true && bakuha_back == false) {
+							if (dekaku == true) {
+								screen.DrawEllipse(zanpos[i].x, zanpos[i].y, zanrad[i], zanrad[i], 0, 0xFFFF00aa, kFillModeSolid);
+							}
+						}
 					}
 				}
 			}
-		}
-	}
-	if (pattern_2 == true) {
-		for (int i = 0; i < MAX_BULLET; i++) {
-			if (bullet_flag[i] == true) {
+			if (pattern_2 == true) {
+				for (int i = 0; i < MAX_BULLET; i++) {
+					if (bullet_flag[i] == true) {
 
-				if (lifetime[i] <= 0.8f) {
-					screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeWireFrame);
+						if (lifetime[i] <= 0.8f) {
+							screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeWireFrame);
+
+						}
+						if (lifetime[i] >= 0.8f) {
+							screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeSolid);
+
+						}
+
+					}
 
 				}
-				if (lifetime[i] >= 0.8f) {
-					screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeSolid);
+			}
+			if (pattern_3 == true) {
+				if (keep == true) {
+					screen.DrawEllipse(position.x, position.y, radian * 2, radian * 2, 0, 0xFF000088, kFillModeSolid);
+				}
+				if (keep == false) {
+					screen.DrawQuad(blade.top_left.x, blade.top_left.y, blade.top_right.x, blade.top_right.y, blade.bottom_left.x, blade.bottom_left.y, blade.bottom_right.x, blade.bottom_right.y, 0, 0, 0, 0, 0, BLACK);
 
 				}
 
 			}
+			if (pattern_4 == true) {
+				for (int i = 0; i < MAX_BULLET_t; i++) {
+					if (bullet_t_flag[i] == true) {
+						if (dekaku == true) {
+							screen.DrawEllipse(bullet_t_pos[i].x, bullet_t_pos[i].y, bullet_rad[i] + RAND(-50, 50), bullet_rad[i] + RAND(-50, 50), 0, 0xFFFF00FF, kFillModeSolid);
 
-		}
-	}
-	if (pattern_3 == true) {
-		if (keep == true) {
-			screen.DrawEllipse(position.x, position.y, radian*2, radian * 2, 0, 0xFF000088, kFillModeSolid);
-		}
-		if (keep == false) {
-			screen.DrawQuad(blade.top_left.x, blade.top_left.y, blade.top_right.x, blade.top_right.y, blade.bottom_left.x, blade.bottom_left.y, blade.bottom_right.x, blade.bottom_right.y, 0, 0, 0, 0, 0, BLACK);
+						}
 
-		}
-
-	}
-	if (pattern_4 == true) {
-		for (int i = 0; i < MAX_BULLET_t; i++) {
-			if (bullet_t_flag[i] == true) {
-				if (dekaku == true) {
-					screen.DrawEllipse(bullet_t_pos[i].x, bullet_t_pos[i].y, bullet_rad[i] + RAND(-50, 50), bullet_rad[i] + RAND(-50, 50), 0, 0xFFFF00FF, kFillModeSolid);
+					}
 
 				}
-
-			}
-
-		}
-		////残像
-		for (int i = 0; i < MAX_ZAN; i++) {
-			if (bakuha == false) {
-				if (zan_flag[i] == true && bakuha_back == false) {
-					if (dekaku == true) {
-						screen.DrawEllipse(zanpos[i].x, zanpos[i].y, zanrad[i], zanrad[i], 0, 0xFFFF00aa, kFillModeSolid);
+				////残像
+				for (int i = 0; i < MAX_ZAN; i++) {
+					if (bakuha == false) {
+						if (zan_flag[i] == true && bakuha_back == false) {
+							if (dekaku == true) {
+								screen.DrawEllipse(zanpos[i].x, zanpos[i].y, zanrad[i], zanrad[i], 0, 0xFFFF00aa, kFillModeSolid);
+							}
+						}
 					}
 				}
 			}
+
 		}
-	}
 	for (int i = 0; i < MAX_DAME; i++) {
 		if (dame.flag[i] == true) {
 			screen.DrawEllipse(dame.pos[i].x, dame.pos[i].y, dame.rad[i], dame.rad[i], 0, dame.color[i], kFillModeSolid);
+
+		}
+	}
+	for (int i = 0; i < MAX_RUNE; i++) {
+		if (rune.flag[i] == true) {
+			screen.DrawEllipse(rune.pos[i].x, rune.pos[i].y, rune.rad[i], rune.rad[i], 0, rune.color[i], kFillModeSolid);
 
 		}
 	}

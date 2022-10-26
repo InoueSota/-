@@ -9,6 +9,8 @@ const int MAX_BULLET=8;
 const int MAX_BULLET_t = 4;
 const int MAX_ZAN = 20;
 const int MAX_DAME = 20;
+const int MAX_RUNE = 50;
+
 class Boss:public Figure
 {
 	//pos,radius,color,flag
@@ -44,6 +46,17 @@ class Boss:public Figure
 		bool flag[MAX_DAME];
 		unsigned int color[MAX_DAME];
 	};
+	static struct Rune {
+		int Time;
+
+		Vec2 pos[MAX_RUNE];
+		Vec2 vel[MAX_RUNE];
+		float rad[MAX_RUNE];
+		float EaseT[MAX_RUNE];
+		float lifetime[MAX_RUNE];
+		bool flag[MAX_RUNE];
+		unsigned int color[MAX_RUNE];
+	};
 
 	Matrix2x2 MakeRotateMatrix(float theta)
 	{
@@ -69,6 +82,10 @@ class Boss:public Figure
 
 		return((1.0f - t) * start + t * end);
 	};
+	int  easing(float t, int start, int end) {
+
+		return((1.0f - t) * start + t * end);
+	};
 
 public:
 	Boss();
@@ -80,8 +97,9 @@ public:
 	void Keep_Up(Player& player);
 	void t_draw(Screen& screen);
 	void Init();
-
+	void bossgekiha();
 	void Dame_Par();
+	void Rune_Par();
 	
 	bool Bullet_Player(Player& player);
 	bool Bullet_Player_2(Player& player);
@@ -89,6 +107,9 @@ public:
 	bool Blade_Player_2(Player& player);
 	bool Boss_Player(Player& player);
 	
+	float boss_easet;
+	float boss_c_t;
+
 	int rand_num;
 	int shild;
 	float theta;
@@ -98,6 +119,7 @@ public:
 	bool damepar;
 
 	dame dame;
+	Rune rune;
 	//ÇœÇΩÅ[ÇÒÇP
 
 	bool dekaku;
