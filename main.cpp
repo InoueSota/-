@@ -15,7 +15,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//
 	int background = Novice::LoadTexture("./resource./Background.png");
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
-	//
+
+	sound.stage_1 = Novice::LoadAudio("./resource/stage.mp3");
+	sound.stage_2=Novice::LoadAudio("./resource/t_boss.mp3");
+	
 	int isFull = 1;
 	
 
@@ -69,6 +72,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				players.isTitleClear = true;
 				scene = CHANGE;
 			}
+			
 			break;
 		case CHANGE:
 			change.Process();
@@ -460,6 +464,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Pparticle.DrawParticle(screen);
 			players.Draw(screen, players);
 			title.Draw(screen, title);
+
+			
+
 			break;
 		case CHANGE:
 			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
@@ -510,9 +517,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					bar.beasdraw(screen);
 					bar.draw(screen);
 				}
-				
+				if (Novice::IsPlayingAudio(sound.stage_1_handle) == false || sound.stage_1_handle == -1) {
+					sound.stage_1_handle = Novice::PlayAudio(sound.stage_1, 1, 1);
+				}
 				break;
 			case wave.stage_2:
+				Novice::StopAudio(sound.stage_1_handle);
 				if (wave.stage_2_set_flag && wave.stage_2_draw_flag) {
 					
 				}
@@ -522,8 +532,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				item.Draw(screen, players);
 				tboss.t_draw(screen);
+				if (Novice::IsPlayingAudio(sound.stage_2_handle) == false || sound.stage_2_handle == -1) {
+					sound.stage_2_handle = Novice::PlayAudio(sound.stage_2, 1, 1);
+				}
 				break;
 			case wave.stage_3:
+				Novice::StopAudio(sound.stage_2_handle);
+
 				//中ボス追加してない
 				stage_2.DrawMap(screen);
 				for (int i = 0; i < Figure::FigureMax; i++) {
