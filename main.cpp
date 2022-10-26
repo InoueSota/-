@@ -531,10 +531,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				else if (players.Muteki == true) {
 					players.MutekiTime();
 				}
-				if (keys[DIK_C])
-				{
-					Gclear.isKillBoss = true;
-				}
 				//クリア条件
 				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
 					Gclear.isKillBoss = true;
@@ -569,12 +565,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		}
-		/*if (keys[DIK_M] != 0) {
-			players.radius += 1;
-		}
-		if (keys[DIK_N] != 0) {
-			players.radius -= 1;
-		}*/
+
 		///
 		/// ↑更新処理ここまで
 		///
