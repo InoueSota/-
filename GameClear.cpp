@@ -10,6 +10,9 @@ void GameClear::Init() {
 	}
 	alphat = 0.0f;
 	color = 0xFFFFFF00;
+	TTalphat = 0.0f;
+	TTcolor = 0xFFFFFF00;
+	isToTitle = false;
 }
 void GameClear::KillBoss() {
 	CircleFrame++;
@@ -39,9 +42,10 @@ void GameClear::Process(Screen& screen) {
 	alphat += 0.01f;
 	alphat = Clamp(alphat, 0.0f, 1.0f);
 	color = 0xFFFFFF00 | static_cast<int>((1.0f - alphat) * 0x00 + alphat * 0xFF);
+	theta += 1 / (8.0f * M_PI);
+	Trianglepos.y = sinf(theta) * 10 - 650;
+
 	if (isKillBoss == false){
-		alphat = 0.0f;
-		color = 0xFFFFFF00;
 		for (int i = 0; i < 2; i++) {
 			Circlepos[i] = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
 			CircleRadius[i] = 0;
@@ -49,7 +53,17 @@ void GameClear::Process(Screen& screen) {
 			Circlecolor[1] = 0x2B1247FF;
 		}
 	}
+
 }
 void GameClear::Draw(Screen& screen) {
 	Novice::DrawSprite(0, 0, Gameclear, 1, 1, 0.0f, color);
+	screen.DrawTriangle(Trianglepos.x - 50, Trianglepos.y + 50, Trianglepos.x + 50, Trianglepos.y + 50, Trianglepos.x, Trianglepos.y - 50, WHITE, kFillModeSolid);
+}
+void GameClear::ToTitle() {
+	TTalphat += 0.01f;
+	TTalphat = Clamp(TTalphat, 0.0f, 1.0f);
+	TTcolor = 0x00000000 | static_cast<int>((1.0f - TTalphat) * 0x00 + TTalphat * 0xFF);
+}
+void GameClear::DrawToTitle() {
+	Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, TTcolor, kFillModeSolid);
 }

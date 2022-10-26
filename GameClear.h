@@ -23,11 +23,23 @@ public:
 	float alphat;
 	unsigned int color;
 
+	static constexpr int kArrowWidth = 75;
+	static constexpr int kArrowHeight = 100;
+	Vec2 Trianglepos;
+	float theta;
+
 	void Init();
 	void KillBoss();
 	void DrawKillBoss();
 	void Process(Screen& screen);
 	void GLoadTexture();
 	void Draw(Screen& screen);
+
+	bool isToTitle;
+	float TTalphat;
+	unsigned int TTcolor;
+
+	void ToTitle();
+	void DrawToTitle();
 
 };
