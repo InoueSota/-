@@ -32,6 +32,7 @@ public:
 	Vec2 Letspos;
 	Vec2 Targetpos;
 	Vec2 TargetRipplespos;
+	unsigned int Tcolor;
 	bool isExist;			//”g–äƒtƒ‰ƒO
 	float Rradius;			//”g–äradius
 	float Existtime;		//”g–ä‘¶İtime

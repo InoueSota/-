@@ -7,6 +7,7 @@ void Title::Init() {
 	Arrowpos = { 0,0 };
 	Letspos = { 0,0 };
 	Targetpos = { 0,-1300 };
+	Tcolor = 0xE80971FF;
 	isDrainClear = false;
 	isTitleClear = false;
 	isLoadTexture = false;
@@ -41,6 +42,7 @@ void Title::Process(char prekeys, char keys) {
 		}
 	}
 	if (isDrainClear == true){
+		Tcolor = 0xE8097100;
 		alphat += 0.01f;
 		alphat = Clamp(alphat, 0.0f, 1.0f);
 		color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0x00 + alphat * 0xFF);
@@ -51,6 +53,7 @@ void Title::Process(char prekeys, char keys) {
 	if (isDrainClear == false){
 		alphat = 0.0f;
 		color = 0x00000000;
+		Tcolor = 0xE80971FF;
 	}
 }
 void Title::Draw(Screen& screen, Title& title) {
@@ -90,7 +93,7 @@ void Title::Draw(Screen& screen, Title& title) {
 	screen.DrawQuad2(arrowstriangle, 0, 0, 0, 0, 0, 0xE5C210FF);
 	screen.DrawQuad2(letss, 0, 0, kLetsWidth, kLetsHeight, title.lets, WHITE);
 	screen.DrawEllipse(TargetRipplespos.x, TargetRipplespos.y, Rradius, Rradius, 0.0f, Rcolor, kFillModeSolid);
-	screen.DrawEllipse(Targetpos.x, Targetpos.y, kTargetRadius, kTargetRadius, 0.0f, 0xE80971FF, kFillModeSolid);
+	screen.DrawEllipse(Targetpos.x, Targetpos.y, kTargetRadius, kTargetRadius, 0.0f, Tcolor, kFillModeSolid);
 	Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, color, kFillModeSolid);
 }
 
