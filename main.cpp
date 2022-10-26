@@ -176,6 +176,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (tboss.shild != 0) {
 					if (Slash_Boss(slash, tboss) == true) {
 						tboss.radian -= 3.0f;
+						boss.hit = true;
+
+					}
+					else {
+						boss.hit = false;
+
 					}
 
 					/*if (beam.isOccur == true) {

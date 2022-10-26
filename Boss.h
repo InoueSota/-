@@ -80,7 +80,8 @@ public:
 	int rand_num;
 	int shild;
 	float theta;
-
+	bool hit;
+	unsigned int Boss_color;
 	//‚Ï‚½[‚ñ‚P
 
 	bool dekaku;

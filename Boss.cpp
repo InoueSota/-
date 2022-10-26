@@ -3,7 +3,9 @@
 
 Boss::Boss()
 {
-	
+	Boss_color = 0x000000FF;
+	hit = false;;
+
 	SRAND();
 
 	Vec2;
@@ -1086,8 +1088,11 @@ void Boss::draw(Screen& screen) {
 			}
 		}
 	}
-	screen.DrawEllipse(position.x, position.y, radian+radius_f, radian+radius_f, 0.0f, BLACK, kFillModeSolid);
+	screen.DrawEllipse(position.x, position.y, radian+radius_f, radian+radius_f, 0.0f, Boss_color, kFillModeSolid);
+	if (hit == true) {
+		screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, 0xFF000099, kFillModeSolid);
 
+	}
 	if (shild >= 1) {
 		screen.DrawEllipse(position.x, position.y, 200, 200, 0.0f, RED, kFillModeWireFrame);
 		if (shild >= 2) {
