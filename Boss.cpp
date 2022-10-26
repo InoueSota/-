@@ -125,8 +125,8 @@ void Boss::bossgekiha()
 
 	Boss_color = easing(boss_c_t, 0x000000FF, 0xE80971FF);
 	if (boss_c_t ==1) {
-		Boss_color = 0xE80971FF;
-
+		//Boss_color = 0xE80971FF;//最終的にピンクになる	
+		boss_c_t = 0;//ずっとカラフル
 	}
 }
 void Boss::Dame_Par()
