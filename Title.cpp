@@ -109,7 +109,7 @@ void Change::Init() {
 }
 void Change::Process() {
 	frame++;
-	if (frame >= 300){
+	if (frame >= 60){
 		alphat += 0.01f;
 		color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0xFF + alphat * 0x00);
 		if (color <= 0x00000000){
