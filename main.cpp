@@ -15,6 +15,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//
 	Gclear.GLoadTexture();
 	int background = Novice::LoadTexture("./resource./Background.png");
+	int Tokyuuin = Novice::LoadTexture("./resource./Tokyuuin.png");
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
 
 	sound.Title = Novice::LoadAudio("./resource/Title.mp3");
@@ -856,6 +857,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				players.Draw(screen, players);
 
 				tboss.t_draw(screen);
+				if (tboss.shild == 0){
+					Novice::DrawSprite(0, 0, Tokyuuin, 1, 1, 0.0f, WHITE);
+				}
 				if (Novice::IsPlayingAudio(sound.stage_2_handle) == false || sound.stage_2_handle == -1) {
 					sound.stage_2_handle = Novice::PlayAudio(sound.stage_2, 1, 1 * music);
 				}
@@ -922,6 +926,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				boss.draw(screen);
 				if (boss.shild == 0/* && boss.Boss_Player(players) == true*/) {
 					Gclear.DrawKillBoss();
+					Novice::DrawSprite(0, 0, Tokyuuin, 1, 1, 0.0f, WHITE);
 				}
 				players.Draw(screen, players);
 				if (Novice::IsPlayingAudio(sound.stage_boss_handle) == false || sound.stage_boss_handle == -1) {
