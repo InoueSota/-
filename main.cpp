@@ -361,10 +361,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 				bar.Update(players,stage_2,wave);
 				break;
-			case wave.stage_3:
-				//中ボス追加
-					
-			break;
+			//case wave.stage_3:
+			//	//中ボス追加
+			//		
+			//break;
 			case wave.boss_stage:
 				wave.isStart_boss_stage = true;
 
