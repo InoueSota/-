@@ -486,12 +486,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					boss.set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
 					boss_stage.Set_Map(0, 0, 10000, RED);
 					wave.boss_set_flag = true;
-
+					//////////////////
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						ellipse[i].set(players, screen, stage_2, wave);
 						triangle[i].set(players, screen, stage_2, wave);
 						seed[i].set(players, screen, stage_2, triangle[i].position, 3);
 					}
+					//////////////////
 				}
 				//処理書いてね
 				/*ボス関係*/
@@ -549,6 +550,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (Gclear.CircleEasingt[1] == 1.0f) {
 					scene = GAMECLEAR;
 				}
+				//////////////////
 				//養分処理
 				for (int i = 0; i < Figure::FigureMax; i++) {
 					if (ellipse[i].responflag == true) {
@@ -678,6 +680,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 
 				}
+				//////////////////
 			}
 				break;
 			case wave.rest:
@@ -842,7 +845,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				break;
 
 			case wave.boss_stage:
-
+				//////////////////
 				for (int i = 0; i < Figure::FigureMax; i++) {
 					if (triangle[i].triangle_death && seed[i].UpdateFlag) {
 						seed[i].draw(screen);
@@ -860,7 +863,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						quadrangle[i].draw(screen);
 					}
 				}
-
+				//////////////////
 				Pparticle.DrawParticle(screen);
 				slash.Draw(screen);
 				beam.Draw(screen);
