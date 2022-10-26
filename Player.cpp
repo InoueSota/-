@@ -178,47 +178,61 @@ void Player::MutekiTime() {
 
 
 /*Å@ä÷êîÇÇ‹Ç∆ÇﬂÇÈä÷êîÅ@*/
-void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d, Title& title) {
-	if (isPressSpace == false){
-		theta += 1 / (8.0f * M_PI);
-		circleA.pos.y = sinf(theta) * 20;
-		circleB.pos.y = sinf(theta) * 20;
-		circleA.center.y = sinf(theta) * 20;
-		circleB.center.y = sinf(theta) * 20;
-		if (prekeys == 0 && keys != 0) {
-			isPressSpace = true;
-		}
-	}
-	if (isPressSpace == true) {
-		IncDegProcess(players, prekeys, keys);
-		if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000)))) {
-			player->SetDegree();
-			if (player == &circleA) {
-				players.tmpCenpos = circleB.pos;
-				players.tmpMovepos = circleA.pos - players.tmpCenpos;
-				player = nullptr;
-				player = &circleB;
-			}
-			else if (player == &circleB) {
-				players.tmpCenpos = circleA.pos;
-				players.tmpMovepos = circleB.pos - players.tmpCenpos;
-				player = nullptr;
-				player = &circleA;
+void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d, Title& title, GameClear& Gcear, Screen& screen) {
+	if (Gcear.isGameClear == false){
+		if (isPressSpace == false) {
+			theta += 1 / (8.0f * M_PI);
+			circleA.pos.y = sinf(theta) * 20;
+			circleB.pos.y = sinf(theta) * 20;
+			circleA.center.y = sinf(theta) * 20;
+			circleB.center.y = sinf(theta) * 20;
+			if (prekeys == 0 && keys != 0) {
+				isPressSpace = true;
 			}
 		}
-		if (isTitleClear == true) {
-			if (keys) {
-				players.Longpressframe++;
-				if (players.Longpressframe == 30) {
-					players.isLongpress = true;
+		if (isPressSpace == true) {
+			IncDegProcess(players, prekeys, keys);
+			if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000)))) {
+				player->SetDegree();
+				if (player == &circleA) {
+					players.tmpCenpos = circleB.pos;
+					players.tmpMovepos = circleA.pos - players.tmpCenpos;
+					player = nullptr;
+					player = &circleB;
+				}
+				else if (player == &circleB) {
+					players.tmpCenpos = circleA.pos;
+					players.tmpMovepos = circleB.pos - players.tmpCenpos;
+					player = nullptr;
+					player = &circleA;
 				}
 			}
-			if (prekeys == 0 && keys == 0) {
-				players.Longpressframe = 0;
-				players.isLongpress = false;
+			if (isTitleClear == true) {
+				if (keys) {
+					players.Longpressframe++;
+					if (players.Longpressframe == 30) {
+						players.isLongpress = true;
+					}
+				}
+				if (prekeys == 0 && keys == 0) {
+					players.Longpressframe = 0;
+					players.isLongpress = false;
+				}
 			}
+			player->CircleProcess(players);
 		}
-		player->CircleProcess(players);
+	}
+	if (Gcear.isGameClear == true) {
+		player->radius = 25;
+		player->Length = radius * 12;
+		Gceasingt += 0.01f;
+		Gceasingt = Clamp(Gceasingt, 0.0f, 1.0f);
+		circleA.pos = { -Lerp(Easing::easeOutCubic(Gceasingt), 150), 150 };
+		circleB.pos = {  Lerp(Easing::easeOutCubic(Gceasingt), 149), 150 };
+		player->center = { -Lerp(Easing::easeOutCubic(Gceasingt), 150), 150 };
+		player->deg = 0;
+		screen.Scroll = { 0,0 };
+
 	}
 }
 

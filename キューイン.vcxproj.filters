@@ -89,6 +89,9 @@
     <ClCompile Include="Bar.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
+    <ClCompile Include="GameClear.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
     <ClCompile Include="Sound.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
@@ -193,6 +196,7 @@
     <ClInclude Include="Wave.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Bar.h" />
+    <ClInclude Include="GameClear.h" />
     <ClInclude Include="Sound.h" />
   </ItemGroup>
 </Project>

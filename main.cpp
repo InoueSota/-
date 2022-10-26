@@ -13,6 +13,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char preKeys[256] = { 0 };
 
 	//
+	Gclear.GLoadTexture();
 	int background = Novice::LoadTexture("./resource./Background.png");
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
 
@@ -50,7 +51,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/*　プレイヤー関係の関数（それぞれの意味はPlayer.hに記述）　*/
 		//プレイヤー本体
 		slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D], title);
+		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D], title, Gclear, screen);
 		players.SetPlayers(players);
 		players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
@@ -391,16 +392,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						boss.radian -= 1.05f;
 					}
 				}
-				if (boss.radian < 1000) {
-					boss.shild = 2;
-					if (boss.radian < 750) {
-						boss.shild = 1;
-						if (boss.radian < 500) {
-							boss.shild = 0;
+				//if (boss.radian < 1000) {
+				//	boss.shild = 2;
+				//	if (boss.radian < 750) {
+				//		boss.shild = 1;
+				//		if (boss.radian < 500) {
+				//			boss.shild = 0;
 
-						}
-					}
-				}
+				//		}
+				//	}
+				//}
 
 
 				///プレイヤーに攻撃が当たった時
@@ -424,15 +425,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				else if (players.Muteki == true) {
 					players.MutekiTime();
 				}
+				if (keys[DIK_O] != 0){
+					boss.shild = 0;
+				}
 				//クリア条件
-				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
-					Novice::DrawBox(0, 0, 1000, 1000, 0, GREEN, kFillModeSolid);
+				if (boss.shild == 0/* && boss.Boss_Player(players) == true*/) {
+					Gclear.KillBoss();
+					if (Gclear.CircleEasingt[1] == 1.0f){
+						scene = GAMECLEAR;
+					}
 				}
 			}
 				break;
 			case wave.rest:
 				break;
 			}
+			break;
+		case GAMECLEAR:
+			Gclear.isGameClear = true;
+			Gclear.Process(screen);
 			break;
 		}
 		
@@ -573,19 +584,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				Pparticle.DrawParticle(screen);
 				slash.Draw(screen);
 				beam.Draw(screen);
-				players.Draw(screen, players);
 
 				item.Draw(screen, players);
 				boss.draw(screen);
-				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
-					Novice::DrawBox(0, 0, 1000, 1000, 0, GREEN, kFillModeSolid);
+				if (boss.shild == 0/* && boss.Boss_Player(players) == true*/) {
+					Gclear.DrawKillBoss();
 				}
+				players.Draw(screen, players);
+
 				break;
 			case wave.rest:
 
 				break;
 			}
 			wave.WaveDraw();
+			break;
+		case GAMECLEAR:
+			Gclear.Draw(screen);
+			players.Draw(screen, players);
+
 			break;
 		}
 		
