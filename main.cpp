@@ -555,6 +555,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				title.isDrainClear = false;
 				change.isChangeClear = false;
 				players.isPressSpace = false;
+				players.isTitleClear = false;
 				Gclear.isKillBoss = false;
 				Gclear.isGameClear = false;
 				scene = TITLE;
