@@ -933,7 +933,6 @@ void Boss::Keep_Up(Player& player)
 }
 void Boss::t_draw(Screen& screen) {
 
-	screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, BLACK, kFillModeSolid);
 	if (pattern_1 == true) {
 		for (int i = 0; i < MAX_BULLET_t; i++) {
 			if (bullet_t_flag[i] == true) {
@@ -973,6 +972,12 @@ void Boss::t_draw(Screen& screen) {
 
 		}
 	}
+	screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, Boss_color, kFillModeSolid);
+	if (hit == true) {
+		screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, 0xFFFFFF33, kFillModeSolid);
+
+	}
+
 	if (shild >= 1) {
 		screen.DrawEllipse(position.x, position.y, 300, 300, 0.0f, RED, kFillModeWireFrame);
 	}
@@ -1090,7 +1095,7 @@ void Boss::draw(Screen& screen) {
 	}
 	screen.DrawEllipse(position.x, position.y, radian+radius_f, radian+radius_f, 0.0f, Boss_color, kFillModeSolid);
 	if (hit == true) {
-		screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, 0xFF000099, kFillModeSolid);
+		screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, 0xFFFFFF33, kFillModeSolid);
 
 	}
 	if (shild >= 1) {

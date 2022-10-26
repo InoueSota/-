@@ -172,16 +172,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				/*ボス関係*/
 				tboss.Keep_Up(players);//追いかけ続けるやつ
 				tboss.Result(players, screen, RAND(1, 1),sound);//追いかけて着る
+				if (Slash_Boss(slash, tboss) == true) {
+					tboss.radian -= 2.0f;
+					tboss.hit = true;
+
+				}
+				else {
+					tboss.hit = false;
+
+				}
 				if (tboss.shild != 0) {
-					if (Slash_Boss(slash, tboss) == true) {
-						tboss.radian -= 3.0f;
-						boss.hit = true;
-
-					}
-					else {
-						boss.hit = false;
-
-					}
+					
+					
 
 					/*if (beam.isOccur == true) {
 						if (Beam_Boss(beam, tboss) == true) {
