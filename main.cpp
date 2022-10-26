@@ -556,7 +556,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		}
-
+		if (keys[DIK_M] != 0) {
+			players.radius += 1;
+		}
 		///
 		/// ↑更新処理ここまで
 		///

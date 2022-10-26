@@ -68,6 +68,12 @@ void llipse::Update(Player player, Screen screen, Map map, WAVE wave) {
 	if (!(InScreen(player,position,screen)) && radian >= player.radius * 8.0) {
 		flag = false;
 	}
+	if (player.Length <= radian * 2) {
+		color = 0x17f68eFF;//Žæ‚ê‚È‚¢
+	}
+	else {
+		color = 0xE80971FF;//get
+	}
 	//if (!easingset) {
 	//	start = {0,0};
 	//	end = player.center;
@@ -108,7 +114,7 @@ void llipse::set(Player& player,Screen screen,Map map,WAVE wave) {
 		radian = RAND(80 * 1.5, 80 * 5.0);
 	}
 	//F
-	color = 0xE80971FF;
+	/*color = 0xE80971FF;*/
 	responflag = true;
 	flag = true;
 }
@@ -125,9 +131,9 @@ void llipse::set(Player& player,Screen screen,Map map,WAVE wave) {
 void Figure::reset(Player player) {
 	if (player.Length <= radian * 2) {
 		colortime += 0.01f;
-		color = 0xFFFFFF00 | static_cast<int>((1.0f - colortime) * 0x00 + colortime * 0xFF);
+		color = 0x17f68e00 | static_cast<int>((1.0f - colortime) * 0x00 + colortime * 0xFF);
 		if (colortime >= 1) {
-			color = 0xFFFFFFFF;
+			color = 0x17f68eFF;
 			colortime = 0.0f;
 			responflag = false;
 		}
@@ -163,7 +169,13 @@ void llipse::draw(Screen& screen, Player& player) {
 		}
 	}
 	else {
-		screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, 0xE80971FF , kFillModeSolid);
+		//if (player.Length <= radian * 2) {
+		//	color = 0x17f68eFF;//Žæ‚ê‚È‚¢
+		//}
+		//else {
+		//	color = 0xE80971FF;//get
+		//}
+		screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
 	}
 	
 }
@@ -450,7 +462,7 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//”¼Œa
-		radian = RAND(player.radius*2.0, player.radius * 5.0);
+		radian = RAND(80 * 1.5, 80 * 3.0);
 	} while (Quadrangle::IsInStage(stage(map)));
 	
 	//’¸“_
