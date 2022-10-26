@@ -23,6 +23,11 @@ public:
 	float alphat;
 	unsigned int color;
 
+	static constexpr int kArrowWidth = 75;
+	static constexpr int kArrowHeight = 100;
+	Vec2 Trianglepos;
+	float theta;
+
 	void Init();
 	void KillBoss();
 	void DrawKillBoss();

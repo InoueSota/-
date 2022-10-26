@@ -24,7 +24,7 @@ enum Scene
 	INGAME,
 	GAMECLEAR
 };
-Scene scene = TITLE;
+Scene scene = GAMECLEAR;
 
 
 //インスタンス化
