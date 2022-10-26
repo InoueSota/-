@@ -562,7 +562,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 		case TITLE:
 			//背景描画
-			//Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
 			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
 			for (int y = -4; y < 5; y++) {
 				for (int x = -4; x < 5; x++) {
@@ -716,7 +715,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			players.Draw(screen, players);
 			break;
 		}
-		Novice::ScreenPrintf(0, 0, "now.RightTop.x:%f",bar.now.RightTop.x);
 		
 		///
 		/// ↑描画処理ここまで
