@@ -15,8 +15,6 @@ void Player::Init() {
 	radius = 25;
 
 	Reverse = 1;
-	Longpressframe = 0;
-	isLongpress = false;
 
 	Length = 300;
 
@@ -107,7 +105,7 @@ void CircleB::SetDegree() {
 
 /*　incDegの速度を変化させる処理関数　*/
 void Player::IncDegProcess(Player& players, char prekeys, char keys) {
-	if (prekeys != 0 && keys == 0){
+	if (prekeys == 0 && keys != 0){
 		players.incDeg = initVelo;
 	}
 	players.incDeg -= 0.04f;
@@ -117,7 +115,7 @@ void Player::IncDegProcess(Player& players, char prekeys, char keys) {
 
 /*　スクロール座標を設定する関数　*/
 void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char keys) {
-	if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000)))){
+	if (prekeys == 0 && keys != 0 && isScroll == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000)))){
 		isScroll = true;
 	}
 	if (isScroll == true){
@@ -210,7 +208,7 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 		}
 		if (isPressSpace == true) {
 			IncDegProcess(players, prekeys, keys);
-			if (prekeys != 0 && keys == 0 && isScroll == false && players.isLongpress == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000)))) {
+			if (prekeys == 0 && keys != 0 && isScroll == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000)))) {
 				player->SetDegree();
 				if (player == &circleA) {
 					players.tmpCenpos = circleB.pos;
@@ -223,18 +221,6 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 					players.tmpMovepos = circleB.pos - players.tmpCenpos;
 					player = nullptr;
 					player = &circleA;
-				}
-			}
-			if (isTitleClear == true) {
-				if (keys) {
-					players.Longpressframe++;
-					if (players.Longpressframe == 30) {
-						players.isLongpress = true;
-					}
-				}
-				if (prekeys == 0 && keys == 0) {
-					players.Longpressframe = 0;
-					players.isLongpress = false;
 				}
 			}
 			player->CircleProcess(players);
@@ -251,7 +237,6 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 		player->center = { -Lerp(Easing::easeOutCubic(Gceasingt), 150), 150 };
 		player->deg = 0;
 		screen.Scroll = { 0,0 };
-
 	}
 }
 
@@ -301,7 +286,7 @@ void Player::Draw(Screen& screen, Player& players) {
 
 void Player::Ripples(Screen& screen, Player& players, char prekeys, char keys) {
 	for (int i = 0; i < RIPPLES_MAX; i++) {
-		if (prekeys != 0 && keys == 0 && isExist[i] == false && isScroll == false && players.isLongpress == false) {
+		if (prekeys == 0 && keys != 0 && isExist[i] == false && isScroll == false) {
 			Rpos[i] = players.center;
 			Rradius[i] = players.radius;
 			Rcolor[i] = 0x000000FF;

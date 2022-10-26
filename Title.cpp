@@ -111,6 +111,7 @@ void Change::Process() {
 	frame++;
 	if (frame >= 60){
 		alphat += 0.03f;
+		alphat = Clamp(alphat, 0.0f, 1.0f);
 		color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0xFF + alphat * 0x00);
 		if (color <= 0x00000000){
 			isChangeClear = true;

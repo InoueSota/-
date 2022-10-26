@@ -32,8 +32,6 @@ public:
 	unsigned int outcolor;				//被弾時に色が変わる（アウトライン）
 
 	int Reverse;						//反転用
-	int Longpressframe;					//長押しフレーム
-	bool isLongpress;					//長押ししたか
 
 	int Length;							//円と円の間の長さ
 
