@@ -24,12 +24,12 @@ enum Scene
 	INGAME,
 	GAMECLEAR
 };
-Scene scene = GAMECLEAR;
+Scene scene = TITLE;
 
 
 //インスタンス化
 Screen screen;
-Map stage_1,stage_2,stage_3,boss_stage;
+Map map;
 Title title;
 Change change;
 GameClear Gclear;

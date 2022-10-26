@@ -105,8 +105,8 @@ void Player::IncDegProcess(Player& players, char prekeys, char keys) {
 
 
 /*　スクロール座標を設定する関数　*/
-void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char keys) {
-	if (prekeys == 0 && keys != 0 && isScroll == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000))) && isPressSpace == true){
+void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char keys, Map& map) {
+	if (prekeys == 0 && keys != 0 && isScroll == false && ((players.isTitleClear == true && players.pos.Length() <= map.radius) || (players.isTitleClear == false && (players.pos.Length() <= 5000))) && isPressSpace == true){
 		isScroll = true;
 	}
 	if (isScroll == true){
@@ -192,7 +192,7 @@ void Player::MutekiTime() {
 
 
 /*　関数をまとめる関数　*/
-void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d, Title& title, GameClear& Gcear, Screen& screen) {
+void Player::Process(Player& players, char prekeys, char keys, Title& title, GameClear& Gcear, Screen& screen, Map& map) {
 	if (Gcear.isGameClear == false){
 		if (isPressSpace == false) {
 			circleA.pos.y = sinf(title.theta) * 20;
@@ -202,7 +202,7 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 		}
 		if (isPressSpace == true) {
 			IncDegProcess(players, prekeys, keys);
-			if (prekeys == 0 && keys != 0 && isScroll == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000)))) {
+			if (prekeys == 0 && keys != 0 && isScroll == false && ((players.isTitleClear == true && players.pos.Length() <= map.radius) || (players.isTitleClear == false && (players.pos.Length() <= 5000)))) {
 				player->SetDegree();
 				if (player == &circleA) {
 					players.tmpCenpos = circleB.pos;
@@ -282,7 +282,7 @@ void Player::Draw(Screen& screen, Player& players) {
 
 
 
-void Player::Ripples(Screen& screen, Player& players, char prekeys, char keys) {
+void Player::Ripples(Screen& screen, Player& players, char prekeys, char keys, Map& map) {
 	for (int i = 0; i < RIPPLES_MAX; i++) {
 		if (prekeys == 0 && keys != 0 && isExist[i] == false && isScroll == false) {
 			Rpos[i] = players.center;
