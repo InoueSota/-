@@ -14,3 +14,34 @@ Sound::Sound()
 	stage_boss_handle=-1;
 }
 
+void Sound::Space_Sound()
+{
+	int sound = Novice::LoadAudio("./resource/space.mp3");
+	int handle = -1;
+	if (Novice::IsPlayingAudio(handle) == false || handle == -1) {
+		handle = Novice::PlayAudio(sound, 0, 1);
+
+	}
+
+}
+void Sound::Idou_Sound()
+{
+	int sound = Novice::LoadAudio("./resource/idou.mp3");
+	int handle = -1;
+	if (Novice::IsPlayingAudio(handle) == false || handle == -1) {
+		handle = Novice::PlayAudio(sound, 0, 1);
+
+	}
+
+}
+void Sound::Boss_t_Sound()
+{
+	int sound = Novice::LoadAudio("./resource/boss_p_1.mp3");
+	int handle = -1;
+	if (Novice::IsPlayingAudio(handle) == false || handle == -1) {
+		handle = Novice::PlayAudio(sound, 0, 5);
+
+	}
+
+}
+

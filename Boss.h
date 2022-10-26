@@ -1,6 +1,7 @@
 #pragma once
 #include "Figure.h"
 #include "Matrix.h"
+#include "Sound.h"
 
 class Boss;
 
@@ -65,7 +66,7 @@ public:
 	void set(Vec2 pos);
 	void t_set(Vec2 pos);
 	void Rand_Move(int rand);
-	void Result(Player& player, Screen& screen,int rand);
+	void Result(Player& player, Screen& screen,int rand,Sound& sound);
 	void Keep_Up(Player& player);
 	void t_draw(Screen& screen);
 	void Init();

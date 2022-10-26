@@ -383,7 +383,7 @@ void Boss::Rand_Move(int rand)
 	
 }
 
-void Boss::Result(Player& player,Screen& screen,int rand)
+void Boss::Result(Player& player,Screen& screen,int rand, Sound& sound)
 {
 	//攻撃パターンの設定
 	if (InScreen(player, position, screen) == true) {
@@ -406,6 +406,7 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 					if (dekaku_t == 1.0f||radius_f==200) {
 						dekaku_tback = true;
 						dekaku_t = 0;
+						sound.Boss_t_Sound();
 					}
 				
 				if (dekaku_tback == true) {
@@ -931,7 +932,45 @@ void Boss::Keep_Up(Player& player)
 void Boss::t_draw(Screen& screen) {
 
 	screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, BLACK, kFillModeSolid);
+	if (pattern_1 == true) {
+		for (int i = 0; i < MAX_BULLET_t; i++) {
+			if (bullet_t_flag[i] == true) {
+				if (dekaku == true) {
+					screen.DrawEllipse(bullet_t_pos[i].x, bullet_t_pos[i].y, bullet_rad[i] + RAND(-50, 50), bullet_rad[i] + RAND(-50, 50), 0, 0xFFFF00FF, kFillModeSolid);
 
+				}
+
+			}
+
+		}
+		////残像
+		for (int i = 0; i < MAX_ZAN; i++) {
+			if (bakuha == false) {
+				if (zan_flag[i] == true && bakuha_back == false) {
+					if (dekaku == true) {
+						screen.DrawEllipse(zanpos[i].x, zanpos[i].y, zanrad[i], zanrad[i], 0, 0xFFFF00aa, kFillModeSolid);
+					}
+				}
+			}
+		}
+	}
+	if (pattern_2 == true) {
+		for (int i = 0; i < MAX_BULLET; i++) {
+			if (bullet_flag[i] == true) {
+
+				if (lifetime[i] <= 0.8f) {
+					screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeWireFrame);
+
+				}
+				if (lifetime[i] >= 0.8f) {
+					screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeSolid);
+
+				}
+
+			}
+
+		}
+	}
 	if (shild >= 1) {
 		screen.DrawEllipse(position.x, position.y, 300, 300, 0.0f, RED, kFillModeWireFrame);
 	}

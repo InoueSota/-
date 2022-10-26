@@ -62,6 +62,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		beam.Process(players, screen);
 		//ウェーブ処理
 		wave.WaveStart();
+
+		if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE]) {
+			sound.Space_Sound();
+		}
 		switch (scene)
 		{
 		case TITLE:
@@ -72,6 +76,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (title.isTitleClear == true) {
 				players.isTitleClear = true;
 				scene = CHANGE;
+				sound.Idou_Sound();
 			}
 			
 			break;
@@ -157,7 +162,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				/*ボス関係*/
 				/*ボス関係*/
 				tboss.Keep_Up(players);//追いかけ続けるやつ
-				tboss.Result(players, screen, RAND(0, 0));//追いかけて着る
+				tboss.Result(players, screen, RAND(1, 1),sound);//追いかけて着る
 				if (tboss.shild != 0) {
 					if (Slash_Boss(slash, tboss) == true) {
 						tboss.radian -= 3.0f;
@@ -382,7 +387,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				//処理書いてね
 				/*ボス関係*/
 				boss.Keep_Up(players);
-				boss.Result(players, screen, RAND(2, 2));
+				boss.Result(players, screen, RAND(2, 2),sound);
 				if (Slash_Boss(slash, boss) == true) {
 					boss.radian -= 5.25f;
 				}

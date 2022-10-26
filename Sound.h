@@ -15,4 +15,9 @@ public:
 	int stage_3_handle;
 	int stage_boss;
 	int stage_boss_handle;
+
+
+	void Space_Sound();
+	void Idou_Sound();
+	void Boss_t_Sound();
 };
