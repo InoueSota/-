@@ -15,6 +15,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//
 	Gclear.GLoadTexture();
 	int background = Novice::LoadTexture("./resource./Background.png");
+	int Tokyuuin = Novice::LoadTexture("./resource./Tokyuuin.png");
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
 
 	sound.Title = Novice::LoadAudio("./resource/Title.mp3");
@@ -77,7 +78,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		switch (scene)
 		{
 		case TITLE:
-
+			titlep.ParticleProcess(players, screen);
 			title.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]);
 			if (Drain_InTitle(players, title.Targetpos, title.kTargetRadius) == true) {
 				title.isDrainClear = true;
@@ -779,6 +780,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					screen.DrawQuad(x * width, y * height, x * width + width, y * height, x * width, y * height + height, x * width + width, y * height + height, 0, 0, 2000, 1500, background, BLACK);
 				}
 			}
+			titlep.DrawParticle(screen);
 			Pparticle.DrawParticle(screen);
 			players.Draw(screen, players);
 			title.Draw(screen, title);
@@ -863,6 +865,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				players.Draw(screen, players);
 
 				tboss.t_draw(screen);
+				if (tboss.shild == 0){
+					Novice::DrawSprite(0, 0, Tokyuuin, 1, 1, 0.0f, WHITE);
+				}
 				if (Novice::IsPlayingAudio(sound.stage_2_handle) == false || sound.stage_2_handle == -1) {
 					sound.stage_2_handle = Novice::PlayAudio(sound.stage_2, 1, 1 * music);
 				}
@@ -929,6 +934,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				boss.draw(screen);
 				if (boss.shild == 0/* && boss.Boss_Player(players) == true*/) {
 					Gclear.DrawKillBoss();
+					Novice::DrawSprite(0, 0, Tokyuuin, 1, 1, 0.0f, WHITE);
 				}
 				players.Draw(screen, players);
 				if (Novice::IsPlayingAudio(sound.stage_boss_handle) == false || sound.stage_boss_handle == -1) {

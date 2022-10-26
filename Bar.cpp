@@ -34,15 +34,7 @@ void Bar::Update(Player player,Map map,WAVE wave) {
 }
 
 void Bar::draw(Screen screen) {
-	/*geji_gra = Novice::LoadTexture("./resource/geji.png");
-	geji_flame += 1;
-	if (geji_flame % 5 == 0) {
-		geji_anime += 1;
-	}
-	if (geji_anime == 6) {
-		geji_anime = 0;
-		geji_flame = 0;
-	}*/
+	
 	Novice::DrawQuad(now.LeftTop.x + screen.ScreenShake.x, now.LeftTop.y + screen.ScreenShake.y, now.RightTop.x + screen.ScreenShake.x, now.RightTop.y + screen.ScreenShake.y, now.LeftBottom.x + screen.ScreenShake.x, now.LeftBottom.y + screen.ScreenShake.y, now.RightBottom.x + screen.ScreenShake.x, now.RightBottom.y + screen.ScreenShake.y, 0.0f, 0.0f, 0, 0, 0, 0xE80971FF);
 	//Novice::DrawQuad(now.RightTop.x + screen.ScreenShake.x, now.RightTop.y + screen.ScreenShake.y, now.RightTop.x + screen.ScreenShake.x, now.RightTop.y + screen.ScreenShake.y, now.RightBottom.x + screen.ScreenShake.x, now.RightBottom.y + screen.ScreenShake.y, now.RightBottom.x+ screen.ScreenShake.x, now.RightBottom.y + screen.ScreenShake.y, geji_anime * 80, 0.0f, 80, 46, geji_gra, WHITE);
 	

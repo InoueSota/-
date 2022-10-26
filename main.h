@@ -31,6 +31,7 @@ Scene scene = TITLE;
 Screen screen;
 Map map;
 Title title;
+TitleP titlep;
 Change change;
 GameClear Gclear;
 GclearP gp;
