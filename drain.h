@@ -368,7 +368,7 @@ bool Drain_Center_Quad(Player& player, Quadrangle& quad) {
 	float distance = (quad.position - f).Length();
 
 	if (distance < player.radius / 50 + quad.radian) {
-		if (player.Length >= quad.radian * 2) {
+		if (player.Length >= quad.radian * sqrt(2)) {
 
 			return true;
 		}
@@ -412,7 +412,7 @@ bool Drain_Check_Triangle(Player player, Triangle triangle) {
 }
 
 bool Drain_Check_Quadrangle(Player player, Quadrangle quadrangle) {
-	if (sqrt(powf(player.center.x-player.pos.x,2)+powf(player.center.y - player.pos.y, 2))+player.radius >= sqrt(powf(player.center.x - quadrangle.position.x, 2) + powf(player.center.y - quadrangle.position.y, 2)) - powf(quadrangle.radian,2)) {
+	if (sqrt(powf(player.center.x-player.pos.x,2)+powf(player.center.y - player.pos.y, 2))+player.radius >= sqrt(powf(player.center.x - quadrangle.position.x, 2) + powf(player.center.y - quadrangle.position.y, 2)) - (quadrangle.radian*sqrt(2)/2)) {
 		return true;
 	}
 	return false;

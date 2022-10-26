@@ -22,6 +22,7 @@ public:
 
 	bool stage_1_draw_flag;
 	bool stage_2_draw_flag;
+	bool stage_3_draw_flag;
 	bool boss_draw_flag;
 
 	void WaveStart();
