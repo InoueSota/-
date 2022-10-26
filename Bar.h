@@ -10,6 +10,9 @@ class Bar
 {
 public:
 	Bar();
+	int geji_gra;
+	int geji_anime;
+	int geji_flame;
 
 	Quad beas;
 	Quad now;

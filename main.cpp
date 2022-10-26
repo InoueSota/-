@@ -172,19 +172,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					/*ボス関係*/
 					tboss.Keep_Up(players);//追いかけ続けるやつ
 					tboss.Result(players, screen, RAND(1, 1), sound);//追いかけて着る
-					
-					
-					
+
+
+
 					if (slash.isOccur == true && Slash_EX_Boss(slash, tboss) == true) {
-						tboss.radian -= 2.0f;
-						//slash.isOccur = false;//これどうするか阿多ttら消える処理
+						tboss.radian -= 100;
+						slash.isOccur = false;//これどうするか阿多ttら消える処理
 						tboss.hit = true;
-						tboss.damepar = true;						
-					}else {
+						tboss.damepar = true;
+					}
+					else {
 						tboss.hit = false;
 					}
 					tboss.Dame_Par();//ダメージ受けた時のパーティクル
-					
+
 					if (tboss.shild != 0) {
 
 
@@ -207,13 +208,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					///プレイヤーに攻撃が当たった時
 					if (tboss.Bullet_Player(players) == true) {
-						players.radius -= 0.5f;
+						players.radius -= 10;
 					}
 					if (tboss.Bullet_Player_2(players) == true) {
-						players.radius -= 0.5f;
+						players.radius -= 10;
 					}
 					if (tboss.Blade_Player(players) == true) {
-						players.radius -= 0.5f;
+						players.radius -= 10;
 
 					}
 					//ボスのプレイヤーが当たった時
@@ -301,6 +302,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 					break;
+				}
 			case wave.stage_3:
 			{
 				wave.isStart_stage_3 = true;
@@ -462,7 +464,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				wave.stage_2_draw_flag = true;
 			}
 			bar.Update(players, stage_3, wave);
-				}
+				
 				break;
 		
 			case wave.boss_stage:
@@ -482,8 +484,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				boss.Keep_Up(players);
 				boss.Result(players, screen, RAND(2, 2),sound);
 				if (Slash_EX_Boss(slash, boss) == true) {
-					boss.radian -= 5.25f;
+					
+					boss.radian -= 100;
+					slash.isOccur = false;//これどうするか阿多ttら消える処理
+					boss.hit = true;
+					boss.damepar = true;
 				}
+				else {
+					boss.hit = false;
+				}
+				boss.Dame_Par();//ダメージ受けた時のパーティクル
+
+				
 
 				if (beam.isOccur == true) {
 					if (Beam_Boss(beam, boss) == true) {
