@@ -17,14 +17,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int background = Novice::LoadTexture("./resource./Background.png");
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
 
-	sound.Title = Novice::LoadAudio("./resource/t_boss.mp3");
+	sound.Title = Novice::LoadAudio("./resource/Title.mp3");
 
-	sound.stage_1 = Novice::LoadAudio("./resource/stage.mp3");
-	sound.stage_2=Novice::LoadAudio("./resource/t_boss.mp3");
-	sound.stage_3 = Novice::LoadAudio("./resource/t_boss.mp3");
+	sound.stage_1 = Novice::LoadAudio("./resource/stage_1.mp3");
+	sound.stage_2=Novice::LoadAudio("./resource/stage_2.mp3");
+	sound.stage_3 = Novice::LoadAudio("./resource/stage_3.mp3");
 	sound.stage_boss= Novice::LoadAudio("./resource/t_boss.mp3");
 
-	sound.Clear= Novice::LoadAudio("./resource/t_boss.mp3");
+	sound.Clear= Novice::LoadAudio("./resource/Clear.mp3");
 
 	int isFull = 1;
 	
