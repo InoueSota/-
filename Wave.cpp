@@ -8,6 +8,7 @@ WAVE::WAVE() {
 	boss_set_flag = false;
 	stage_1_draw_flag = false;
 	stage_2_draw_flag = false;
+	stage_3_draw_flag = false;
 	boss_draw_flag = false;
 	isStart_stage_1 = false;
 	isStart_stage_2 = false;

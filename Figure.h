@@ -137,6 +137,7 @@ public:
 	float theta_plus;
 	float t;
 	int cooltime;
+	int count;
 	Vec2 vel;
 	Vec2 End_position;
 	Vec2 top_left_position;
