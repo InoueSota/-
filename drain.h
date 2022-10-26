@@ -418,7 +418,29 @@ bool Drain_Check_Quadrangle(Player player, Quadrangle quadrangle) {
 	return false;
 }
 
-
+////center::‰ñ‚Á‚Ä‚¢‚È‚¢
+//	//pos::‰ñ‚Á‚Ä‚¢‚é
+//
+//Vec2 start_to_center = Vec2(ellipse.position - player.center);
+//Vec2 start_to_end = Vec2(player.pos - player.center);
+//Vec2 nomalize_stc = start_to_center.Normalized();
+//
+///*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+//
+//float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+//t = Clamp(t, 0, 1);
+//
+//Vec2 f = (1.0f - t) * player.center + t * player.pos;
+//
+//float distance = (ellipse.position - f).Length();
+//
+//if (distance < player.radius / 50 + ellipse.radian) {
+//	if (player.Length >= ellipse.radian * 2) {
+//
+//		return true;
+//	}
+//
+//}
 /////ƒ{ƒX‚Æ‚Ì“–‚½‚è”»’è
 
 bool Slash_1_Boss(Slash& slash, Boss& boss) {
@@ -434,12 +456,15 @@ bool Slash_1_Boss(Slash& slash, Boss& boss) {
 	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
 	t = Clamp(t, 0, 1);
 
-	Vec2 f = (1.0f - t) * slash.pos.LeftTop + t * slash.pos.LeftTop;
+	Vec2 f = (1.0f - t) * slash.pos.LeftTop + t * slash.Toppos;
 
 	float distance = (boss.position - f).Length();
 
-	if (distance < 30+ boss.radian) {
-		return true;
+	if (distance <  boss.radian) {
+		if (slash.isOccur == true) {
+
+			return true;
+		}
 	}
 	return false;
 
@@ -457,12 +482,41 @@ bool Slash_2_Boss(Slash& slash, Boss& boss) {
 	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
 	t = Clamp(t, 0, 1);
 
-	Vec2 f = (1.0f - t) * slash.pos.LeftBottom + t * slash.pos.LeftTop;
+	Vec2 f = (1.0f - t) * slash.pos.LeftBottom + t * slash.Toppos;
 
 	float distance = (boss.position - f).Length();
 
-	if (distance < 30 + boss.radian) {
+	if (distance <  boss.radian) {
+		if (slash.isOccur == true) {
 		return true;
+
+		}
+	}
+	return false;
+
+}
+bool Slash_EX_Boss(Slash& slash, Boss& boss) {
+
+
+
+	Vec2 start_to_center = Vec2(boss.position - slash.pos.RightBottom);
+	Vec2 start_to_end = Vec2(slash.pos.RightTop - slash.pos.RightBottom);
+	Vec2 nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	Vec2 f = (1.0f - t) * slash.pos.RightBottom + t * slash.pos.RightTop;
+
+	float distance = (boss.position - f).Length();
+
+	if (distance < boss.radian) {
+		if (slash.isOccur == true) {
+			return true;
+
+		}
 	}
 	return false;
 

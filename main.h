@@ -14,7 +14,7 @@
 #include "Boss.h"
 #include "Wave.h"
 #include "Bar.h"
-
+#include "Sound.h"
 
 
 enum Scene
@@ -51,4 +51,7 @@ Boss tboss;
 Seed seed[Figure::FigureMax];
 WAVE wave;
 Bar bar;
+Sound sound;
 //Enemy enemy[3];
+
+float music = 0.01f;

@@ -3,10 +3,15 @@
 
 Boss::Boss()
 {
-	
+	damepar = true;
+
+	Boss_color = 0x000000FF;
+	hit = false;;
+
 	SRAND();
 
 	Vec2;
+	
 	position = { 0,0 };
 	flag = false;
 	radian = 0;
@@ -65,6 +70,15 @@ Boss::Boss()
 		zan_time[i] = false;
 		zanrad[i] = 0;
 	}
+	for (int i = 0; i < MAX_DAME; i++) {
+		dame.pos[i]={};
+		dame.vel[i]={};
+		dame.rad[i]={};
+		dame.EaseT[i]=0;
+		dame.lifetime[i]=0;
+		dame.flag[i]=0;
+		dame.color[i]=0;
+	}
 }
 void Boss::Init()
 {
@@ -101,6 +115,36 @@ void Boss::Init()
 		dasita[i] = false;
 
 
+	}
+}
+void Boss::Dame_Par()
+{
+	if (damepar == true) {
+		for (int i = 0; i < MAX_DAME; i++) {
+			if (dame.flag[i] == false) {
+
+				dame.pos[i] = position;
+				dame.rad[i] = radian / 10;
+				dame.lifetime[i] = 1.0f;
+				dame.vel[i] = Vec2(RAND(-30.0f, 30), RAND(-30, 30));
+				dame.EaseT[i] = 0;
+				dame.color[i] = 0x000000FF;
+				dame.flag[i] = true;
+				/*break;*/
+			}
+
+
+			if (dame.flag[i] == true) {
+				dame.pos[i] += dame.vel[i];
+				dame.lifetime[i] -= 0.01f;
+				dame.lifetime[i] = Clamp(dame.lifetime[i], 0, 1.0f);
+				dame.color[i]= 0x00000000 | static_cast<int>((1.0f - dame.lifetime[i]) * 0x00 + dame.lifetime[i] * 0xFF);
+				if (dame.lifetime[i] == 0) {
+					dame.flag[i] = false;
+					damepar = false;
+				}
+			}
+		}
 	}
 }
 bool Boss::Bullet_Player(Player& player)
@@ -383,7 +427,7 @@ void Boss::Rand_Move(int rand)
 	
 }
 
-void Boss::Result(Player& player,Screen& screen,int rand)
+void Boss::Result(Player& player,Screen& screen,int rand, Sound& sound)
 {
 	//攻撃パターンの設定
 	if (InScreen(player, position, screen) == true) {
@@ -406,6 +450,7 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 					if (dekaku_t == 1.0f||radius_f==200) {
 						dekaku_tback = true;
 						dekaku_t = 0;
+						sound.Boss_t_Sound();
 					}
 				
 				if (dekaku_tback == true) {
@@ -930,7 +975,56 @@ void Boss::Keep_Up(Player& player)
 }
 void Boss::t_draw(Screen& screen) {
 
-	screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, BLACK, kFillModeSolid);
+	if (pattern_1 == true) {
+		for (int i = 0; i < MAX_BULLET_t; i++) {
+			if (bullet_t_flag[i] == true) {
+				if (dekaku == true) {
+					screen.DrawEllipse(bullet_t_pos[i].x, bullet_t_pos[i].y, bullet_rad[i] + RAND(-50, 50), bullet_rad[i] + RAND(-50, 50), 0, 0xFFFF00FF, kFillModeSolid);
+
+				}
+
+			}
+
+		}
+		////残像
+		for (int i = 0; i < MAX_ZAN; i++) {
+			if (bakuha == false) {
+				if (zan_flag[i] == true && bakuha_back == false) {
+					if (dekaku == true) {
+						screen.DrawEllipse(zanpos[i].x, zanpos[i].y, zanrad[i], zanrad[i], 0, 0xFFFF00aa, kFillModeSolid);
+					}
+				}
+			}
+		}
+	}
+	if (pattern_2 == true) {
+		for (int i = 0; i < MAX_BULLET; i++) {
+			if (bullet_flag[i] == true) {
+
+				if (lifetime[i] <= 0.8f) {
+					screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeWireFrame);
+
+				}
+				if (lifetime[i] >= 0.8f) {
+					screen.DrawEllipse(bullet_pos[i].x, bullet_pos[i].y, bullet_rad[i], bullet_rad[i], 0, color[i], kFillModeSolid);
+
+				}
+
+			}
+
+		}
+	}
+	for (int i = 0; i < MAX_DAME; i++) {
+		if (dame.flag[i] == true) {
+		screen.DrawEllipse(dame.pos[i].x, dame.pos[i].y, dame.rad[i], dame.rad[i], 0, dame.color[i], kFillModeSolid);
+
+		}
+	}
+	screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, Boss_color, kFillModeSolid);
+	if (hit == true) {
+		screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, 0xFFFFFF33, kFillModeSolid);
+
+	}
 
 	if (shild >= 1) {
 		screen.DrawEllipse(position.x, position.y, 300, 300, 0.0f, RED, kFillModeWireFrame);
@@ -1047,8 +1141,11 @@ void Boss::draw(Screen& screen) {
 			}
 		}
 	}
-	screen.DrawEllipse(position.x, position.y, radian+radius_f, radian+radius_f, 0.0f, BLACK, kFillModeSolid);
+	screen.DrawEllipse(position.x, position.y, radian+radius_f, radian+radius_f, 0.0f, Boss_color, kFillModeSolid);
+	if (hit == true) {
+		screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, 0xFFFFFF33, kFillModeSolid);
 
+	}
 	if (shild >= 1) {
 		screen.DrawEllipse(position.x, position.y, 200, 200, 0.0f, RED, kFillModeWireFrame);
 		if (shild >= 2) {

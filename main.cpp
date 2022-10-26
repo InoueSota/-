@@ -16,7 +16,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Gclear.GLoadTexture();
 	int background = Novice::LoadTexture("./resource./Background.png");
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
-	//
+
+	sound.stage_1 = Novice::LoadAudio("./resource/stage.mp3");
+	sound.stage_2=Novice::LoadAudio("./resource/t_boss.mp3");
+	
 	int isFull = 1;
 	
 
@@ -58,9 +61,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Pparticle.ParticleProcess(players, screen);
 		//ウェーブ処理
 		wave.WaveStart();
+		if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE]) {
+			sound.Space_Sound();
+		}
 		switch (scene)
 		{
 		case TITLE:
+			
 			title.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]);
 			if (Drain_InTitle(players, title.Targetpos, title.kTargetRadius) == true) {
 				title.isDrainClear = true;
@@ -68,7 +75,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (title.isTitleClear == true) {
 				players.isTitleClear = true;
 				scene = CHANGE;
+				sound.Idou_Sound();
 			}
+			
 			break;
 		case CHANGE:
 			change.Process();
@@ -139,17 +148,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			case wave.stage_2://中ボス
 				wave.isStart_stage_2 = true;
 				//中ボス追加
-			{
-				if (!wave.stage_2_set_flag) {
+				{
+					if (!wave.stage_2_set_flag) {
 
-					wave.stage_1_set_flag = false;
+						wave.stage_1_set_flag = false;
 
-					stage_2.Set_Map(0, 0, 5000, RED);
+						stage_2.Set_Map(0, 0, 5000, RED);
 
-					tboss.t_set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
-					boss_stage.Set_Map(0, 0, 10000, RED);
+						tboss.t_set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
+						boss_stage.Set_Map(0, 0, 10000, RED);
 
-					wave.stage_2_set_flag = true;
+						wave.stage_2_set_flag = true;
 
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						ellipse[i].set(players, screen, stage_2, wave);
@@ -157,62 +166,73 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						seed[i].set(players, screen, stage_2, triangle[i].position, 3);
 					}
 
-				}
-				//処理書いてね
-				/*ボス関係*/
-				/*ボス関係*/
-				tboss.Keep_Up(players);//追いかけ続けるやつ
-				tboss.Result(players, screen, RAND(0, 0));//追いかけて着る
-				if (tboss.shild != 0) {
-					if (Slash_Boss(slash, tboss) == true) {
-						tboss.radian -= 50.0f;
+					}
+					//処理書いてね
+					/*ボス関係*/
+					/*ボス関係*/
+					tboss.Keep_Up(players);//追いかけ続けるやつ
+					tboss.Result(players, screen, RAND(1, 1), sound);//追いかけて着る
+					
+					
+					
+					if (slash.isOccur == true && Slash_EX_Boss(slash, tboss) == true) {
+						tboss.radian -= 2.0f;
+						//slash.isOccur = false;//これどうするか阿多ttら消える処理
+						tboss.hit = true;
+						tboss.damepar = true;						
+					}else {
+						tboss.hit = false;
+					}
+					tboss.Dame_Par();//ダメージ受けた時のパーティクル
+					
+					if (tboss.shild != 0) {
+
+
+
+						/*if (beam.isOccur == true) {
+							if (Beam_Boss(beam, tboss) == true) {
+								tboss.radian -= 0.5f;
+							}
+						}*/
+
+						if (tboss.radian < 500) {
+							tboss.shild = 1;
+							if (tboss.radian < 400) {
+								tboss.shild = 0;
+
+							}
+						}
 					}
 
-					/*if (beam.isOccur == true) {
-						if (Beam_Boss(beam, tboss) == true) {
-							tboss.radian -= 0.5f;
-						}
-					}*/
 
-					if (tboss.radian < 500) {
-						tboss.shild = 1;
-						if (tboss.radian < 400) {
-							tboss.shild = 0;
-
-						}
+					///プレイヤーに攻撃が当たった時
+					if (tboss.Bullet_Player(players) == true) {
+						players.radius -= 0.5f;
 					}
-				}
+					if (tboss.Bullet_Player_2(players) == true) {
+						players.radius -= 0.5f;
+					}
+					if (tboss.Blade_Player(players) == true) {
+						players.radius -= 0.5f;
 
+					}
+					//ボスのプレイヤーが当たった時
 
-				///プレイヤーに攻撃が当たった時
-				if (tboss.Bullet_Player(players) == true) {
-					players.radius -= 0.5f;
-				}
-				if (tboss.Bullet_Player_2(players) == true) {
-					players.radius -= 0.5f;
-				}
-				if (tboss.Blade_Player(players) == true) {
-					players.radius -= 0.5f;
+					if (tboss.shild != 0 && tboss.Boss_Player(players) == true && players.Muteki == false) {  //ボスのシールドがある、俺が無敵じゃない、当たる
+						players.Muteki = true;
+						players.Reverse *= -1;
+						players.radius -= 1;
+					}
+					else if (players.Muteki == true) {
+						players.MutekiTime();
 
-				}
-				//ボスのプレイヤーが当たった時
+					}
+					//クリア条件
+					if (tboss.shild == 0 && tboss.Boss_Player(players) == true) {
+						wave.stage = wave.stage_3;
+						players.radius = 80;
+					}
 
-				if (tboss.shild != 0 && tboss.Boss_Player(players) == true && players.Muteki == false) {  //ボスのシールドがある、俺が無敵じゃない、当たる
-					players.Muteki = true;
-					players.Reverse *= -1;
-					players.radius -= 1;
-				}
-				else if (players.Muteki == true) {
-					players.MutekiTime();
-
-				}
-				//クリア条件
-				if (tboss.shild == 0 && tboss.Boss_Player(players) == true) {
-					wave.stage = wave.stage_3;
-					players.radius = 80;
-				}
-
-			}
 
 			//Update
 			for (int i = 0; i < Figure::FigureMax; i++) {
@@ -286,7 +306,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			{
 				wave.isStart_stage_3 = true;
 				if (!wave.stage_3_set_flag) {
-					
+
 					wave.stage_2_set_flag = false;
 					stage_3.Set_Map(0, 0, 6000, RED);
 					///一回だけのやつ
@@ -443,16 +463,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				}
 				if (players.radius >= wave.MapChenge(stage_3)) {
- 					wave.stage = wave.boss_stage;
+					wave.stage = wave.boss_stage;
 				}
 				/*wave.stage_2_draw_flag = true;*/
 			}
-			bar.Update(players,stage_3,wave);
+			bar.Update(players, stage_3, wave);
+				}
 				break;
-			//case wave.stage_3:
-			//	//中ボス追加
-			//		
-			//break;
+		
 			case wave.boss_stage:
 				wave.isStart_boss_stage = true;
 
@@ -468,8 +486,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				//処理書いてね
 				/*ボス関係*/
 				boss.Keep_Up(players);
-				boss.Result(players, screen, RAND(0, 3));
-				if (Slash_Boss(slash, boss) == true) {
+				boss.Result(players, screen, RAND(2, 2),sound);
+				if (Slash_EX_Boss(slash, boss) == true) {
 					boss.radian -= 5.25f;
 				}
 
@@ -543,6 +561,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				title.isDrainClear = false;
 				change.isChangeClear = false;
 				players.isPressSpace = false;
+				players.isTitleClear = false;
 				Gclear.isKillBoss = false;
 				Gclear.isGameClear = false;
 				scene = TITLE;
@@ -578,6 +597,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Pparticle.DrawParticle(screen);
 			players.Draw(screen, players);
 			title.Draw(screen, title);
+
+			
+
 			break;
 		case CHANGE:
 			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
@@ -628,10 +650,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					bar.beasdraw(screen);
 					bar.draw(screen);
 				}
-				
+				if (Novice::IsPlayingAudio(sound.stage_1_handle) == false || sound.stage_1_handle == -1) {
+					sound.stage_1_handle = Novice::PlayAudio(sound.stage_1, 1, 1*music);
+				}
 				break;
 			case wave.stage_2:
-				/*if (wave.stage_2_set_flag && wave.stage_2_draw_flag) {
+				Novice::StopAudio(sound.stage_1_handle);
+				if (wave.stage_2_set_flag && wave.stage_2_draw_flag) {
 					
 				}*/
 				for (int i = 0; i < Figure::FigureMax; i++) {
@@ -651,8 +676,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				item.Draw(screen, players);
 				tboss.t_draw(screen);
+				if (Novice::IsPlayingAudio(sound.stage_2_handle) == false || sound.stage_2_handle == -1) {
+					sound.stage_2_handle = Novice::PlayAudio(sound.stage_2, 1, 1 * music);
+				}
 				break;
 			case wave.stage_3:
+				Novice::StopAudio(sound.stage_2_handle);
+
 				//中ボス追加してない
 				stage_3.DrawMap(screen);
 				for (int i = 0; i < Figure::FigureMax; i++) {

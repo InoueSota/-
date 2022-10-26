@@ -74,8 +74,8 @@ void Slash::Init() {
 	};
 	spd = 8.0f;
 	SlashMax = 1;
-		shotframe = 0;
-		isOccur = false;
+	shotframe = 0;
+	isOccur = false;
 	isPressSpace = false;
 	isLoadTexture = false;
 }
