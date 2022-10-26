@@ -29,7 +29,7 @@ public:
 	//画面内かチェック
 	bool InScreen(Player player, Vec2 Position, Screen screen);
 	float IsRespon(Map map);
-	void reset();
+	void reset(Player player);
 
 	Vec2 position;
 	float radian;

@@ -122,14 +122,26 @@ void llipse::set(Player& player,Screen screen,Map map,WAVE wave) {
 //	}
 //}
 
-void Figure::reset() {
-	colortime += 0.01f;
-	color = 0xE8097100 | static_cast<int>((1.0f - colortime) * 0x00 + colortime * 0xFF);
-	if (colortime >= 1) {
-		color = 0xE80971FF;
-		colortime = 0.0f;
-		responflag = false;
+void Figure::reset(Player player) {
+	if (player.Length <= radian * 2) {
+		colortime += 0.01f;
+		color = 0xFFFFFF00 | static_cast<int>((1.0f - colortime) * 0x00 + colortime * 0xFF);
+		if (colortime >= 1) {
+			color = 0xFFFFFFFF;
+			colortime = 0.0f;
+			responflag = false;
+		}
 	}
+	else {
+		colortime += 0.01f;
+		color = 0xE8097100 | static_cast<int>((1.0f - colortime) * 0x00 + colortime * 0xFF);
+		if (colortime >= 1) {
+			color = 0xE80971FF;
+			colortime = 0.0f;
+			responflag = false;
+		}
+	}
+	
 }
 void llipse::respon(Player player, Screen screen,Map map,WAVE wave) {
 	if (player.radius < IsRespon(map)) {
@@ -141,8 +153,19 @@ void llipse::respon(Player player, Screen screen,Map map,WAVE wave) {
 	}
 }
 
-void llipse::draw(Screen& screen, Player& players) {
-	screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
+void llipse::draw(Screen& screen, Player& player) {
+	if (!responflag) {
+		if (player.Length <= radian * 2) {
+			screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
+		}
+		else {
+			screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
+		}
+	}
+	else {
+		screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
+	}
+	
 }
 
 bool llipse::Player_Ellipse(Player player) {
