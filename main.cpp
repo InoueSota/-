@@ -826,8 +826,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					Pparticle.DrawParticle(screen);
 					players.Draw(screen, players);
 
-					item.Draw(screen, players);
-
 					bar.beasdraw(screen);
 					bar.draw(screen);
 				}
@@ -852,7 +850,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				slash.Draw(screen);
 				players.Draw(screen, players);
 
-				item.Draw(screen, players);
 				tboss.t_draw(screen);
 				if (Novice::IsPlayingAudio(sound.stage_2_handle) == false || sound.stage_2_handle == -1) {
 					sound.stage_2_handle = Novice::PlayAudio(sound.stage_2, 1, 1 * music);
@@ -883,7 +880,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				slash.Draw(screen);
 				players.Draw(screen, players);
 
-				item.Draw(screen, players);
 				bar.Update(players, map, wave);
 				bar.beasdraw(screen);
 				bar.draw(screen);
@@ -913,7 +909,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				slash.Draw(screen);
 				beam.Draw(screen);
 
-				item.Draw(screen, players);
 				boss.draw(screen);
 				if (boss.shild == 0/* && boss.Boss_Player(players) == true*/) {
 					Gclear.DrawKillBoss();
