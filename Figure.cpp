@@ -98,10 +98,10 @@ void llipse::set(Player& player,Screen screen,Map map,WAVE wave) {
 		} while (llipse::IsInStage(stage(map)));
 	count = RAND(0, 240);
 	//”¼Œa
-	if (wave.stage_1_only) {
+	if (wave.stage==wave.stage_1_only) {
 		radian = RAND(25 * 1.5, 25 * 8.0);
 	}
-	else if(wave.stage_2) {
+	else if(wave.stage == wave.stage_2) {
 		radian = RAND(80 * 1.5, 80 * 5.0);
 	}
 	else {
@@ -297,7 +297,7 @@ void Triangle::set(Player& player, Screen screen,Map map, WAVE wave) {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//”¼Œa
-		if (wave.stage_2) {
+		if (wave.stage == wave.stage_2) {
 			radian = RAND(80 * 0.3, 80 * 0.7);
 		}
 		else {
