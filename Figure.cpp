@@ -163,7 +163,7 @@ void llipse::draw(Screen& screen, Player& player) {
 		}
 	}
 	else {
-		screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, 0xE80971FF; , kFillModeSolid);
+		screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, 0xE80971FF , kFillModeSolid);
 	}
 	
 }
