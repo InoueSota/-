@@ -68,10 +68,10 @@ void llipse::Update(Player player, Screen screen, Map map, WAVE wave) {
 	if (!(InScreen(player,position,screen)) && radian >= player.radius * 8.0) {
 		flag = false;
 	}
-	if (player.Length <= radian * 2) {
+	if (player.Length <= radian * 2 && responflag==false) {
 		color = 0x17f68eFF;//Žæ‚ê‚È‚¢
 	}
-	else {
+	else if(responflag == false) {
 		color = 0xE80971FF;//get
 	}
 	//if (!easingset) {
@@ -160,24 +160,7 @@ void llipse::respon(Player player, Screen screen,Map map,WAVE wave) {
 }
 
 void llipse::draw(Screen& screen, Player& player) {
-	if (!responflag) {
-		if (player.Length <= radian * 2) {
-			screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
-		}
-		else {
-			screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
-		}
-	}
-	else {
-		//if (player.Length <= radian * 2) {
-		//	color = 0x17f68eFF;//Žæ‚ê‚È‚¢
-		//}
-		//else {
-		//	color = 0xE80971FF;//get
-		//}
 		screen.DrawEllipse(position.x, position.y, radian, radian, 0.0f, color, kFillModeSolid);
-	}
-	
 }
 
 bool llipse::Player_Ellipse(Player player) {
@@ -229,6 +212,8 @@ void Seed::set(Player& player, Screen screen, Map map, Vec2 pos,int seed) {
 
 	UpdateFlag = true;
 	setFlag = true;
+	t = 0;
+
 }
 
 void Seed::Update(Player player, Screen screen, Map map) {
@@ -280,11 +265,11 @@ bool Seed::Player_Seed(Player player,Vec2 position) {
 
 		float distance = (position - f).Length();
 
-		if (distance < player.radius / 50 + radian) {
-			if (player.Length <= radian * 2) {
+		if (distance < player.radius / 50 + radian*2) {
+			
 
 				return true;
-			}
+			
 		}
 		return false;
 	
@@ -308,6 +293,13 @@ bool Triangle::IsInStage(float stage) {
 }
 
 void Triangle::Update(Player player, Screen screen, Map map,Seed seed) {
+	if (player.Length <= radian * 2&&responflag == false) {
+		color = 0x17f68eFF;//Žæ‚ê‚È‚¢
+	}
+	else if(responflag == false) {
+		color = 0xE80971FF;//get
+	}
+
 	if (player.radius * 3.0 > radian) {
 		radian += 0.5;
 		//’¸“_
@@ -333,10 +325,10 @@ void Triangle::set(Player& player, Screen screen,Map map, WAVE wave) {
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//”¼Œa
 		if (wave.stage == wave.stage_2) {
-			radian = RAND(80 * 1.5, 80 * 2.0);
+			radian = RAND(player.radius * 0.5, player.radius * 1.5);
 		}
 		else if(wave.stage == wave.stage_3) {
-			radian = RAND(80 * 1.5, 80 * 2.0);
+			radian = RAND(player.radius * 0.5, player.radius * 1.5);
 		}
 	} while (Triangle::IsInStage(stage(map)));
 
@@ -371,12 +363,13 @@ void Triangle::set(Player& player, Screen screen,Map map, WAVE wave) {
 	color = 0xE80971FF;
 	responflag = true;
 	flag = true;
-
+	triangle_death = false;
 }
 
 void Triangle::respon(Player player, Screen screen,Map map, WAVE wave) {
 	if (player.radius < IsRespon(map)) {
 		cooltime = 0;
+		triangle_death = false;
 		set(player, screen,map,wave);
 	}
 	else {
@@ -412,7 +405,7 @@ bool Triangle::Player_Triangle(Player player) {
 	float distance = (position - f).Length();
 
 	if (distance < player.radius / 50 + radian) {
-		if (player.Length <= radian * 2) {
+		if (player.Length <= radian*sqrt(2)) {
 
 			return true;
 		}
@@ -462,9 +455,10 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 		position.x = RAND(-Area(player,screen,map), Area(player,screen,map));
 		position.y = RAND(-Area(player,screen,map), Area(player,screen,map));
 		//”¼Œa
-		radian = RAND(80 * 1.5, 80 * 3.0);
+		radian = RAND(player.radius * 4.0, player.radius * 7.0);
 	} while (Quadrangle::IsInStage(stage(map)));
-	
+	t = 0;
+	count = RAND(0, 100);
 	//’¸“_
 	theta = (float)Degree(RAND(0, 360));
 	Quad op,bread_1,bread_2;
@@ -512,15 +506,21 @@ void Quadrangle::set(Player& player, Screen screen,Map map) {
 	bread_2_bottom_left_position_end = bread_2.LeftBottom * mat;
 	bread_2_bottom_right_position_end = bread_2.RightBottom * mat;
 	//F
-	color = 0xE80971FF;
+	/*color = 0xE80971FF;*/
 	flag = true;
 	responflag = true;
 	BreadOpenFlag = true;
-	drawflag = true;
 }
 
 void Quadrangle::Update(Player& player, Screen screen, Map map,WAVE wave) {
+	if (player.Length <= radian*sqrt(2) && responflag == false) {
+		color = 0x17f68eFF;//Žæ‚ê‚È‚¢
+	}
+	else if(responflag == false) {
+		color = 0xE80971FF;//get
+	}
 	if (UpdatesetFlag) {
+		color = 0x17f68eFF;//Žæ‚ê‚È‚¢
 		theta += theta_plus;
 		Matrix33 mat;
 		Quad op, bread_1, bread_2;
@@ -563,7 +563,9 @@ void Quadrangle::Update(Player& player, Screen screen, Map map,WAVE wave) {
 		bread_2_bottom_right_position = bread_2.RightBottom * mat;
 		/*vel = (player.center - position).Normalized() * radian * (1 / radian * 3);*/
 		position += vel;
-		if (position.x <= End_position.x + radian && position.x >= End_position.x - radian && position.y <= End_position.y+radian&& position.y >= End_position.y - radian) {
+		count += 1;
+		if (count>120) {
+			count = 0;
 			Quad bread_1, bread_2;
 				Matrix33 mat;
 				bread_1 = {
@@ -612,9 +614,11 @@ void Quadrangle::Update(Player& player, Screen screen, Map map,WAVE wave) {
 		
 	}
 	if(BreadOpenFlag) {
+		drawflag = true;
+		/*color = 0xE80971FF;*///get
 		if (t > 1) {
 			t = 0.0f;
-			vel = (player.center - position).Normalized() * radian * (1 / radian * 4);
+			vel = (player.center - position).Normalized() * radian * (1 / radian * 3);
 			theta_plus = (float)Degree(10);
 			UpdatesetFlag = true;
 			BreadOpenFlag = false;
@@ -662,6 +666,7 @@ void Quadrangle::Update(Player& player, Screen screen, Map map,WAVE wave) {
 		
 	}
 	if (BreadCloseFlag) {
+		//color = 0xE80971FF;//get
 		if (t > 1) {
 			cooltime += 1;
 			if (cooltime > 300) {
@@ -756,7 +761,7 @@ bool Quadrangle::Player_Quadrangle(Player player) {
 	Vec2 start_to_end = Vec2(player.pos - player.center);
 	Vec2 nomalize_stc = start_to_center.Normalized();
 
-	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+	
 
 	float t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
 	t = Clamp(t, 0, 1);
@@ -766,7 +771,7 @@ bool Quadrangle::Player_Quadrangle(Player player) {
 	float distance = (position - f).Length();
 
 	if (distance < player.radius / 50 + radian) {
-		if (player.Length <= radian * 2) {
+		if (player.Length <= radian * sqrt(2)) {
 
 			return true;
 		}
@@ -788,7 +793,7 @@ bool Quadrangle::Player_Update(Player player) {
 	float distance = (position - f).Length();
 
 	if (distance < player.radius / 50 + radian) {
-		if (player.Length <= radian * 4) {
+		if (player.Length <=  radian * 4) {
 
 			return true;
 		}
@@ -800,8 +805,7 @@ void Quadrangle::draw(Screen& screen) {
 }
 
 void Quadrangle::breaddraw(Screen& screen) {
-	if (!(t > 1 && BreadCloseFlag)) {
-		screen.DrawQuad(bread_1_top_left_position.x, bread_1_top_left_position.y, bread_1_top_right_position.x, bread_1_top_right_position.y, bread_1_bottom_left_position.x, bread_1_bottom_left_position.y, bread_1_bottom_right_position.x, bread_1_bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, WHITE);
-		screen.DrawQuad(bread_2_top_left_position.x, bread_2_top_left_position.y, bread_2_top_right_position.x, bread_2_top_right_position.y, bread_2_bottom_left_position.x, bread_2_bottom_left_position.y, bread_2_bottom_right_position.x, bread_2_bottom_right_position.y, 0.0f, 0.0f, radian / 2, radian, 0, WHITE);
-	}
+	
+	screen.DrawQuad(bread_1_top_left_position.x, bread_1_top_left_position.y, bread_1_top_right_position.x, bread_1_top_right_position.y, bread_1_bottom_left_position.x, bread_1_bottom_left_position.y, bread_1_bottom_right_position.x, bread_1_bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, WHITE);
+	screen.DrawQuad(bread_2_top_left_position.x, bread_2_top_left_position.y, bread_2_top_right_position.x, bread_2_top_right_position.y, bread_2_bottom_left_position.x, bread_2_bottom_left_position.y, bread_2_bottom_right_position.x, bread_2_bottom_right_position.y, 0.0f, 0.0f, radian / 2, radian, 0, WHITE);
 }
