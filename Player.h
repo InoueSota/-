@@ -23,8 +23,11 @@ public:
 	float radius;						//半径
 
 	//tuika//muteki
+	int Muteki_Timer;					//無敵の時間
+	bool isMutekiDisplay;				//被弾時に色が変わるタイミングフラグ
 	bool Muteki;						//無敵かどうか
-	float Muteki_Timer;					//無敵の時間
+	unsigned int color;					//被弾時に色が変わる
+	unsigned int outcolor;				//被弾時に色が変わる（アウトライン）
 
 	int Reverse;						//反転用
 	int Longpressframe;					//長押しフレーム
@@ -61,11 +64,11 @@ public:
 	void SetZoom(Screen& screen, Player& players);														//ズームの値を設定する関数
 	void SizeIncrease(Player& players);																	//敵に当たった時に使用する関数（半径が長くなる）
 	void SizeDecrease(Player& players);																	//敵に当たった時に使用する関数（半径が短くなる）
+	void MutekiTime();																					//無敵時間用関数
 	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d, Title& title);	//関数をまとめてmain.cppで一行にする関数
 	void Draw(Screen& screen, Player& players);															//描画関数
 	void Ripples(Screen& screen, Player& players, char prekeys, char keys);								//波紋の関数
 
-	//void Draw_Rand_Skin(Screen& screen, char prekeys, char keys);
 private:
 
 };

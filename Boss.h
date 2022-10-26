@@ -58,18 +58,22 @@ class Boss:public Figure
 
 		return((1.0f - t) * start + t * end);
 	};
+
 public:
 	Boss();
 	void draw(Screen& screen);
 	void set(Vec2 pos);
+	void t_set(Vec2 pos);
 	void Rand_Move(int rand);
 	void Result(Player& player, Screen& screen,int rand);
 	void Keep_Up(Player& player);
+	void t_draw(Screen& screen);
 	void Init();
 	
 	bool Bullet_Player(Player& player);
 	bool Bullet_Player_2(Player& player);
 	bool Blade_Player(Player& player);
+	bool Blade_Player_2(Player& player);
 	bool Boss_Player(Player& player);
 	
 	int rand_num;
@@ -102,6 +106,8 @@ public:
 
 	Vec2 bullet_pos[MAX_BULLET];
 	int bullet_rad[MAX_BULLET];
+	int bullet_rad_f;
+
 	float Ease_t_rad[MAX_BULLET];
 	float Ease_t_radback[MAX_BULLET];
 	float EaseT_bullet[MAX_BULLET];

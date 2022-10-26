@@ -49,16 +49,14 @@ public:
 	float spd;
 
 	Quad op;
-	Quad pos[kSlashMax];
+	Quad pos;
 	Vec2 direvelo;
 	Vec2 velo;
-	Vec2 Toppos[kSlashMax];
-	bool isStart[kSlashMax];
+	Vec2 Toppos;
 	bool isPressSpace;
-	bool isOccur[kSlashMax];
+	bool isOccur;
 	bool isLoadTexture;
-	int shotframe[kSlashMax];
-	int delayframe;
+	int shotframe;
 	int slashImage;	//âÊëúópïœêî
 
 	void Init();

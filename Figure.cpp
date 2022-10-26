@@ -579,7 +579,7 @@ void Quadrangle::Update(Player& player, Screen screen, Map map,WAVE wave) {
 	if(BreadOpenFlag) {
 		if (t > 1) {
 			t = 0.0f;
-			vel = (player.center - position).Normalized() * radian * (1 / radian * 3);
+			vel = (player.center - position).Normalized() * radian * (1 / radian * 4);
 			theta_plus = (float)Degree(10);
 			UpdatesetFlag = true;
 			BreadOpenFlag = false;

@@ -3,6 +3,7 @@
 
 Boss::Boss()
 {
+	
 	SRAND();
 
 	Vec2;
@@ -24,6 +25,8 @@ Boss::Boss()
 	bakuha = false;
 	pattern_2=false;
 	pattern_3=false;
+	pattern_4 = false;
+
 	keep = true;
 	blade = { 0,0,0,0,0,0,0,0 };
 	flame_2 = 0;
@@ -33,6 +36,9 @@ Boss::Boss()
 
 	bakuha_T=0;
 	bakuha_Tback=0;
+
+	dekaku_t = 0;
+	dekaku_tback = 0;
 
 	for (int i = 0; i < MAX_BULLET; i++) {
 
@@ -46,12 +52,18 @@ Boss::Boss()
 	bullet_flag[i] = false;
 	color[i] = 0xFFFF0000;
 	lifetime[i] = 0;
+	tyakkaman[i] = false;
 
 	}
 	for (int i = 0; i < MAX_BULLET_t; i++) {
 		bullet_t_pos[i] = { 0,0 };
 		bullet_t_flag[i] = false;
-
+		dasita [i] = false;
+	}
+	for (int i = 0; i < MAX_ZAN; i++) {
+		zan_flag[i] = false;
+		zan_time[i] = false;
+		zanrad[i] = 0;
 	}
 }
 void Boss::Init()
@@ -224,7 +236,7 @@ bool Boss::Blade_Player(Player& player)
 	float distance = {};
 	//center::回っていない
 	//pos::回っている
-	for (int i = 0; i < MAX_BULLET_t; i++) {
+	
 
 		start_to_center = Vec2(player.center -blade_top );
 		start_to_end = Vec2(blade_top - blade_bottom);
@@ -239,10 +251,49 @@ bool Boss::Blade_Player(Player& player)
 
 		distance = (player.center - f).Length();
 
-	}
+	
 	if (distance < player.radius +50) {
 		if (pattern_3 == true) {
 			
+			return true;
+
+		}
+	}
+	return false;
+}
+bool Boss::Blade_Player_2(Player& player)
+{
+
+	Vec2 start_to_center;
+	Vec2 start_to_end;
+	Vec2 nomalize_stc;
+	Vec2 blade_top = { blade.bottom_left.x,blade.bottom_left.y };
+	Vec2 blade_bottom = { blade.bottom_right.x,blade.bottom_right.y };
+
+	float t = {};
+	Vec2 f;
+	float distance = {};
+	//center::回っていない
+	//pos::回っている
+
+
+	start_to_center = Vec2(player.pos - blade_top);
+	start_to_end = Vec2(blade_top - blade_bottom);
+	nomalize_stc = start_to_center.Normalized();
+
+	/*float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;*/
+
+	t = ((start_to_center.Dot(nomalize_stc)) / start_to_end.Length());
+	t = Clamp(t, 0, 1);
+
+	f = (1.0f - t) * player.center + t * player.pos;
+
+	distance = (player.center - f).Length();
+
+
+	if (distance < player.radius + 50) {
+		if (pattern_3 == true) {
+
 			return true;
 
 		}
@@ -278,7 +329,15 @@ void Boss::set(Vec2 pos ) {
 
 	//ポジションなど必要な値を引数を用いて代入するでやんす。
 	position = pos;
-	radian = 500;
+	radian = 1500;
+
+}
+void Boss::t_set(Vec2 pos) {
+
+	//ポジションなど必要な値を引数を用いて代入するでやんす。
+	position = pos;
+	radian = 750;
+	shild = 1;
 
 }
 
@@ -289,7 +348,7 @@ void Boss::Rand_Move(int rand)
 	if (flag == false&&pattern_1==false&&pattern_2==false&&pattern_3==false && pattern_4 == false) {
 		//rand_num = 0;
 		Init();
-		int time = 100;
+		int time = 200;
 		/*rand_num = RAND(0,2);*/
 		rand_num = rand;
 		cooltime -= 1;
@@ -374,6 +433,7 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 				for (int i = 0; i < MAX_BULLET_t; i++) {
 					if (bullet_t_flag[i] == false&&dasita[i] == false) {
 						bullet_t_pos[i] = position;
+						bullet_rad[i] = radian / 2;
 						EaseT_bullet[i] = 0;
 						bullet_t_flag[i] = true;
 						dasita[i] = true;
@@ -541,7 +601,7 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 			flame_2 += 1;
 			flame_2 = Clamp(flame_2, 0, 30 * MAX_BULLET);
 			for (int i = 0; i < MAX_BULLET; i++) {
-				if (bullet_flag[i] == false && flame_2 % 30 == 0&&bullet_flag[7]==false) {
+				if (bullet_flag[i] == false && flame_2 % 30 == 0&&bullet_flag[MAX_BULLET-1]==false) {
 					bullet_pos[i].x = player.pos.x + RAND(-1000, 1000);
 					bullet_pos[i].y = player.pos.y + RAND(-1000, 1000);
 					tyakkaman[i] = false;
@@ -549,7 +609,8 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 					lifetime[i] = 0;
 					Ease_t_radback[i] = 0;
 					Ease_t_rad[i] = 0.0f;
-					bullet_rad[i] = 250;
+					bullet_rad[i] = radian/1.5f;
+					bullet_rad_f = radian / 1.5f;
 					bullet_flag[i] = true;
 					break;
 				}
@@ -558,10 +619,10 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 				if (bullet_flag[i] == true) {
 					lifetime[i] += 0.005f;
 					//	color[i]=0x00000000 | static_cast<int>((1.0f - lifetime[i]) * 0x00 + lifetime[i] * 0xFF);
-					if (lifetime[i] >= 1.10f) {
+					if (lifetime[i] >= 1.10f&&Ease_t_rad[i]==1) {
 
 						Ease_t_radback[i] += 0.02f;
-						bullet_rad[i] = easing(Easing::easeOutCubic(Ease_t_radback[i]), 250, 0);
+						bullet_rad[i] = easing(Easing::easeOutCubic(Ease_t_radback[i]), bullet_rad_f, 0);
 
 						if (bullet_rad[i] <= 0) {
 							bullet_flag[i] = false;
@@ -572,8 +633,10 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 					else if (lifetime[i] >= 0.8f) {
 						tyakkaman[i] = true;
 						Ease_t_rad[i] += 0.05f;
-						bullet_rad[i] = easing(Easing::easeOutBack(Ease_t_rad[i]), 0, 250);
-						bullet_rad[i] = Clamp(bullet_rad[i], 0, 280);
+						Ease_t_rad[i] = Clamp(Ease_t_rad[i],0,1);
+
+						bullet_rad[i] = easing(Easing::easeOutBack(Ease_t_rad[i]), 0, bullet_rad_f);
+						bullet_rad[i] = Clamp(bullet_rad[i], 0, bullet_rad_f+200);
 
 					}
 
@@ -615,10 +678,10 @@ void Boss::Result(Player& player,Screen& screen,int rand)
 				blade.theta = Clamp(blade.theta, 0, 360);
 				Matrix2x2 mat = MakeRotateMatrix(blade.theta);
 				///torbox
-				Vector2 top_left = { 0,100 };
-				Vector2 top_right = { 450 + radian ,100 };
-				Vector2 bottom_left = { 0 ,-100 };
-				Vector2 bottom_right = { 750 + radian ,-100 };
+				Vector2 top_left = { 0,100 + (radian / 4) };
+				Vector2 top_right = { 2*radian ,100+(radian/4) };
+				Vector2 bottom_left = { 0 ,-100 - (radian / 4) };
+				Vector2 bottom_right = {  (2*radian)+250 ,-100- (radian / 4) };
 
 				blade.top_left = Multiply(top_left, mat);
 				blade.top_right = Multiply(top_right, mat);
@@ -865,22 +928,27 @@ void Boss::Keep_Up(Player& player)
 	theta += 0.05f;
 
 }
+void Boss::t_draw(Screen& screen) {
 
+	screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, BLACK, kFillModeSolid);
 
-
+	if (shild >= 1) {
+		screen.DrawEllipse(position.x, position.y, 300, 300, 0.0f, RED, kFillModeWireFrame);
+	}
+}
 void Boss::draw(Screen& screen) {
 	
 	Matrix2x2 mat= MakeRotateMatrix(theta);
 	
 	//tri
-	Vector2 top = { 0,200 };
-	Vector2 right = { -200,-100 };
-	Vector2 left = { 200,-100};
+	Vector2 top = { 0,300*2 };
+	Vector2 right = { -300*2,-150*2 };
+	Vector2 left = { 300*2,-150*2};
 	///torbox
-	Vector2 top_left = { -300,300};
-	Vector2 top_right = { 300,300 };
-	Vector2 bottom_left = { -300,-300};
-	Vector2 bottom_right = { 300,-300 };
+	Vector2 top_left = { -300*2,300*2};
+	Vector2 top_right = { 300*2,300*2 };
+	Vector2 bottom_left = { -300*2,-300*2};
+	Vector2 bottom_right = { 300*2,-300*2 };
 	  
 	Vector2 rotate_top = Multiply(top,mat);
 	Vector2 rotate_right = Multiply(right, mat);
@@ -949,7 +1017,7 @@ void Boss::draw(Screen& screen) {
 	}
 	if (pattern_3 == true) {
 		if (keep == true) {
-			screen.DrawEllipse(position.x, position.y, 950, 950, 0, 0xFF000088, kFillModeSolid);
+			screen.DrawEllipse(position.x, position.y, radian*2, radian * 2, 0, 0xFF000088, kFillModeSolid);
 		}
 		if (keep == false) {
 			screen.DrawQuad(blade.top_left.x, blade.top_left.y, blade.top_right.x, blade.top_right.y, blade.bottom_left.x, blade.bottom_left.y, blade.bottom_right.x, blade.bottom_right.y, 0, 0, 0, 0, 0, BLACK);
@@ -982,7 +1050,7 @@ void Boss::draw(Screen& screen) {
 	screen.DrawEllipse(position.x, position.y, radian+radius_f, radian+radius_f, 0.0f, BLACK, kFillModeSolid);
 
 	if (shild >= 1) {
-		screen.DrawEllipse(position.x, position.y, 100, 100, 0.0f, RED, kFillModeWireFrame);
+		screen.DrawEllipse(position.x, position.y, 200, 200, 0.0f, RED, kFillModeWireFrame);
 		if (shild >= 2) {
 			screen.DrawTriangle(rotate_top.x, rotate_top.y, rotate_right.x, rotate_right.y, rotate_left.x, rotate_left.y, GREEN, kFillModeWireFrame);
 			if (shild >= 3) {

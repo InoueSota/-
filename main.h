@@ -27,7 +27,7 @@ Scene scene = TITLE;
 
 //インスタンス化
 Screen screen;
-Map stage_1,stage_2,boss_stage;
+Map stage_1,stage_2,stage_3,boss_stage;
 Title title;
 Change change;
 Player players;
@@ -41,6 +41,7 @@ Quadrangle quadrangle[Figure::FigureMax];
 clock_t oldTime;
 Item item;
 Boss boss;
+Boss tboss;
 Seed seed[Figure::FigureMax];
 WAVE wave;
 Bar bar;
