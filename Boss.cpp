@@ -1032,44 +1032,44 @@ void Boss::t_draw(Screen& screen) {
 }
 void Boss::draw(Screen& screen) {
 	
-	Matrix2x2 mat= MakeRotateMatrix(theta);
+		Matrix2x2 mat = MakeRotateMatrix(theta);
+
+		//tri
+		Vector2 top = { 0,300 * 2 };
+		Vector2 right = { -300 * 2,-150 * 2 };
+		Vector2 left = { 300 * 2,-150 * 2 };
+		///torbox
+		Vector2 top_left = { -300 * 2,300 * 2 };
+		Vector2 top_right = { 300 * 2,300 * 2 };
+		Vector2 bottom_left = { -300 * 2,-300 * 2 };
+		Vector2 bottom_right = { 300 * 2,-300 * 2 };
+
+		Vector2 rotate_top = Multiply(top, mat);
+		Vector2 rotate_right = Multiply(right, mat);
+		Vector2 rotate_left = Multiply(left, mat);
+
+		Vector2 rotate_top_left = Multiply(top_left, mat);
+		Vector2 rotate_top_right = Multiply(top_right, mat);
+		Vector2 rotate_bottom_left = Multiply(bottom_left, mat);
+		Vector2 rotate_bottom_right = Multiply(bottom_right, mat);
+
+		rotate_top.x += position.x;
+		rotate_top.y += position.y;
+		rotate_right.x += position.x;
+		rotate_right.y += position.y;
+		rotate_left.x += position.x;
+		rotate_left.y += position.y;
+
+		rotate_top_left.x += position.x;
+		rotate_top_left.y += position.y;
+		rotate_top_right.x += position.x;
+		rotate_top_right.y += position.y;
+		rotate_bottom_right.x += position.x;
+		rotate_bottom_right.y += position.y;
+		rotate_bottom_left.x += position.x;
+		rotate_bottom_left.y += position.y;
+
 	
-	//tri
-	Vector2 top = { 0,300*2 };
-	Vector2 right = { -300*2,-150*2 };
-	Vector2 left = { 300*2,-150*2};
-	///torbox
-	Vector2 top_left = { -300*2,300*2};
-	Vector2 top_right = { 300*2,300*2 };
-	Vector2 bottom_left = { -300*2,-300*2};
-	Vector2 bottom_right = { 300*2,-300*2 };
-	  
-	Vector2 rotate_top = Multiply(top,mat);
-	Vector2 rotate_right = Multiply(right, mat);
-	Vector2 rotate_left = Multiply(left, mat);
-
-	Vector2 rotate_top_left = Multiply(top_left,mat);
-	Vector2 rotate_top_right = Multiply(top_right, mat);
-	Vector2 rotate_bottom_left = Multiply(bottom_left, mat);
-	Vector2 rotate_bottom_right = Multiply(bottom_right, mat);
-
-	rotate_top.x += position.x;
-	rotate_top.y += position.y;
-	rotate_right.x += position.x;
-	rotate_right.y += position.y;
-	rotate_left.x += position.x;
-	rotate_left.y += position.y;
-
-	rotate_top_left.x += position.x;
-	rotate_top_left.y += position.y;
-	rotate_top_right.x += position.x;
-	rotate_top_right.y += position.y;
-	rotate_bottom_right.x += position.x;
-	rotate_bottom_right.y += position.y;
-	rotate_bottom_left.x += position.x;
-	rotate_bottom_left.y += position.y;
-	
-
 	if (pattern_1 == true) {
 		for (int i = 0; i < MAX_BULLET_t; i++) {
 			if (bullet_t_flag[i] == true) {
@@ -1139,6 +1139,12 @@ void Boss::draw(Screen& screen) {
 					}
 				}
 			}
+		}
+	}
+	for (int i = 0; i < MAX_DAME; i++) {
+		if (dame.flag[i] == true) {
+			screen.DrawEllipse(dame.pos[i].x, dame.pos[i].y, dame.rad[i], dame.rad[i], 0, dame.color[i], kFillModeSolid);
+
 		}
 	}
 	screen.DrawEllipse(position.x, position.y, radian+radius_f, radian+radius_f, 0.0f, Boss_color, kFillModeSolid);
