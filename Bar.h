@@ -10,7 +10,7 @@ class Bar
 {
 public:
 	Bar();
-
+	
 	Quad beas;
 	Quad now;
 	float Stage_Max;

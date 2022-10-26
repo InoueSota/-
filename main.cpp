@@ -378,16 +378,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 
 					}
-					/*if (quadrangle[i].Player_Quadrangle(players) == true) {
+					if (quadrangle[i].Player_Quadrangle(players) == true) {
 						players.SizeDecrease(players, wave.stage);
 						screen.Shake(0, 10, 0, 10, true);
-					}*/
-					/*if (quadrangle[i].UpdatesetFlag) {
+					}
+					if (quadrangle[i].UpdatesetFlag) {
 						if (quadrangle[i].Player_Update(players)) {
 							players.SizeDecrease(players, wave.stage);
 							screen.Shake(0, 10, 0, 10, true);
 						}
-					}*/
+					}
 
 					if (Drain_Check_Ellipse(players, ellipse[i])) {
 						if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true && ellipse[i].responflag == false) {
@@ -407,7 +407,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 					if (Drain_Check_Quadrangle(players, quadrangle[i])) {
-						if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true && quadrangle[i].responflag == false) {
+						if (Drain_Center_Quad(players, quadrangle[i]) == true && quadrangle[i].flag == true && quadrangle[i].responflag == false&& quadrangle[i].UpdatesetFlag==false) {
 							Novice::PlayAudio(drain, 0, 0.5);
 							players.SizeIncrease(players);
 							quadrangle[i].flag = false;
@@ -416,6 +416,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 							quadrangle[i].count = 0;
 							quadrangle[i].BreadOpenFlag = false;
 							quadrangle[i].BreadCloseFlag = false;
+							quadrangle[i].UpdatesetFlag = false;
 							/////ブレード1
 							//quadrangle[i].bread_1_top_left_position_end = { -20,-20 };
 							//quadrangle[i].bread_1_top_right_position_end = { -20,-20 };
@@ -427,6 +428,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 							//quadrangle[i].bread_2_bottom_left_position_end = { -20,-20 };
 							//quadrangle[i].bread_2_bottom_right_position_end = { -20,-20 };
 						}
+						
 					}
 					//if (IsHit_Drain(players.pos.x, players.pos.y, players.radius, ellipse[i], triangle[i], quadrangle[i], screen.Zoom.x) == true && ellipse[i].flag == true) {
 					//	players.radius -= (ellipse[i].radian / 100);
@@ -658,7 +660,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				Novice::StopAudio(sound.stage_1_handle);
 				if (wave.stage_2_set_flag && wave.stage_2_draw_flag) {
 					
-				}*/
+				}
 				for (int i = 0; i < Figure::FigureMax; i++) {
 					if (triangle[i].triangle_death && seed[i].UpdateFlag) {
 						seed[i].draw(screen);

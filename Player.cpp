@@ -154,7 +154,7 @@ void Player::SizeDecrease(Player& players,int wave) {
 	}
 	else if (wave == 2) {
 		if (players.radius >= 80) {
-			players.radius -= 0.06f;
+			players.radius -= 0.5f;
 		}
 		else {
 			players.radius = 80;
