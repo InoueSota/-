@@ -84,6 +84,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				wave.stage_1_set_flag = true;
 			}
 			if (change.isChangeClear == true) {
+				change.color = 0x000000FF;
+				change.frame = 0;
+				change.alphat = 0.0f;
 				wave.stage = wave.stage_1_only;
 				scene = INGAME;
 			}
@@ -358,7 +361,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					wave.stage_2_draw_flag = true;
 				}
 				if (players.radius >= wave.MapChenge(stage_2)) {
-					wave.stage = wave.stage_3;
+					wave.stage = wave.boss_stage;
 				}
 				bar.Update(players,stage_2,wave);
 				break;
@@ -381,7 +384,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				//処理書いてね
 				/*ボス関係*/
 				boss.Keep_Up(players);
-				boss.Result(players, screen, RAND(2, 2));
+				boss.Result(players, screen, RAND(0, 3));
 				if (Slash_Boss(slash, boss) == true) {
 					boss.radian -= 5.25f;
 				}
@@ -391,16 +394,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						boss.radian -= 1.05f;
 					}
 				}
-				//if (boss.radian < 1000) {
-				//	boss.shild = 2;
-				//	if (boss.radian < 750) {
-				//		boss.shild = 1;
-				//		if (boss.radian < 500) {
-				//			boss.shild = 0;
+				if (boss.radian < 1000) {
+					boss.shild = 2;
+					if (boss.radian < 750) {
+						boss.shild = 1;
+						if (boss.radian < 500) {
+							boss.shild = 0;
 
-				//		}
-				//	}
-				//}
+						}
+					}
+				}
 
 
 				///プレイヤーに攻撃が当たった時
@@ -424,15 +427,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				else if (players.Muteki == true) {
 					players.MutekiTime();
 				}
-				if (keys[DIK_O] != 0){
-					boss.shild = 0;
+				if (keys[DIK_C])
+				{
+					Gclear.isKillBoss = true;
 				}
 				//クリア条件
-				if (boss.shild == 0/* && boss.Boss_Player(players) == true*/) {
+				if (boss.shild == 0 && boss.Boss_Player(players) == true) {
+					Gclear.isKillBoss = true;
+				}
+				if (Gclear.isKillBoss == true){
 					Gclear.KillBoss();
-					if (Gclear.CircleEasingt[1] == 1.0f){
-						scene = GAMECLEAR;
-					}
+				}
+				if (Gclear.CircleEasingt[1] == 1.0f) {
+					scene = GAMECLEAR;
 				}
 			}
 				break;
@@ -442,12 +449,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case GAMECLEAR:
 			Gclear.isGameClear = true;
+			gp.ParticleProcess();
 			Gclear.Process(screen);
+			players.SetZoom(screen, players);
+			if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE] != 0) {
+				screen.Scroll = { 0.0f,0.0f };
+				screen.Zoom = { 0.7f,0.7f };
+				title.isTitleClear = false;
+				title.isDrainClear = false;
+				change.isChangeClear = false;
+				players.isPressSpace = false;
+				Gclear.isKillBoss = false;
+				Gclear.isGameClear = false;
+				scene = TITLE;
+			}
 			break;
-		}
-		
-		if (keys[DIK_M] != 0) {
-			players.radius += 1;
 		}
 
 		///
@@ -588,9 +604,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			wave.WaveDraw();
 			break;
 		case GAMECLEAR:
+			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
+			gp.DrawParticle();
 			Gclear.Draw(screen);
 			players.Draw(screen, players);
-
 			break;
 		}
 		

@@ -224,6 +224,7 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 	}
 	if (Gcear.isGameClear == true) {
 		player->radius = 25;
+		players.radius = player->radius;
 		player->Length = radius * 12;
 		Gceasingt += 0.01f;
 		Gceasingt = Clamp(Gceasingt, 0.0f, 1.0f);

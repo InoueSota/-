@@ -32,3 +32,16 @@ public:
 	void ParticleProcess(Player& players, Screen& screen);
 	void DrawParticle(Screen& screen);
 };
+
+class GclearP : public Particle {
+public:
+	GclearP() {
+		ParticleInit();
+		SRAND();
+	}
+	void ParticleInit();
+	void ParticleMake();
+	void ParticleMove();
+	void ParticleProcess();
+	void DrawParticle();
+};

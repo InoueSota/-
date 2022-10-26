@@ -9,6 +9,7 @@ public:
 		Init();
 	}
 
+	bool isKillBoss;
 	bool isGameClear;
 	bool isLoadTexture;
 	int Gameclear;
