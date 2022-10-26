@@ -641,7 +641,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					bar.draw(screen);
 				}
 				if (Novice::IsPlayingAudio(sound.stage_1_handle) == false || sound.stage_1_handle == -1) {
-					sound.stage_1_handle = Novice::PlayAudio(sound.stage_1, 1, 1);
+					sound.stage_1_handle = Novice::PlayAudio(sound.stage_1, 1, 1*music);
 				}
 				break;
 			case wave.stage_2:
@@ -667,7 +667,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				item.Draw(screen, players);
 				tboss.t_draw(screen);
 				if (Novice::IsPlayingAudio(sound.stage_2_handle) == false || sound.stage_2_handle == -1) {
-					sound.stage_2_handle = Novice::PlayAudio(sound.stage_2, 1, 1);
+					sound.stage_2_handle = Novice::PlayAudio(sound.stage_2, 1, 1 * music);
 				}
 				break;
 			case wave.stage_3:

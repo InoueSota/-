@@ -53,3 +53,5 @@ WAVE wave;
 Bar bar;
 Sound sound;
 //Enemy enemy[3];
+
+float music = 1.0f;
