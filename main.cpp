@@ -175,7 +175,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					
 					
 					
-					if (Slash_EX_Boss(slash, tboss) == true) {
+					if (slash.isOccur == true && Slash_EX_Boss(slash, tboss) == true) {
 						tboss.radian -= 2.0f;
 						//slash.isOccur = false;//これどうするか阿多ttら消える処理
 						tboss.hit = true;
