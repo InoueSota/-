@@ -569,12 +569,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		}
-		if (keys[DIK_M] != 0) {
+		/*if (keys[DIK_M] != 0) {
 			players.radius += 1;
 		}
 		if (keys[DIK_N] != 0) {
 			players.radius -= 1;
-		}
+		}*/
 		///
 		/// ↑更新処理ここまで
 		///
