@@ -112,7 +112,6 @@ void Slash::Process(Player& players, Screen& screen, char prekeys, char keys) {
 		isLoadTexture = true;
 	}
 	if ((prekeys == 0 && keys != 0) && isOccur == false){
-		spd = Clamp(spd, 2.0f, 10.0f);
 		Make(players, screen);
 	}
 	else if (isOccur == true){

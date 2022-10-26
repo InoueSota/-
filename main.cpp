@@ -549,7 +549,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Gclear.Process(screen);
 			players.SetZoom(screen, players);
 			if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE] != 0) {
-				screen.Scroll = { 0.0f,0.0f };
 				screen.Zoom = { 0.7f,0.7f };
 				title.isTitleClear = false;
 				title.isDrainClear = false;
@@ -617,8 +616,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//背景描画
 			//Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
 			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
-			for (int y = -4; y < 5; y++) {
-				for (int x = -4; x < 5; x++) {
+			for (int y = -6; y < 7; y++) {
+				for (int x = -6; x < 7; x++) {
 					int width = 4000;
 					int height = 3000;
 					screen.DrawQuad(x * width, y * height, x * width + width, y * height, x * width, y * height + height, x * width + width, y * height + height, 0, 0, 2000, 1500, background, BLACK);

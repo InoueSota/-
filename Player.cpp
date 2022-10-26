@@ -7,30 +7,18 @@ Player* player = &circleA;
 
 /*　初期化する関数　*/
 void Player::Init() {
-	pos = { 0,0 };
-	center = { pos.x,pos.y };
-	add = { 0,0 };
-	tmppos = { 0,0 };
 	deg = 0;
 	radius = 25;
-
 	Reverse = 1;
-
 	Length = 300;
-
 	isScroll = false;
-	tmpCenpos = { 0,0 };
-	tmpMovepos = { 0,0 };
+	isTitleClear = false;
 	Scrolleasingt = 0.0f;
 	ScrollincT = 0.1;
-
-	isTitleClear = false;
-
 	circleA.pos = { -(float)Length / 2, 0 };
 	circleB.pos = { (float)Length / 2, 0 };
 	circleA.center = { -(float)Length / 2, 0 };
 	circleB.center = { (float)Length / 2, 0 };
-
 	outcolor = 0xE5C210FF;
 	color = 0x2B1247FF;
 }
@@ -53,7 +41,6 @@ void Player::SetZoom(Screen& screen, Player& players) {
 
 /*　円運動の関数　*/
 void CircleA::CircleProcess(Player& players) {
-	
 	circleA.deg += players.incDeg * players.Reverse;
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
@@ -64,7 +51,6 @@ void CircleA::CircleProcess(Player& players) {
 	player->deg = circleA.deg;
 }
 void CircleB::CircleProcess(Player& players) {
-	
 	circleB.deg -= players.incDeg * players.Reverse;
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
@@ -115,7 +101,7 @@ void Player::IncDegProcess(Player& players, char prekeys, char keys) {
 
 /*　スクロール座標を設定する関数　*/
 void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char keys) {
-	if (prekeys == 0 && keys != 0 && isScroll == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000)))){
+	if (prekeys == 0 && keys != 0 && isScroll == false && (players.isTitleClear == true || (players.isTitleClear == false && (players.pos.Length() <= 5000))) && isPressSpace == true){
 		isScroll = true;
 	}
 	if (isScroll == true){
@@ -127,6 +113,13 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 			isScroll = false;
 			Scrolleasingt = 0.0f;
 		}
+	}
+	if (isPressSpace == false){
+		screen.Scroll = { 0,0 };
+	}
+	if (isPressSpace == false && prekeys == 0 && keys != 0) {
+		screen.Scroll = { -150,0 };
+		isPressSpace = true;
 	}
 }
 
@@ -197,14 +190,10 @@ void Player::MutekiTime() {
 void Player::Process(Player& players, char prekeys, char keys, char predik_d, char dik_d, Title& title, GameClear& Gcear, Screen& screen) {
 	if (Gcear.isGameClear == false){
 		if (isPressSpace == false) {
-			theta += 1 / (8.0f * M_PI);
-			circleA.pos.y = sinf(theta) * 20;
-			circleB.pos.y = sinf(theta) * 20;
-			circleA.center.y = sinf(theta) * 20;
-			circleB.center.y = sinf(theta) * 20;
-			if (prekeys == 0 && keys != 0) {
-				isPressSpace = true;
-			}
+			circleA.pos.y = sinf(title.theta) * 20;
+			circleB.pos.y = sinf(title.theta) * 20;
+			circleA.center.y = sinf(title.theta) * 20;
+			circleB.center.y = sinf(title.theta) * 20;
 		}
 		if (isPressSpace == true) {
 			IncDegProcess(players, prekeys, keys);
@@ -225,6 +214,9 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 			}
 			player->CircleProcess(players);
 		}
+		if (isPressSpace == false && prekeys == 0 && keys != 0) {
+			circleB.pos.x = circleA.pos.x;
+		}
 	}
 	if (Gcear.isGameClear == true) {
 		player->radius = 25;
@@ -233,6 +225,7 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 		Gceasingt += 0.01f;
 		Gceasingt = Clamp(Gceasingt, 0.0f, 1.0f);
 		circleA.pos = { -Lerp(Easing::easeOutCubic(Gceasingt), 150), 150 };
+		player->pos = { -Lerp(Easing::easeOutCubic(Gceasingt), 150), 150 };
 		circleB.pos = {  Lerp(Easing::easeOutCubic(Gceasingt), 149), 150 };
 		player->center = { -Lerp(Easing::easeOutCubic(Gceasingt), 150), 150 };
 		player->deg = 0;
