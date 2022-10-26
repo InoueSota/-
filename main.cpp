@@ -111,7 +111,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (wave.stage_1_set_flag == true) {
 					for (int i = 0; i < Figure::FigureMax; i++) {
 						if (ellipse[i].responflag == true) {
-							ellipse[i].reset();
+							ellipse[i].reset(players);
 						}
 						ellipse[i].Update(players, screen, stage_1, wave);
 						if (Drain_Check_Ellipse(players, ellipse[i])) {
@@ -232,10 +232,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//Update
 			for (int i = 0; i < Figure::FigureMax; i++) {
 				if (ellipse[i].responflag == true) {
-					ellipse[i].reset();
+					ellipse[i].reset(players);
 				}
 				if (triangle[i].responflag == true) {
-					triangle[i].reset();
+					triangle[i].reset(players);
 				}
 				ellipse[i].Update(players, screen, stage_1, wave);
 				if (Drain_Check_Ellipse(players, ellipse[i])) {
@@ -326,13 +326,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				for (int i = 0; i < Figure::FigureMax; i++) {
 					if (ellipse[i].responflag == true) {
-						ellipse[i].reset();
+						ellipse[i].reset(players);
 					}
 					if (triangle[i].responflag == true) {
-						triangle[i].reset();
+						triangle[i].reset(players);
 					}
 					if (quadrangle[i].responflag == true) {
-						quadrangle[i].reset();
+						quadrangle[i].reset(players);
 					}
 
 					/*if (ellipse[i].InScreen(players, ellipse[i].position, screen)) {
