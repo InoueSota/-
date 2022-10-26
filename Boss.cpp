@@ -444,6 +444,7 @@ void Boss::Rand_Move(int rand)
 		cooltime -= 1;
 		cooltime = Clamp(cooltime,0,300);
 
+
 		if (cooltime == 0) {
 			if (rand_num == 1) {
 				pattern_1 = true;
@@ -476,50 +477,45 @@ void Boss::Rand_Move(int rand)
 void Boss::Result(Player& player,Screen& screen,int rand, Sound& sound)
 {
 	//攻撃パターンの設定
-	if (InScreen(player, position, screen) == true) {
+	/*if (InScreen(player, position, screen) == true) {*/
 		Rand_Move(rand);
 
-	}
+	/*}*/
 	Novice::ScreenPrintf(1000, 0, "rand:%d", rand_num);
-	Novice::ScreenPrintf(1000, 20, "cooltime:%d",cooltime);
+	//Novice::ScreenPrintf(1000, 20, "cooltime:%d",cooltime);
+	Novice::ScreenPrintf(1000, 20, "dekaku_tback:%d", dekaku_tback);
+
 
 
 		if (pattern_1 == true) {
 			//ホットプレートの完成
 			if (dekaku == false) {
-				dekaku_t = Clamp(dekaku_t,0,1.0f);
+				
 				if (dekaku_tback == false) {
 					dekaku_t += 0.02f;
 					dekaku_t = Clamp(dekaku_t, 0, 1.0f);
 					radius_f = easing(Easing::easeInBounce(dekaku_t), 0, 200);
 				}
-					if (dekaku_t == 1.0f||radius_f==200) {
-						dekaku_tback = true;
-						dekaku_t = 0;
-					}
-					if (dekaku_t == true && dekaku_tback == true) {
-						sound.Boss_t_Sound();
-
-					}
-				if (dekaku_tback == true) {
-					dekaku_t += 0.03f;
-					dekaku_t = Clamp(dekaku_t, 0, 1.0f);
-
-					radius_f = easing(Easing::easeInBack(dekaku_t), 200, 0);
-
-
+				if (dekaku_t == 1.0f || radius_f == 200) {
+					dekaku_tback = true;
+					dekaku_t = 0;
 				}
-			
-				if (dekaku_tback == true&&(radius_f==500||dekaku_t==1.0f)) {
+
+				if (dekaku_tback == true) {
+					dekaku_t2 += 0.03f;
+					dekaku_t2 = Clamp(dekaku_t2, 0, 1.0f);
+					radius_f = easing(Easing::easeInBack(dekaku_t2), 200, 0);
+				}
+
+				if (dekaku_tback == true && (radius_f == 500 || dekaku_t2 == 1.0f)) {
 					dasita[0] = false;
 					dasita[1] = false;
 					dasita[2] = false;
 					dasita[3] = false;
-
-
 					dekaku = true;
 				}
 			}
+
 			if (dekaku == true) {
 				
 
@@ -573,6 +569,8 @@ void Boss::Result(Player& player,Screen& screen,int rand, Sound& sound)
 						bakuha_back = false;
 						dekaku = false; 
 						dekaku_t = 0.01;
+						dekaku_t2 = 0.01;
+
 						dekaku_tback = false;
 						radius_f = 0;
 
