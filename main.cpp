@@ -774,7 +774,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Pparticle.DrawParticle(screen);
 			players.Draw(screen, players);
 			title.Draw(screen, title);
-
+			if (Novice::IsPlayingAudio(sound.Title_handle) == false || sound.Title_handle == -1) {
+				sound.Title_handle = Novice::PlayAudio(sound.Title, 1, 1 * music);
+			}
 			
 
 			break;
@@ -800,9 +802,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			change.Draw(screen, Gclear);
 			break;
 		case INGAME:
+			Novice::StopAudio(sound.Title_handle);
+
 			//背景描画
-			//Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
-			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
+			if (wave.stage != wave.boss_stage){
+				Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
+			}
+			else{
+				Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
+			}
 			for (int y = -6; y < 7; y++) {
 				for (int x = -6; x < 7; x++) {
 					int width = 4000;
@@ -821,8 +829,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 					Pparticle.DrawParticle(screen);
 					players.Draw(screen, players);
-
-					item.Draw(screen, players);
 
 					bar.beasdraw(screen);
 					bar.draw(screen);
@@ -848,7 +854,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				slash.Draw(screen);
 				players.Draw(screen, players);
 
-				item.Draw(screen, players);
 				tboss.t_draw(screen);
 				if (Novice::IsPlayingAudio(sound.stage_2_handle) == false || sound.stage_2_handle == -1) {
 					sound.stage_2_handle = Novice::PlayAudio(sound.stage_2, 1, 1 * music);
@@ -879,13 +884,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				slash.Draw(screen);
 				players.Draw(screen, players);
 
-				item.Draw(screen, players);
 				bar.Update(players, map, wave);
 				bar.beasdraw(screen);
 				bar.draw(screen);
+				if (Novice::IsPlayingAudio(sound.stage_3_handle) == false || sound.stage_3_handle == -1) {
+					sound.stage_3_handle = Novice::PlayAudio(sound.stage_3, 1, 1 * music);
+				}
 				break;
 
 			case wave.boss_stage:
+				Novice::StopAudio(sound.stage_3_handle);
+
 				//////////////////
 				for (int i = 0; i < Figure::FigureMax; i++) {
 					if (triangle[i].triangle_death && seed[i].UpdateFlag) {
@@ -909,13 +918,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				slash.Draw(screen);
 				beam.Draw(screen);
 
-				item.Draw(screen, players);
 				boss.draw(screen);
 				if (boss.shild == 0/* && boss.Boss_Player(players) == true*/) {
 					Gclear.DrawKillBoss();
 				}
 				players.Draw(screen, players);
-
+				if (Novice::IsPlayingAudio(sound.stage_boss_handle) == false || sound.stage_boss_handle == -1) {
+					sound.stage_boss_handle = Novice::PlayAudio(sound.stage_boss, 1, 1 * music);
+				}
 				break;
 			case wave.rest:
 
@@ -924,11 +934,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			wave.WaveDraw();
 			break;
 		case GAMECLEAR:
+			Novice::StopAudio(sound.stage_boss_handle);
+
 			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
 			gp.DrawParticle();
 			Gclear.Draw(screen);
 			players.Draw(screen, players);
 			Gclear.DrawToTitle();
+
+			if (Novice::IsPlayingAudio(sound.Clear_handle) == false || sound.Clear_handle == -1) {
+				sound.Clear_handle = Novice::PlayAudio(sound.Clear, 1, 1 * music);
+			}
 			break;
 		}
 		
