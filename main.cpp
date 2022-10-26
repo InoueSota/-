@@ -57,6 +57,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		players.SetPlayers(players);
 		players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
+		players.SetZoom(screen, players, title);
 		//パーティクル処理
 		Pparticle.ParticleProcess(players, screen);
 		//ウェーブ処理
@@ -67,22 +68,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		switch (scene)
 		{
 		case TITLE:
-			
+
 			title.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]);
 			if (Drain_InTitle(players, title.Targetpos, title.kTargetRadius) == true) {
 				title.isDrainClear = true;
 			}
 			if (title.isTitleClear == true) {
 				players.isTitleClear = true;
-				scene = CHANGE;
 				sound.Idou_Sound();
+				scene = CHANGE;
 			}
 			
 			break;
 		case CHANGE:
-			change.Process();
+			change.Process(Gclear);
 			//セット
-			players.SetZoom(screen, players);
+			players.SetZoom(screen, players, title);
 			if (!wave.stage_1_set_flag) {
 				stage_1.Set_Map(0, 0, 2000, RED);
 				for (int i = 0; i < Figure::FigureMax; i++) {
@@ -100,8 +101,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		case INGAME:
-			//セット
-			players.SetZoom(screen, players);
 
 			switch (wave.stage) {
 			case wave.stage_1_only:
@@ -160,11 +159,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 						wave.stage_2_set_flag = true;
 
-					for (int i = 0; i < Figure::FigureMax; i++) {
-						ellipse[i].set(players, screen, stage_2, wave);
-						triangle[i].set(players, screen, stage_2, wave);
-						seed[i].set(players, screen, stage_2, triangle[i].position, 3);
-					}
+						for (int i = 0; i < Figure::FigureMax; i++) {
+							ellipse[i].set(players, screen, stage_2, wave);
+							triangle[i].set(players, screen, stage_2, wave);
+							seed[i].set(players, screen, stage_2, triangle[i].position, 3);
+						}
 
 					}
 					//処理書いてね
@@ -551,17 +550,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Gclear.isGameClear = true;
 			gp.ParticleProcess();
 			Gclear.Process(screen);
-			players.SetZoom(screen, players);
-			if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE] != 0) {
-				screen.Zoom = { 0.7f,0.7f };
-				title.isTitleClear = false;
+			if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE] != 0 && Gclear.isToTitle == false) {
 				title.isDrainClear = false;
 				change.isChangeClear = false;
 				players.isPressSpace = false;
 				players.isTitleClear = false;
 				Gclear.isKillBoss = false;
-				Gclear.isGameClear = false;
-				scene = TITLE;
+				Gclear.isToTitle = true;
+				Gclear.isGameClear = true;
+			}
+			if (Gclear.isToTitle == true){
+				Gclear.ToTitle();
+				if (Gclear.TTalphat == 1.0f){
+					title.isTitleClear = false;
+					Gclear.isGameClear = false;
+					Gclear.alphat = 0.0f;
+					Gclear.color = 0xFFFFFF00;
+					Gclear.TTcolor = 0x00000000;
+					Gclear.TTalphat = 0.0f;
+					scene = TITLE;
+				}
 			}
 			break;
 		}
@@ -611,7 +619,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				Pparticle.DrawParticle(screen);
 				players.Draw(screen, players);
 			}
-			change.Draw(screen);
+			change.Draw(screen, Gclear);
 			break;
 		case INGAME:
 			//背景描画
@@ -695,7 +703,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 				Pparticle.DrawParticle(screen);
 				slash.Draw(screen);
-				beam.Draw(screen);
 				players.Draw(screen, players);
 
 				item.Draw(screen, players);
@@ -728,6 +735,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			gp.DrawParticle();
 			Gclear.Draw(screen);
 			players.Draw(screen, players);
+			Gclear.DrawToTitle();
 			break;
 		}
 		

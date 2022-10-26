@@ -32,11 +32,16 @@ void Player::SetPlayers(Player& players) {
 }
 
 /*　ズームの値を設定する関数　*/
-void Player::SetZoom(Screen& screen, Player& players) {
-	Vec2 tmp(1.0f, 1.0f);
-	tmp.x /= players.radius / 25;
-	tmp.y /= players.radius / 25;
-	screen.Zoom = tmp;
+void Player::SetZoom(Screen& screen, Player& players, Title& title) {
+	if (title.isTitleClear == false){
+		screen.Zoom = { 0.7f, 0.7f };
+	}
+	if (title.isTitleClear == true){
+		Vec2 tmp(1.0f, 1.0f);
+		tmp.x /= players.radius / 25;
+		tmp.y /= players.radius / 25;
+		screen.Zoom = tmp;
+	}
 }
 
 /*　円運動の関数　*/

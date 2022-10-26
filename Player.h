@@ -62,7 +62,7 @@ public:
 	virtual void SetDegree() {};																										//円運動する円を変更する際の度数の設定する関数
 	void IncDegProcess(Player& players, char prekeys, char keys);																		//incDegの速度を変化させる処理関数
 	void SetScrollPos(Screen& screen, Player& players, char prekeys, char keys);														//スクロール座標を設定する関数
-	void SetZoom(Screen& screen, Player& players);																						//ズームの値を設定する関数
+	void SetZoom(Screen& screen, Player& players, Title& title);																		//ズームの値を設定する関数
 	void SizeIncrease(Player& players);																									//敵に当たった時に使用する関数（半径が長くなる）
 	void SizeDecrease(Player& players, int wave);																									//敵に当たった時に使用する関数（半径が短くなる）
 	void MutekiTime();																													//無敵時間用関数

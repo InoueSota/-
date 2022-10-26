@@ -30,4 +30,11 @@ public:
 	void GLoadTexture();
 	void Draw(Screen& screen);
 
+	bool isToTitle;
+	float TTalphat;
+	unsigned int TTcolor;
+
+	void ToTitle();
+	void DrawToTitle();
+
 };

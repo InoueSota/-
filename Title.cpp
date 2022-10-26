@@ -107,17 +107,21 @@ void Change::Init() {
 	color = 0x000000FF;
 	isChangeClear = false;
 }
-void Change::Process() {
-	frame++;
-	if (frame >= 60){
-		alphat += 0.03f;
-		alphat = Clamp(alphat, 0.0f, 1.0f);
-		color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0xFF + alphat * 0x00);
-		if (color <= 0x00000000){
-			isChangeClear = true;
+void Change::Process(GameClear& Gclear) {
+	if (Gclear.isGameClear == false){
+		frame++;
+		if (frame >= 60) {
+			alphat += 0.01f;
+			alphat = Clamp(alphat, 0.0f, 1.0f);
+			color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0xFF + alphat * 0x00);
+			if (color <= 0x00000000) {
+				isChangeClear = true;
+			}
 		}
 	}
 }
-void Change::Draw(Screen& screen) {
-	Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, color, kFillModeSolid);
+void Change::Draw(Screen& screen, GameClear& Gclear) {
+	if (Gclear.isGameClear == false) {
+		Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, color, kFillModeSolid);
+	}
 }

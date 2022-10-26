@@ -2,6 +2,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "Screen.h"
+#include "GameClear.h"
 
 
 class Title
@@ -69,7 +70,7 @@ public:
 	bool isChangeClear;
 
 	void Init();
-	void Process();
-	void Draw(Screen& screen);
+	void Process(GameClear& Gclear);
+	void Draw(Screen& screen, GameClear& Gclear);
 
 };
