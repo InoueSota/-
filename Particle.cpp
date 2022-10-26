@@ -1,5 +1,54 @@
 #include "Particle.h"
 
+void TitleP::ParticleInit() {
+    for (int i = 0; i < PARTICLE_MAX; i++) {
+        life[i] = 0;
+    }
+    spd = 5;
+}
+void TitleP::ParticleMake(Player& players, Screen& screen) {
+    for (int i = 0; i < PARTICLE_MAX; i++) {
+        if (life[i] <= 0 && frame % 3 == 0) {
+            pos[i].x = RAND(screen.Scroll.x - SCREEN_HEIGHT / 2, screen.Scroll.x + SCREEN_HEIGHT / 2);
+            pos[i].y = screen.Scroll.y - SCREEN_HEIGHT / 2;
+            life[i] = PARTICLE_LIFE;
+            color[i] = 0xE5C210FF;
+            break;
+        }
+    }
+}
+void TitleP::ParticleMove() {
+    for (int i = 0; i < PARTICLE_MAX; i++) {
+        if (life[i] > 0) {
+            life[i]--;
+            pos[i].y -= spd;
+            if (life[i] <= 0) {
+                life[i] = 0;
+            }
+        }
+    }
+}
+void TitleP::ParticleProcess(Player& players, Screen& screen) {
+    frame++;
+    ParticleMake(players, screen);
+    ParticleMove();
+}
+void TitleP::DrawParticle(Screen& screen) {
+    for (int i = 0; i < PARTICLE_MAX; i++) {
+        if (life[i] > 0) {
+            poss[i] = {
+                {pos[i].x - kLineWidth / 2, pos[i].y + kLineHeight / 2},
+                {pos[i].x + kLineWidth / 2, pos[i].y + kLineHeight / 2},
+                {pos[i].x - kLineWidth / 2, pos[i].y - kLineHeight / 2},
+                {pos[i].x + kLineWidth / 2, pos[i].y - kLineHeight / 2}
+            };
+            screen.DrawQuad2(poss[i], 0, 0, 0, 0, 0, color[i]);
+        }
+    }
+}
+
+
+
 void PlayerP::ParticleInit() {
     for (int i = 0; i < PARTICLE_MAX; i++) {
         life[i] = 0;

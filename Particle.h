@@ -24,6 +24,19 @@ public:
 	virtual void DrawParticle() {};							//Å@ï`âÊ
 };
 
+class TitleP : public Particle {
+public:
+	static constexpr int kLineWidth = 30;
+	static constexpr int kLineHeight = 200;
+	Quad poss[PARTICLE_MAX];
+	float spd;
+	void ParticleInit();
+	void ParticleMake(Player& players, Screen& screen);
+	void ParticleMove();
+	void ParticleProcess(Player& players, Screen& screen);
+	void DrawParticle(Screen& screen);
+};
+
 class PlayerP : public Particle {
 public:
 	void ParticleInit();

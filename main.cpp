@@ -74,7 +74,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		switch (scene)
 		{
 		case TITLE:
-
+			titlep.ParticleProcess(players, screen);
 			title.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]);
 			if (Drain_InTitle(players, title.Targetpos, title.kTargetRadius) == true) {
 				title.isDrainClear = true;
@@ -771,6 +771,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					screen.DrawQuad(x * width, y * height, x * width + width, y * height, x * width, y * height + height, x * width + width, y * height + height, 0, 0, 2000, 1500, background, BLACK);
 				}
 			}
+			titlep.DrawParticle(screen);
 			Pparticle.DrawParticle(screen);
 			players.Draw(screen, players);
 			title.Draw(screen, title);
