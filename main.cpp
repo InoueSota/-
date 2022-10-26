@@ -805,8 +805,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Novice::StopAudio(sound.Title_handle);
 
 			//背景描画
-			//Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
-			Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
+			if (wave.stage != wave.boss_stage){
+				Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
+			}
+			else{
+				Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x160036FF, kFillModeSolid);
+			}
 			for (int y = -6; y < 7; y++) {
 				for (int x = -6; x < 7; x++) {
 					int width = 4000;
@@ -825,8 +829,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 					Pparticle.DrawParticle(screen);
 					players.Draw(screen, players);
-
-					item.Draw(screen, players);
 
 					bar.beasdraw(screen);
 					bar.draw(screen);
@@ -852,7 +854,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				slash.Draw(screen);
 				players.Draw(screen, players);
 
-				item.Draw(screen, players);
 				tboss.t_draw(screen);
 				if (Novice::IsPlayingAudio(sound.stage_2_handle) == false || sound.stage_2_handle == -1) {
 					sound.stage_2_handle = Novice::PlayAudio(sound.stage_2, 1, 1 * music);
@@ -883,7 +884,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				slash.Draw(screen);
 				players.Draw(screen, players);
 
-				item.Draw(screen, players);
 				bar.Update(players, map, wave);
 				bar.beasdraw(screen);
 				bar.draw(screen);
@@ -918,7 +918,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				slash.Draw(screen);
 				beam.Draw(screen);
 
-				item.Draw(screen, players);
 				boss.draw(screen);
 				if (boss.shild == 0/* && boss.Boss_Player(players) == true*/) {
 					Gclear.DrawKillBoss();
