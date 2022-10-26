@@ -3,12 +3,15 @@
 
 Boss::Boss()
 {
+	damepar = true;
+
 	Boss_color = 0x000000FF;
 	hit = false;;
 
 	SRAND();
 
 	Vec2;
+	
 	position = { 0,0 };
 	flag = false;
 	radian = 0;
@@ -67,6 +70,15 @@ Boss::Boss()
 		zan_time[i] = false;
 		zanrad[i] = 0;
 	}
+	for (int i = 0; i < MAX_DAME; i++) {
+		dame.pos[i]={};
+		dame.vel[i]={};
+		dame.rad[i]={};
+		dame.EaseT[i]=0;
+		dame.lifetime[i]=0;
+		dame.flag[i]=0;
+		dame.color[i]=0;
+	}
 }
 void Boss::Init()
 {
@@ -103,6 +115,36 @@ void Boss::Init()
 		dasita[i] = false;
 
 
+	}
+}
+void Boss::Dame_Par()
+{
+	if (damepar == true) {
+		for (int i = 0; i < MAX_DAME; i++) {
+			if (dame.flag[i] == false) {
+
+				dame.pos[i] = position;
+				dame.rad[i] = radian / 10;
+				dame.lifetime[i] = 1.0f;
+				dame.vel[i] = Vec2(RAND(-30.0f, 30), RAND(-30, 30));
+				dame.EaseT[i] = 0;
+				dame.color[i] = 0x000000FF;
+				dame.flag[i] = true;
+				/*break;*/
+			}
+
+
+			if (dame.flag[i] == true) {
+				dame.pos[i] += dame.vel[i];
+				dame.lifetime[i] -= 0.01f;
+				dame.lifetime[i] = Clamp(dame.lifetime[i], 0, 1.0f);
+				dame.color[i]= 0x00000000 | static_cast<int>((1.0f - dame.lifetime[i]) * 0x00 + dame.lifetime[i] * 0xFF);
+				if (dame.lifetime[i] == 0) {
+					dame.flag[i] = false;
+					damepar = false;
+				}
+			}
+		}
 	}
 }
 bool Boss::Bullet_Player(Player& player)
@@ -969,6 +1011,12 @@ void Boss::t_draw(Screen& screen) {
 				}
 
 			}
+
+		}
+	}
+	for (int i = 0; i < MAX_DAME; i++) {
+		if (dame.flag[i] == true) {
+		screen.DrawEllipse(dame.pos[i].x, dame.pos[i].y, dame.rad[i], dame.rad[i], 0, dame.color[i], kFillModeSolid);
 
 		}
 	}

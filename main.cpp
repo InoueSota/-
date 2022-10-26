@@ -61,13 +61,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Pparticle.ParticleProcess(players, screen);
 		//ウェーブ処理
 		wave.WaveStart();
-
 		if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE]) {
 			sound.Space_Sound();
 		}
 		switch (scene)
 		{
 		case TITLE:
+			
 			title.Process(preKeys[DIK_SPACE], keys[DIK_SPACE]);
 			if (Drain_InTitle(players, title.Targetpos, title.kTargetRadius) == true) {
 				title.isDrainClear = true;
@@ -148,160 +148,164 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			case wave.stage_2://中ボス
 				wave.isStart_stage_2 = true;
 				//中ボス追加
-			{
-				if (!wave.stage_2_set_flag) {
+				{
+					if (!wave.stage_2_set_flag) {
 
-					wave.stage_1_set_flag = false;
+						wave.stage_1_set_flag = false;
 
-					stage_2.Set_Map(0, 0, 5000, RED);
+						stage_2.Set_Map(0, 0, 5000, RED);
 
-					tboss.t_set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
-					boss_stage.Set_Map(0, 0, 10000, RED);
+						tboss.t_set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
+						boss_stage.Set_Map(0, 0, 10000, RED);
 
-					wave.stage_2_set_flag = true;
+						wave.stage_2_set_flag = true;
 
+						for (int i = 0; i < Figure::FigureMax; i++) {
+							ellipse[i].set(players, screen, stage_1, wave);
+							triangle[i].set(players, screen, stage_2, wave);
+							seed[i].set(players, screen, stage_2, triangle[i].position, 3);
+						}
+
+					}
+					//処理書いてね
+					/*ボス関係*/
+					/*ボス関係*/
+					tboss.Keep_Up(players);//追いかけ続けるやつ
+					tboss.Result(players, screen, RAND(1, 1), sound);//追いかけて着る
+					
+					
+					
+					if (Slash_EX_Boss(slash, tboss) == true) {
+						tboss.radian -= 2.0f;
+						//slash.isOccur = false;//これどうするか阿多ttら消える処理
+						tboss.hit = true;
+						tboss.damepar = true;						
+					}else {
+						tboss.hit = false;
+					}
+					tboss.Dame_Par();//ダメージ受けた時のパーティクル
+					
+					if (tboss.shild != 0) {
+
+
+
+						/*if (beam.isOccur == true) {
+							if (Beam_Boss(beam, tboss) == true) {
+								tboss.radian -= 0.5f;
+							}
+						}*/
+
+						if (tboss.radian < 500) {
+							tboss.shild = 1;
+							if (tboss.radian < 400) {
+								tboss.shild = 0;
+
+							}
+						}
+					}
+
+
+					///プレイヤーに攻撃が当たった時
+					if (tboss.Bullet_Player(players) == true) {
+						players.radius -= 0.5f;
+					}
+					if (tboss.Bullet_Player_2(players) == true) {
+						players.radius -= 0.5f;
+					}
+					if (tboss.Blade_Player(players) == true) {
+						players.radius -= 0.5f;
+
+					}
+					//ボスのプレイヤーが当たった時
+
+					if (tboss.shild != 0 && tboss.Boss_Player(players) == true && players.Muteki == false) {  //ボスのシールドがある、俺が無敵じゃない、当たる
+						players.Muteki = true;
+						players.Reverse *= -1;
+						players.radius -= 1;
+					}
+					else if (players.Muteki == true) {
+						players.MutekiTime();
+
+					}
+					//クリア条件
+					if (tboss.shild == 0 && tboss.Boss_Player(players) == true) {
+						wave.stage = wave.stage_3;
+						players.radius = 80;
+					}
+
+
+
+					//Update
 					for (int i = 0; i < Figure::FigureMax; i++) {
-						ellipse[i].set(players, screen, stage_1, wave);
-						triangle[i].set(players, screen, stage_2, wave);
-						seed[i].set(players, screen, stage_2, triangle[i].position, 3);
-					}
-
-				}
-				//処理書いてね
-				/*ボス関係*/
-				/*ボス関係*/
-				tboss.Keep_Up(players);//追いかけ続けるやつ
-				tboss.Result(players, screen, RAND(1, 1),sound);//追いかけて着る
-				if (Slash_Boss(slash, tboss) == true) {
-					tboss.radian -= 2.0f;
-					tboss.hit = true;
-
-				}
-				else {
-					tboss.hit = false;
-
-				}
-				if (tboss.shild != 0) {
-					
-					
-
-					/*if (beam.isOccur == true) {
-						if (Beam_Boss(beam, tboss) == true) {
-							tboss.radian -= 0.5f;
+						if (ellipse[i].responflag == true) {
+							ellipse[i].reset(players);
 						}
-					}*/
-
-					if (tboss.radian < 500) {
-						tboss.shild = 1;
-						if (tboss.radian < 400) {
-							tboss.shild = 0;
-
+						if (triangle[i].responflag == true) {
+							triangle[i].reset(players);
 						}
-					}
-				}
-
-
-				///プレイヤーに攻撃が当たった時
-				if (tboss.Bullet_Player(players) == true) {
-					players.radius -= 0.5f;
-				}
-				if (tboss.Bullet_Player_2(players) == true) {
-					players.radius -= 0.5f;
-				}
-				if (tboss.Blade_Player(players) == true) {
-					players.radius -= 0.5f;
-
-				}
-				//ボスのプレイヤーが当たった時
-
-				if (tboss.shild != 0 && tboss.Boss_Player(players) == true && players.Muteki == false) {  //ボスのシールドがある、俺が無敵じゃない、当たる
-					players.Muteki = true;
-					players.Reverse *= -1;
-					players.radius -= 1;
-				}
-				else if (players.Muteki == true) {
-					players.MutekiTime();
-
-				}
-				//クリア条件
-				if (tboss.shild == 0 && tboss.Boss_Player(players) == true) {
-					wave.stage = wave.stage_3;
-					players.radius = 80;
-				}
-
-			}
-
-			//Update
-			for (int i = 0; i < Figure::FigureMax; i++) {
-				if (ellipse[i].responflag == true) {
-					ellipse[i].reset(players);
-				}
-				if (triangle[i].responflag == true) {
-					triangle[i].reset(players);
-				}
-				ellipse[i].Update(players, screen, stage_1, wave);
-				if (Drain_Check_Ellipse(players, ellipse[i])) {
-					if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true && ellipse[i].responflag == false) {
-						Novice::PlayAudio(drain, 0, 0.5);
-						players.SizeIncrease(players);
-						ellipse[i].flag = false;
-					}
-				}
-				if (triangle[i].InScreen(players, triangle[i].position, screen) && triangle[i].responflag == false) {
-					triangle[i].Update(players, screen, stage_2, seed[i]);
-					if (triangle[i].triangle_death && seed[i].UpdateFlag) {
-						seed[i].Update(players, screen, stage_2);
-					}
-				}
-				if (ellipse[i].Player_Ellipse(players) == true) {
-					players.SizeDecrease(players, wave.stage);
-					screen.Shake(0, 10, 0, 10, true);
-				}
-				if (triangle[i].Player_Triangle(players) == true) {
-					players.SizeDecrease(players, wave.stage);
-					screen.Shake(0, 10, 0, 10, true);
-				}
-				if (triangle[i].triangle_death && seed[i].UpdateFlag ) {
-					for (int t = 0; t < 3; t++) {
-						if (seed[i].Player_Seed(players, seed[i].position[t])) {
+						ellipse[i].Update(players, screen, stage_1, wave);
+						if (Drain_Check_Ellipse(players, ellipse[i])) {
+							if (Drain_Center_Circle(players, ellipse[i]) == true && ellipse[i].flag == true && ellipse[i].responflag == false) {
+								Novice::PlayAudio(drain, 0, 0.5);
+								players.SizeIncrease(players);
+								ellipse[i].flag = false;
+							}
+						}
+						if (triangle[i].InScreen(players, triangle[i].position, screen) && triangle[i].responflag == false) {
+							triangle[i].Update(players, screen, stage_2, seed[i]);
+							if (triangle[i].triangle_death && seed[i].UpdateFlag) {
+								seed[i].Update(players, screen, stage_2);
+							}
+						}
+						if (ellipse[i].Player_Ellipse(players) == true) {
 							players.SizeDecrease(players, wave.stage);
 							screen.Shake(0, 10, 0, 10, true);
 						}
+						if (triangle[i].Player_Triangle(players) == true) {
+							players.SizeDecrease(players, wave.stage);
+							screen.Shake(0, 10, 0, 10, true);
+						}
+						if (triangle[i].triangle_death && seed[i].UpdateFlag) {
+							for (int t = 0; t < 3; t++) {
+								if (seed[i].Player_Seed(players, seed[i].position[t])) {
+									players.SizeDecrease(players, wave.stage);
+									screen.Shake(0, 10, 0, 10, true);
+								}
+							}
+						}
+						if (Drain_Check_Triangle(players, triangle[i])) {
+							if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true && triangle[i].responflag == false) {
+								Novice::PlayAudio(drain, 0, 0.5);
+								slash.spd += 0.2f;
+								players.SizeIncrease(players);
+								triangle[i].flag = false;
+								seed[i].UpdateFlag = false;
+							}
+						}
 					}
-				}
-				if (Drain_Check_Triangle(players, triangle[i])) {
-					if (Drain_Center_Triangle(players, triangle[i]) == true && triangle[i].flag == true && triangle[i].responflag == false) {
-						Novice::PlayAudio(drain, 0, 0.5);
-						slash.spd += 0.2f;
-						players.SizeIncrease(players);
-						triangle[i].flag = false;
-						seed[i].UpdateFlag = false;
-					}
-				}
-			}
-			//Respon
-			for (int i = 0; i < Figure::FigureMax; i++) {
+					//Respon
+					for (int i = 0; i < Figure::FigureMax; i++) {
 
-				if (ellipse[i].flag == false) {
-					ellipse[i].cooltime++;
-					if (ellipse[i].cooltime % 120 == 0) {
-						ellipse[i].respon(players, screen, stage_2, wave);
+						if (ellipse[i].flag == false) {
+							ellipse[i].cooltime++;
+							if (ellipse[i].cooltime % 120 == 0) {
+								ellipse[i].respon(players, screen, stage_2, wave);
+							}
+						}
+						if (triangle[i].flag == false && !seed[i].UpdateFlag && !triangle[i].triangle_death) {
+							triangle[i].cooltime++;
+							if (triangle[i].cooltime % 120 == 0) {
+								triangle[i].respon(players, screen, stage_2, wave);
+								seed[i].respon(players, screen, triangle[i].position, stage_2);
+							}
+						}
 					}
-				}
-				if (triangle[i].flag == false && !seed[i].UpdateFlag && !triangle[i].triangle_death) {
-					triangle[i].cooltime++;
-					if (triangle[i].cooltime % 120 == 0) {
-						triangle[i].respon(players, screen, stage_2, wave);
-						seed[i].respon(players, screen, triangle[i].position, stage_2);
-					}
-				}
-			}
-				break;
+					break;
 			case wave.stage_3:
 			{
 				wave.isStart_stage_3 = true;
 				if (!wave.stage_3_set_flag) {
-					
+
 					wave.stage_2_set_flag = false;
 					stage_3.Set_Map(0, 0, 6000, RED);
 					///一回だけのやつ
@@ -453,11 +457,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				}
 				if (players.radius >= wave.MapChenge(stage_3)) {
- 					wave.stage = wave.boss_stage;
+					wave.stage = wave.boss_stage;
 				}
 				wave.stage_2_draw_flag = true;
 			}
-			bar.Update(players,stage_3,wave);
+			bar.Update(players, stage_3, wave);
+				}
 				break;
 		
 			case wave.boss_stage:
@@ -476,7 +481,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				/*ボス関係*/
 				boss.Keep_Up(players);
 				boss.Result(players, screen, RAND(2, 2),sound);
-				if (Slash_Boss(slash, boss) == true) {
+				if (Slash_EX_Boss(slash, boss) == true) {
 					boss.radian -= 5.25f;
 				}
 

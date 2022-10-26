@@ -8,7 +8,7 @@ class Boss;
 const int MAX_BULLET=8;
 const int MAX_BULLET_t = 4;
 const int MAX_ZAN = 20;
-
+const int MAX_DAME = 20;
 class Boss:public Figure
 {
 	//pos,radius,color,flag
@@ -33,6 +33,16 @@ class Boss:public Figure
 		float theta=0;
 		float t = 0;
 		
+	};
+	static struct dame {
+		
+		Vec2 pos[MAX_DAME];
+		Vec2 vel[MAX_DAME];
+		float rad[MAX_DAME];
+		float EaseT[MAX_DAME];
+		float lifetime[MAX_DAME];
+		bool flag[MAX_DAME];
+		unsigned int color[MAX_DAME];
 	};
 
 	Matrix2x2 MakeRotateMatrix(float theta)
@@ -70,6 +80,8 @@ public:
 	void Keep_Up(Player& player);
 	void t_draw(Screen& screen);
 	void Init();
+
+	void Dame_Par();
 	
 	bool Bullet_Player(Player& player);
 	bool Bullet_Player_2(Player& player);
@@ -82,6 +94,10 @@ public:
 	float theta;
 	bool hit;
 	unsigned int Boss_color;
+
+	bool damepar;
+
+	dame dame;
 	//ÇœÇΩÅ[ÇÒÇP
 
 	bool dekaku;
