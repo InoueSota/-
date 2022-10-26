@@ -34,6 +34,7 @@ void Title::Process(char prekeys, char keys) {
 	if (isExist == true) {
 		Rradius += 3;
 		Existtime += 0.01f;
+		Existtime = Clamp(Existtime, 0.0f, 1.0f);
 		Rcolor = 0x00000000 | static_cast<int>((1.0f - Existtime) * 0xFF + Existtime * 0x00);
 		if (Rcolor == 0x00000000) {
 			isExist = false;
@@ -41,6 +42,7 @@ void Title::Process(char prekeys, char keys) {
 	}
 	if (isDrainClear == true){
 		alphat += 0.01f;
+		alphat = Clamp(alphat, 0.0f, 1.0f);
 		color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0x00 + alphat * 0xFF);
 		if (color >= 0x000000FF){
 			isTitleClear = true;
