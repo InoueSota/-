@@ -110,7 +110,7 @@ void Change::Init() {
 void Change::Process() {
 	frame++;
 	if (frame >= 60){
-		alphat += 0.01f;
+		alphat += 0.03f;
 		color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0xFF + alphat * 0x00);
 		if (color <= 0x00000000){
 			isChangeClear = true;
