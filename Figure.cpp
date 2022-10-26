@@ -208,7 +208,7 @@ void Seed::set(Player& player, Screen screen, Map map, Vec2 pos,int seed) {
 	}
 
 	radian = player.radius * 0.5;
-	color = WHITE;
+	color = 0x17f68eFF;
 
 	UpdateFlag = true;
 	setFlag = true;
@@ -806,6 +806,6 @@ void Quadrangle::draw(Screen& screen) {
 
 void Quadrangle::breaddraw(Screen& screen) {
 	
-	screen.DrawQuad(bread_1_top_left_position.x, bread_1_top_left_position.y, bread_1_top_right_position.x, bread_1_top_right_position.y, bread_1_bottom_left_position.x, bread_1_bottom_left_position.y, bread_1_bottom_right_position.x, bread_1_bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, WHITE);
-	screen.DrawQuad(bread_2_top_left_position.x, bread_2_top_left_position.y, bread_2_top_right_position.x, bread_2_top_right_position.y, bread_2_bottom_left_position.x, bread_2_bottom_left_position.y, bread_2_bottom_right_position.x, bread_2_bottom_right_position.y, 0.0f, 0.0f, radian / 2, radian, 0, WHITE);
+	screen.DrawQuad(bread_1_top_left_position.x, bread_1_top_left_position.y, bread_1_top_right_position.x, bread_1_top_right_position.y, bread_1_bottom_left_position.x, bread_1_bottom_left_position.y, bread_1_bottom_right_position.x, bread_1_bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, 0x17f68eFF);
+	screen.DrawQuad(bread_2_top_left_position.x, bread_2_top_left_position.y, bread_2_top_right_position.x, bread_2_top_right_position.y, bread_2_bottom_left_position.x, bread_2_bottom_left_position.y, bread_2_bottom_right_position.x, bread_2_bottom_right_position.y, 0.0f, 0.0f, radian, radian, 0, 0x17f68eFF);
 }
