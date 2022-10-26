@@ -46,17 +46,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Novice::SetWindowMode(kFullscreen);
 		}
 		/*　プレイヤー関係の関数（それぞれの意味はPlayer.hに記述）　*/
-		//プレイヤー本体
+		//アビリティ処理
 		slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
+		beam.Process(players, screen);
+		//プレイヤー本体
 		players.Process(players, preKeys[DIK_SPACE], keys[DIK_SPACE], preKeys[DIK_D], keys[DIK_D], title, Gclear, screen);
 		players.SetPlayers(players);
 		players.Ripples(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		players.SetScrollPos(screen, players, preKeys[DIK_SPACE], keys[DIK_SPACE]);
 		//パーティクル処理
 		Pparticle.ParticleProcess(players, screen);
-		//アビリティ処理
-		slash.Process(players, screen, preKeys[DIK_SPACE], keys[DIK_SPACE]);
-		beam.Process(players, screen);
 		//ウェーブ処理
 		wave.WaveStart();
 		switch (scene)
