@@ -17,11 +17,14 @@ Bar::Bar() {
 
 void Bar::Update(Player player,Map map,WAVE wave) {
 	Vec2 pos;
-	if (wave.stage_1_only) {
+	if (wave.stage == wave.stage_1_only) {
 		pos.x = ((player.radius - 25) / (wave.MapChenge(map) - 25)) * 1876;
 	}
-	if (wave.stage_2) {
-		pos.x = ((player.radius - 25) / (wave.MapChenge(map) - 25)) * 1876;
+	if (wave.stage == wave.stage_2) {
+		pos.x = ((player.radius - 80) / (wave.MapChenge(map) - 80)) * 1876;
+	}
+	if (wave.stage == wave.stage_3) {
+		pos.x = ((player.radius - 80) / (240-80)) * 1876;
 	}
 	now.RightTop.x = pos.x + 20;
 	now.RightBottom.x = pos.x + 20;

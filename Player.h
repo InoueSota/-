@@ -3,6 +3,7 @@
 #include "GameClear.h"
 #include "easing.h"
 #include "Matrix33.h"
+//#include "Wave.h"
 
 const int RIPPLES_MAX = 20;
 
@@ -66,7 +67,7 @@ public:
 	void SetScrollPos(Screen& screen, Player& players, char prekeys, char keys);														//スクロール座標を設定する関数
 	void SetZoom(Screen& screen, Player& players);																						//ズームの値を設定する関数
 	void SizeIncrease(Player& players);																									//敵に当たった時に使用する関数（半径が長くなる）
-	void SizeDecrease(Player& players);																									//敵に当たった時に使用する関数（半径が短くなる）
+	void SizeDecrease(Player& players, int wave);																									//敵に当たった時に使用する関数（半径が短くなる）
 	void MutekiTime();																													//無敵時間用関数
 	void Process(Player& players, char prekeys, char keys, char predik_d, char dik_d, Title& title, GameClear& Gcear, Screen& screen);	//関数をまとめてmain.cppで一行にする関数
 	void Draw(Screen& screen, Player& players);																							//描画関数

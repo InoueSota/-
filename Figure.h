@@ -78,7 +78,7 @@ public:
 	void set(Player& player, Screen screen, Map map, Vec2 pos, int seed);
 	void Update(Player player, Screen screen, Map map);
 	void respon(Player player, Screen screen, Vec2 pos, Map map);
-	bool Player_Seed(Player player);
+	bool Player_Seed(Player player, Vec2 position);
 
 	bool UpdateFlag = false;
 	static const int SeedMax = 3;
