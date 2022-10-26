@@ -33,6 +33,7 @@ Map stage_1,stage_2,stage_3,boss_stage;
 Title title;
 Change change;
 GameClear Gclear;
+GclearP gp;
 Player players;
 CircleA circlea;
 CircleB circleb;

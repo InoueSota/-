@@ -137,12 +137,30 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 void Player::SizeIncrease(Player& players) {
 	players.radius += 0.8f;
 }
-void Player::SizeDecrease(Player& players) {
-	if (players.radius >= 25) {
-		players.radius -= 0.05f;
+void Player::SizeDecrease(Player& players,int wave) {
+	if (wave == 0) {
+		if (players.radius >= 25) {
+			players.radius -= 0.05f;
+		}
+		else {
+			players.radius = 25;
+		}
 	}
-	else {
-		players.radius = 25;
+	else if (wave == 1) {
+		if (players.radius >= 80) {
+			players.radius -= 0.05f;
+		}
+		else {
+			players.radius = 80;
+		}
+	}
+	else if (wave == 2) {
+		if (players.radius >= 80) {
+			players.radius -= 0.06f;
+		}
+		else {
+			players.radius = 80;
+		}
 	}
 }
 void Player::MutekiTime() {
@@ -224,6 +242,7 @@ void Player::Process(Player& players, char prekeys, char keys, char predik_d, ch
 	}
 	if (Gcear.isGameClear == true) {
 		player->radius = 25;
+		players.radius = player->radius;
 		player->Length = radius * 12;
 		Gceasingt += 0.01f;
 		Gceasingt = Clamp(Gceasingt, 0.0f, 1.0f);
