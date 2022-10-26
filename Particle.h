@@ -26,10 +26,6 @@ public:
 
 class TitleP : public Particle {
 public:
-	static constexpr int kLineWidth = 30;
-	static constexpr int kLineHeight = 200;
-	Quad poss[PARTICLE_MAX];
-	float spd;
 	void ParticleInit();
 	void ParticleMake(Player& players, Screen& screen);
 	void ParticleMove();

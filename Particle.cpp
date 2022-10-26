@@ -2,16 +2,19 @@
 
 void TitleP::ParticleInit() {
     for (int i = 0; i < PARTICLE_MAX; i++) {
+        radius[i] = 30;
         life[i] = 0;
     }
-    spd = 5;
 }
 void TitleP::ParticleMake(Player& players, Screen& screen) {
     for (int i = 0; i < PARTICLE_MAX; i++) {
-        if (life[i] <= 0 && frame % 3 == 0) {
-            pos[i].x = RAND(screen.Scroll.x - SCREEN_HEIGHT / 2, screen.Scroll.x + SCREEN_HEIGHT / 2);
-            pos[i].y = screen.Scroll.y - SCREEN_HEIGHT / 2;
+        if (life[i] <= 0 && frame % 6 == 0) {
+            pos[i].x = RAND((screen.Scroll.x - SCREEN_WIDTH / screen.Zoom.x / 2), (screen.Scroll.x + SCREEN_WIDTH / screen.Zoom.x / 2));
+            pos[i].y = RAND((screen.Scroll.y - SCREEN_HEIGHT / screen.Zoom.y / 2), (screen.Scroll.y + SCREEN_HEIGHT / screen.Zoom.y / 2));
             life[i] = PARTICLE_LIFE;
+            radius[i] = RAND(20, 80);
+            decreaseSize[i] = radius[i] / 10;
+            alphat[i] = 0.0f;
             color[i] = 0xE5C210FF;
             break;
         }
@@ -21,8 +24,12 @@ void TitleP::ParticleMove() {
     for (int i = 0; i < PARTICLE_MAX; i++) {
         if (life[i] > 0) {
             life[i]--;
-            pos[i].y -= spd;
-            if (life[i] <= 0) {
+            alphat[i] += 0.01f;
+            color[i] = 0xE5C21000 | static_cast<int>((1.0f - alphat[i]) * 0xFF + alphat[i] * 0x00);
+            if (life[i] % 5 == 0) {
+                radius[i] -= decreaseSize[i];
+            }
+            if (radius[i] < 0 || color[i] <= 0xE5C21000) {
                 life[i] = 0;
             }
         }
@@ -36,13 +43,7 @@ void TitleP::ParticleProcess(Player& players, Screen& screen) {
 void TitleP::DrawParticle(Screen& screen) {
     for (int i = 0; i < PARTICLE_MAX; i++) {
         if (life[i] > 0) {
-            poss[i] = {
-                {pos[i].x - kLineWidth / 2, pos[i].y + kLineHeight / 2},
-                {pos[i].x + kLineWidth / 2, pos[i].y + kLineHeight / 2},
-                {pos[i].x - kLineWidth / 2, pos[i].y - kLineHeight / 2},
-                {pos[i].x + kLineWidth / 2, pos[i].y - kLineHeight / 2}
-            };
-            screen.DrawQuad2(poss[i], 0, 0, 0, 0, 0, color[i]);
+            screen.DrawEllipse(pos[i].x, pos[i].y, radius[i], radius[i], 0.0f, color[i], kFillModeSolid);
         }
     }
 }
