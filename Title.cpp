@@ -48,6 +48,10 @@ void Title::Process(char prekeys, char keys) {
 			isTitleClear = true;
 		}
 	}
+	if (isDrainClear == false){
+		alphat = 0.0f;
+		color = 0x00000000;
+	}
 }
 void Title::Draw(Screen& screen, Title& title) {
 	Quad titles{

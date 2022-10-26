@@ -39,8 +39,17 @@ void GameClear::Process(Screen& screen) {
 	alphat += 0.01f;
 	alphat = Clamp(alphat, 0.0f, 1.0f);
 	color = 0xFFFFFF00 | static_cast<int>((1.0f - alphat) * 0x00 + alphat * 0xFF);
+	if (isKillBoss == false){
+		alphat = 0.0f;
+		color = 0xFFFFFF00;
+		for (int i = 0; i < 2; i++) {
+			Circlepos[i] = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
+			CircleRadius[i] = 0;
+			Circlecolor[0] = 0xE5C210FF;
+			Circlecolor[1] = 0x2B1247FF;
+		}
+	}
 }
 void GameClear::Draw(Screen& screen) {
-	Novice::DrawBox(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0x2B1247FF, kFillModeSolid);
 	Novice::DrawSprite(0, 0, Gameclear, 1, 1, 0.0f, color);
 }
