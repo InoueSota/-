@@ -16,6 +16,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Gclear.GLoadTexture();
 	int background = Novice::LoadTexture("./resource./Background.png");
 	int Tokyuuin = Novice::LoadTexture("./resource./Tokyuuin.png");
+	int slashboss = Novice::LoadTexture("./resource./slashboss.png");
+	int beamboss = Novice::LoadTexture("./resource./beamboss.png");
 	int Slash_gra = Novice::LoadTexture("./resource./Slash.png");
 
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
@@ -881,6 +883,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				players.Draw(screen, players);
 
 				tboss.t_draw(screen);
+				if (tboss.shild != 0){
+					Novice::DrawSprite(0, 0, slashboss, 1, 1, 0.0f, WHITE);
+				}
 				if (tboss.shild == 0){
 					Novice::DrawSprite(0, 0, Tokyuuin, 1, 1, 0.0f, WHITE);
 				}
@@ -948,6 +953,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				beam.Draw(screen);
 
 				boss.draw(screen);
+				if (boss.shild != 0){
+					Novice::DrawSprite(0, 0, beamboss, 1, 1, 0.0f, WHITE);
+				}
 				if (boss.shild == 0/* && boss.Boss_Player(players) == true*/) {
 					Gclear.DrawKillBoss();
 					Novice::DrawSprite(0, 0, Tokyuuin, 1, 1, 0.0f, WHITE);
