@@ -480,10 +480,11 @@ void Boss::Result(Player& player,Screen& screen,int rand, Sound& sound)
 	/*if (InScreen(player, position, screen) == true) {*/
 		Rand_Move(rand);
 
-	/*}*/
-	Novice::ScreenPrintf(1000, 0, "rand:%d", rand_num);
-	//Novice::ScreenPrintf(1000, 20, "cooltime:%d",cooltime);
-	Novice::ScreenPrintf(1000, 20, "dekaku_tback:%d", dekaku_tback);
+
+	///*}*/
+	//Novice::ScreenPrintf(1000, 0, "rand:%d", rand_num);
+	////Novice::ScreenPrintf(1000, 20, "cooltime:%d",cooltime);
+	//Novice::ScreenPrintf(1000, 20, "dekaku_tback:%d", dekaku_tback);
 
 
 
@@ -747,7 +748,7 @@ void Boss::Result(Player& player,Screen& screen,int rand, Sound& sound)
 		}
 	
 		if (pattern_3 == true) {
-			Novice::ScreenPrintf(0, 120, "blade.ttheaa::%f", blade.theta);
+			//Novice::ScreenPrintf(0, 120, "blade.ttheaa::%f", blade.theta);
 
 			float a = position.x - player.center.x;
 			float b = position.y - player.center.y;
