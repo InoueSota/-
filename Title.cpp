@@ -43,7 +43,7 @@ void Title::Process(char prekeys, char keys) {
 	}
 	if (isDrainClear == true){
 		Tcolor = 0xE8097100;
-		alphat += 0.01f;
+		alphat += (0.01f * kFrameMag);
 		alphat = Clamp(alphat, 0.0f, 1.0f);
 		color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0x00 + alphat * 0xFF);
 		if (color >= 0x000000FF){
@@ -111,7 +111,7 @@ void Change::Process(GameClear& Gclear) {
 	if (Gclear.isGameClear == false){
 		frame++;
 		if (frame >= 60) {
-			alphat += 0.02f;
+			alphat += (0.02f * kFrameMag);
 			alphat = Clamp(alphat, 0.0f, 1.0f);
 			color = 0x00000000 | static_cast<int>((1.0f - alphat) * 0xFF + alphat * 0x00);
 			if (color <= 0x00000000) {
