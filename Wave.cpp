@@ -100,13 +100,7 @@ void WAVE::WaveStart() {
 				}
 			}
 		}
-		for (int i = 0; i < 4; i++){
-			if (isDisplay[i] == false){
-				frame[i] = 0;
-				Feasingt[i] = 0.0f;
-				Eeasingt[i] = 0.0f;
-			}
-		}
+
 
 
 }
@@ -120,6 +114,16 @@ void WAVE::WaveDraw() {
 				{pos[i].x + SCREEN_WIDTH, pos[i].y + SCREEN_HEIGHT}
 			};
 			Novice::DrawQuad(poss[i].LeftTop.x, poss[i].LeftTop.y, poss[i].RightTop.x, poss[i].RightTop.y, poss[i].LeftBottom.x, poss[i].LeftBottom.y, poss[i].RightBottom.x, poss[i].RightBottom.y, i * SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT, wave, WHITE);
+		}
+	}
+}
+
+void WAVE::Init() {
+	for (int i = 0; i < 4; i++) {
+		if (isDisplay[i] == false) {
+			frame[i] = 0;
+			Feasingt[i] = 0.0f;
+			Eeasingt[i] = 0.0f;
 		}
 	}
 }

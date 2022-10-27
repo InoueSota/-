@@ -751,6 +751,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Gclear.Process(screen);
 			if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE] != 0 && Gclear.isToTitle == false) {
 				Gclear.Init();
+				wave.Init();
 				wave.stage_2_set_flag = false;
 				wave.stage_3_set_flag = false;
 				wave.boss_set_flag = false;
