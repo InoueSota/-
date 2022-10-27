@@ -77,6 +77,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE]) {
 			sound.Space_Sound();
 		}
+		if (keys[DIK_P]) {
+			players.radius += 1;
+		}
 		switch (scene)
 		{
 		case TITLE:
@@ -767,6 +770,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				change.isChangeClear = false;
 				players.isPressSpace = false;
 				players.isTitleClear = false;
+				boss.shild = 3;
 				Gclear.isKillBoss = false;
 				Gclear.isToTitle = true;
 				Gclear.isGameClear = true;

@@ -1075,10 +1075,12 @@ void Boss::t_draw(Screen& screen) {
 	}
 	
 	screen.DrawEllipse(position.x, position.y, radian + radius_f, radian + radius_f, 0.0f, Boss_color, kFillModeSolid);
-	for (int i = 0; i < MAX_RUNE; i++) {
-		if (rune.flag[i] == true) {
-			screen.DrawEllipse(rune.pos[i].x, rune.pos[i].y, rune.rad[i], rune.rad[i], 0, rune.color[i], kFillModeSolid);
+	if (shild == 0) {
+		for (int i = 0; i < MAX_RUNE; i++) {
+			if (rune.flag[i] == true) {
+				screen.DrawEllipse(rune.pos[i].x, rune.pos[i].y, rune.rad[i], rune.rad[i], 0, rune.color[i], kFillModeSolid);
 
+			}
 		}
 	}
 	if (hit == true) {
@@ -1209,10 +1211,13 @@ void Boss::draw(Screen& screen) {
 
 		}
 	}
-	for (int i = 0; i < MAX_RUNE; i++) {
-		if (rune.flag[i] == true) {
-			screen.DrawEllipse(rune.pos[i].x, rune.pos[i].y, rune.rad[i], rune.rad[i], 0, rune.color[i], kFillModeSolid);
+	if (shild == 0) {
 
+		for (int i = 0; i < MAX_RUNE; i++) {
+			if (rune.flag[i] == true) {
+				screen.DrawEllipse(rune.pos[i].x, rune.pos[i].y, rune.rad[i], rune.rad[i], 0, rune.color[i], kFillModeSolid);
+
+			}
 		}
 	}
 	screen.DrawEllipse(position.x, position.y, radian+radius_f, radian+radius_f, 0.0f, Boss_color, kFillModeSolid);
