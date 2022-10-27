@@ -844,7 +844,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					bar.beasdraw(screen);
 					bar.draw(screen);
-					Novice::DrawSprite(1800, 0, Slash_gra, 0.2, 0.05, 0, WHITE);
+					//Novice::DrawSprite(1800, 0, Slash_gra, 0.2, 0.05, 0, WHITE);
 				}
 				if (Novice::IsPlayingAudio(sound.stage_1_handle) == false || sound.stage_1_handle == -1) {
 					sound.stage_1_handle = Novice::PlayAudio(sound.stage_1, 1, 1*music);
