@@ -46,7 +46,7 @@ void Player::SetZoom(Screen& screen, Player& players, Title& title) {
 
 /*@‰~‰^“®‚ÌŠÖ”@*/
 void CircleA::CircleProcess(Player& players) {
-	circleA.deg += players.incDeg * players.Reverse;
+	circleA.deg += (players.incDeg * kFrameMag) * players.Reverse;
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
 	circleA.pos = circleA.center + circleA.add * players.Length;
@@ -56,7 +56,7 @@ void CircleA::CircleProcess(Player& players) {
 	player->deg = circleA.deg;
 }
 void CircleB::CircleProcess(Player& players) {
-	circleB.deg -= players.incDeg * players.Reverse;
+	circleB.deg -= (players.incDeg * kFrameMag) * players.Reverse;
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
 	circleB.pos = circleB.center + circleB.add * players.Length;
@@ -110,7 +110,7 @@ void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char ke
 		isScroll = true;
 	}
 	if (isScroll == true){
-		Scrolleasingt += ScrollincT;
+		Scrolleasingt += (ScrollincT * kFrameMag);
 		Scrolleasingt = Clamp(Scrolleasingt, 0.0f, 1.0f);
 		screen.Scroll.x = Lerp(Easing::easeOutQuint(Scrolleasingt), players.tmpMovepos.x) + players.tmpCenpos.x;
 		screen.Scroll.y = Lerp(Easing::easeOutQuint(Scrolleasingt), players.tmpMovepos.y) + players.tmpCenpos.y;
@@ -235,7 +235,7 @@ void Player::Process(Player& players, char prekeys, char keys, Title& title, Gam
 		player->radius = 25;
 		players.radius = player->radius;
 		player->Length = radius * 12;
-		Gceasingt += 0.01f;
+		Gceasingt += (0.01f * kFrameMag);
 		Gceasingt = Clamp(Gceasingt, 0.0f, 1.0f);
 		circleA.pos = { -Lerp(Easing::easeOutCubic(Gceasingt), 150), 150 };
 		player->pos = { -Lerp(Easing::easeOutCubic(Gceasingt), 150), 150 };
@@ -302,7 +302,7 @@ void Player::Ripples(Screen& screen, Player& players, char prekeys, char keys, M
 		}
 		if (isExist[i] == true) {
 			Rradius[i] += 3 / screen.Zoom.x;
-			Existtime[i] += 0.01f;
+			Existtime[i] += (0.01f * kFrameMag);
 			Rcolor[i] = 0x00000000 | static_cast<int>((1.0f - Existtime[i]) * 0xFF + Existtime[i] * 0x00);
 			if (Rcolor[i] == 0x00000000) {
 				isExist[i] = false;

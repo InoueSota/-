@@ -24,6 +24,15 @@ public:
 	virtual void DrawParticle() {};							//Å@ï`âÊ
 };
 
+class TitleP : public Particle {
+public:
+	void ParticleInit();
+	void ParticleMake(Player& players, Screen& screen);
+	void ParticleMove();
+	void ParticleProcess(Player& players, Screen& screen);
+	void DrawParticle(Screen& screen);
+};
+
 class PlayerP : public Particle {
 public:
 	void ParticleInit();

@@ -17,12 +17,12 @@ void GameClear::Init() {
 void GameClear::KillBoss() {
 	CircleFrame++;
 	if (CircleFrame >= 0){
-		CircleEasingt[0] += 0.01f;
+		CircleEasingt[0] += (0.01f * kFrameMag);
 		CircleEasingt[0] = Clamp(CircleEasingt[0], 0.0f, 1.0f);
 		CircleRadius[0] = Lerp(Easing::easeOutSine(CircleEasingt[0]), SCREEN_WIDTH);
 	}
 	if (CircleFrame >= 90){
-		CircleEasingt[1] += 0.01f;
+		CircleEasingt[1] += (0.01f * kFrameMag);
 		CircleEasingt[1] = Clamp(CircleEasingt[1], 0.0f, 1.0f);
 		CircleRadius[1] = Lerp(Easing::easeOutSine(CircleEasingt[1]), SCREEN_WIDTH);
 	}
@@ -39,7 +39,7 @@ void GameClear::GLoadTexture() {
 	}
 }
 void GameClear::Process(Screen& screen) {
-	alphat += 0.01f;
+	alphat += (0.01f * kFrameMag);
 	alphat = Clamp(alphat, 0.0f, 1.0f);
 	color = 0xFFFFFF00 | static_cast<int>((1.0f - alphat) * 0x00 + alphat * 0xFF);
 	theta += 1 / (8.0f * M_PI);
@@ -60,7 +60,7 @@ void GameClear::Draw(Screen& screen) {
 	screen.DrawTriangle(Trianglepos.x - 50, Trianglepos.y + 50, Trianglepos.x + 50, Trianglepos.y + 50, Trianglepos.x, Trianglepos.y - 50, WHITE, kFillModeSolid);
 }
 void GameClear::ToTitle() {
-	TTalphat += 0.01f;
+	TTalphat += (0.01f * kFrameMag);
 	TTalphat = Clamp(TTalphat, 0.0f, 1.0f);
 	TTcolor = 0x00000000 | static_cast<int>((1.0f - TTalphat) * 0x00 + TTalphat * 0xFF);
 }

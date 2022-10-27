@@ -31,6 +31,7 @@ Scene scene = TITLE;
 Screen screen;
 Map map;
 Title title;
+TitleP titlep;
 Change change;
 GameClear Gclear;
 GclearP gp;
@@ -54,4 +55,4 @@ Bar bar;
 Sound sound;
 //Enemy enemy[3];
 
-float music = 0.5f;
+float music = 0.2f;

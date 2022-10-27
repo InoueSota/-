@@ -33,13 +33,13 @@ void WAVE::WaveStart() {
 	}
 		if (stage == stage_1_only && isStart_stage_1 == true) {
 			isDisplay[0] = true;
-			Feasingt[0] += 0.01f;
+			Feasingt[0] += (0.01f * kFrameMag);
 			Feasingt[0] = Clamp(Feasingt[0], 0.0f, 1.0f);
 			pos[0].x = Lerp(Easing::easeOutCubic(Feasingt[0]), SCREEN_WIDTH) - SCREEN_WIDTH;
 			if (Feasingt[0] == 1.0f) {
-				frame[0]++;
+				frame[0] += 1 * kFrameMag;
 				if (frame[0] >= 120) {
-					Eeasingt[0] += 0.01f;
+					Eeasingt[0] += (0.01f * kFrameMag);
 					Eeasingt[0] = Clamp(Eeasingt[0], 0.0f, 1.0f);
 					pos[0].x = Lerp(Easing::easeInCubic(Eeasingt[0]), SCREEN_WIDTH);
 					if (Eeasingt[0] == 1.0f) {
@@ -50,13 +50,13 @@ void WAVE::WaveStart() {
 		}
 		if (stage == stage_2 && isStart_stage_2 == true) {
 			isDisplay[1] = true;
-			Feasingt[1] += 0.01f;
+			Feasingt[1] += (0.01f * kFrameMag);
 			Feasingt[1] = Clamp(Feasingt[1], 0.0f, 1.0f);
 			pos[1].x = Lerp(Easing::easeOutCubic(Feasingt[1]), SCREEN_WIDTH) - SCREEN_WIDTH;
 			if (Feasingt[1] == 1.0f) {
-				frame[1]++;
+				frame[1] += 1 * kFrameMag;
 				if (frame[1] >= 120) {
-					Eeasingt[1] += 0.01f;
+					Eeasingt[1] += (0.01f * kFrameMag);
 					Eeasingt[1] = Clamp(Eeasingt[1], 0.0f, 1.0f);
 					pos[1].x = Lerp(Easing::easeInCubic(Eeasingt[1]), SCREEN_WIDTH);
 					if (Eeasingt[1] == 1.0f) {
@@ -67,13 +67,13 @@ void WAVE::WaveStart() {
 		}
 		if (stage == stage_3 && isStart_stage_3 == true) {
 			isDisplay[2] = true;
-			Feasingt[2] += 0.01f;
+			Feasingt[2] += (0.01f * kFrameMag);
 			Feasingt[2] = Clamp(Feasingt[2], 0.0f, 1.0f);
 			pos[2].x = Lerp(Easing::easeOutCubic(Feasingt[2]), SCREEN_WIDTH) - SCREEN_WIDTH;
 			if (Feasingt[2] == 1.0f) {
-				frame[2]++;
+				frame[2] += 1 * kFrameMag;
 				if (frame[2] >= 120) {
-					Eeasingt[2] += 0.01f;
+					Eeasingt[2] += (0.01f * kFrameMag);
 					Eeasingt[2] = Clamp(Eeasingt[2], 0.0f, 1.0f);
 					pos[2].x = Lerp(Easing::easeInCubic(Eeasingt[2]), SCREEN_WIDTH);
 					if (Eeasingt[2] == 1.0f) {
@@ -84,13 +84,13 @@ void WAVE::WaveStart() {
 		}
 		if (stage == boss_stage && isStart_boss_stage == true) {
 			isDisplay[3] = true;
-			Feasingt[3] += 0.01f;
+			Feasingt[3] += (0.01f * kFrameMag);
 			Feasingt[3] = Clamp(Feasingt[3], 0.0f, 1.0f);
 			pos[3].x = Lerp(Easing::easeOutCubic(Feasingt[3]), SCREEN_WIDTH) - SCREEN_WIDTH;
 			if (Feasingt[3] == 1.0f) {
-				frame[3]++;
+				frame[3] += 1 * kFrameMag;
 				if (frame[3] >= 120) {
-					Eeasingt[3] += 0.01f;
+					Eeasingt[3] += (0.01f * kFrameMag);
 					Eeasingt[3] = Clamp(Eeasingt[3], 0.0f, 1.0f);
 					pos[3].x = Lerp(Easing::easeInCubic(Eeasingt[3]), SCREEN_WIDTH);
 					if (Eeasingt[3] == 1.0f) {
