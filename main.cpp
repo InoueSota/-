@@ -16,6 +16,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Gclear.GLoadTexture();
 	int background = Novice::LoadTexture("./resource./Background.png");
 	int Tokyuuin = Novice::LoadTexture("./resource./Tokyuuin.png");
+	int slashboss = Novice::LoadTexture("./resource./slashboss.png");
+	int beamboss = Novice::LoadTexture("./resource./beamboss.png");
 	int Slash_gra = Novice::LoadTexture("./resource./Slash.png");
 
 	int drain = Novice::LoadAudio("./resource./ponyo.wav");
@@ -29,6 +31,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	sound.Clear= Novice::LoadAudio("./resource/Clear.mp3");
 
+	bar.Slash_mini = Novice::LoadTexture("./resource./Slash_mini.png");
 	int isFull = 1;
 	
 
@@ -148,10 +151,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 
 					if (players.radius >= wave.MapChenge(map)) {
-						wave.stage = wave.stage_2;
+						if (bar.next_map_flag) {
+							wave.stage = wave.stage_2;
+							bar.next_map_flag = false;
+						}
+						else {
+							bar.ItemUpdate();
+						}
+					}
+					else {
+						bar.Update(players, map, wave);
 					}
 				}
-				bar.Update(players, map, wave);
+				
 				wave.stage_1_draw_flag = true;
 				break;
 			case wave.stage_2://中ボス
@@ -761,6 +773,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		}
+		if (keys[DIK_M] != 0) {
+			players.radius += 1;
+		}
 		///
 		/// ↑更新処理ここまで
 		///
@@ -844,7 +859,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					bar.beasdraw(screen);
 					bar.draw(screen);
-					//Novice::DrawSprite(1800, 0, Slash_gra, 0.2, 0.05, 0, WHITE);
+					bar.drawItem(screen);
 				}
 				if (Novice::IsPlayingAudio(sound.stage_1_handle) == false || sound.stage_1_handle == -1) {
 					sound.stage_1_handle = Novice::PlayAudio(sound.stage_1, 1, 1*music);
@@ -868,6 +883,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				players.Draw(screen, players);
 
 				tboss.t_draw(screen);
+				if (tboss.shild != 0){
+					Novice::DrawSprite(0, 0, slashboss, 1, 1, 0.0f, WHITE);
+				}
 				if (tboss.shild == 0){
 					Novice::DrawSprite(0, 0, Tokyuuin, 1, 1, 0.0f, WHITE);
 				}
@@ -935,6 +953,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				beam.Draw(screen);
 
 				boss.draw(screen);
+				if (boss.shild != 0){
+					Novice::DrawSprite(0, 0, beamboss, 1, 1, 0.0f, WHITE);
+				}
 				if (boss.shild == 0/* && boss.Boss_Player(players) == true*/) {
 					Gclear.DrawKillBoss();
 					Novice::DrawSprite(0, 0, Tokyuuin, 1, 1, 0.0f, WHITE);
