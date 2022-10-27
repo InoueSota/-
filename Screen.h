@@ -7,7 +7,7 @@
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1080;
 
-constexpr int kFrameMag = 1;
+constexpr int kFrameMag = 2;
 
 class Screen
 {
