@@ -124,6 +124,7 @@ public:
 
 	bool dekaku;
 	float dekaku_t;
+	float dekaku_t2;
 	bool dekaku_tback;
 	Vec2 bullet_t_pos[MAX_BULLET_t];
 	bool bullet_t_flag[MAX_BULLET_t];
