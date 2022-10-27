@@ -26,6 +26,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	sound.Clear= Novice::LoadAudio("./resource/Clear.mp3");
 
+	bar.Slash_mini = Novice::LoadTexture("./resource./Slash_mini.png");
 	int isFull = 1;
 	
 
@@ -142,10 +143,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 
 					if (players.radius >= wave.MapChenge(map)) {
-						wave.stage = wave.stage_2;
+						if (bar.next_map_flag) {
+							wave.stage = wave.stage_2;
+							bar.next_map_flag = false;
+						}
+						else {
+							bar.ItemUpdate();
+						}
+					}
+					else {
+						bar.Update(players, map, wave);
 					}
 				}
-				bar.Update(players, map, wave);
+				
 				wave.stage_1_draw_flag = true;
 				break;
 			case wave.stage_2://中ボス
@@ -751,6 +761,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		}
+		if (keys[DIK_M] != 0) {
+			players.radius += 1;
+		}
 		///
 		/// ↑更新処理ここまで
 		///
@@ -832,6 +845,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					bar.beasdraw(screen);
 					bar.draw(screen);
+					bar.drawItem(screen);
 				}
 				if (Novice::IsPlayingAudio(sound.stage_1_handle) == false || sound.stage_1_handle == -1) {
 					sound.stage_1_handle = Novice::PlayAudio(sound.stage_1, 1, 1*music);
