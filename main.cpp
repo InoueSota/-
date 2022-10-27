@@ -509,7 +509,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					///一回だけのやつ
 					boss.set(Vec2(RAND(1000, 1500), RAND(1000, 1500)));
 					map.Set_Map(0, 0, 10000, RED);
-					wave.boss_set_flag = true;
+					wave.boss_set_flag = true;             
+					                                                                                          
+				    	  
 				}
 				//処理書いてね
 				/*ボス関係*/
@@ -751,7 +753,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			gp.ParticleProcess();
 			Gclear.Process(screen);
 			if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE] != 0 && Gclear.isToTitle == false) {
+				Gclear.Init();
 				wave.Init();
+				wave.stage_2_set_flag = false;
+				wave.stage_3_set_flag = false;
+				wave.boss_set_flag = false;
+				wave.stage_1_draw_flag = false;
+				wave.stage_2_draw_flag = false;
+				wave.stage_3_draw_flag = false;
+				wave.boss_draw_flag = false;
+				wave.isStart_stage_1 = false;
+				wave.isStart_stage_2 = false;
+				wave.isStart_stage_3 = false;
+				wave.isStart_boss_stage = false;
 				title.isDrainClear = false;
 				change.isChangeClear = false;
 				players.isPressSpace = false;
