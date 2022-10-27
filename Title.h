@@ -13,7 +13,7 @@ public:
 		Init();
 	}
 
-	static constexpr int kBackCircleRadius = 5000;
+	static constexpr int kBackCircleRadius = 3000;
 	static constexpr int kTitleWidth = 1410;
 	static constexpr int kTitleHeight = 286;
 	static constexpr int kSpaceWidth = 1170;

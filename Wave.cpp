@@ -10,6 +10,7 @@ WAVE::WAVE() {
 	stage_2_draw_flag = false;
 	stage_3_draw_flag = false;
 	boss_draw_flag = false;
+
 	isStart_stage_1 = false;
 	isStart_stage_2 = false;
 	isStart_stage_3 = false;
@@ -97,6 +98,13 @@ void WAVE::WaveStart() {
 						isDisplay[3] = false;
 					}
 				}
+			}
+		}
+		for (int i = 0; i < 4; i++){
+			if (isDisplay[i] == false){
+				frame[i] = 0;
+				Feasingt[i] = 0.0f;
+				Eeasingt[i] = 0.0f;
 			}
 		}
 

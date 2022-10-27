@@ -46,7 +46,7 @@ void Player::SetZoom(Screen& screen, Player& players, Title& title) {
 
 /*　円運動の関数　*/
 void CircleA::CircleProcess(Player& players) {
-	circleA.deg += (players.incDeg * kFrameMag) * players.Reverse;
+	circleA.deg -= (players.incDeg * kFrameMag) * players.Reverse;
 	circleA.add.x = cosf(Degree(circleA.deg));
 	circleA.add.y = sinf(Degree(circleA.deg));
 	circleA.pos = circleA.center + circleA.add * players.Length;
@@ -56,7 +56,7 @@ void CircleA::CircleProcess(Player& players) {
 	player->deg = circleA.deg;
 }
 void CircleB::CircleProcess(Player& players) {
-	circleB.deg -= (players.incDeg * kFrameMag) * players.Reverse;
+	circleB.deg += (players.incDeg * kFrameMag) * players.Reverse;
 	circleB.add.x = cosf(Degree(circleB.deg));
 	circleB.add.y = sinf(Degree(circleB.deg));
 	circleB.pos = circleB.center + circleB.add * players.Length;
@@ -106,7 +106,7 @@ void Player::IncDegProcess(Player& players, char prekeys, char keys) {
 
 /*　スクロール座標を設定する関数　*/
 void Player::SetScrollPos(Screen& screen, Player& players, char prekeys, char keys, Map& map) {
-	if (prekeys == 0 && keys != 0 && isScroll == false && ((players.isTitleClear == true && players.pos.Length() <= map.radius) || (players.isTitleClear == false && (players.pos.Length() <= 5000))) && isPressSpace == true){
+	if (prekeys == 0 && keys != 0 && isScroll == false && ((players.isTitleClear == true && players.pos.Length() <= map.radius) || (players.isTitleClear == false && (players.pos.Length() <= 3000))) && isPressSpace == true){
 		isScroll = true;
 	}
 	if (isScroll == true){
@@ -210,7 +210,7 @@ void Player::Process(Player& players, char prekeys, char keys, Title& title, Gam
 		}
 		if (isPressSpace == true) {
 			IncDegProcess(players, prekeys, keys);
-			if (prekeys == 0 && keys != 0 && isScroll == false && ((players.isTitleClear == true && players.pos.Length() <= map.radius) || (players.isTitleClear == false && (players.pos.Length() <= 5000)))) {
+			if (prekeys == 0 && keys != 0 && isScroll == false && ((players.isTitleClear == true && players.pos.Length() <= map.radius) || (players.isTitleClear == false && (players.pos.Length() <= 3000)))) {
 				player->SetDegree();
 				if (player == &circleA) {
 					players.tmpCenpos = circleB.pos;
