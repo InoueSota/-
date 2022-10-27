@@ -55,4 +55,4 @@ Bar bar;
 Sound sound;
 //Enemy enemy[3];
 
-float music = 0.2f;
+float music = 0.5f;

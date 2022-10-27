@@ -115,3 +115,11 @@ void WAVE::WaveDraw() {
 		}
 	}
 }
+
+void WAVE::Init() {
+	for (int i = 0; i < 4; i++){
+		Feasingt[i] = 0.0f;
+		Eeasingt[i] = 0.0f;
+		frame[i] = 0;
+	}
+}

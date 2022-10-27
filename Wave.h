@@ -27,6 +27,7 @@ public:
 
 	void WaveStart();
 	void WaveDraw();
+	void Init();
 
 	bool isStart_stage_1;
 	bool isStart_stage_2;
