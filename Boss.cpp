@@ -420,6 +420,8 @@ void Boss::set(Vec2 pos ) {
 	//ポジションなど必要な値を引数を用いて代入するでやんす。
 	position = pos;
 	radian = 1500;
+	shild = 3;
+	Boss_color = BLACK;
 
 }
 void Boss::t_set(Vec2 pos) {
@@ -428,6 +430,8 @@ void Boss::t_set(Vec2 pos) {
 	position = pos;
 	radian = 750;
 	shild = 1;
+	Boss_color = BLACK;
+
 
 }
 
