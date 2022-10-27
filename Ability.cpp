@@ -96,7 +96,7 @@ void Slash::Make(Player& players, Screen& screen) {
 }
 void Slash::Move() {
 	if (isOccur == true) {
-		shotframe++;
+		shotframe += 1 * kFrameMag;
 		pos.LeftTop += velo;
 		pos.RightTop += velo;
 		pos.LeftBottom += velo;
@@ -185,13 +185,13 @@ void Beam::Make(Player& players, Screen& screen) {
 	}
 }
 void Beam::Move(Player& players, Screen& screen) {
-	shotframe++;
+	shotframe += 1 * kFrameMag;
 	if (shotframe >= kBeamTimeMax) {
 		isOccur = false;
 	}
 }
 void Beam::MoveLine(Player& players, Screen& screen) {
-	lineframe++;
+	lineframe += 1 * kFrameMag;
 	linemat1 = Matrix33::Identity();
 	linemat1 *= Matrix33::MakeScaling(kBeamSizeMax / screen.Zoom.x, kBeamSizeMax / screen.Zoom.y);
 	linemat1 *= Matrix33::MakeRotation(Degree(90));
@@ -233,7 +233,7 @@ void Beam::Process(Player& players, Screen& screen) {
 		beamImage = Novice::LoadTexture("./resource/Beam.png");
 		isLoadTexture = true;
 	}
-	frame++;
+	frame += 1 * kFrameMag;
 	if (frame % kBeamInterval == 0){
 		shotframe = 0;
 		Lefttop1 = 0;

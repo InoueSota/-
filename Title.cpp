@@ -109,7 +109,7 @@ void Change::Init() {
 }
 void Change::Process(GameClear& Gclear) {
 	if (Gclear.isGameClear == false){
-		frame++;
+		frame += 1 * kFrameMag;
 		if (frame >= 60) {
 			alphat += (0.02f * kFrameMag);
 			alphat = Clamp(alphat, 0.0f, 1.0f);

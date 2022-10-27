@@ -37,7 +37,7 @@ void WAVE::WaveStart() {
 			Feasingt[0] = Clamp(Feasingt[0], 0.0f, 1.0f);
 			pos[0].x = Lerp(Easing::easeOutCubic(Feasingt[0]), SCREEN_WIDTH) - SCREEN_WIDTH;
 			if (Feasingt[0] == 1.0f) {
-				frame[0]++;
+				frame[0] += 1 * kFrameMag;
 				if (frame[0] >= 120) {
 					Eeasingt[0] += (0.01f * kFrameMag);
 					Eeasingt[0] = Clamp(Eeasingt[0], 0.0f, 1.0f);
@@ -54,7 +54,7 @@ void WAVE::WaveStart() {
 			Feasingt[1] = Clamp(Feasingt[1], 0.0f, 1.0f);
 			pos[1].x = Lerp(Easing::easeOutCubic(Feasingt[1]), SCREEN_WIDTH) - SCREEN_WIDTH;
 			if (Feasingt[1] == 1.0f) {
-				frame[1]++;
+				frame[1] += 1 * kFrameMag;
 				if (frame[1] >= 120) {
 					Eeasingt[1] += (0.01f * kFrameMag);
 					Eeasingt[1] = Clamp(Eeasingt[1], 0.0f, 1.0f);
@@ -71,7 +71,7 @@ void WAVE::WaveStart() {
 			Feasingt[2] = Clamp(Feasingt[2], 0.0f, 1.0f);
 			pos[2].x = Lerp(Easing::easeOutCubic(Feasingt[2]), SCREEN_WIDTH) - SCREEN_WIDTH;
 			if (Feasingt[2] == 1.0f) {
-				frame[2]++;
+				frame[2] += 1 * kFrameMag;
 				if (frame[2] >= 120) {
 					Eeasingt[2] += (0.01f * kFrameMag);
 					Eeasingt[2] = Clamp(Eeasingt[2], 0.0f, 1.0f);
@@ -88,7 +88,7 @@ void WAVE::WaveStart() {
 			Feasingt[3] = Clamp(Feasingt[3], 0.0f, 1.0f);
 			pos[3].x = Lerp(Easing::easeOutCubic(Feasingt[3]), SCREEN_WIDTH) - SCREEN_WIDTH;
 			if (Feasingt[3] == 1.0f) {
-				frame[3]++;
+				frame[3] += 1 * kFrameMag;
 				if (frame[3] >= 120) {
 					Eeasingt[3] += (0.01f * kFrameMag);
 					Eeasingt[3] = Clamp(Eeasingt[3], 0.0f, 1.0f);
