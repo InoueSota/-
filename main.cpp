@@ -76,9 +76,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE]) {
 			sound.Space_Sound();
 		}
-		if (keys[DIK_M]) {
-			players.radius += 1;
-		}
 		switch (scene)
 		{
 		case TITLE:
